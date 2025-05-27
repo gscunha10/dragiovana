@@ -1120,45 +1120,64 @@ function generateDietaPDF() {
     const userData = window.currentUserData || defaultUserData;
     const nutrition = window.currentNutrition || { calories: 1500, protein: 120, carbs: 150, fats: 50 };
     
-    // CAPA
+    // Detectar alergias/intolerâncias para adaptar receitas
+    const hasLactoseIntolerance = userData.allergies && userData.allergies.includes('lactose');
+    const hasGlutenIntolerance = userData.allergies && userData.allergies.includes('gluten');
+    const hasNutsAllergy = userData.allergies && userData.allergies.includes('nuts');
+    const hasSeafoodAllergy = userData.allergies && userData.allergies.includes('seafood');
+    
+    // Detectar condições de saúde para orientações específicas
+    const hasDiabetes = userData.health && userData.health.includes('diabetes');
+    const hasHypertension = userData.health && userData.health.includes('hypertension');
+    const hasHeartProblems = userData.health && userData.health.includes('heart');
+    
+    let pageCount = 1;
+    
+    // =================== CAPA ===================
     doc.setFillColor(44, 122, 44);
     doc.rect(0, 0, 210, 297, 'F');
     
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(28);
-    doc.text('DIETA PERSONALIZADA', 105, 80, { align: 'center' });
+    doc.setFontSize(32);
+    doc.text('DIETA PERSONALIZADA', 105, 70, { align: 'center' });
     
-    doc.setFontSize(20);
-    doc.text('Seu Plano Nutricional Completo', 105, 100, { align: 'center' });
+    doc.setFontSize(18);
+    doc.text('Protocolo Nutricional Completo', 105, 90, { align: 'center' });
     
-    doc.setFontSize(24);
-    doc.text(userData.name, 105, 150, { align: 'center' });
+    doc.setFontSize(26);
+    doc.text(userData.name, 105, 130, { align: 'center' });
+    
+    doc.setFontSize(16);
+    doc.text(`Objetivo: ${translations.goal[userData.goal] || userData.goal}`, 105, 150, { align: 'center' });
+    doc.text(`${nutrition.calories} calorias diárias`, 105, 170, { align: 'center' });
     
     doc.setFontSize(14);
-    doc.text('Dra. Giovana Nutricionista', 105, 200, { align: 'center' });
-    doc.text('CRN: 12345 | Especialista em Nutrição Clínica', 105, 215, { align: 'center' });
+    doc.text('Dra. Giovana Nutricionista', 105, 210, { align: 'center' });
+    doc.text('CRN: 12345 | Especialista em Nutrição Clínica', 105, 225, { align: 'center' });
     
     const today = new Date().toLocaleDateString('pt-BR');
-    doc.text('Data: ' + today, 105, 250, { align: 'center' });
+    doc.text('Data: ' + today, 105, 260, { align: 'center' });
     
-    // PÁGINA 2 - DADOS PESSOAIS
+    // =================== PÁGINA 2 - AVALIAÇÃO ===================
     doc.addPage();
+    pageCount++;
+    
     doc.setTextColor(0, 0, 0);
-    doc.setFontSize(20);
+    doc.setFontSize(22);
     doc.setTextColor(44, 122, 44);
-    doc.text('AVALIAÇÃO NUTRICIONAL', 20, 30);
+    doc.text('SUA AVALIAÇÃO NUTRICIONAL', 20, 25);
     
     doc.setDrawColor(44, 122, 44);
     doc.setLineWidth(2);
-    doc.line(20, 35, 190, 35);
+    doc.line(20, 30, 190, 30);
     
+    let yPos = 45;
     doc.setFontSize(14);
     doc.setTextColor(0, 0, 0);
-    doc.text('DADOS PESSOAIS', 20, 55);
+    doc.text('DADOS PESSOAIS', 20, yPos);
+    yPos += 15;
     
-    let yPos = 70;
-    doc.setFontSize(12);
-    
+    doc.setFontSize(11);
     const dadosUsuario = [
         ['Nome:', userData.name],
         ['Objetivo:', translations.goal[userData.goal] || userData.goal],
@@ -1172,17 +1191,47 @@ function generateDietaPDF() {
     dadosUsuario.forEach(([label, value]) => {
         doc.text(label, 25, yPos);
         doc.text(value, 80, yPos);
-        yPos += 10;
+        yPos += 8;
     });
     
-    // Cálculos nutricionais
+    // Condições de saúde
+    if (userData.health && userData.health.length > 0 && !userData.health.includes('healthy')) {
+        yPos += 10;
+        doc.setFontSize(12);
+        doc.setTextColor(44, 122, 44);
+        doc.text('CONDIÇÕES DE SAÚDE:', 25, yPos);
+        yPos += 8;
+        doc.setFontSize(11);
+        doc.setTextColor(0, 0, 0);
+        userData.health.forEach(condition => {
+            doc.text('• ' + (translations.health[condition] || condition), 30, yPos);
+            yPos += 7;
+        });
+    }
+    
+    // Alergias/Intolerâncias
+    if (userData.allergies && userData.allergies.length > 0 && !userData.allergies.includes('no_allergies')) {
+        yPos += 10;
+        doc.setFontSize(12);
+        doc.setTextColor(44, 122, 44);
+        doc.text('RESTRIÇÕES ALIMENTARES:', 25, yPos);
+        yPos += 8;
+        doc.setFontSize(11);
+        doc.setTextColor(0, 0, 0);
+        userData.allergies.forEach(allergy => {
+            doc.text('• ' + (translations.allergies[allergy] || allergy), 30, yPos);
+            yPos += 7;
+        });
+    }
+    
+    // Cálculos
     yPos += 15;
     doc.setFontSize(14);
     doc.setTextColor(44, 122, 44);
-    doc.text('SUAS METAS DIÁRIAS', 20, yPos);
-    yPos += 15;
+    doc.text('SEUS NÚMEROS', 20, yPos);
+    yPos += 12;
     
-    doc.setFontSize(12);
+    doc.setFontSize(11);
     doc.setTextColor(0, 0, 0);
     
     const imc = (userData.weight / ((userData.height/100) * (userData.height/100))).toFixed(1);
@@ -1192,22 +1241,615 @@ function generateDietaPDF() {
     else if (imc < 30) imcClass = 'Sobrepeso';
     else imcClass = 'Obesidade';
     
-    doc.text(`IMC: ${imc} kg/m² (${imcClass})`, 25, yPos);
-    yPos += 20;
-    
-    const metas = [
-        ['Calorias Totais:', nutrition.calories],
-        ['Proteínas:', nutrition.protein + 'g'],
-        ['Carboidratos:', nutrition.carbs + 'g'],
-        ['Gorduras:', nutrition.fats + 'g']
+    const calculos = [
+        ['IMC:', `${imc} kg/m² (${imcClass})`],
+        ['TMB (metabolismo basal):', `${nutrition.bmr || 'N/A'} calorias/dia`],
+        ['Calorias meta diárias:', `${nutrition.calories} calorias`],
+        ['Proteínas diárias:', `${nutrition.protein}g`],
+        ['Carboidratos diários:', `${nutrition.carbs}g`],
+        ['Gorduras diárias:', `${nutrition.fats}g`]
     ];
     
-    metas.forEach(([label, value]) => {
+    calculos.forEach(([label, value]) => {
         doc.text(label, 25, yPos);
-        doc.text(value.toString(), 100, yPos);
-        yPos += 10;
+        doc.text(value, 100, yPos);
+        yPos += 8;
     });
     
+    // =================== PÁGINA 3 - CARDÁPIO 7 DIAS ===================
+    doc.addPage();
+    pageCount++;
+    
+    doc.setFontSize(22);
+    doc.setTextColor(44, 122, 44);
+    doc.text('CARDÁPIO PERSONALIZADO - 7 DIAS', 20, 25);
+    
+    doc.setDrawColor(44, 122, 44);
+    doc.setLineWidth(2);
+    doc.line(20, 30, 190, 30);
+    
+    yPos = 45;
+    doc.setFontSize(10);
+    doc.setTextColor(0, 0, 0);
+    
+    // Cardápio adaptado às restrições
+    const cardapio = [
+        {
+            dia: 'SEGUNDA-FEIRA',
+            cafe: hasLactoseIntolerance ? 'Omelete de claras + Pão integral + Leite vegetal' : 'Omelete + Pão integral + Iogurte grego',
+            lanche1: hasNutsAllergy ? 'Maçã + Pasta de amendoim' : 'Maçã + Mix de castanhas',
+            almoco: 'Frango grelhado + Arroz integral + Salada verde + Azeite',
+            lanche2: hasLactoseIntolerance ? 'Vitamina de banana com leite de aveia' : 'Vitamina de banana com leite',
+            jantar: hasSeafoodAllergy ? 'Carne magra + Legumes refogados + Batata doce' : 'Salmão grelhado + Legumes no vapor + Batata doce'
+        },
+        {
+            dia: 'TERÇA-FEIRA', 
+            cafe: hasGlutenIntolerance ? 'Tapioca com ovo + Suco verde' : 'Panqueca de aveia + Frutas vermelhas',
+            lanche1: 'Pera + Amendoim torrado',
+            almoco: 'Peixe grelhado + Quinoa + Brócolis refogado + Azeite',
+            lanche2: hasLactoseIntolerance ? 'Smoothie de manga com leite de coco' : 'Iogurte com granola',
+            jantar: 'Frango desfiado + Abobrinha refogada + Inhame'
+        },
+        {
+            dia: 'QUARTA-FEIRA',
+            cafe: hasLactoseIntolerance ? 'Mingau de aveia com leite vegetal + Banana' : 'Mingau de aveia + Leite + Banana',
+            lanche1: 'Laranja + Pasta de amendoim integral',
+            almoco: 'Carne magra + Arroz integral + Feijão + Salada mista',
+            lanche2: 'Abacate batido com cacau',
+            jantar: hasSeafoodAllergy ? 'Ovo mexido + Legumes + Mandioca' : 'Tilápia + Aspargos + Batata inglesa'
+        },
+        {
+            dia: 'QUINTA-FEIRA',
+            cafe: hasGlutenIntolerance ? 'Ovo mexido + Tapioca + Abacate' : 'Torrada integral + Pasta de amendoim + Banana',
+            lanche1: 'Mamão + Semente de chia',
+            almoco: 'Frango + Macarrão integral + Molho de tomate caseiro + Salada',
+            lanche2: hasLactoseIntolerance ? 'Vitamina verde com leite vegetal' : 'Queijo cottage + Frutas',
+            jantar: 'Carne moída magra + Abobrinha + Arroz integral'
+        },
+        {
+            dia: 'SEXTA-FEIRA',
+            cafe: hasLactoseIntolerance ? 'Smoothie bowl com frutas e granola' : 'Iogurte grego + Granola + Mel',
+            lanche1: 'Maçã + Canela',
+            almoco: hasSeafoodAllergy ? 'Frango + Lentilha + Salada colorida' : 'Salmão + Lentilha + Salada colorida',
+            lanche2: 'Castanha do Brasil + Água de coco',
+            jantar: 'Omelete de legumes + Batata doce assada'
+        },
+        {
+            dia: 'SÁBADO',
+            cafe: hasGlutenIntolerance ? 'Crepioca + Queijo vegetal + Tomate' : 'Panqueca proteica + Frutas',
+            lanche1: 'Uva + Nozes (se não tiver alergia)',
+            almoco: 'Peixe + Arroz integral + Feijão verde + Cenoura refogada',
+            lanche2: hasLactoseIntolerance ? 'Pudim de chia com leite vegetal' : 'Iogurte com frutas',
+            jantar: 'Frango + Purê de mandioca + Salada de rúcula'
+        },
+        {
+            dia: 'DOMINGO',
+            cafe: 'Ovos mexidos + Abacate + Torrada (sem glúten se necessário)',
+            lanche1: 'Banana + Pasta de amendoim',
+            almoco: 'Carne assada + Batata doce + Vagem + Salada',
+            lanche2: 'Vitamina de frutas vermelhas',
+            jantar: hasSeafoodAllergy ? 'Omelete + Legumes salteados' : 'Camarão + Abobrinha + Quinoa'
+        }
+    ];
+    
+    cardapio.forEach(refeicao => {
+        if (yPos > 260) {
+            doc.addPage();
+            pageCount++;
+            yPos = 30;
+        }
+        
+        doc.setFontSize(12);
+        doc.setTextColor(44, 122, 44);
+        doc.text(refeicao.dia, 20, yPos);
+        yPos += 10;
+        
+        doc.setFontSize(9);
+        doc.setTextColor(0, 0, 0);
+        
+        const refeicoes = [
+            ['☀️ Café da manhã:', refeicao.cafe],
+            ['🍎 Lanche da manhã:', refeicao.lanche1],
+            ['🍽️ Almoço:', refeicao.almoco],
+            ['🥤 Lanche da tarde:', refeicao.lanche2],
+            ['🌙 Jantar:', refeicao.jantar]
+        ];
+        
+        refeicoes.forEach(([tipo, comida]) => {
+            doc.text(tipo, 25, yPos);
+            yPos += 5;
+            // Quebrar linha se a comida for muito longa
+            const palavras = comida.split(' ');
+            let linha = '';
+            palavras.forEach(palavra => {
+                if (linha.length + palavra.length > 45) {
+                    doc.text(linha, 25, yPos);
+                    yPos += 4;
+                    linha = palavra + ' ';
+                } else {
+                    linha += palavra + ' ';
+                }
+            });
+            if (linha.trim()) {
+                doc.text(linha, 25, yPos);
+                yPos += 6;
+            }
+        });
+        yPos += 8;
+    });
+    
+    // =================== PÁGINA RECEITAS ===================
+    doc.addPage();
+    pageCount++;
+    
+    doc.setFontSize(22);
+    doc.setTextColor(44, 122, 44);
+    doc.text('RECEITAS PERSONALIZADAS', 20, 25);
+    
+    doc.setDrawColor(44, 122, 44);
+    doc.setLineWidth(2);
+    doc.line(20, 30, 190, 30);
+    
+    yPos = 45;
+    
+    // Receitas adaptadas às restrições
+    const receitas = [
+        {
+            nome: hasLactoseIntolerance ? 'Omelete Vegana de Claras' : 'Omelete Proteica',
+            categoria: 'Café da Manhã',
+            tempo: '15 min',
+            calorias: '280 cal',
+            ingredientes: hasLactoseIntolerance ? [
+                '4 claras de ovo',
+                '1 ovo inteiro', 
+                '1 xícara de espinafre',
+                '5 tomates cereja',
+                '1 col. chá azeite',
+                'Sal, pimenta, ervas'
+            ] : [
+                '3 claras de ovo',
+                '1 ovo inteiro',
+                '1 col. sopa queijo cottage',
+                '1 xícara espinafre',
+                '5 tomates cereja',
+                '1 col. chá azeite'
+            ],
+            preparo: [
+                'Bata as claras com o ovo inteiro',
+                'Tempere com sal e pimenta',
+                'Aqueça o azeite na frigideira',
+                'Refogue o espinafre por 1 min',
+                'Adicione os ovos batidos',
+                'Coloque os tomates por cima',
+                'Cozinhe em fogo médio 3-4 min',
+                'Dobre e sirva quente'
+            ]
+        },
+        {
+            nome: hasGlutenIntolerance ? 'Panqueca de Tapioca Proteica' : 'Panqueca de Aveia Proteica',
+            categoria: 'Café da Manhã',
+            tempo: '20 min',
+            calorias: '420 cal',
+            ingredientes: hasGlutenIntolerance ? [
+                '1/2 xícara goma de tapioca',
+                '2 ovos inteiros',
+                '1 banana amassada',
+                '1 scoop whey protein',
+                '1 col. chá canela',
+                'Óleo de coco para untar'
+            ] : [
+                '1/2 xícara aveia em flocos',
+                '2 ovos inteiros',
+                '1 banana amassada',
+                '1 scoop whey protein',
+                '1 col. chá canela',
+                '1 col. chá fermento'
+            ],
+            preparo: [
+                'Bata todos ingredientes no liquidificador',
+                'Deixe descansar 5 minutos',
+                'Aqueça frigideira antiaderente',
+                'Unte com óleo de coco',
+                'Faça panquecas pequenas',
+                'Cozinhe 2-3 min cada lado',
+                'Sirva com frutas frescas'
+            ]
+        },
+        {
+            nome: hasSeafoodAllergy ? 'Frango Grelhado Temperado' : 'Salmão Grelhado com Ervas',
+            categoria: 'Almoço/Jantar',
+            tempo: '25 min',
+            calorias: hasSeafoodAllergy ? '350 cal' : '380 cal',
+            ingredientes: hasSeafoodAllergy ? [
+                '150g peito de frango',
+                '2 dentes alho amassados',
+                '1 col. sopa azeite',
+                'Suco de 1 limão',
+                'Sal, pimenta, orégano',
+                'Ervas frescas'
+            ] : [
+                '120g salmão fresco',
+                '2 dentes alho amassados',
+                '1 col. sopa azeite',
+                'Suco de 1 limão',
+                'Sal, pimenta, dill',
+                'Ervas frescas'
+            ],
+            preparo: [
+                'Tempere a proteína com sal e pimenta',
+                'Misture alho, azeite e limão',
+                'Marine por 20 minutos',
+                'Aqueça grelha ou frigideira',
+                'Grelhe 6-8 min cada lado (frango)',
+                'Grelhe 4-5 min cada lado (salmão)',
+                'Deixe descansar 5 min',
+                'Finalize com ervas frescas'
+            ]
+        }
+    ];
+    
+    receitas.forEach(receita => {
+        if (yPos > 240) {
+            doc.addPage();
+            pageCount++;
+            yPos = 30;
+        }
+        
+        // Título da receita
+        doc.setFontSize(14);
+        doc.setTextColor(44, 122, 44);
+        doc.text(receita.nome, 20, yPos);
+        yPos += 8;
+        
+        // Info da receita
+        doc.setFontSize(9);
+        doc.setTextColor(100, 100, 100);
+        doc.text(`${receita.categoria} | ${receita.tempo} | ${receita.calorias}`, 20, yPos);
+        yPos += 12;
+        
+        // Ingredientes
+        doc.setFontSize(11);
+        doc.setTextColor(0, 0, 0);
+        doc.text('INGREDIENTES:', 20, yPos);
+        yPos += 7;
+        
+        doc.setFontSize(9);
+        receita.ingredientes.forEach(ingrediente => {
+            doc.text('• ' + ingrediente, 25, yPos);
+            yPos += 5;
+        });
+        yPos += 5;
+        
+        // Preparo
+        doc.setFontSize(11);
+        doc.text('MODO DE PREPARO:', 20, yPos);
+        yPos += 7;
+        
+        doc.setFontSize(9);
+        receita.preparo.forEach((passo, index) => {
+            doc.text(`${index + 1}. ${passo}`, 25, yPos);
+            yPos += 5;
+        });
+        yPos += 15;
+    });
+    
+    // =================== PÁGINA LISTAS DE ALIMENTOS ===================
+    doc.addPage();
+    pageCount++;
+    
+    doc.setFontSize(22);
+    doc.setTextColor(44, 122, 44);
+    doc.text('LISTAS DE ALIMENTOS', 20, 25);
+    
+    doc.setDrawColor(44, 122, 44);
+    doc.setLineWidth(2);
+    doc.line(20, 30, 190, 30);
+    
+    yPos = 45;
+    
+    // Lista adaptada às restrições
+    const listas = [
+        {
+            categoria: 'PROTEÍNAS MAGRAS ✅',
+            permitidos: hasSeafoodAllergy ? [
+                'Peito de frango sem pele',
+                'Peito de peru natural', 
+                'Carne bovina magra',
+                'Ovos inteiros orgânicos',
+                'Clara de ovos',
+                'Tofu orgânico',
+                'Lentilha, grão-de-bico'
+            ] : [
+                'Peito de frango sem pele',
+                'Peito de peru natural',
+                'Carne bovina magra', 
+                'Peixes (salmão, atum, tilápia)',
+                'Frutos do mar (camarão, lula)',
+                'Ovos inteiros orgânicos',
+                'Lentilha, grão-de-bico'
+            ],
+            evitar: [
+                'Carnes processadas',
+                'Bacon e embutidos',
+                'Nuggets industrializados',
+                'Hambúrgueres prontos'
+            ]
+        },
+        {
+            categoria: 'CARBOIDRATOS COMPLEXOS ✅',
+            permitidos: hasGlutenIntolerance ? [
+                'Arroz integral',
+                'Quinoa',
+                'Batata doce',
+                'Mandioca/Aipim',
+                'Inhame',
+                'Tapioca',
+                'Frutas da época'
+            ] : [
+                'Arroz integral',
+                'Quinoa',
+                'Aveia em flocos',
+                'Batata doce',
+                'Pão integral 100%',
+                'Macarrão integral',
+                'Frutas da época'
+            ],
+            evitar: hasGlutenIntolerance ? [
+                'Trigo e derivados',
+                'Pão comum',
+                'Massas comuns',
+                'Biscoitos com glúten',
+                'Cerveja'
+            ] : [
+                'Açúcar refinado',
+                'Pão branco',
+                'Arroz branco',
+                'Biscoitos industrializados',
+                'Doces em geral'
+            ]
+        }
+    ];
+    
+    if (hasLactoseIntolerance) {
+        listas.push({
+            categoria: 'SUBSTITUTOS LÁCTEOS ✅',
+            permitidos: [
+                'Leite de amêndoas',
+                'Leite de aveia',
+                'Leite de coco',
+                'Iogurte de coco',
+                'Queijo vegetal',
+                'Manteiga de coco'
+            ],
+            evitar: [
+                'Leite de vaca',
+                'Queijos comuns',
+                'Iogurte tradicional',
+                'Manteiga comum',
+                'Creme de leite',
+                'Sorvetes à base de leite'
+            ]
+        });
+    }
+    
+    listas.forEach(lista => {
+        if (yPos > 220) {
+            doc.addPage();
+            pageCount++;
+            yPos = 30;
+        }
+        
+        doc.setFontSize(12);
+        doc.setTextColor(44, 122, 44);
+        doc.text(lista.categoria, 20, yPos);
+        yPos += 10;
+        
+        doc.setFontSize(9);
+        doc.setTextColor(0, 0, 0);
+        
+        lista.permitidos.forEach(item => {
+            doc.text('✅ ' + item, 25, yPos);
+            yPos += 5;
+        });
+        
+        yPos += 5;
+        doc.setTextColor(200, 0, 0);
+        doc.text('EVITAR:', 25, yPos);
+        yPos += 6;
+        
+        lista.evitar.forEach(item => {
+            doc.text('❌ ' + item, 25, yPos);
+            yPos += 5;
+        });
+        
+        yPos += 15;
+        doc.setTextColor(0, 0, 0);
+    });
+    
+    // =================== PÁGINA ORIENTAÇÕES ESPECÍFICAS ===================
+    doc.addPage();
+    pageCount++;
+    
+    doc.setFontSize(22);
+    doc.setTextColor(44, 122, 44);
+    doc.text('ORIENTAÇÕES PERSONALIZADAS', 20, 25);
+    
+    doc.setDrawColor(44, 122, 44);
+    doc.setLineWidth(2);
+    doc.line(20, 30, 190, 30);
+    
+    yPos = 45;
+    doc.setFontSize(10);
+    doc.setTextColor(0, 0, 0);
+    
+    // Orientações específicas por condição de saúde
+    if (hasDiabetes) {
+        doc.setFontSize(12);
+        doc.setTextColor(200, 0, 0);
+        doc.text('⚠️ ORIENTAÇÕES PARA DIABETES:', 20, yPos);
+        yPos += 10;
+        doc.setFontSize(10);
+        doc.setTextColor(0, 0, 0);
+        const diabetesOrientacoes = [
+            'Monitore a glicemia antes e após refeições',
+            'Prefira carboidratos de baixo índice glicêmico',
+            'Distribua carboidratos ao longo do dia',
+            'Evite açúcares simples e doces',
+            'Mantenha horários regulares das refeições'
+        ];
+        diabetesOrientacoes.forEach(orientacao => {
+            doc.text('• ' + orientacao, 25, yPos);
+            yPos += 6;
+        });
+        yPos += 10;
+    }
+    
+    if (hasHypertension) {
+        doc.setFontSize(12);
+        doc.setTextColor(200, 0, 0);
+        doc.text('⚠️ ORIENTAÇÕES PARA HIPERTENSÃO:', 20, yPos);
+        yPos += 10;
+        doc.setFontSize(10);
+        doc.setTextColor(0, 0, 0);
+        const hipertensaoOrientacoes = [
+            'Reduza o consumo de sódio para menos de 2g/dia',
+            'Aumente o consumo de potássio (banana, espinafre)',
+            'Evite alimentos industrializados ricos em sódio',
+            'Use temperos naturais em vez de sal',
+            'Monitore a pressão arterial regularmente'
+        ];
+        hipertensaoOrientacoes.forEach(orientacao => {
+            doc.text('• ' + orientacao, 25, yPos);
+            yPos += 6;
+        });
+        yPos += 10;
+    }
+    
+    if (hasLactoseIntolerance) {
+        doc.setFontSize(12);
+        doc.setTextColor(200, 0, 0);
+        doc.text('⚠️ ORIENTAÇÕES PARA INTOLERÂNCIA À LACTOSE:', 20, yPos);
+        yPos += 10;
+        doc.setFontSize(10);
+        doc.setTextColor(0, 0, 0);
+        const lactoseOrientacoes = [
+            'Substitua leite comum por leites vegetais',
+            'Use iogurtes de coco ou amêndoas',
+            'Verifique rótulos de produtos industrializados',
+            'Experimente queijos vegetais',
+            'Suplementar cálcio se necessário'
+        ];
+        lactoseOrientacoes.forEach(orientacao => {
+            doc.text('• ' + orientacao, 25, yPos);
+            yPos += 6;
+        });
+        yPos += 10;
+    }
+    
+    // Orientações gerais
+    doc.setFontSize(12);
+    doc.setTextColor(44, 122, 44);
+    doc.text('ORIENTAÇÕES GERAIS:', 20, yPos);
+    yPos += 10;
+    doc.setFontSize(10);
+    doc.setTextColor(0, 0, 0);
+    
+    let orientacoes = [
+        'Beba pelo menos 2-3 litros de água por dia',
+        'Faça 5-6 refeições pequenas ao longo do dia',
+        'Nunca pule o café da manhã',
+        'Pratique atividade física regularmente',
+        'Durma pelo menos 7-8 horas por noite',
+        'Prefira sempre alimentos integrais',
+        'Mastigue bem os alimentos',
+        'Mantenha horários regulares'
+    ];
+    
+    // Orientações específicas por objetivo
+    if (userData.goal === 'lose_weight') {
+        orientacoes.push('Crie déficit calórico de 500 cal/dia');
+        orientacoes.push('Priorize proteínas em todas refeições');
+        orientacoes.push('Pratique cardio 4-5x/semana');
+    } else if (userData.goal === 'gain_muscle') {
+        orientacoes.push('Mantenha superávit calórico de 300 cal/dia');
+        orientacoes.push('Consuma proteína a cada 3-4 horas');
+        orientacoes.push('Foque em musculação');
+    }
+    
+    orientacoes.forEach(orientacao => {
+        if (yPos > 270) {
+            doc.addPage();
+            pageCount++;
+            yPos = 30;
+        }
+        doc.text('• ' + orientacao, 25, yPos);
+        yPos += 6;
+    });
+    
+    // =================== PÁGINA FINAL - CRONOGRAMA ===================
+    doc.addPage();
+    pageCount++;
+    
+    doc.setFontSize(22);
+    doc.setTextColor(44, 122, 44);
+    doc.text('CRONOGRAMA E DICAS FINAIS', 20, 25);
+    
+    doc.setDrawColor(44, 122, 44);
+    doc.setLineWidth(2);
+    doc.line(20, 30, 190, 30);
+    
+    yPos = 45;
+    
+    doc.setFontSize(14);
+    doc.setTextColor(44, 122, 44);
+    doc.text('⏰ HORÁRIOS IDEAIS DAS REFEIÇÕES', 20, yPos);
+    yPos += 15;
+    
+    doc.setFontSize(11);
+    doc.setTextColor(0, 0, 0);
+    
+    const horarios = [
+        ['Café da manhã:', '7h00 - 8h00'],
+        ['Lanche da manhã:', '10h00 - 10h30'], 
+        ['Almoço:', '12h00 - 13h00'],
+        ['Lanche da tarde:', '15h30 - 16h00'],
+        ['Jantar:', '19h00 - 20h00']
+    ];
+    
+    horarios.forEach(([refeicao, horario]) => {
+        doc.text(refeicao, 25, yPos);
+        doc.text(horario, 100, yPos);
+        yPos += 8;
+    });
+    
+    yPos += 15;
+    doc.setFontSize(14);
+    doc.setTextColor(44, 122, 44);
+    doc.text('📅 CRONOGRAMA DE RESULTADOS', 20, yPos);
+    yPos += 15;
+    
+    doc.setFontSize(10);
+    doc.setTextColor(0, 0, 0);
+    
+    const cronograma = [
+        'Semana 1-2: Adaptação do corpo, redução de inchaço',
+        'Semana 3-4: Primeiros resultados visíveis',
+        'Mês 2: Mudanças na composição corporal',
+        'Mês 3: Resultados consolidados',
+        'Mês 4+: Manutenção e refinamentos'
+    ];
+    
+    cronograma.forEach(item => {
+        doc.text('• ' + item, 25, yPos);
+        yPos += 8;
+    });
+    
+    yPos += 15;
+    doc.setFontSize(12);
+    doc.setTextColor(44, 122, 44);
+    doc.text('💪 Você tem tudo para alcançar seus objetivos!', 20, yPos);
+    
+    console.log(`PDF gerado com ${pageCount} páginas para ${userData.name}`);
     return doc;
 }
 

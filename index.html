@@ -1898,7 +1898,7 @@
                                 <div style="font-size: 14px; color: rgba(255, 255, 255, 0.8); margin-top: 8px;">Restam apenas ${Math.floor(Math.random() * 8) + 3} vagas hoje</div>
                             </div>
                             
-                            <button class="cta-primary" onclick="showCheckout()">
+                            <button class="cta-primary" onclick="handleCheckoutClick()" style="cursor: pointer;">
                                 🔓 GARANTIR ACESSO POR R$ 29,90
                             </button>
                             
@@ -2032,7 +2032,7 @@
             setInterval(updateCountdown, 1000);
         }
 
-        function showCheckout() {
+        function handleCheckoutClick() {
             // Track checkout initiation
             if (typeof fbq !== 'undefined') {
                 fbq('track', 'InitiateCheckout', {
@@ -2048,6 +2048,7 @@
                 fbq('trackCustom', 'CheckoutButtonClicked', {
                     price: 29.90,
                     product_name: 'Protocolo Nutricional',
+                    checkout_url: 'https://pay.cakto.com.br/4ckeveg_405527',
                     user_profile: {
                         goal: answers.goal,
                         gender: answers.gender,
@@ -2065,7 +2066,15 @@
                 });
             }
             
-            alert('🎉 Direcionando para o checkout seguro!\n\n💳 Investimento: R$ 29,90\n✅ Pagamento via PIX, Cartão ou Boleto\n🔒 Compra 100% segura e garantida\n\nEm produção, aqui seria o link do seu checkout (Hotmart, Monetizze, etc.)');
+            // Small delay to ensure tracking fires before redirect
+            setTimeout(() => {
+                window.open('https://pay.cakto.com.br/4ckeveg_405527', '_blank');
+            }, 100);
+        }
+
+        function showCheckout() {
+            // Fallback function - redirect to handleCheckoutClick
+            handleCheckoutClick();
         }
 
         // Track scroll depth for engagement measurement

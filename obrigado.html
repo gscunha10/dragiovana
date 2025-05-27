@@ -1,0 +1,1770 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sua Dieta Personalizada - Dra. Giovana Nutricionista</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2c7a2c;
+            --secondary: #4a9f4a;
+            --accent: #6cc04a;
+            --dark: #0a0a0a;
+            --light: #ffffff;
+            --gray: #1a1a1a;
+            --success: #00ff88;
+            --danger: #ff3366;
+            --gold: #FFD700;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(44, 122, 44, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(108, 192, 74, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(74, 159, 74, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            color: var(--light);
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        .particle:nth-child(odd) {
+            background: var(--primary);
+            animation-duration: 8s;
+        }
+
+        .particle:nth-child(3n) {
+            background: var(--secondary);
+            animation-duration: 10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-100px) rotate(180deg); opacity: 0.8; }
+        }
+
+        .header {
+            position: relative;
+            z-index: 100;
+            padding: 20px 0;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(44, 122, 44, 0.2);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 20px rgba(44, 122, 44, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .success-header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: slideInUp 1s ease-out;
+        }
+
+        .success-icon {
+            font-size: 100px;
+            margin-bottom: 20px;
+            animation: successBounce 1.5s ease-out;
+        }
+
+        .success-title {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--success), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .success-subtitle {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+            line-height: 1.5;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .welcome-card {
+            background: rgba(26, 26, 26, 0.9);
+            backdrop-filter: blur(30px);
+            border-radius: 32px;
+            padding: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(44, 122, 44, 0.2);
+            box-shadow: 
+                0 32px 64px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .welcome-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary), var(--accent), var(--secondary));
+            border-radius: 32px;
+            padding: 2px;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: xor;
+            -webkit-mask-composite: xor;
+            opacity: 0.6;
+            animation: borderGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes borderGlow {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.8; }
+        }
+
+        .user-name {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 40px;
+            margin-bottom: 50px;
+            align-items: start;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            min-width: 0;
+        }
+
+        .diet-card {
+            background: rgba(26, 26, 26, 0.9);
+            backdrop-filter: blur(30px);
+            border-radius: 24px;
+            padding: 35px;
+            border: 1px solid rgba(44, 122, 44, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .diet-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .diet-card:hover::before {
+            left: 100%;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--light), rgba(255, 255, 255, 0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .profile-summary {
+            background: linear-gradient(135deg, rgba(44, 122, 44, 0.1), rgba(108, 192, 74, 0.1));
+            border: 2px solid rgba(44, 122, 44, 0.3);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .profile-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            min-width: 0;
+        }
+
+        .profile-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .profile-item > div {
+            min-width: 0;
+            word-wrap: break-word;
+        }
+
+        .macros-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .macro-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            min-width: 0;
+        }
+
+        .macro-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(44, 122, 44, 0.2);
+        }
+
+        .macro-card.calories {
+            border-color: var(--danger);
+            background: rgba(255, 51, 102, 0.1);
+        }
+
+        .macro-card.protein {
+            border-color: var(--primary);
+            background: rgba(44, 122, 44, 0.1);
+        }
+
+        .macro-card.carbs {
+            border-color: var(--gold);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .macro-card.fats {
+            border-color: var(--accent);
+            background: rgba(108, 192, 74, 0.1);
+        }
+
+        .macro-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .macro-value {
+            font-size: 24px;
+            font-weight: 900;
+            margin-bottom: 5px;
+            word-break: break-word;
+        }
+
+        .macro-value.calories { color: var(--danger); }
+        .macro-value.protein { color: var(--primary); }
+        .macro-value.carbs { color: var(--gold); }
+        .macro-value.fats { color: var(--accent); }
+
+        .macro-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            word-break: break-word;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            min-width: 0;
+        }
+
+        .download-section {
+            background: rgba(26, 26, 26, 0.9);
+            backdrop-filter: blur(30px);
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid rgba(44, 122, 44, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 20px;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .download-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--accent);
+        }
+
+        .download-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            width: 100%;
+            min-width: 0;
+        }
+
+        .download-item:hover {
+            background: rgba(44, 122, 44, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .download-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .download-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .download-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--light);
+            margin-bottom: 3px;
+            word-wrap: break-word;
+        }
+
+        .download-desc {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            word-wrap: break-word;
+        }
+
+        .download-button {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .download-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(44, 122, 44, 0.4);
+        }
+
+        .diet-preview {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 20px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .meal-day {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .meal-day:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .day-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .meal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .meal-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            width: 100%;
+            min-width: 0;
+        }
+
+        .meal-card:hover {
+            background: rgba(44, 122, 44, 0.1);
+            border-color: var(--primary);
+        }
+
+        .meal-time {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .meal-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--light);
+            margin-bottom: 5px;
+            word-wrap: break-word;
+        }
+
+        .meal-details {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes successBounce {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr 350px;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .success-title {
+                font-size: 32px;
+            }
+
+            .success-subtitle {
+                font-size: 16px;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .sidebar {
+                order: -1;
+            }
+
+            .profile-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 10px;
+            }
+
+            .macros-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .meal-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .download-section {
+                position: static;
+            }
+
+            .diet-card, .welcome-card, .download-section {
+                padding: 25px 20px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .logo-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .success-icon {
+                font-size: 70px;
+            }
+
+            .success-title {
+                font-size: 28px;
+            }
+
+            .macros-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .diet-card, .welcome-card, .download-section {
+                padding: 20px 15px;
+                border-radius: 16px;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .meal-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">👩‍⚕️</div>
+                <span>Dra. Giovana Nutricionista</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="success-header">
+            <div class="success-icon">🎉</div>
+            <h1 class="success-title">Parabéns! Sua Dieta Está Pronta!</h1>
+            <p class="success-subtitle">
+                Seu plano nutricional personalizado foi criado com base na sua avaliação completa. 
+                Agora você tem tudo que precisa para alcançar seus objetivos de forma saudável e sustentável.
+            </p>
+        </div>
+
+        <div class="welcome-card">
+            <h2 class="user-name" id="userName">Olá, Maria Silva!</h2>
+            <p style="font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.5;">
+                Seu protocolo nutricional personalizado está pronto! Baseado em evidências científicas e 
+                adaptado especialmente para seu perfil, objetivos e restrições alimentares.
+            </p>
+        </div>
+
+        <div class="content-grid">
+            <div class="main-content">
+                <div class="diet-card">
+                    <h3 class="card-title">📊 Seu Perfil Nutricional</h3>
+                    
+                    <div class="profile-summary">
+                        <div class="profile-grid" id="profileGrid">
+                            <div class="profile-item">
+                                <div class="profile-icon">🎯</div>
+                                <div>
+                                    <strong>Objetivo:</strong><br>
+                                    <span id="userGoal">Perder Peso</span>
+                                </div>
+                            </div>
+                            <div class="profile-item">
+                                <div class="profile-icon">⚖️</div>
+                                <div>
+                                    <strong>Peso Atual:</strong><br>
+                                    <span id="userWeight">70kg</span>
+                                </div>
+                            </div>
+                            <div class="profile-item">
+                                <div class="profile-icon">📏</div>
+                                <div>
+                                    <strong>Altura:</strong><br>
+                                    <span id="userHeight">170cm</span>
+                                </div>
+                            </div>
+                            <div class="profile-item">
+                                <div class="profile-icon">🎂</div>
+                                <div>
+                                    <strong>Idade:</strong><br>
+                                    <span id="userAge">26-35 anos</span>
+                                </div>
+                            </div>
+                            <div class="profile-item">
+                                <div class="profile-icon">🏃</div>
+                                <div>
+                                    <strong>Atividade:</strong><br>
+                                    <span id="userActivity">Moderada</span>
+                                </div>
+                            </div>
+                            <div class="profile-item">
+                                <div class="profile-icon">🥗</div>
+                                <div>
+                                    <strong>Dieta:</strong><br>
+                                    <span id="userDiet">Sem restrições</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 15px; color: var(--accent);">🔢 Suas Metas Diárias</h4>
+                    <div class="macros-grid">
+                        <div class="macro-card calories">
+                            <div class="macro-icon">🔥</div>
+                            <div class="macro-value calories" id="targetCalories">1500</div>
+                            <div class="macro-label">Calorias</div>
+                        </div>
+                        <div class="macro-card protein">
+                            <div class="macro-icon">🥩</div>
+                            <div class="macro-value protein" id="targetProtein">120g</div>
+                            <div class="macro-label">Proteínas</div>
+                        </div>
+                        <div class="macro-card carbs">
+                            <div class="macro-icon">🌾</div>
+                            <div class="macro-value carbs" id="targetCarbs">150g</div>
+                            <div class="macro-label">Carboidratos</div>
+                        </div>
+                        <div class="macro-card fats">
+                            <div class="macro-icon">🥑</div>
+                            <div class="macro-value fats" id="targetFats">50g</div>
+                            <div class="macro-label">Gorduras</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="diet-card">
+                    <h3 class="card-title">🍽️ Preview do Seu Cardápio Personalizado</h3>
+                    <p style="font-size: 14px; color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">
+                        Aqui está uma amostra do seu cardápio de 30 dias. O plano completo está disponível para download.
+                    </p>
+                    
+                    <div class="diet-preview" id="dietPreview">
+                        <!-- Conteúdo será gerado dinamicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="download-section">
+                    <h3 class="download-title">📁 Seus Materiais</h3>
+                    
+                    <div class="download-item" onclick="downloadFile('dieta-personalizada')">
+                        <div class="download-icon">📋</div>
+                        <div class="download-info">
+                            <div class="download-name">Dieta Personalizada</div>
+                            <div class="download-desc">Seu plano completo em PDF</div>
+                        </div>
+                    </div>
+
+                    <div class="download-item" onclick="downloadFile('cardapio-30-dias')">
+                        <div class="download-icon">📅</div>
+                        <div class="download-info">
+                            <div class="download-name">Cardápio 30 Dias</div>
+                            <div class="download-desc">90+ refeições organizadas</div>
+                        </div>
+                    </div>
+
+                    <div class="download-item" onclick="downloadFile('200-receitas')">
+                        <div class="download-icon">👩‍🍳</div>
+                        <div class="download-info">
+                            <div class="download-name">200+ Receitas</div>
+                            <div class="download-desc">Instruções passo a passo</div>
+                        </div>
+                    </div>
+
+                    <div class="download-item" onclick="downloadFile('alimentos-lista')">
+                        <div class="download-icon">📝</div>
+                        <div class="download-info">
+                            <div class="download-name">Lista de Alimentos</div>
+                            <div class="download-desc">Permitidos e proibidos</div>
+                        </div>
+                    </div>
+
+                    <button class="download-button" onclick="downloadAllFiles()">
+                        📥 BAIXAR TODOS OS MATERIAIS
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados do usuário
+        const userData = {
+            name: "Maria Silva",
+            goal: "lose_weight",
+            gender: "female",
+            age: "26-35",
+            activity: "moderate",
+            weight: 75,
+            height: 165,
+            targetWeight: 65,
+            diet: "no_restrictions"
+        };
+
+        // Traduções
+        const translations = {
+            goal: {
+                lose_weight: "Perder Peso",
+                gain_muscle: "Ganhar Massa Muscular",
+                maintain: "Manter Peso",
+                health: "Melhorar Saúde"
+            },
+            activity: {
+                sedentary: "Sedentário",
+                light: "Leve",
+                moderate: "Moderada",
+                intense: "Intensa"
+            },
+            diet: {
+                no_restrictions: "Sem restrições",
+                vegetarian: "Vegetariana",
+                vegan: "Vegana",
+                low_carb: "Low Carb"
+            }
+        };
+
+        // Cardápios
+        const mealPlans = {
+            lose_weight: {
+                "Dia 1": [
+                    { time: "Café da Manhã", name: "Omelete de Claras com Espinafre", details: "2 claras + 1 ovo inteiro, espinafre, tomate cereja (280 cal)" },
+                    { time: "Lanche da Manhã", name: "Castanhas Mistas", details: "15g mix de castanhas (90 cal)" },
+                    { time: "Almoço", name: "Salada de Quinoa com Frango", details: "80g quinoa + 100g frango desfiado + vegetais (380 cal)" },
+                    { time: "Lanche da Tarde", name: "Maçã com Pasta de Amendoim", details: "1 maçã média + 1 colher chá pasta amendoim (150 cal)" },
+                    { time: "Jantar", name: "Carne Magra com Abobrinha Refogada", details: "100g carne magra + abobrinha, cebola, temperos (270 cal)" }
+                ],
+                "Dia 3": [
+                    { time: "Café da Manhã", name: "Tapioca com Ovo e Queijo", details: "2 colheres tapioca + 1 ovo + queijo cottage (260 cal)" },
+                    { time: "Lanche da Manhã", name: "Água de Coco com Chia", details: "200ml água de coco + 1 colher sopa chia (110 cal)" },
+                    { time: "Almoço", name: "Peixe Assado com Batata Doce", details: "120g peixe + 100g batata doce + salada (340 cal)" },
+                    { time: "Lanche da Tarde", name: "Vitamina de Frutas", details: "Morango, banana, leite desnatado (140 cal)" },
+                    { time: "Jantar", name: "Sopa de Legumes com Frango", details: "Caldo caseiro + cubos de frango + vegetais (250 cal)" }
+                ]
+            },
+            gain_muscle: {
+                "Dia 1": [
+                    { time: "Café da Manhã", name: "Aveia com Banana e Whey", details: "60g aveia + 1 banana + 1 scoop whey + leite (420 cal)" },
+                    { time: "Lanche da Manhã", name: "Sanduíche Natural", details: "Pão integral + peito peru + queijo + abacate (350 cal)" },
+                    { time: "Almoço", name: "Frango com Arroz e Feijão", details: "150g frango + 80g arroz + 60g feijão + salada (520 cal)" },
+                    { time: "Pré-Treino", name: "Banana com Pasta de Amendoim", details: "1 banana grande + 2 colheres pasta amendoim (280 cal)" },
+                    { time: "Pós-Treino", name: "Shake de Recuperação", details: "2 scoops whey + 1 banana + 300ml leite (380 cal)" },
+                    { time: "Jantar", name: "Salmão com Quinoa", details: "150g salmão + 80g quinoa + legumes (450 cal)" }
+                ]
+            }
+        };
+
+        // Dados para PDFs
+        const pdfData = {
+            receitas: [
+                {
+                    categoria: "Café da Manhã",
+                    nome: "Omelete de Claras com Espinafre",
+                    ingredientes: [
+                        "3 claras de ovo",
+                        "1 ovo inteiro",
+                        "1 xícara de espinafre fresco",
+                        "5 tomates cereja cortados ao meio",
+                        "1 colher de chá de azeite extra virgem",
+                        "Sal marinho e pimenta-do-reino a gosto",
+                        "Ervas finas (manjericão, salsa)"
+                    ],
+                    preparo: [
+                        "Separe as claras das gemas com cuidado",
+                        "Bata as claras com o ovo inteiro até ficar homogêneo",
+                        "Tempere com sal, pimenta e ervas finas",
+                        "Aqueça o azeite em frigideira antiaderente",
+                        "Adicione o espinafre e refogue por 1 minuto",
+                        "Despeje a mistura de ovos na frigideira",
+                        "Distribua os tomates cereja por cima",
+                        "Cozinhe em fogo médio por 3-4 minutos",
+                        "Dobre a omelete ao meio e sirva quente"
+                    ],
+                    calorias: 280,
+                    proteinas: "22g",
+                    carboidratos: "8g",
+                    gorduras: "18g",
+                    tempo: "15 minutos"
+                },
+                {
+                    categoria: "Café da Manhã", 
+                    nome: "Panqueca Proteica de Aveia",
+                    ingredientes: [
+                        "1/2 xícara de aveia em flocos",
+                        "2 ovos inteiros",
+                        "1 banana madura amassada",
+                        "1 scoop de whey protein vanilla",
+                        "1 colher de chá de canela em pó",
+                        "1 colher de chá de fermento em pó",
+                        "Óleo de coco para untar"
+                    ],
+                    preparo: [
+                        "Bata todos os ingredientes no liquidificador",
+                        "Deixe a massa descansar por 5 minutos",
+                        "Aqueça uma frigideira antiaderente",
+                        "Unte levemente com óleo de coco",
+                        "Despeje a massa formando panquecas pequenas",
+                        "Cozinhe por 2-3 minutos de cada lado",
+                        "Sirva com frutas frescas"
+                    ],
+                    calorias: 420,
+                    proteinas: "28g",
+                    carboidratos: "35g",
+                    gorduras: "15g",
+                    tempo: "20 minutos"
+                },
+                {
+                    categoria: "Almoço",
+                    nome: "Frango Grelhado com Salada Colorida",
+                    ingredientes: [
+                        "150g de peito de frango sem pele",
+                        "2 xícaras de mix de folhas verdes",
+                        "1 tomate médio em cubos",
+                        "1/2 pepino em fatias",
+                        "1/4 de cebola roxa em fatias finas",
+                        "1/2 cenoura ralada",
+                        "1 colher de sopa de azeite extra virgem",
+                        "1 colher de sopa de vinagre balsâmico",
+                        "Sal, pimenta e orégano"
+                    ],
+                    preparo: [
+                        "Tempere o frango com sal, pimenta e orégano",
+                        "Deixe marinar por 30 minutos",
+                        "Aqueça uma grelha ou frigideira antiaderente",
+                        "Grelhe o frango por 6-8 minutos de cada lado",
+                        "Deixe descansar por 5 minutos antes de cortar",
+                        "Lave e seque bem todas as folhas",
+                        "Corte os vegetais em pedaços uniformes",
+                        "Monte a salada em um prato grande",
+                        "Tempere com azeite e vinagre",
+                        "Fatie o frango e disponha sobre a salada"
+                    ],
+                    calorias: 380,
+                    proteinas: "32g",
+                    carboidratos: "15g",
+                    gorduras: "22g",
+                    tempo: "25 minutos"
+                },
+                {
+                    categoria: "Jantar",
+                    nome: "Salmão com Legumes no Vapor",
+                    ingredientes: [
+                        "120g de salmão fresco",
+                        "1 xícara de brócolis",
+                        "1 cenoura média em bastões",
+                        "1 abobrinha pequena em fatias",
+                        "2 colheres de chá de azeite extra virgem",
+                        "Suco de 1 limão",
+                        "2 dentes de alho amassados",
+                        "Sal marinho e pimenta-do-reino",
+                        "Ervas frescas (dill, salsa)"
+                    ],
+                    preparo: [
+                        "Tempere o salmão com sal, pimenta e metade do limão",
+                        "Deixe marinar por 20 minutos",
+                        "Corte todos os legumes em pedaços uniformes",
+                        "Cozinhe os legumes no vapor por 8-10 minutos",
+                        "Aqueça uma frigideira antiaderente",
+                        "Grelhe o salmão por 4-5 minutos de cada lado",
+                        "Misture os legumes com azeite e alho",
+                        "Tempere com sal, pimenta e ervas frescas",
+                        "Sirva o salmão sobre os legumes",
+                        "Finalize com o restante do limão"
+                    ],
+                    calorias: 320,
+                    proteinas: "28g",
+                    carboidratos: "18g",
+                    gorduras: "16g",
+                    tempo: "25 minutos"
+                }
+            ],
+            alimentosPermitidos: [
+                {
+                    categoria: "Proteínas Magras",
+                    permitidos: [
+                        "Peito de frango sem pele",
+                        "Peito de peru natural",
+                        "Carne bovina magra (patinho, alcatra)",
+                        "Peixes (salmão, atum, sardinha, tilápia)",
+                        "Frutos do mar (camarão, lula)",
+                        "Ovos inteiros orgânicos",
+                        "Clara de ovos",
+                        "Queijo cottage",
+                        "Ricota fresca",
+                        "Iogurte grego natural",
+                        "Whey protein isolado",
+                        "Tofu orgânico",
+                        "Lentilha, grão-de-bico, feijão"
+                    ],
+                    evitar: [
+                        "Carnes processadas (salsicha, linguiça)",
+                        "Bacon e embutidos",
+                        "Nuggets industrializados",
+                        "Hambúrgueres prontos",
+                        "Queijos amarelos gordurosos",
+                        "Iogurtes com açúcar"
+                    ]
+                },
+                {
+                    categoria: "Carboidratos Complexos",
+                    permitidos: [
+                        "Arroz integral",
+                        "Quinoa",
+                        "Aveia em flocos",
+                        "Batata doce",
+                        "Mandioca/Aipim",
+                        "Inhame",
+                        "Pão integral 100%",
+                        "Tapioca",
+                        "Macarrão integral",
+                        "Frutas da época",
+                        "Legumes e verduras"
+                    ],
+                    evitar: [
+                        "Açúcar refinado",
+                        "Pão branco",
+                        "Arroz branco",
+                        "Massas brancas",
+                        "Biscoitos industrializados",
+                        "Doces em geral",
+                        "Refrigerantes"
+                    ]
+                },
+                {
+                    categoria: "Gorduras Saudáveis",
+                    permitidos: [
+                        "Azeite extra virgem",
+                        "Óleo de coco virgem",
+                        "Abacate",
+                        "Castanhas (amêndoas, nozes)",
+                        "Sementes (chia, linhaça)",
+                        "Pasta de amendoim integral",
+                        "Peixes gordos (salmão, sardinha)"
+                    ],
+                    evitar: [
+                        "Óleo de soja refinado",
+                        "Margarina",
+                        "Gordura trans",
+                        "Frituras",
+                        "Alimentos ultra processados"
+                    ]
+                }
+            ]
+        };
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            loadUserData();
+            generateDietPreview();
+        });
+
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = window.innerWidth > 768 ? 50 : 25;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        function loadUserData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            if (urlParams.get('name')) {
+                const urlData = {
+                    name: urlParams.get('name') || 'Cliente',
+                    goal: urlParams.get('goal') || 'lose_weight',
+                    weight: urlParams.get('weight') || '75',
+                    height: urlParams.get('height') || '165',
+                    age: urlParams.get('age') || '26-35',
+                    activity: urlParams.get('activity') || 'moderate',
+                    diet: urlParams.get('diet') || 'no_restrictions',
+                    gender: urlParams.get('gender') || 'female'
+                };
+                updateUserData(urlData);
+            } else {
+                updateUserData(userData);
+            }
+        }
+
+        function updateUserData(data) {
+            const name = data.name || 'Maria Silva';
+            document.getElementById('userName').textContent = 'Olá, ' + name + '!';
+            
+            document.getElementById('userGoal').textContent = translations.goal[data.goal] || 'Perder Peso';
+            document.getElementById('userWeight').textContent = (data.weight || 75) + 'kg';
+            document.getElementById('userHeight').textContent = (data.height || 165) + 'cm';
+            document.getElementById('userAge').textContent = data.age || '26-35 anos';
+            document.getElementById('userActivity').textContent = translations.activity[data.activity] || 'Moderada';
+            document.getElementById('userDiet').textContent = translations.diet[data.diet] || 'Sem restrições';
+            
+            const results = calculateNutrition(data);
+            document.getElementById('targetCalories').textContent = results.calories;
+            document.getElementById('targetProtein').textContent = results.protein + 'g';
+            document.getElementById('targetCarbs').textContent = results.carbs + 'g';
+            document.getElementById('targetFats').textContent = results.fats + 'g';
+
+            userData.goal = data.goal || 'lose_weight';
+        }
+
+        function calculateNutrition(data) {
+            const weight = parseFloat(data.weight) || 75;
+            const height = parseFloat(data.height) || 165;
+            const goal = data.goal || 'lose_weight';
+            const activity = data.activity || 'moderate';
+            const gender = data.gender || 'female';
+            
+            const ageValue = 30;
+            let bmr;
+            if (gender === 'male') {
+                bmr = 10 * weight + 6.25 * height - 5 * ageValue + 5;
+            } else {
+                bmr = 10 * weight + 6.25 * height - 5 * ageValue - 161;
+            }
+            
+            const activityMultipliers = {
+                sedentary: 1.2,
+                light: 1.375,
+                moderate: 1.55,
+                intense: 1.725
+            };
+            
+            const tdee = bmr * (activityMultipliers[activity] || 1.55);
+            
+            let calories;
+            switch(goal) {
+                case 'lose_weight':
+                    calories = Math.round(tdee - 500);
+                    break;
+                case 'gain_muscle':
+                    calories = Math.round(tdee + 300);
+                    break;
+                default:
+                    calories = Math.round(tdee);
+            }
+            
+            const protein = Math.round(weight * 2.2);
+            const fats = Math.round(calories * 0.25 / 9);
+            const carbs = Math.round((calories - (protein * 4) - (fats * 9)) / 4);
+            
+            return { calories, protein, carbs, fats };
+        }
+
+        function generateDietPreview() {
+            const goal = userData.goal || 'lose_weight';
+            const meals = mealPlans[goal] || mealPlans.lose_weight;
+            const preview = document.getElementById('dietPreview');
+            
+            let html = '';
+            Object.entries(meals).forEach(([day, dayMeals]) => {
+                html += '<div class="meal-day">';
+                html += '<div class="day-title">📅 ' + day + '</div>';
+                html += '<div class="meal-grid">';
+                
+                dayMeals.forEach(meal => {
+                    html += '<div class="meal-card">';
+                    html += '<div class="meal-time">' + meal.time + '</div>';
+                    html += '<div class="meal-name">' + meal.name + '</div>';
+                    html += '<div class="meal-details">' + meal.details + '</div>';
+                    html += '</div>';
+                });
+                
+                html += '</div></div>';
+            });
+            
+            preview.innerHTML = html;
+        }
+
+        // Funções de geração de PDF
+        function generateDietaPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // CAPA
+            doc.setFillColor(44, 122, 44);
+            doc.rect(0, 0, 210, 297, 'F');
+            
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(28);
+            doc.text('DIETA PERSONALIZADA', 105, 80, { align: 'center' });
+            
+            doc.setFontSize(20);
+            doc.text('Seu Plano Nutricional Completo', 105, 100, { align: 'center' });
+            
+            const userName = document.getElementById('userName').textContent.replace('Olá, ', '').replace('!', '');
+            doc.setFontSize(24);
+            doc.text(userName, 105, 150, { align: 'center' });
+            
+            doc.setFontSize(14);
+            doc.text('Dra. Giovana Nutricionista', 105, 200, { align: 'center' });
+            doc.text('CRN: 12345 | Especialista em Nutrição Clínica', 105, 215, { align: 'center' });
+            
+            const today = new Date().toLocaleDateString('pt-BR');
+            doc.text('Data: ' + today, 105, 250, { align: 'center' });
+            
+            // PÁGINA 2 - DADOS PESSOAIS
+            doc.addPage();
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(20);
+            doc.setTextColor(44, 122, 44);
+            doc.text('AVALIAÇÃO NUTRICIONAL', 20, 30);
+            
+            doc.setDrawColor(44, 122, 44);
+            doc.setLineWidth(2);
+            doc.line(20, 35, 190, 35);
+            
+            doc.setFontSize(14);
+            doc.setTextColor(0, 0, 0);
+            doc.text('DADOS PESSOAIS', 20, 55);
+            
+            let yPos = 70;
+            doc.setFontSize(12);
+            
+            const dadosUsuario = [
+                ['Nome:', userName],
+                ['Objetivo:', document.getElementById('userGoal').textContent],
+                ['Peso Atual:', document.getElementById('userWeight').textContent],
+                ['Altura:', document.getElementById('userHeight').textContent],
+                ['Faixa Etária:', document.getElementById('userAge').textContent],
+                ['Nível de Atividade:', document.getElementById('userActivity').textContent],
+                ['Tipo de Dieta:', document.getElementById('userDiet').textContent]
+            ];
+            
+            dadosUsuario.forEach(([label, value]) => {
+                doc.text(label, 25, yPos);
+                doc.text(value, 80, yPos);
+                yPos += 10;
+            });
+            
+            // Cálculos nutricionais
+            yPos += 15;
+            doc.setFontSize(14);
+            doc.setTextColor(44, 122, 44);
+            doc.text('CÁLCULOS NUTRICIONAIS', 20, yPos);
+            yPos += 15;
+            
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            
+            const weight = parseFloat(document.getElementById('userWeight').textContent) || 75;
+            const height = parseFloat(document.getElementById('userHeight').textContent) || 165;
+            const imc = (weight / ((height/100) * (height/100))).toFixed(1);
+            
+            let imcClass = '';
+            if (imc < 18.5) imcClass = 'Abaixo do peso';
+            else if (imc < 25) imcClass = 'Peso normal';
+            else if (imc < 30) imcClass = 'Sobrepeso';
+            else imcClass = 'Obesidade';
+            
+            doc.text('IMC: ' + imc + ' kg/m² (' + imcClass + ')', 25, yPos);
+            yPos += 20;
+            
+            // Metas diárias
+            doc.setFontSize(14);
+            doc.setTextColor(44, 122, 44);
+            doc.text('SUAS METAS DIÁRIAS', 20, yPos);
+            yPos += 15;
+            
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            
+            const metas = [
+                ['Calorias Totais:', document.getElementById('targetCalories').textContent],
+                ['Proteínas:', document.getElementById('targetProtein').textContent],
+                ['Carboidratos:', document.getElementById('targetCarbs').textContent],
+                ['Gorduras:', document.getElementById('targetFats').textContent]
+            ];
+            
+            metas.forEach(([label, value]) => {
+                doc.text(label, 25, yPos);
+                doc.text(value, 100, yPos);
+                yPos += 10;
+            });
+            
+            // PÁGINA 3 - ORIENTAÇÕES
+            doc.addPage();
+            doc.setFontSize(20);
+            doc.setTextColor(44, 122, 44);
+            
+            const objetivo = document.getElementById('userGoal').textContent;
+            doc.text('PROTOCOLO PARA: ' + objetivo.toUpperCase(), 20, 30);
+            
+            doc.setDrawColor(44, 122, 44);
+            doc.setLineWidth(2);
+            doc.line(20, 35, 190, 35);
+            
+            yPos = 50;
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            
+            const orientacoes = [
+                'Beba pelo menos 2-3 litros de água por dia',
+                'Faça 5-6 refeições pequenas ao longo do dia',
+                'Nunca pule o café da manhã',
+                'Pratique atividade física regularmente',
+                'Durma pelo menos 7-8 horas por noite',
+                'Evite alimentos processados e industrializados',
+                'Prefira sempre alimentos integrais',
+                'Mastigue bem os alimentos (pelo menos 20 vezes)',
+                'Evite líquidos durante as refeições principais',
+                'Mantenha horários regulares para as refeições',
+                'Gerencie o estresse com técnicas de relaxamento',
+                'Faça exames de rotina a cada 6 meses',
+                'Monitore seu peso semanalmente',
+                'Tire medidas corporais mensalmente',
+                'Varie os alimentos para garantir micronutrientes'
+            ];
+            
+            orientacoes.forEach(orientacao => {
+                if (yPos > 270) {
+                    doc.addPage();
+                    yPos = 30;
+                }
+                doc.text('• ' + orientacao, 25, yPos);
+                yPos += 10;
+            });
+            
+            return doc;
+        }
+
+        function generateCardapioPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // CAPA
+            doc.setFillColor(44, 122, 44);
+            doc.rect(0, 0, 210, 297, 'F');
+            
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(32);
+            doc.text('CARDÁPIO', 105, 100, { align: 'center' });
+            doc.setFontSize(28);
+            doc.text('30 DIAS', 105, 120, { align: 'center' });
+            
+            doc.setFontSize(18);
+            doc.text('Mais de 90 refeições organizadas', 105, 150, { align: 'center' });
+            
+            const userName = document.getElementById('userName').textContent.replace('Olá, ', '').replace('!', '');
+            doc.setFontSize(20);
+            doc.text('Personalizado para: ' + userName, 105, 200, { align: 'center' });
+            
+            doc.setFontSize(14);
+            doc.text('Dra. Giovana Nutricionista', 105, 240, { align: 'center' });
+            
+            // PÁGINA 2 - INSTRUÇÕES
+            doc.addPage();
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(20);
+            doc.setTextColor(44, 122, 44);
+            doc.text('COMO USAR ESTE CARDÁPIO', 20, 30);
+            
+            doc.setDrawColor(44, 122, 44);
+            doc.setLineWidth(2);
+            doc.line(20, 35, 190, 35);
+            
+            let yPos = 50;
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            
+            const instrucoes = [
+                'ORGANIZAÇÃO:',
+                '• O cardápio está dividido em 30 dias completos',
+                '• Cada dia possui 5-6 refeições principais',
+                '• As porções estão calculadas para suas necessidades',
+                '• Você pode repetir dias que mais gostou',
+                '',
+                'HORÁRIOS SUGERIDOS:',
+                '• Café da manhã: 7h00 - 8h30',
+                '• Lanche da manhã: 10h00 - 10h30',
+                '• Almoço: 12h30 - 14h00',
+                '• Lanche da tarde: 16h00 - 16h30',
+                '• Jantar: 19h00 - 20h30',
+                '• Ceia: 21h30 - 22h00 (opcional)',
+                '',
+                'SUBSTITUIÇÕES:',
+                '• Proteínas: frango ↔ peru ↔ peixe (mesma quantidade)',
+                '• Carboidratos: arroz integral ↔ quinoa ↔ batata doce',
+                '• Vegetais: podem ser variados conforme disponibilidade'
+            ];
+            
+            instrucoes.forEach(linha => {
+                if (linha === '') {
+                    yPos += 10;
+                } else if (linha.includes(':') && !linha.startsWith('•')) {
+                    doc.setFontSize(14);
+                    doc.setTextColor(44, 122, 44);
+                    doc.text(linha, 20, yPos);
+                    doc.setFontSize(12);
+                    doc.setTextColor(0, 0, 0);
+                    yPos += 12;
+                } else {
+                    doc.text(linha, 20, yPos);
+                    yPos += 8;
+                }
+            });
+            
+            // EXEMPLO DE CARDÁPIO SEMANAL
+            doc.addPage();
+            doc.setFontSize(18);
+            doc.setTextColor(44, 122, 44);
+            doc.text('EXEMPLO - SEMANA 1', 20, 30);
+            
+            yPos = 50;
+            const goal = userData.goal || 'lose_weight';
+            const meals = mealPlans[goal] || mealPlans.lose_weight;
+            
+            Object.entries(meals).forEach(([dia, refeicoes]) => {
+                if (yPos > 240) {
+                    doc.addPage();
+                    yPos = 30;
+                }
+                
+                doc.setFontSize(14);
+                doc.setTextColor(44, 122, 44);
+                doc.text(dia.toUpperCase(), 20, yPos);
+                yPos += 10;
+                
+                doc.setFontSize(10);
+                doc.setTextColor(0, 0, 0);
+                refeicoes.forEach(refeicao => {
+                    doc.text('• ' + refeicao.time + ': ' + refeicao.name, 25, yPos);
+                    yPos += 6;
+                });
+                yPos += 8;
+            });
+            
+            return doc;
+        }
+
+        function generateReceitasPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // CAPA
+            doc.setFillColor(44, 122, 44);
+            doc.rect(0, 0, 210, 297, 'F');
+            
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(36);
+            doc.text('200+', 105, 90, { align: 'center' });
+            doc.setFontSize(24);
+            doc.text('RECEITAS SAUDÁVEIS', 105, 115, { align: 'center' });
+            
+            doc.setFontSize(16);
+            doc.text('Instruções detalhadas passo a passo', 105, 145, { align: 'center' });
+            doc.text('Informações nutricionais completas', 105, 165, { align: 'center' });
+            
+            doc.setFontSize(14);
+            doc.text('Dra. Giovana Nutricionista', 105, 230, { align: 'center' });
+            
+            // RECEITAS DETALHADAS
+            pdfData.receitas.forEach((receita, index) => {
+                doc.addPage();
+                
+                // Cabeçalho da receita
+                doc.setFillColor(44, 122, 44);
+                doc.rect(0, 0, 210, 50, 'F');
+                
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(20);
+                doc.text(receita.nome, 105, 25, { align: 'center' });
+                
+                doc.setFontSize(12);
+                doc.text(receita.categoria + ' | ' + receita.tempo + ' | ' + receita.calorias + ' kcal', 105, 38, { align: 'center' });
+                
+                let yPos = 70;
+                doc.setTextColor(0, 0, 0);
+                
+                // Informações nutricionais
+                doc.setFillColor(245, 245, 245);
+                doc.rect(15, yPos - 5, 180, 25, 'F');
+                doc.setDrawColor(108, 192, 74);
+                doc.rect(15, yPos - 5, 180, 25);
+                
+                doc.setFontSize(11);
+                doc.text('Proteínas: ' + receita.proteinas, 25, yPos + 5);
+                doc.text('Carboidratos: ' + receita.carboidratos, 70, yPos + 5);
+                doc.text('Gorduras: ' + receita.gorduras, 125, yPos + 5);
+                doc.text(receita.calorias + ' kcal', 160, yPos + 5);
+                
+                yPos += 35;
+                
+                // Ingredientes
+                doc.setFontSize(16);
+                doc.setTextColor(44, 122, 44);
+                doc.text('INGREDIENTES', 20, yPos);
+                yPos += 10;
+                
+                doc.setFontSize(11);
+                doc.setTextColor(0, 0, 0);
+                
+                receita.ingredientes.forEach(ingrediente => {
+                    if (yPos > 280) {
+                        doc.addPage();
+                        yPos = 30;
+                    }
+                    doc.text('• ' + ingrediente, 25, yPos);
+                    yPos += 7;
+                });
+                
+                yPos += 10;
+                
+                // Modo de preparo
+                doc.setFontSize(16);
+                doc.setTextColor(44, 122, 44);
+                doc.text('MODO DE PREPARO', 20, yPos);
+                yPos += 10;
+                
+                doc.setFontSize(11);
+                doc.setTextColor(0, 0, 0);
+                
+                receita.preparo.forEach((passo, i) => {
+                    if (yPos > 275) {
+                        doc.addPage();
+                        yPos = 30;
+                    }
+                    doc.text((i + 1) + '. ' + passo, 25, yPos);
+                    yPos += 8;
+                });
+            });
+            
+            return doc;
+        }
+
+        function generateAlimentosPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // CAPA
+            doc.setFillColor(44, 122, 44);
+            doc.rect(0, 0, 210, 297, 'F');
+            
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(28);
+            doc.text('GUIA COMPLETO', 105, 90, { align: 'center' });
+            doc.text('DE ALIMENTOS', 105, 115, { align: 'center' });
+            
+            doc.setFontSize(18);
+            doc.text('O que comer e o que evitar', 105, 150, { align: 'center' });
+            doc.text('para alcançar seus objetivos', 105, 170, { align: 'center' });
+            
+            doc.setFontSize(14);
+            doc.text('Dra. Giovana Nutricionista', 105, 220, { align: 'center' });
+            
+            // PÁGINAS DAS CATEGORIAS
+            pdfData.alimentosPermitidos.forEach(categoria => {
+                doc.addPage();
+                
+                // Cabeçalho da categoria
+                doc.setFillColor(44, 122, 44);
+                doc.rect(0, 0, 210, 45, 'F');
+                
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(22);
+                doc.text(categoria.categoria.toUpperCase(), 105, 28, { align: 'center' });
+                
+                let yPos = 65;
+                doc.setTextColor(0, 0, 0);
+                
+                // Alimentos permitidos
+                doc.setFillColor(230, 255, 230);
+                doc.rect(15, yPos - 5, 180, 20, 'F');
+                doc.setDrawColor(0, 150, 0);
+                doc.rect(15, yPos - 5, 180, 20);
+                
+                doc.setFontSize(16);
+                doc.setTextColor(0, 150, 0);
+                doc.text('✅ ALIMENTOS RECOMENDADOS', 20, yPos + 8);
+                
+                yPos += 25;
+                doc.setFontSize(11);
+                doc.setTextColor(0, 0, 0);
+                
+                categoria.permitidos.forEach(alimento => {
+                    if (yPos > 280) {
+                        doc.addPage();
+                        yPos = 30;
+                    }
+                    doc.text('• ' + alimento, 20, yPos);
+                    yPos += 7;
+                });
+                
+                yPos += 15;
+                
+                // Alimentos a evitar
+                doc.setFillColor(255, 230, 230);
+                doc.rect(15, yPos - 5, 180, 20, 'F');
+                doc.setDrawColor(200, 0, 0);
+                doc.rect(15, yPos - 5, 180, 20);
+                
+                doc.setFontSize(16);
+                doc.setTextColor(200, 0, 0);
+                doc.text('❌ ALIMENTOS A EVITAR', 20, yPos + 8);
+                
+                yPos += 25;
+                doc.setFontSize(11);
+                doc.setTextColor(0, 0, 0);
+                
+                categoria.evitar.forEach(alimento => {
+                    if (yPos > 280) {
+                        doc.addPage();
+                        yPos = 30;
+                    }
+                    doc.text('• ' + alimento, 20, yPos);
+                    yPos += 7;
+                });
+            });
+            
+            // PÁGINA DE DICAS GERAIS
+            doc.addPage();
+            doc.setFontSize(20);
+            doc.setTextColor(44, 122, 44);
+            doc.text('DICAS IMPORTANTES', 20, 30);
+            
+            doc.setDrawColor(44, 122, 44);
+            doc.setLineWidth(2);
+            doc.line(20, 35, 190, 35);
+            
+            const dicas = [
+                'Prefira sempre alimentos orgânicos quando possível',
+                'Varie as cores dos alimentos no seu prato',
+                'Leia sempre os rótulos dos produtos industrializados',
+                'Evite alimentos com mais de 5 ingredientes',
+                'Prefira preparações caseiras',
+                'Use temperos naturais em vez de industrializados',
+                'Mantenha frutas e vegetais sempre frescos',
+                'Congele porções já preparadas para facilitar o dia a dia',
+                'Hidrate-se adequadamente ao longo do dia',
+                'Mastigue bem os alimentos para melhor digestão',
+                'Combine proteínas vegetais para aminoácidos completos',
+                'Consuma pelo menos 400g de vegetais por dia',
+                'Prefira frutas inteiras ao invés de sucos',
+                'Armazene óleos em local fresco e escuro',
+                'Faça suas próprias misturas de temperos'
+            ];
+            
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            let yPos2 = 50;
+            dicas.forEach(dica => {
+                if (yPos2 > 270) {
+                    doc.addPage();
+                    yPos2 = 30;
+                }
+                doc.text('• ' + dica, 20, yPos2);
+                yPos2 += 10;
+            });
+            
+            return doc;
+        }
+
+        // Funções de download
+        function downloadFile(type) {
+            try {
+                let doc;
+                let filename;
+                
+                switch(type) {
+                    case 'dieta-personalizada':
+                        doc = generateDietaPDF();
+                        filename = 'Dieta_Personalizada_DrGiovana.pdf';
+                        break;
+                    case 'cardapio-30-dias':
+                        doc = generateCardapioPDF();
+                        filename = 'Cardapio_30_Dias_DrGiovana.pdf';
+                        break;
+                    case '200-receitas':
+                        doc = generateReceitasPDF();
+                        filename = 'Receitas_Saudaveis_DrGiovana.pdf';
+                        break;
+                    case 'alimentos-lista':
+                        doc = generateAlimentosPDF();
+                        filename = 'Lista_Alimentos_DrGiovana.pdf';
+                        break;
+                    default:
+                        alert('Tipo de arquivo não reconhecido');
+                        return;
+                }
+                
+                doc.save(filename);
+                
+            } catch (error) {
+                console.error('Erro ao gerar PDF:', error);
+                alert('Erro ao gerar PDF. Tente novamente.');
+            }
+        }
+
+        function downloadAllFiles() {
+            try {
+                const files = [
+                    { type: 'dieta-personalizada', delay: 0 },
+                    { type: 'cardapio-30-dias', delay: 1500 },
+                    { type: '200-receitas', delay: 3000 },
+                    { type: 'alimentos-lista', delay: 4500 }
+                ];
+                
+                files.forEach(file => {
+                    setTimeout(() => {
+                        downloadFile(file.type);
+                    }, file.delay);
+                });
+                
+                setTimeout(() => {
+                    alert('📦 Download de todos os materiais iniciado!\n\nOs 4 PDFs serão baixados sequencialmente.\nVerifique sua pasta de downloads.');
+                }, 500);
+                
+            } catch (error) {
+                console.error('Erro no download em lote:', error);
+                alert('Erro no download. Tente baixar os arquivos individualmente.');
+            }
+        }
+
+        // Salvar progresso
+        function saveUserProgress() {
+            try {
+                if (typeof(Storage) !== "undefined") {
+                    localStorage.setItem('userCompleted', 'true');
+                    localStorage.setItem('completionDate', new Date().toISOString());
+                }
+            } catch (error) {
+                console.log('localStorage não disponível');
+            }
+        }
+
+        // Executar ao carregar
+        saveUserProgress();
+    </script>
+</body>
+</html> Manhã", name: "Iogurte Natural com Frutas Vermelhas", details: "150g iogurte desnatado + 50g frutas vermelhas (120 cal)" },
+                    { time: "Almoço", name: "Frango Grelhado com Salada Verde", details: "120g peito de frango + salada mista + azeite (350 cal)" },
+                    { time: "Lanche da Tarde", name: "Shake Proteico", details: "1 scoop whey protein + 200ml água + 1 banana pequena (180 cal)" },
+                    { time: "Jantar", name: "Salmão com Legumes no Vapor", details: "100g salmão + brócolis, cenoura, abobrinha (290 cal)" }
+                ],
+                "Dia 2": [
+                    { time: "Café da Manhã", name: "Smoothie Verde Detox", details: "Couve, maçã, gengibre, limão, água de coco (200 cal)" },
+                    { time: "Lanche da

@@ -2188,17 +2188,6 @@
             }
         });
 
-        // Track form abandonment
-        window.addEventListener('beforeunload', function() {
-            if (typeof fbq !== 'undefined' && currentQuestion < questions.length - 1) {
-                fbq('trackCustom', 'QuizAbandoned', {
-                    questions_completed: currentQuestion + 1,
-                    total_questions: questions.length,
-                    abandonment_rate: Math.round(((currentQuestion + 1) / questions.length) * 100),
-                    time_on_page: timeOnPage
-                });
-            }
-        });
     </script>
 </body>
 </html>

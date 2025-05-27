@@ -764,526 +764,486 @@
     </div>
 
     <script>
-        // Dados do usuário
-        const userData = {
-            name: "Maria Silva",
-            goal: "lose_weight",
-            gender: "female",
-            age: "26-35",
-            activity: "moderate",
-            weight: 75,
-            height: 165,
-            targetWeight: 65,
-            diet: "no_restrictions"
-        };
-
-        // Traduções
-        const translations = {
-            goal: {
-                lose_weight: "Perder Peso",
-                gain_muscle: "Ganhar Massa Muscular",
-                maintain: "Manter Peso",
-                health: "Melhorar Saúde"
-            },
-            activity: {
-                sedentary: "Sedentário",
-                light: "Leve",
-                moderate: "Moderada",
-                intense: "Intensa"
-            },
-            diet: {
-                no_restrictions: "Sem restrições",
-                vegetarian: "Vegetariana",
-                vegan: "Vegana",
-                low_carb: "Low Carb"
-            }
-        };
-
-        // Dados para PDFs
-        const pdfData = {
-            receitas: [
-                {
-                    categoria: "Café da Manhã",
-                    nome: "Omelete de Claras com Espinafre",
-                    ingredientes: [
-                        "3 claras de ovo",
-                        "1 ovo inteiro",
-                        "1 xícara de espinafre fresco",
-                        "5 tomates cereja cortados ao meio",
-                        "1 colher de chá de azeite extra virgem",
-                        "Sal marinho e pimenta-do-reino a gosto",
-                        "Ervas finas (manjericão, salsa)"
-                    ],
-                    preparo: [
-                        "Separe as claras das gemas com cuidado",
-                        "Bata as claras com o ovo inteiro até ficar homogêneo",
-                        "Tempere com sal, pimenta e ervas finas",
-                        "Aqueça o azeite em frigideira antiaderente",
-                        "Adicione o espinafre e refogue por 1 minuto",
-                        "Despeje a mistura de ovos na frigideira",
-                        "Distribua os tomates cereja por cima",
-                        "Cozinhe em fogo médio por 3-4 minutos",
-                        "Dobre a omelete ao meio e sirva quente"
-                    ],
-                    calorias: 280,
-                    proteinas: "22g",
-                    carboidratos: "8g",
-                    gorduras: "18g",
-                    tempo: "15 minutos"
-                },
-                {
-                    categoria: "Café da Manhã", 
-                    nome: "Panqueca Proteica de Aveia",
-                    ingredientes: [
-                        "1/2 xícara de aveia em flocos",
-                        "2 ovos inteiros",
-                        "1 banana madura amassada",
-                        "1 scoop de whey protein vanilla",
-                        "1 colher de chá de canela em pó",
-                        "1 colher de chá de fermento em pó",
-                        "Óleo de coco para untar"
-                    ],
-                    preparo: [
-                        "Bata todos os ingredientes no liquidificador",
-                        "Deixe a massa descansar por 5 minutos",
-                        "Aqueça uma frigideira antiaderente",
-                        "Unte levemente com óleo de coco",
-                        "Despeje a massa formando panquecas pequenas",
-                        "Cozinhe por 2-3 minutos de cada lado",
-                        "Sirva com frutas frescas"
-                    ],
-                    calorias: 420,
-                    proteinas: "28g",
-                    carboidratos: "35g",
-                    gorduras: "15g",
-                    tempo: "20 minutos"
-                },
-                {
-                    categoria: "Almoço",
-                    nome: "Frango Grelhado com Salada Colorida",
-                    ingredientes: [
-                        "150g de peito de frango sem pele",
-                        "2 xícaras de mix de folhas verdes",
-                        "1 tomate médio em cubos",
-                        "1/2 pepino em fatias",
-                        "1/4 de cebola roxa em fatias finas",
-                        "1/2 cenoura ralada",
-                        "1 colher de sopa de azeite extra virgem",
-                        "1 colher de sopa de vinagre balsâmico",
-                        "Sal, pimenta e orégano"
-                    ],
-                    preparo: [
-                        "Tempere o frango com sal, pimenta e orégano",
-                        "Deixe marinar por 30 minutos",
-                        "Aqueça uma grelha ou frigideira antiaderente",
-                        "Grelhe o frango por 6-8 minutos de cada lado",
-                        "Deixe descansar por 5 minutos antes de cortar",
-                        "Lave e seque bem todas as folhas",
-                        "Corte os vegetais em pedaços uniformes",
-                        "Monte a salada em um prato grande",
-                        "Tempere com azeite e vinagre",
-                        "Fatie o frango e disponha sobre a salada"
-                    ],
-                    calorias: 380,
-                    proteinas: "32g",
-                    carboidratos: "15g",
-                    gorduras: "22g",
-                    tempo: "25 minutos"
-                },
-                {
-                    categoria: "Jantar",
-                    nome: "Salmão com Legumes no Vapor",
-                    ingredientes: [
-                        "120g de salmão fresco",
-                        "1 xícara de brócolis",
-                        "1 cenoura média em bastões",
-                        "1 abobrinha pequena em fatias",
-                        "2 colheres de chá de azeite extra virgem",
-                        "Suco de 1 limão",
-                        "2 dentes de alho amassados",
-                        "Sal marinho e pimenta-do-reino",
-                        "Ervas frescas (dill, salsa)"
-                    ],
-                    preparo: [
-                        "Tempere o salmão com sal, pimenta e metade do limão",
-                        "Deixe marinar por 20 minutos",
-                        "Corte todos os legumes em pedaços uniformes",
-                        "Cozinhe os legumes no vapor por 8-10 minutos",
-                        "Aqueça uma frigideira antiaderente",
-                        "Grelhe o salmão por 4-5 minutos de cada lado",
-                        "Misture os legumes com azeite e alho",
-                        "Tempere com sal, pimenta e ervas frescas",
-                        "Sirva o salmão sobre os legumes",
-                        "Finalize com o restante do limão"
-                    ],
-                    calorias: 320,
-                    proteinas: "28g",
-                    carboidratos: "18g",
-                    gorduras: "16g",
-                    tempo: "25 minutos"
-                }
-            ],
-            alimentosPermitidos: [
-                {
-                    categoria: "Proteínas Magras",
-                    permitidos: [
-                        "Peito de frango sem pele",
-                        "Peito de peru natural",
-                        "Carne bovina magra (patinho, alcatra)",
-                        "Peixes (salmão, atum, sardinha, tilápia)",
-                        "Frutos do mar (camarão, lula)",
-                        "Ovos inteiros orgânicos",
-                        "Clara de ovos",
-                        "Queijo cottage",
-                        "Ricota fresca",
-                        "Iogurte grego natural",
-                        "Whey protein isolado",
-                        "Tofu orgânico",
-                        "Lentilha, grão-de-bico, feijão"
-                    ],
-                    evitar: [
-                        "Carnes processadas (salsicha, linguiça)",
-                        "Bacon e embutidos",
-                        "Nuggets industrializados",
-                        "Hambúrgueres prontos",
-                        "Queijos amarelos gordurosos",
-                        "Iogurtes com açúcar"
-                    ]
-                },
-                {
-                    categoria: "Carboidratos Complexos",
-                    permitidos: [
-                        "Arroz integral",
-                        "Quinoa",
-                        "Aveia em flocos",
-                        "Batata doce",
-                        "Mandioca/Aipim",
-                        "Inhame",
-                        "Pão integral 100%",
-                        "Tapioca",
-                        "Macarrão integral",
-                        "Frutas da época",
-                        "Legumes e verduras"
-                    ],
-                    evitar: [
-                        "Açúcar refinado",
-                        "Pão branco",
-                        "Arroz branco",
-                        "Massas brancas",
-                        "Biscoitos industrializados",
-                        "Doces em geral",
-                        "Refrigerantes"
-                    ]
-                },
-                {
-                    categoria: "Gorduras Saudáveis",
-                    permitidos: [
-                        "Azeite extra virgem",
-                        "Óleo de coco virgem",
-                        "Abacate",
-                        "Castanhas (amêndoas, nozes)",
-                        "Sementes (chia, linhaça)",
-                        "Pasta de amendoim integral",
-                        "Peixes gordos (salmão, sardinha)"
-                    ],
-                    evitar: [
-                        "Óleo de soja refinado",
-                        "Margarina",
-                        "Gordura trans",
-                        "Frituras",
-                        "Alimentos ultra processados"
-                    ]
-                }
-            ]
-        };
-
-        // Inicialização
-        document.addEventListener('DOMContentLoaded', function() {
-            createParticles();
-            loadUserData();
+       // Função para ler dados do sessionStorage
+function getQuizData() {
+    try {
+        const quizAnswers = JSON.parse(sessionStorage.getItem('quizAnswers') || '{}');
+        const quizResults = JSON.parse(sessionStorage.getItem('quizResults') || '{}');
+        const contactData = JSON.parse(sessionStorage.getItem('userContactData') || '{}');
+        
+        console.log('Dados recuperados do sessionStorage:', {
+            answers: quizAnswers,
+            results: quizResults,
+            contact: contactData
         });
+        
+        return {
+            answers: quizAnswers,
+            results: quizResults,
+            contact: contactData,
+            hasData: Object.keys(quizAnswers).length > 0
+        };
+    } catch (error) {
+        console.error('Erro ao ler dados do sessionStorage:', error);
+        return {
+            answers: {},
+            results: {},
+            contact: {},
+            hasData: false
+        };
+    }
+}
 
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = window.innerWidth > 768 ? 50 : 25;
+// Dados padrão caso não tenha dados do quiz
+const defaultUserData = {
+    name: "Cliente",
+    goal: "lose_weight",
+    gender: "female",
+    age: "26-35",
+    activity: "moderate",
+    weight: 75,
+    height: 165,
+    targetWeight: 65,
+    diet: "no_restrictions",
+    health: ["healthy"],
+    allergies: ["no_allergies"]
+};
 
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particlesContainer.appendChild(particle);
-            }
+// Traduções completas
+const translations = {
+    goal: {
+        lose_weight: "Perder Peso",
+        gain_muscle: "Ganhar Massa Muscular", 
+        maintain: "Manter Peso",
+        health: "Melhorar Saúde"
+    },
+    gender: {
+        male: "Masculino",
+        female: "Feminino"
+    },
+    activity: {
+        sedentary: "Sedentário",
+        light: "Leve",
+        moderate: "Moderada",
+        intense: "Intensa"
+    },
+    diet: {
+        no_restrictions: "Sem restrições",
+        vegetarian: "Vegetariana",
+        vegan: "Vegana",
+        low_carb: "Low Carb",
+        mediterranean: "Mediterrânea",
+        paleo: "Paleo"
+    },
+    age: {
+        "18-25": "18-25 anos",
+        "26-35": "26-35 anos", 
+        "36-45": "36-45 anos",
+        "46-55": "46-55 anos",
+        "55+": "55+ anos"
+    },
+    health: {
+        healthy: "Saudável",
+        diabetes: "Diabetes",
+        hypertension: "Hipertensão",
+        thyroid: "Problemas na Tireoide",
+        digestive: "Problemas Digestivos",
+        kidney: "Problemas Renais",
+        heart: "Problemas Cardíacos"
+    },
+    allergies: {
+        no_allergies: "Sem Alergias",
+        lactose: "Intolerância à Lactose",
+        gluten: "Intolerância ao Glúten",
+        nuts: "Alergia a Oleaginosas",
+        seafood: "Alergia a Frutos do Mar",
+        eggs: "Alergia a Ovos",
+        soy: "Alergia à Soja"
+    }
+};
+
+// Função para processar dados do usuário
+function processUserData(quizData) {
+    if (!quizData.hasData) {
+        console.log('Usando dados padrão - não há dados do quiz');
+        return defaultUserData;
+    }
+    
+    const { answers, contact } = quizData;
+    const physical = answers.physical || {};
+    
+    return {
+        name: contact.name || "Cliente",
+        email: contact.email || "",
+        phone: contact.phone || "",
+        goal: answers.goal || "lose_weight",
+        gender: answers.gender || "female",
+        age: answers.age || "26-35",
+        activity: answers.activity || "moderate",
+        weight: parseFloat(physical.weight) || 75,
+        height: parseFloat(physical.height) || 165,
+        targetWeight: parseFloat(physical.target_weight) || 65,
+        diet: answers.diet || "no_restrictions",
+        health: answers.health || ["healthy"],
+        allergies: answers.allergies || ["no_allergies"]
+    };
+}
+
+// Função para calcular nutrição baseada nos dados reais
+function calculateNutritionFromQuiz(userData) {
+    const weight = userData.weight;
+    const height = userData.height;
+    const goal = userData.goal;
+    const activity = userData.activity;
+    const gender = userData.gender;
+    
+    // Calcular idade média baseada na faixa
+    const ageRanges = {
+        '18-25': 21.5,
+        '26-35': 30.5,
+        '36-45': 40.5,
+        '46-55': 50.5,
+        '55+': 60
+    };
+    const ageValue = ageRanges[userData.age] || 30;
+    
+    // Calcular TMB (Taxa Metabólica Basal)
+    let bmr;
+    if (gender === 'male') {
+        bmr = 10 * weight + 6.25 * height - 5 * ageValue + 5;
+    } else {
+        bmr = 10 * weight + 6.25 * height - 5 * ageValue - 161;
+    }
+    
+    // Multiplicadores de atividade
+    const activityMultipliers = {
+        sedentary: 1.2,
+        light: 1.375,
+        moderate: 1.55,
+        intense: 1.725
+    };
+    
+    const tdee = bmr * (activityMultipliers[activity] || 1.55);
+    
+    // Ajustar calorias baseado no objetivo
+    let calories;
+    switch(goal) {
+        case 'lose_weight':
+            calories = Math.round(tdee - 500);
+            break;
+        case 'gain_muscle':
+            calories = Math.round(tdee + 300);
+            break;
+        default:
+            calories = Math.round(tdee);
+    }
+    
+    // Calcular macronutrientes
+    const protein = Math.round(weight * 2.2);
+    const fats = Math.round(calories * 0.25 / 9);
+    const carbs = Math.round((calories - (protein * 4) - (fats * 9)) / 4);
+    
+    return { 
+        calories, 
+        protein, 
+        carbs, 
+        fats,
+        bmr: Math.round(bmr),
+        tdee: Math.round(tdee)
+    };
+}
+
+// Função para gerar mensagem personalizada baseada no objetivo
+function getPersonalizedMessage(userData) {
+    const { goal, weight, targetWeight, health, allergies } = userData;
+    
+    let message = "";
+    
+    switch(goal) {
+        case 'lose_weight':
+            const weightToLose = weight - targetWeight;
+            message = `Seu protocolo foi desenvolvido para eliminar ${weightToLose}kg de forma saudável e sustentável. `;
+            break;
+        case 'gain_muscle':
+            message = "Seu protocolo foi desenvolvido para ganho de massa muscular magra e definição corporal. ";
+            break;
+        case 'maintain':
+            message = "Seu protocolo foi desenvolvido para manutenção do peso e equilíbrio nutricional. ";
+            break;
+        case 'health':
+            message = "Seu protocolo foi desenvolvido para otimização da saúde e bem-estar geral. ";
+            break;
+    }
+    
+    // Adicionar informações sobre condições de saúde
+    if (health && health.length > 0 && !health.includes('healthy')) {
+        message += "Consideramos suas condições de saúde específicas na elaboração do plano. ";
+    }
+    
+    // Adicionar informações sobre alergias
+    if (allergies && allergies.length > 0 && !allergies.includes('no_allergies')) {
+        message += "Todas as suas restrições alimentares foram respeitadas no cardápio. ";
+    }
+    
+    return message;
+}
+
+// Dados para PDFs
+const pdfData = {
+    receitas: [
+        {
+            categoria: "Café da Manhã",
+            nome: "Omelete de Claras com Espinafre",
+            ingredientes: [
+                "3 claras de ovo", "1 ovo inteiro", "1 xícara de espinafre fresco",
+                "5 tomates cereja cortados ao meio", "1 colher de chá de azeite extra virgem",
+                "Sal marinho e pimenta-do-reino a gosto", "Ervas finas (manjericão, salsa)"
+            ],
+            preparo: [
+                "Separe as claras das gemas com cuidado", "Bata as claras com o ovo inteiro até ficar homogêneo",
+                "Tempere com sal, pimenta e ervas finas", "Aqueça o azeite em frigideira antiaderente",
+                "Adicione o espinafre e refogue por 1 minuto", "Despeje a mistura de ovos na frigideira",
+                "Distribua os tomates cereja por cima", "Cozinhe em fogo médio por 3-4 minutos",
+                "Dobre a omelete ao meio e sirva quente"
+            ],
+            calorias: 280, proteinas: "22g", carboidratos: "8g", gorduras: "18g", tempo: "15 minutos"
         }
+        // ... outras receitas podem ser adicionadas aqui
+    ]
+};
 
-        function loadUserData() {
-            const urlParams = new URLSearchParams(window.location.search);
-            
-            if (urlParams.get('name')) {
-                const urlData = {
-                    name: urlParams.get('name') || 'Cliente',
-                    goal: urlParams.get('goal') || 'lose_weight',
-                    weight: urlParams.get('weight') || '75',
-                    height: urlParams.get('height') || '165',
-                    age: urlParams.get('age') || '26-35',
-                    activity: urlParams.get('activity') || 'moderate',
-                    diet: urlParams.get('diet') || 'no_restrictions',
-                    gender: urlParams.get('gender') || 'female'
-                };
-                updateUserData(urlData);
-            } else {
-                updateUserData(userData);
-            }
+// Inicialização
+document.addEventListener('DOMContentLoaded', function() {
+    createParticles();
+    loadUserData();
+});
+
+function createParticles() {
+    const particlesContainer = document.getElementById('particles');
+    const particleCount = window.innerWidth > 768 ? 50 : 25;
+
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 6 + 's';
+        particlesContainer.appendChild(particle);
+    }
+}
+
+// Função principal para carregar dados do usuário
+function loadUserData() {
+    const quizData = getQuizData();
+    const userData = processUserData(quizData);
+    const nutrition = calculateNutritionFromQuiz(userData);
+    
+    // Atualizar interface com dados personalizados
+    updateUserInterface(userData, nutrition);
+    
+    // Salvar dados globalmente para uso no PDF
+    window.currentUserData = userData;
+    window.currentNutrition = nutrition;
+    
+    console.log('Dados carregados:', { userData, nutrition, quizData });
+}
+
+// Função para atualizar a interface
+function updateUserInterface(userData, nutrition) {
+    // Nome do usuário
+    const firstName = userData.name.split(' ')[0];
+    document.getElementById('userName').textContent = `Olá, ${firstName}!`;
+    
+    // Perfil do usuário
+    document.getElementById('userGoal').textContent = translations.goal[userData.goal] || 'Objetivo não definido';
+    document.getElementById('userWeight').textContent = userData.weight + 'kg';
+    document.getElementById('userHeight').textContent = userData.height + 'cm';
+    document.getElementById('userAge').textContent = translations.age[userData.age] || userData.age;
+    document.getElementById('userActivity').textContent = translations.activity[userData.activity] || 'Não definido';
+    document.getElementById('userDiet').textContent = translations.diet[userData.diet] || 'Não definido';
+    
+    // Metas nutricionais
+    document.getElementById('targetCalories').textContent = nutrition.calories;
+    document.getElementById('targetProtein').textContent = nutrition.protein + 'g';
+    document.getElementById('targetCarbs').textContent = nutrition.carbs + 'g';
+    document.getElementById('targetFats').textContent = nutrition.fats + 'g';
+    
+    // Atualizar subtítulo com mensagem personalizada
+    const welcomeCard = document.querySelector('.welcome-card p');
+    if (welcomeCard) {
+        const personalizedMessage = getPersonalizedMessage(userData);
+        welcomeCard.innerHTML = personalizedMessage + 'Baseado em evidências científicas e adaptado especialmente para seu perfil, objetivos e restrições alimentares.';
+    }
+    
+    // Adicionar informações de saúde se houver
+    addHealthInformation(userData);
+}
+
+// Função para adicionar informações de saúde
+function addHealthInformation(userData) {
+    const profileGrid = document.getElementById('profileGrid');
+    
+    // Adicionar condições de saúde se houver
+    if (userData.health && userData.health.length > 0 && !userData.health.includes('healthy')) {
+        const healthItem = document.createElement('div');
+        healthItem.className = 'profile-item';
+        healthItem.innerHTML = `
+            <div class="profile-icon">🏥</div>
+            <div>
+                <strong>Condições:</strong><br>
+                <span>${userData.health.map(h => translations.health[h] || h).join(', ')}</span>
+            </div>
+        `;
+        profileGrid.appendChild(healthItem);
+    }
+    
+    // Adicionar alergias se houver
+    if (userData.allergies && userData.allergies.length > 0 && !userData.allergies.includes('no_allergies')) {
+        const allergyItem = document.createElement('div');
+        allergyItem.className = 'profile-item';
+        allergyItem.innerHTML = `
+            <div class="profile-icon">⚠️</div>
+            <div>
+                <strong>Restrições:</strong><br>
+                <span>${userData.allergies.map(a => translations.allergies[a] || a).join(', ')}</span>
+            </div>
+        `;
+        profileGrid.appendChild(allergyItem);
+    }
+}
+
+// Função de geração de PDF atualizada
+function generateDietaPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    const userData = window.currentUserData || defaultUserData;
+    const nutrition = window.currentNutrition || { calories: 1500, protein: 120, carbs: 150, fats: 50 };
+    
+    // CAPA
+    doc.setFillColor(44, 122, 44);
+    doc.rect(0, 0, 210, 297, 'F');
+    
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(28);
+    doc.text('DIETA PERSONALIZADA', 105, 80, { align: 'center' });
+    
+    doc.setFontSize(20);
+    doc.text('Seu Plano Nutricional Completo', 105, 100, { align: 'center' });
+    
+    doc.setFontSize(24);
+    doc.text(userData.name, 105, 150, { align: 'center' });
+    
+    doc.setFontSize(14);
+    doc.text('Dra. Giovana Nutricionista', 105, 200, { align: 'center' });
+    doc.text('CRN: 12345 | Especialista em Nutrição Clínica', 105, 215, { align: 'center' });
+    
+    const today = new Date().toLocaleDateString('pt-BR');
+    doc.text('Data: ' + today, 105, 250, { align: 'center' });
+    
+    // PÁGINA 2 - DADOS PESSOAIS
+    doc.addPage();
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(20);
+    doc.setTextColor(44, 122, 44);
+    doc.text('AVALIAÇÃO NUTRICIONAL', 20, 30);
+    
+    doc.setDrawColor(44, 122, 44);
+    doc.setLineWidth(2);
+    doc.line(20, 35, 190, 35);
+    
+    doc.setFontSize(14);
+    doc.setTextColor(0, 0, 0);
+    doc.text('DADOS PESSOAIS', 20, 55);
+    
+    let yPos = 70;
+    doc.setFontSize(12);
+    
+    const dadosUsuario = [
+        ['Nome:', userData.name],
+        ['Objetivo:', translations.goal[userData.goal] || userData.goal],
+        ['Peso Atual:', userData.weight + 'kg'],
+        ['Altura:', userData.height + 'cm'],
+        ['Faixa Etária:', translations.age[userData.age] || userData.age],
+        ['Nível de Atividade:', translations.activity[userData.activity] || userData.activity],
+        ['Tipo de Dieta:', translations.diet[userData.diet] || userData.diet]
+    ];
+    
+    dadosUsuario.forEach(([label, value]) => {
+        doc.text(label, 25, yPos);
+        doc.text(value, 80, yPos);
+        yPos += 10;
+    });
+    
+    // Cálculos nutricionais
+    yPos += 15;
+    doc.setFontSize(14);
+    doc.setTextColor(44, 122, 44);
+    doc.text('SUAS METAS DIÁRIAS', 20, yPos);
+    yPos += 15;
+    
+    doc.setFontSize(12);
+    doc.setTextColor(0, 0, 0);
+    
+    const imc = (userData.weight / ((userData.height/100) * (userData.height/100))).toFixed(1);
+    let imcClass = '';
+    if (imc < 18.5) imcClass = 'Abaixo do peso';
+    else if (imc < 25) imcClass = 'Peso normal';
+    else if (imc < 30) imcClass = 'Sobrepeso';
+    else imcClass = 'Obesidade';
+    
+    doc.text(`IMC: ${imc} kg/m² (${imcClass})`, 25, yPos);
+    yPos += 20;
+    
+    const metas = [
+        ['Calorias Totais:', nutrition.calories],
+        ['Proteínas:', nutrition.protein + 'g'],
+        ['Carboidratos:', nutrition.carbs + 'g'],
+        ['Gorduras:', nutrition.fats + 'g']
+    ];
+    
+    metas.forEach(([label, value]) => {
+        doc.text(label, 25, yPos);
+        doc.text(value.toString(), 100, yPos);
+        yPos += 10;
+    });
+    
+    return doc;
+}
+
+// Função de download
+function downloadFile(type) {
+    if (type !== 'dieta-personalizada') {
+        alert('Este material está disponível na sua área de membros exclusiva! Verifique seu e-mail para o link de acesso.');
+        return;
+    }
+
+    try {
+        const doc = generateDietaPDF();
+        const userData = window.currentUserData || { name: 'Cliente' };
+        const filename = `Dieta_Personalizada_${userData.name.replace(/\s+/g, '_')}_DrGiovana.pdf`;
+        doc.save(filename);
+        
+    } catch (error) {
+        console.error('Erro ao gerar PDF:', error);
+        alert('Erro ao gerar PDF. Tente novamente.');
+    }
+}
+
+// Salvar progresso
+function saveUserProgress() {
+    try {
+        if (typeof(Storage) !== "undefined") {
+            sessionStorage.setItem('userCompleted', 'true');
+            sessionStorage.setItem('completionDate', new Date().toISOString());
         }
+    } catch (error) {
+        console.log('sessionStorage não disponível');
+    }
+}
 
-        function updateUserData(data) {
-            const name = data.name || 'Maria Silva';
-            document.getElementById('userName').textContent = 'Olá, ' + name + '!';
-            
-            document.getElementById('userGoal').textContent = translations.goal[data.goal] || 'Perder Peso';
-            document.getElementById('userWeight').textContent = (data.weight || 75) + 'kg';
-            document.getElementById('userHeight').textContent = (data.height || 165) + 'cm';
-            document.getElementById('userAge').textContent = data.age || '26-35 anos';
-            document.getElementById('userActivity').textContent = translations.activity[data.activity] || 'Moderada';
-            document.getElementById('userDiet').textContent = translations.diet[data.diet] || 'Sem restrições';
-            
-            const results = calculateNutrition(data);
-            document.getElementById('targetCalories').textContent = results.calories;
-            document.getElementById('targetProtein').textContent = results.protein + 'g';
-            document.getElementById('targetCarbs').textContent = results.carbs + 'g';
-            document.getElementById('targetFats').textContent = results.fats + 'g';
-
-            userData.goal = data.goal || 'lose_weight';
-        }
-
-        function calculateNutrition(data) {
-            const weight = parseFloat(data.weight) || 75;
-            const height = parseFloat(data.height) || 165;
-            const goal = data.goal || 'lose_weight';
-            const activity = data.activity || 'moderate';
-            const gender = data.gender || 'female';
-            
-            const ageValue = 30;
-            let bmr;
-            if (gender === 'male') {
-                bmr = 10 * weight + 6.25 * height - 5 * ageValue + 5;
-            } else {
-                bmr = 10 * weight + 6.25 * height - 5 * ageValue - 161;
-            }
-            
-            const activityMultipliers = {
-                sedentary: 1.2,
-                light: 1.375,
-                moderate: 1.55,
-                intense: 1.725
-            };
-            
-            const tdee = bmr * (activityMultipliers[activity] || 1.55);
-            
-            let calories;
-            switch(goal) {
-                case 'lose_weight':
-                    calories = Math.round(tdee - 500);
-                    break;
-                case 'gain_muscle':
-                    calories = Math.round(tdee + 300);
-                    break;
-                default:
-                    calories = Math.round(tdee);
-            }
-            
-            const protein = Math.round(weight * 2.2);
-            const fats = Math.round(calories * 0.25 / 9);
-            const carbs = Math.round((calories - (protein * 4) - (fats * 9)) / 4);
-            
-            return { calories, protein, carbs, fats };
-        }
-
-        // Função de geração de PDF
-        function generateDietaPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            // CAPA
-            doc.setFillColor(44, 122, 44);
-            doc.rect(0, 0, 210, 297, 'F');
-            
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(28);
-            doc.text('DIETA PERSONALIZADA', 105, 80, { align: 'center' });
-            
-            doc.setFontSize(20);
-            doc.text('Seu Plano Nutricional Completo', 105, 100, { align: 'center' });
-            
-            const userName = document.getElementById('userName').textContent.replace('Olá, ', '').replace('!', '');
-            doc.setFontSize(24);
-            doc.text(userName, 105, 150, { align: 'center' });
-            
-            doc.setFontSize(14);
-            doc.text('Dra. Giovana Nutricionista', 105, 200, { align: 'center' });
-            doc.text('CRN: 12345 | Especialista em Nutrição Clínica', 105, 215, { align: 'center' });
-            
-            const today = new Date().toLocaleDateString('pt-BR');
-            doc.text('Data: ' + today, 105, 250, { align: 'center' });
-            
-            // PÁGINA 2 - DADOS PESSOAIS
-            doc.addPage();
-            doc.setTextColor(0, 0, 0);
-            doc.setFontSize(20);
-            doc.setTextColor(44, 122, 44);
-            doc.text('AVALIAÇÃO NUTRICIONAL', 20, 30);
-            
-            doc.setDrawColor(44, 122, 44);
-            doc.setLineWidth(2);
-            doc.line(20, 35, 190, 35);
-            
-            doc.setFontSize(14);
-            doc.setTextColor(0, 0, 0);
-            doc.text('DADOS PESSOAIS', 20, 55);
-            
-            let yPos = 70;
-            doc.setFontSize(12);
-            
-            const dadosUsuario = [
-                ['Nome:', userName],
-                ['Objetivo:', document.getElementById('userGoal').textContent],
-                ['Peso Atual:', document.getElementById('userWeight').textContent],
-                ['Altura:', document.getElementById('userHeight').textContent],
-                ['Faixa Etária:', document.getElementById('userAge').textContent],
-                ['Nível de Atividade:', document.getElementById('userActivity').textContent],
-                ['Tipo de Dieta:', document.getElementById('userDiet').textContent]
-            ];
-            
-            dadosUsuario.forEach(([label, value]) => {
-                doc.text(label, 25, yPos);
-                doc.text(value, 80, yPos);
-                yPos += 10;
-            });
-            
-            // Cálculos nutricionais
-            yPos += 15;
-            doc.setFontSize(14);
-            doc.setTextColor(44, 122, 44);
-            doc.text('CÁLCULOS NUTRICIONAIS', 20, yPos);
-            yPos += 15;
-            
-            doc.setFontSize(12);
-            doc.setTextColor(0, 0, 0);
-            
-            const weight = parseFloat(document.getElementById('userWeight').textContent) || 75;
-            const height = parseFloat(document.getElementById('userHeight').textContent) || 165;
-            const imc = (weight / ((height/100) * (height/100))).toFixed(1);
-            
-            let imcClass = '';
-            if (imc < 18.5) imcClass = 'Abaixo do peso';
-            else if (imc < 25) imcClass = 'Peso normal';
-            else if (imc < 30) imcClass = 'Sobrepeso';
-            else imcClass = 'Obesidade';
-            
-            doc.text('IMC: ' + imc + ' kg/m² (' + imcClass + ')', 25, yPos);
-            yPos += 20;
-            
-            // Metas diárias
-            doc.setFontSize(14);
-            doc.setTextColor(44, 122, 44);
-            doc.text('SUAS METAS DIÁRIAS', 20, yPos);
-            yPos += 15;
-            
-            doc.setFontSize(12);
-            doc.setTextColor(0, 0, 0);
-            
-            const metas = [
-                ['Calorias Totais:', document.getElementById('targetCalories').textContent],
-                ['Proteínas:', document.getElementById('targetProtein').textContent],
-                ['Carboidratos:', document.getElementById('targetCarbs').textContent],
-                ['Gorduras:', document.getElementById('targetFats').textContent]
-            ];
-            
-            metas.forEach(([label, value]) => {
-                doc.text(label, 25, yPos);
-                doc.text(value, 100, yPos);
-                yPos += 10;
-            });
-            
-            // PÁGINA 3 - ORIENTAÇÕES
-            doc.addPage();
-            doc.setFontSize(20);
-            doc.setTextColor(44, 122, 44);
-            
-            const objetivo = document.getElementById('userGoal').textContent;
-            doc.text('PROTOCOLO PARA: ' + objetivo.toUpperCase(), 20, 30);
-            
-            doc.setDrawColor(44, 122, 44);
-            doc.setLineWidth(2);
-            doc.line(20, 35, 190, 35);
-            
-            yPos = 50;
-            doc.setFontSize(12);
-            doc.setTextColor(0, 0, 0);
-            
-            const orientacoes = [
-                'Beba pelo menos 2-3 litros de água por dia',
-                'Faça 5-6 refeições pequenas ao longo do dia',
-                'Nunca pule o café da manhã',
-                'Pratique atividade física regularmente',
-                'Durma pelo menos 7-8 horas por noite',
-                'Evite alimentos processados e industrializados',
-                'Prefira sempre alimentos integrais',
-                'Mastigue bem os alimentos (pelo menos 20 vezes)',
-                'Evite líquidos durante as refeições principais',
-                'Mantenha horários regulares para as refeições',
-                'Gerencie o estresse com técnicas de relaxamento',
-                'Faça exames de rotina a cada 6 meses',
-                'Monitore seu peso semanalmente',
-                'Tire medidas corporais mensalmente',
-                'Varie os alimentos para garantir micronutrientes'
-            ];
-            
-            orientacoes.forEach(orientacao => {
-                if (yPos > 270) {
-                    doc.addPage();
-                    yPos = 30;
-                }
-                doc.text('• ' + orientacao, 25, yPos);
-                yPos += 10;
-            });
-            
-            return doc;
-        }
-
-        // Função de download
-        function downloadFile(type) {
-            if (type !== 'dieta-personalizada') {
-                alert('Este material está disponível na sua área de membros exclusiva! Verifique seu e-mail para o link de acesso.');
-                return;
-            }
-
-            try {
-                const doc = generateDietaPDF();
-                const filename = 'Dieta_Personalizada_DrGiovana.pdf';
-                doc.save(filename);
-                
-            } catch (error) {
-                console.error('Erro ao gerar PDF:', error);
-                alert('Erro ao gerar PDF. Tente novamente.');
-            }
-        }
-
-        // Salvar progresso
-        function saveUserProgress() {
-            try {
-                if (typeof(Storage) !== "undefined") {
-                    localStorage.setItem('userCompleted', 'true');
-                    localStorage.setItem('completionDate', new Date().toISOString());
-                }
-            } catch (error) {
-                console.log('localStorage não disponível');
-            }
-        }
-
-        // Executar ao carregar
-        saveUserProgress();
+// Executar ao carregar
+saveUserProgress();
     </script>
 </body>
 </html>

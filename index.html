@@ -4,6 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consultório Digital - Dra. Giovana Nutricionista</title>
+    
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1002938195345180');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1002938195345180&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -997,6 +1016,19 @@
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
             loadQuestion(0);
+            
+            // Track page view and quiz start
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'ViewContent', {
+                    content_type: 'quiz',
+                    content_name: 'Avaliação Nutricional',
+                    content_category: 'Nutrição'
+                });
+                
+                fbq('trackCustom', 'QuizStarted', {
+                    quiz_name: 'Avaliação Nutricional Dra Giovana'
+                });
+            }
         });
 
         function createParticles() {
@@ -1036,6 +1068,15 @@
             
             nextBtn.disabled = true;
             nextBtn.textContent = index === questions.length - 1 ? 'Finalizar Avaliação →' : 'Continuar →';
+
+            // Track question view
+            if (typeof fbq !== 'undefined') {
+                fbq('trackCustom', 'QuizQuestionViewed', {
+                    question_number: index + 1,
+                    question_title: question.title,
+                    quiz_progress: Math.round(progress)
+                });
+            }
 
             if (question.type === 'choice') {
                 loadChoiceQuestion(question, optionsGrid);
@@ -1136,6 +1177,17 @@
                         
                         const hasSelection = container.querySelectorAll('.option-card.selected').length > 0;
                         document.getElementById('nextBtn').disabled = !hasSelection;
+
+                        // Track selection for multi-select
+                        if (typeof fbq !== 'undefined') {
+                            fbq('trackCustom', 'QuizOptionSelected', {
+                                question_number: currentQuestion + 1,
+                                option_value: option.value,
+                                option_title: option.title,
+                                is_multi_select: true,
+                                selection_action: isSelected ? 'deselected' : 'selected'
+                            });
+                        }
                     } else {
                         container.querySelectorAll('.option-card').forEach(card => {
                             card.classList.remove('selected');
@@ -1147,6 +1199,16 @@
                         answers[questionKey] = option.value;
                         
                         document.getElementById('nextBtn').disabled = false;
+
+                        // Track selection for single-select
+                        if (typeof fbq !== 'undefined') {
+                            fbq('trackCustom', 'QuizOptionSelected', {
+                                question_number: currentQuestion + 1,
+                                option_value: option.value,
+                                option_title: option.title,
+                                is_multi_select: false
+                            });
+                        }
                     }
                 });
 
@@ -1194,6 +1256,15 @@
                     answers[questionKey][field.name] = this.value;
                     
                     checkFormCompletion(question);
+
+                    // Track form field completion
+                    if (typeof fbq !== 'undefined' && this.value.trim() !== '') {
+                        fbq('trackCustom', 'QuizFormFieldFilled', {
+                            question_number: currentQuestion + 1,
+                            field_name: field.name,
+                            field_type: field.type
+                        });
+                    }
                 });
 
                 container.appendChild(inputGroup);
@@ -1210,6 +1281,14 @@
             });
             
             document.getElementById('nextBtn').disabled = !allFilled;
+
+            // Track form completion
+            if (allFilled && typeof fbq !== 'undefined') {
+                fbq('trackCustom', 'QuizFormCompleted', {
+                    question_number: currentQuestion + 1,
+                    form_type: questionKey
+                });
+            }
         }
 
         function getQuestionKey(index) {
@@ -1218,10 +1297,26 @@
         }
 
         function nextQuestion() {
+            // Track question completion
+            if (typeof fbq !== 'undefined') {
+                fbq('trackCustom', 'QuizQuestionCompleted', {
+                    question_number: currentQuestion + 1,
+                    quiz_progress: Math.round(((currentQuestion + 1) / questions.length) * 100)
+                });
+            }
+
             if (currentQuestion < questions.length - 1) {
                 currentQuestion++;
                 loadQuestion(currentQuestion);
             } else {
+                // Track quiz completion
+                if (typeof fbq !== 'undefined') {
+                    fbq('trackCustom', 'QuizCompleted', {
+                        total_questions: questions.length,
+                        user_goal: answers.goal,
+                        user_gender: answers.gender
+                    });
+                }
                 showAnalysisProcess();
             }
         }
@@ -1230,11 +1325,26 @@
             if (currentQuestion > 0) {
                 currentQuestion--;
                 loadQuestion(currentQuestion);
+
+                // Track backward navigation
+                if (typeof fbq !== 'undefined') {
+                    fbq('trackCustom', 'QuizNavigationBack', {
+                        from_question: currentQuestion + 2,
+                        to_question: currentQuestion + 1
+                    });
+                }
             }
         }
 
         function showAnalysisProcess() {
             const container = document.getElementById('questionContainer');
+            
+            // Track analysis start
+            if (typeof fbq !== 'undefined') {
+                fbq('trackCustom', 'AnalysisStarted', {
+                    user_data_collected: Object.keys(answers).length
+                });
+            }
             
             container.innerHTML = `
                 <div style="text-align: center; padding: 40px 0;">
@@ -1432,6 +1542,15 @@
                 clearInterval(progressInterval);
                 clearInterval(factInterval);
                 
+                // Track analysis completion
+                if (typeof fbq !== 'undefined') {
+                    fbq('trackCustom', 'AnalysisCompleted', {
+                        user_bmr: calculateResults().bmr,
+                        user_target_calories: calculateResults().targetCalories,
+                        user_goal: answers.goal
+                    });
+                }
+                
                 // Show results after a brief pause
                 setTimeout(() => {
                     showFinalResults();
@@ -1563,6 +1682,17 @@
             const container = document.getElementById('questionContainer');
             
             document.getElementById('progressText').textContent = 'Avaliação Concluída!';
+            
+            // Track results shown
+            if (typeof fbq !== 'undefined') {
+                fbq('trackCustom', 'ResultsShown', {
+                    user_bmr: results.bmr,
+                    user_target_calories: results.targetCalories,
+                    projected_weight_change: results.projectedWeightChange,
+                    months_to_goal: results.monthsToGoal,
+                    user_goal: answers.goal
+                });
+            }
             
             container.innerHTML = `
                 <div class="results-container">
@@ -1903,8 +2033,107 @@
         }
 
         function showCheckout() {
+            // Track checkout initiation
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'InitiateCheckout', {
+                    content_type: 'product',
+                    content_name: 'Protocolo Nutricional Dra Giovana',
+                    value: 29.90,
+                    currency: 'BRL',
+                    user_goal: answers.goal,
+                    user_bmr: calculateResults().bmr,
+                    user_target_calories: calculateResults().targetCalories
+                });
+                
+                fbq('trackCustom', 'CheckoutButtonClicked', {
+                    price: 29.90,
+                    product_name: 'Protocolo Nutricional',
+                    user_profile: {
+                        goal: answers.goal,
+                        gender: answers.gender,
+                        age: answers.age,
+                        activity: answers.activity
+                    }
+                });
+                
+                // Track Add to Cart for e-commerce tracking
+                fbq('track', 'AddToCart', {
+                    content_type: 'product',
+                    content_name: 'Protocolo Nutricional Dra Giovana',
+                    value: 29.90,
+                    currency: 'BRL'
+                });
+            }
+            
             alert('🎉 Direcionando para o checkout seguro!\n\n💳 Investimento: R$ 29,90\n✅ Pagamento via PIX, Cartão ou Boleto\n🔒 Compra 100% segura e garantida\n\nEm produção, aqui seria o link do seu checkout (Hotmart, Monetizze, etc.)');
         }
+
+        // Track scroll depth for engagement measurement
+        let maxScrollDepth = 0;
+        window.addEventListener('scroll', function() {
+            const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+            
+            if (scrollPercent > maxScrollDepth) {
+                maxScrollDepth = scrollPercent;
+                
+                // Track scroll milestones
+                if (typeof fbq !== 'undefined') {
+                    if (scrollPercent >= 25 && maxScrollDepth < 25) {
+                        fbq('trackCustom', 'ScrollDepth25');
+                    } else if (scrollPercent >= 50 && maxScrollDepth < 50) {
+                        fbq('trackCustom', 'ScrollDepth50');
+                    } else if (scrollPercent >= 75 && maxScrollDepth < 75) {
+                        fbq('trackCustom', 'ScrollDepth75');
+                    } else if (scrollPercent >= 90 && maxScrollDepth < 90) {
+                        fbq('trackCustom', 'ScrollDepth90');
+                    }
+                }
+            }
+        });
+
+        // Track time on page
+        let timeOnPage = 0;
+        setInterval(() => {
+            timeOnPage += 5; // Increment every 5 seconds
+            
+            // Track time milestones
+            if (typeof fbq !== 'undefined') {
+                if (timeOnPage === 30) {
+                    fbq('trackCustom', 'TimeOnPage30Seconds');
+                } else if (timeOnPage === 60) {
+                    fbq('trackCustom', 'TimeOnPage1Minute');
+                } else if (timeOnPage === 120) {
+                    fbq('trackCustom', 'TimeOnPage2Minutes');
+                } else if (timeOnPage === 300) {
+                    fbq('trackCustom', 'TimeOnPage5Minutes');
+                }
+            }
+        }, 5000);
+
+        // Track page exit intent
+        document.addEventListener('mouseleave', function(e) {
+            if (e.clientY <= 0) {
+                if (typeof fbq !== 'undefined') {
+                    fbq('trackCustom', 'ExitIntent', {
+                        time_on_page: timeOnPage,
+                        max_scroll_depth: maxScrollDepth,
+                        current_question: currentQuestion + 1
+                    });
+                }
+            }
+        });
+
+        // Track form abandonment
+        window.addEventListener('beforeunload', function() {
+            if (typeof fbq !== 'undefined' && currentQuestion < questions.length - 1) {
+                fbq('trackCustom', 'QuizAbandoned', {
+                    questions_completed: currentQuestion + 1,
+                    total_questions: questions.length,
+                    abandonment_rate: Math.round(((currentQuestion + 1) / questions.length) * 100),
+                    time_on_page: timeOnPage
+                });
+            }
+        });
     </script>
 </body>
 </html>

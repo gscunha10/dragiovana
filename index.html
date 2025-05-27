@@ -2061,76 +2061,103 @@
 
         // Enhanced checkout function with multiple fallbacks
         function handleCheckoutClick() {
-            console.log('Checkout button clicked');
-            
-            // Track checkout initiation
-            if (typeof fbq !== 'undefined') {
-                try {
-                    fbq('track', 'InitiateCheckout', {
-                        content_type: 'product',
-                        content_name: 'Protocolo Nutricional Dra Giovana',
-                        value: 29.90,
-                        currency: 'BRL',
-                        user_goal: answers.goal,
-                        user_bmr: calculateResults().bmr,
-                        user_target_calories: calculateResults().targetCalories
-                    });
-                    
-                    fbq('trackCustom', 'CheckoutButtonClicked', {
-                        price: 29.90,
-                        product_name: 'Protocolo Nutricional',
-                        checkout_url: 'https://pay.cakto.com.br/4ckeveg_405527',
-                        user_profile: {
-                            goal: answers.goal,
-                            gender: answers.gender,
-                            age: answers.age,
-                            activity: answers.activity
-                        }
-                    });
-                    
-                    fbq('track', 'AddToCart', {
-                        content_type: 'product',
-                        content_name: 'Protocolo Nutricional Dra Giovana',
-                        value: 29.90,
-                        currency: 'BRL'
-                    });
-                } catch (e) {
-                    console.log('Pixel tracking error:', e);
-                }
+           console.log('Checkout button clicked');
+
+// ✅ SALVAR DADOS NO SESSIONSTORAGE ANTES DO CHECKOUT
+try {
+    // Salvar todas as respostas do quiz
+    sessionStorage.setItem('quizAnswers', JSON.stringify(answers));
+    
+    // Calcular e salvar resultados nutricionais
+    const results = calculateResults();
+    sessionStorage.setItem('quizResults', JSON.stringify(results));
+    
+    // Salvar dados de contato se disponível
+    const contactData = answers.contact || {};
+    sessionStorage.setItem('userContactData', JSON.stringify(contactData));
+    
+    // Salvar timestamp da completude do quiz
+    sessionStorage.setItem('quizCompletedAt', new Date().toISOString());
+    
+    console.log('Dados salvos no sessionStorage:', {
+        answers: answers,
+        results: results,
+        contact: contactData
+    });
+    
+} catch (error) {
+    console.error('Erro ao salvar dados no sessionStorage:', error);
+}
+
+// Track checkout initiation
+if (typeof fbq !== 'undefined') {
+    try {
+        const results = calculateResults();
+        fbq('track', 'InitiateCheckout', {
+            content_type: 'product',
+            content_name: 'Protocolo Nutricional Dra Giovana',
+            value: 29.90,
+            currency: 'BRL',
+            user_goal: answers.goal,
+            user_bmr: results.bmr,
+            user_target_calories: results.targetCalories
+        });
+        
+        fbq('trackCustom', 'CheckoutButtonClicked', {
+            price: 29.90,
+            product_name: 'Protocolo Nutricional',
+            checkout_url: 'https://pay.cakto.com.br/4ckeveg_405527',
+            user_profile: {
+                goal: answers.goal,
+                gender: answers.gender,
+                age: answers.age,
+                activity: answers.activity
             }
-            
-            // Visual feedback
-            const button = document.getElementById('checkout-btn');
-            if (button) {
-                button.style.background = 'linear-gradient(135deg, #228B22, #32CD32)';
-                button.innerHTML = '🚀 Redirecionando...';
-                button.disabled = true;
-            }
-            
-            // Multiple redirect attempts for better compatibility
-            setTimeout(() => {
-                try {
-                    // Try window.open first
-                    const newWindow = window.open('https://pay.cakto.com.br/4ckeveg_405527', '_blank');
-                    
-                    // Fallback if popup was blocked
-                    if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
-                        window.location.href = 'https://pay.cakto.com.br/4ckeveg_405527';
-                    }
-                } catch (e) {
-                    // Ultimate fallback
-                    window.location.href = 'https://pay.cakto.com.br/4ckeveg_405527';
-                }
-                
-                // Reset button after delay
-                setTimeout(() => {
-                    if (button) {
-                        button.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
-                        button.innerHTML = '🔓 GARANTIR ACESSO POR R$ 29,90';
-                        button.disabled = false;
-                    }
-                }, 3000);
-            }, 200);
+        });
+        
+        fbq('track', 'AddToCart', {
+            content_type: 'product',
+            content_name: 'Protocolo Nutricional Dra Giovana',
+            value: 29.90,
+            currency: 'BRL'
+        });
+    } catch (e) {
+        console.log('Pixel tracking error:', e);
+    }
+}
+
+// Visual feedback
+const button = document.getElementById('checkout-btn');
+if (button) {
+    button.style.background = 'linear-gradient(135deg, #228B22, #32CD32)';
+    button.innerHTML = '🚀 Redirecionando...';
+    button.disabled = true;
+}
+
+// Multiple redirect attempts for better compatibility
+setTimeout(() => {
+    try {
+        // Try window.open first
+        const newWindow = window.open('https://pay.cakto.com.br/4ckeveg_405527', '_blank');
+        
+        // Fallback if popup was blocked
+        if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+            window.location.href = 'https://pay.cakto.com.br/4ckeveg_405527';
+        }
+    } catch (e) {
+        // Ultimate fallback
+        window.location.href = 'https://pay.cakto.com.br/4ckeveg_405527';
+    }
+    
+    // Reset button after delay
+    setTimeout(() => {
+        if (button) {
+            button.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
+            button.innerHTML = '🔓 GARANTIR ACESSO POR R$ 29,90';
+            button.disabled = false;
+        }
+    }, 3000);
+}, 200);
         }
 
         // Track scroll depth for engagement measurement

@@ -407,6 +407,18 @@
             transform: translateY(-2px);
         }
 
+        .download-item.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .download-item.disabled:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: none;
+        }
+
         .download-icon {
             width: 50px;
             height: 50px;
@@ -417,6 +429,10 @@
             justify-content: center;
             font-size: 24px;
             flex-shrink: 0;
+        }
+
+        .download-item.disabled .download-icon {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .download-info {
@@ -459,79 +475,30 @@
             box-shadow: 0 8px 25px rgba(44, 122, 44, 0.4);
         }
 
-        .diet-preview {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 16px;
-            padding: 25px;
+        .members-area-info {
+            background: rgba(0, 123, 255, 0.1);
+            border: 1px solid rgba(0, 123, 255, 0.3);
+            border-radius: 12px;
+            padding: 20px;
             margin-top: 20px;
-            width: 100%;
-            overflow: hidden;
+            text-align: center;
         }
 
-        .meal-day {
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .meal-day:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-
-        .day-title {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--accent);
-            margin-bottom: 15px;
+        .members-area-info h4 {
+            color: #00bfff;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            gap: 8px;
         }
 
-        .meal-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-        }
-
-        .meal-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 15px;
-            transition: all 0.3s ease;
-            width: 100%;
-            min-width: 0;
-        }
-
-        .meal-card:hover {
-            background: rgba(44, 122, 44, 0.1);
-            border-color: var(--primary);
-        }
-
-        .meal-time {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-        }
-
-        .meal-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--light);
-            margin-bottom: 5px;
-            word-wrap: break-word;
-        }
-
-        .meal-details {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.4;
-            word-wrap: break-word;
+        .members-area-info p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
         }
 
         @keyframes slideInUp {
@@ -577,8 +544,12 @@
                 gap: 30px;
             }
 
-            .sidebar {
+            .main-content {
                 order: -1;
+            }
+
+            .sidebar {
+                order: 1;
             }
 
             .profile-grid {
@@ -588,11 +559,6 @@
 
             .macros-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-            }
-
-            .meal-grid {
-                grid-template-columns: 1fr;
                 gap: 12px;
             }
 
@@ -634,10 +600,6 @@
             }
 
             .profile-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .meal-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -750,17 +712,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="diet-card">
-                    <h3 class="card-title">🍽️ Preview do Seu Cardápio Personalizado</h3>
-                    <p style="font-size: 14px; color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">
-                        Aqui está uma amostra do seu cardápio de 30 dias. O plano completo está disponível para download.
-                    </p>
-                    
-                    <div class="diet-preview" id="dietPreview">
-                        <!-- Conteúdo será gerado dinamicamente -->
-                    </div>
-                </div>
             </div>
 
             <div class="sidebar">
@@ -775,33 +726,38 @@
                         </div>
                     </div>
 
-                    <div class="download-item" onclick="downloadFile('cardapio-30-dias')">
+                    <div class="download-item disabled">
                         <div class="download-icon">📅</div>
                         <div class="download-info">
                             <div class="download-name">Cardápio 30 Dias</div>
-                            <div class="download-desc">90+ refeições organizadas</div>
+                            <div class="download-desc">Disponível na área de membros</div>
                         </div>
                     </div>
 
-                    <div class="download-item" onclick="downloadFile('200-receitas')">
+                    <div class="download-item disabled">
                         <div class="download-icon">👩‍🍳</div>
                         <div class="download-info">
                             <div class="download-name">200+ Receitas</div>
-                            <div class="download-desc">Instruções passo a passo</div>
+                            <div class="download-desc">Disponível na área de membros</div>
                         </div>
                     </div>
 
-                    <div class="download-item" onclick="downloadFile('alimentos-lista')">
+                    <div class="download-item disabled">
                         <div class="download-icon">📝</div>
                         <div class="download-info">
                             <div class="download-name">Lista de Alimentos</div>
-                            <div class="download-desc">Permitidos e proibidos</div>
+                            <div class="download-desc">Disponível na área de membros</div>
                         </div>
                     </div>
 
-                    <button class="download-button" onclick="downloadAllFiles()">
-                        📥 BAIXAR TODOS OS MATERIAIS
+                    <button class="download-button" onclick="downloadFile('dieta-personalizada')">
+                        📥 BAIXAR DIETA PERSONALIZADA
                     </button>
+
+                    <div class="members-area-info">
+                        <h4>🔑 Área de Membros</h4>
+                        <p>Os demais materiais (cardápio, receitas e lista de alimentos) estão disponíveis na sua área de membros exclusiva. O link de acesso foi enviado para o seu e-mail!</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -840,36 +796,6 @@
                 vegetarian: "Vegetariana",
                 vegan: "Vegana",
                 low_carb: "Low Carb"
-            }
-        };
-
-        // Cardápios
-        const mealPlans = {
-            lose_weight: {
-                "Dia 1": [
-                    { time: "Café da Manhã", name: "Omelete de Claras com Espinafre", details: "2 claras + 1 ovo inteiro, espinafre, tomate cereja (280 cal)" },
-                    { time: "Lanche da Manhã", name: "Castanhas Mistas", details: "15g mix de castanhas (90 cal)" },
-                    { time: "Almoço", name: "Salada de Quinoa com Frango", details: "80g quinoa + 100g frango desfiado + vegetais (380 cal)" },
-                    { time: "Lanche da Tarde", name: "Maçã com Pasta de Amendoim", details: "1 maçã média + 1 colher chá pasta amendoim (150 cal)" },
-                    { time: "Jantar", name: "Carne Magra com Abobrinha Refogada", details: "100g carne magra + abobrinha, cebola, temperos (270 cal)" }
-                ],
-                "Dia 3": [
-                    { time: "Café da Manhã", name: "Tapioca com Ovo e Queijo", details: "2 colheres tapioca + 1 ovo + queijo cottage (260 cal)" },
-                    { time: "Lanche da Manhã", name: "Água de Coco com Chia", details: "200ml água de coco + 1 colher sopa chia (110 cal)" },
-                    { time: "Almoço", name: "Peixe Assado com Batata Doce", details: "120g peixe + 100g batata doce + salada (340 cal)" },
-                    { time: "Lanche da Tarde", name: "Vitamina de Frutas", details: "Morango, banana, leite desnatado (140 cal)" },
-                    { time: "Jantar", name: "Sopa de Legumes com Frango", details: "Caldo caseiro + cubos de frango + vegetais (250 cal)" }
-                ]
-            },
-            gain_muscle: {
-                "Dia 1": [
-                    { time: "Café da Manhã", name: "Aveia com Banana e Whey", details: "60g aveia + 1 banana + 1 scoop whey + leite (420 cal)" },
-                    { time: "Lanche da Manhã", name: "Sanduíche Natural", details: "Pão integral + peito peru + queijo + abacate (350 cal)" },
-                    { time: "Almoço", name: "Frango com Arroz e Feijão", details: "150g frango + 80g arroz + 60g feijão + salada (520 cal)" },
-                    { time: "Pré-Treino", name: "Banana com Pasta de Amendoim", details: "1 banana grande + 2 colheres pasta amendoim (280 cal)" },
-                    { time: "Pós-Treino", name: "Shake de Recuperação", details: "2 scoops whey + 1 banana + 300ml leite (380 cal)" },
-                    { time: "Jantar", name: "Salmão com Quinoa", details: "150g salmão + 80g quinoa + legumes (450 cal)" }
-                ]
             }
         };
 
@@ -1075,7 +1001,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
             loadUserData();
-            generateDietPreview();
         });
 
         function createParticles() {
@@ -1175,32 +1100,7 @@
             return { calories, protein, carbs, fats };
         }
 
-        function generateDietPreview() {
-            const goal = userData.goal || 'lose_weight';
-            const meals = mealPlans[goal] || mealPlans.lose_weight;
-            const preview = document.getElementById('dietPreview');
-            
-            let html = '';
-            Object.entries(meals).forEach(([day, dayMeals]) => {
-                html += '<div class="meal-day">';
-                html += '<div class="day-title">📅 ' + day + '</div>';
-                html += '<div class="meal-grid">';
-                
-                dayMeals.forEach(meal => {
-                    html += '<div class="meal-card">';
-                    html += '<div class="meal-time">' + meal.time + '</div>';
-                    html += '<div class="meal-name">' + meal.name + '</div>';
-                    html += '<div class="meal-details">' + meal.details + '</div>';
-                    html += '</div>';
-                });
-                
-                html += '</div></div>';
-            });
-            
-            preview.innerHTML = html;
-        }
-
-        // Funções de geração de PDF
+        // Função de geração de PDF
         function generateDietaPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -1352,395 +1252,21 @@
             return doc;
         }
 
-        function generateCardapioPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            // CAPA
-            doc.setFillColor(44, 122, 44);
-            doc.rect(0, 0, 210, 297, 'F');
-            
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(32);
-            doc.text('CARDÁPIO', 105, 100, { align: 'center' });
-            doc.setFontSize(28);
-            doc.text('30 DIAS', 105, 120, { align: 'center' });
-            
-            doc.setFontSize(18);
-            doc.text('Mais de 90 refeições organizadas', 105, 150, { align: 'center' });
-            
-            const userName = document.getElementById('userName').textContent.replace('Olá, ', '').replace('!', '');
-            doc.setFontSize(20);
-            doc.text('Personalizado para: ' + userName, 105, 200, { align: 'center' });
-            
-            doc.setFontSize(14);
-            doc.text('Dra. Giovana Nutricionista', 105, 240, { align: 'center' });
-            
-            // PÁGINA 2 - INSTRUÇÕES
-            doc.addPage();
-            doc.setTextColor(0, 0, 0);
-            doc.setFontSize(20);
-            doc.setTextColor(44, 122, 44);
-            doc.text('COMO USAR ESTE CARDÁPIO', 20, 30);
-            
-            doc.setDrawColor(44, 122, 44);
-            doc.setLineWidth(2);
-            doc.line(20, 35, 190, 35);
-            
-            let yPos = 50;
-            doc.setFontSize(12);
-            doc.setTextColor(0, 0, 0);
-            
-            const instrucoes = [
-                'ORGANIZAÇÃO:',
-                '• O cardápio está dividido em 30 dias completos',
-                '• Cada dia possui 5-6 refeições principais',
-                '• As porções estão calculadas para suas necessidades',
-                '• Você pode repetir dias que mais gostou',
-                '',
-                'HORÁRIOS SUGERIDOS:',
-                '• Café da manhã: 7h00 - 8h30',
-                '• Lanche da manhã: 10h00 - 10h30',
-                '• Almoço: 12h30 - 14h00',
-                '• Lanche da tarde: 16h00 - 16h30',
-                '• Jantar: 19h00 - 20h30',
-                '• Ceia: 21h30 - 22h00 (opcional)',
-                '',
-                'SUBSTITUIÇÕES:',
-                '• Proteínas: frango ↔ peru ↔ peixe (mesma quantidade)',
-                '• Carboidratos: arroz integral ↔ quinoa ↔ batata doce',
-                '• Vegetais: podem ser variados conforme disponibilidade'
-            ];
-            
-            instrucoes.forEach(linha => {
-                if (linha === '') {
-                    yPos += 10;
-                } else if (linha.includes(':') && !linha.startsWith('•')) {
-                    doc.setFontSize(14);
-                    doc.setTextColor(44, 122, 44);
-                    doc.text(linha, 20, yPos);
-                    doc.setFontSize(12);
-                    doc.setTextColor(0, 0, 0);
-                    yPos += 12;
-                } else {
-                    doc.text(linha, 20, yPos);
-                    yPos += 8;
-                }
-            });
-            
-            // EXEMPLO DE CARDÁPIO SEMANAL
-            doc.addPage();
-            doc.setFontSize(18);
-            doc.setTextColor(44, 122, 44);
-            doc.text('EXEMPLO - SEMANA 1', 20, 30);
-            
-            yPos = 50;
-            const goal = userData.goal || 'lose_weight';
-            const meals = mealPlans[goal] || mealPlans.lose_weight;
-            
-            Object.entries(meals).forEach(([dia, refeicoes]) => {
-                if (yPos > 240) {
-                    doc.addPage();
-                    yPos = 30;
-                }
-                
-                doc.setFontSize(14);
-                doc.setTextColor(44, 122, 44);
-                doc.text(dia.toUpperCase(), 20, yPos);
-                yPos += 10;
-                
-                doc.setFontSize(10);
-                doc.setTextColor(0, 0, 0);
-                refeicoes.forEach(refeicao => {
-                    doc.text('• ' + refeicao.time + ': ' + refeicao.name, 25, yPos);
-                    yPos += 6;
-                });
-                yPos += 8;
-            });
-            
-            return doc;
-        }
-
-        function generateReceitasPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            // CAPA
-            doc.setFillColor(44, 122, 44);
-            doc.rect(0, 0, 210, 297, 'F');
-            
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(36);
-            doc.text('200+', 105, 90, { align: 'center' });
-            doc.setFontSize(24);
-            doc.text('RECEITAS SAUDÁVEIS', 105, 115, { align: 'center' });
-            
-            doc.setFontSize(16);
-            doc.text('Instruções detalhadas passo a passo', 105, 145, { align: 'center' });
-            doc.text('Informações nutricionais completas', 105, 165, { align: 'center' });
-            
-            doc.setFontSize(14);
-            doc.text('Dra. Giovana Nutricionista', 105, 230, { align: 'center' });
-            
-            // RECEITAS DETALHADAS
-            pdfData.receitas.forEach((receita, index) => {
-                doc.addPage();
-                
-                // Cabeçalho da receita
-                doc.setFillColor(44, 122, 44);
-                doc.rect(0, 0, 210, 50, 'F');
-                
-                doc.setTextColor(255, 255, 255);
-                doc.setFontSize(20);
-                doc.text(receita.nome, 105, 25, { align: 'center' });
-                
-                doc.setFontSize(12);
-                doc.text(receita.categoria + ' | ' + receita.tempo + ' | ' + receita.calorias + ' kcal', 105, 38, { align: 'center' });
-                
-                let yPos = 70;
-                doc.setTextColor(0, 0, 0);
-                
-                // Informações nutricionais
-                doc.setFillColor(245, 245, 245);
-                doc.rect(15, yPos - 5, 180, 25, 'F');
-                doc.setDrawColor(108, 192, 74);
-                doc.rect(15, yPos - 5, 180, 25);
-                
-                doc.setFontSize(11);
-                doc.text('Proteínas: ' + receita.proteinas, 25, yPos + 5);
-                doc.text('Carboidratos: ' + receita.carboidratos, 70, yPos + 5);
-                doc.text('Gorduras: ' + receita.gorduras, 125, yPos + 5);
-                doc.text(receita.calorias + ' kcal', 160, yPos + 5);
-                
-                yPos += 35;
-                
-                // Ingredientes
-                doc.setFontSize(16);
-                doc.setTextColor(44, 122, 44);
-                doc.text('INGREDIENTES', 20, yPos);
-                yPos += 10;
-                
-                doc.setFontSize(11);
-                doc.setTextColor(0, 0, 0);
-                
-                receita.ingredientes.forEach(ingrediente => {
-                    if (yPos > 280) {
-                        doc.addPage();
-                        yPos = 30;
-                    }
-                    doc.text('• ' + ingrediente, 25, yPos);
-                    yPos += 7;
-                });
-                
-                yPos += 10;
-                
-                // Modo de preparo
-                doc.setFontSize(16);
-                doc.setTextColor(44, 122, 44);
-                doc.text('MODO DE PREPARO', 20, yPos);
-                yPos += 10;
-                
-                doc.setFontSize(11);
-                doc.setTextColor(0, 0, 0);
-                
-                receita.preparo.forEach((passo, i) => {
-                    if (yPos > 275) {
-                        doc.addPage();
-                        yPos = 30;
-                    }
-                    doc.text((i + 1) + '. ' + passo, 25, yPos);
-                    yPos += 8;
-                });
-            });
-            
-            return doc;
-        }
-
-        function generateAlimentosPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            // CAPA
-            doc.setFillColor(44, 122, 44);
-            doc.rect(0, 0, 210, 297, 'F');
-            
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(28);
-            doc.text('GUIA COMPLETO', 105, 90, { align: 'center' });
-            doc.text('DE ALIMENTOS', 105, 115, { align: 'center' });
-            
-            doc.setFontSize(18);
-            doc.text('O que comer e o que evitar', 105, 150, { align: 'center' });
-            doc.text('para alcançar seus objetivos', 105, 170, { align: 'center' });
-            
-            doc.setFontSize(14);
-            doc.text('Dra. Giovana Nutricionista', 105, 220, { align: 'center' });
-            
-            // PÁGINAS DAS CATEGORIAS
-            pdfData.alimentosPermitidos.forEach(categoria => {
-                doc.addPage();
-                
-                // Cabeçalho da categoria
-                doc.setFillColor(44, 122, 44);
-                doc.rect(0, 0, 210, 45, 'F');
-                
-                doc.setTextColor(255, 255, 255);
-                doc.setFontSize(22);
-                doc.text(categoria.categoria.toUpperCase(), 105, 28, { align: 'center' });
-                
-                let yPos = 65;
-                doc.setTextColor(0, 0, 0);
-                
-                // Alimentos permitidos
-                doc.setFillColor(230, 255, 230);
-                doc.rect(15, yPos - 5, 180, 20, 'F');
-                doc.setDrawColor(0, 150, 0);
-                doc.rect(15, yPos - 5, 180, 20);
-                
-                doc.setFontSize(16);
-                doc.setTextColor(0, 150, 0);
-                doc.text('✅ ALIMENTOS RECOMENDADOS', 20, yPos + 8);
-                
-                yPos += 25;
-                doc.setFontSize(11);
-                doc.setTextColor(0, 0, 0);
-                
-                categoria.permitidos.forEach(alimento => {
-                    if (yPos > 280) {
-                        doc.addPage();
-                        yPos = 30;
-                    }
-                    doc.text('• ' + alimento, 20, yPos);
-                    yPos += 7;
-                });
-                
-                yPos += 15;
-                
-                // Alimentos a evitar
-                doc.setFillColor(255, 230, 230);
-                doc.rect(15, yPos - 5, 180, 20, 'F');
-                doc.setDrawColor(200, 0, 0);
-                doc.rect(15, yPos - 5, 180, 20);
-                
-                doc.setFontSize(16);
-                doc.setTextColor(200, 0, 0);
-                doc.text('❌ ALIMENTOS A EVITAR', 20, yPos + 8);
-                
-                yPos += 25;
-                doc.setFontSize(11);
-                doc.setTextColor(0, 0, 0);
-                
-                categoria.evitar.forEach(alimento => {
-                    if (yPos > 280) {
-                        doc.addPage();
-                        yPos = 30;
-                    }
-                    doc.text('• ' + alimento, 20, yPos);
-                    yPos += 7;
-                });
-            });
-            
-            // PÁGINA DE DICAS GERAIS
-            doc.addPage();
-            doc.setFontSize(20);
-            doc.setTextColor(44, 122, 44);
-            doc.text('DICAS IMPORTANTES', 20, 30);
-            
-            doc.setDrawColor(44, 122, 44);
-            doc.setLineWidth(2);
-            doc.line(20, 35, 190, 35);
-            
-            const dicas = [
-                'Prefira sempre alimentos orgânicos quando possível',
-                'Varie as cores dos alimentos no seu prato',
-                'Leia sempre os rótulos dos produtos industrializados',
-                'Evite alimentos com mais de 5 ingredientes',
-                'Prefira preparações caseiras',
-                'Use temperos naturais em vez de industrializados',
-                'Mantenha frutas e vegetais sempre frescos',
-                'Congele porções já preparadas para facilitar o dia a dia',
-                'Hidrate-se adequadamente ao longo do dia',
-                'Mastigue bem os alimentos para melhor digestão',
-                'Combine proteínas vegetais para aminoácidos completos',
-                'Consuma pelo menos 400g de vegetais por dia',
-                'Prefira frutas inteiras ao invés de sucos',
-                'Armazene óleos em local fresco e escuro',
-                'Faça suas próprias misturas de temperos'
-            ];
-            
-            doc.setFontSize(12);
-            doc.setTextColor(0, 0, 0);
-            let yPos2 = 50;
-            dicas.forEach(dica => {
-                if (yPos2 > 270) {
-                    doc.addPage();
-                    yPos2 = 30;
-                }
-                doc.text('• ' + dica, 20, yPos2);
-                yPos2 += 10;
-            });
-            
-            return doc;
-        }
-
-        // Funções de download
+        // Função de download
         function downloadFile(type) {
+            if (type !== 'dieta-personalizada') {
+                alert('Este material está disponível na sua área de membros exclusiva! Verifique seu e-mail para o link de acesso.');
+                return;
+            }
+
             try {
-                let doc;
-                let filename;
-                
-                switch(type) {
-                    case 'dieta-personalizada':
-                        doc = generateDietaPDF();
-                        filename = 'Dieta_Personalizada_DrGiovana.pdf';
-                        break;
-                    case 'cardapio-30-dias':
-                        doc = generateCardapioPDF();
-                        filename = 'Cardapio_30_Dias_DrGiovana.pdf';
-                        break;
-                    case '200-receitas':
-                        doc = generateReceitasPDF();
-                        filename = 'Receitas_Saudaveis_DrGiovana.pdf';
-                        break;
-                    case 'alimentos-lista':
-                        doc = generateAlimentosPDF();
-                        filename = 'Lista_Alimentos_DrGiovana.pdf';
-                        break;
-                    default:
-                        alert('Tipo de arquivo não reconhecido');
-                        return;
-                }
-                
+                const doc = generateDietaPDF();
+                const filename = 'Dieta_Personalizada_DrGiovana.pdf';
                 doc.save(filename);
                 
             } catch (error) {
                 console.error('Erro ao gerar PDF:', error);
                 alert('Erro ao gerar PDF. Tente novamente.');
-            }
-        }
-
-        function downloadAllFiles() {
-            try {
-                const files = [
-                    { type: 'dieta-personalizada', delay: 0 },
-                    { type: 'cardapio-30-dias', delay: 1500 },
-                    { type: '200-receitas', delay: 3000 },
-                    { type: 'alimentos-lista', delay: 4500 }
-                ];
-                
-                files.forEach(file => {
-                    setTimeout(() => {
-                        downloadFile(file.type);
-                    }, file.delay);
-                });
-                
-                setTimeout(() => {
-                    alert('📦 Download de todos os materiais iniciado!\n\nOs 4 PDFs serão baixados sequencialmente.\nVerifique sua pasta de downloads.');
-                }, 500);
-                
-            } catch (error) {
-                console.error('Erro no download em lote:', error);
-                alert('Erro no download. Tente baixar os arquivos individualmente.');
             }
         }
 
@@ -1760,11 +1286,4 @@
         saveUserProgress();
     </script>
 </body>
-</html> Manhã", name: "Iogurte Natural com Frutas Vermelhas", details: "150g iogurte desnatado + 50g frutas vermelhas (120 cal)" },
-                    { time: "Almoço", name: "Frango Grelhado com Salada Verde", details: "120g peito de frango + salada mista + azeite (350 cal)" },
-                    { time: "Lanche da Tarde", name: "Shake Proteico", details: "1 scoop whey protein + 200ml água + 1 banana pequena (180 cal)" },
-                    { time: "Jantar", name: "Salmão com Legumes no Vapor", details: "100g salmão + brócolis, cenoura, abobrinha (290 cal)" }
-                ],
-                "Dia 2": [
-                    { time: "Café da Manhã", name: "Smoothie Verde Detox", details: "Couve, maçã, gengibre, limão, água de coco (200 cal)" },
-                    { time: "Lanche da
+</html>

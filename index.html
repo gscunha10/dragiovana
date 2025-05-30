@@ -2110,6 +2110,13 @@
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
             
+            // ✅ INICIALIZAR SESSÃO ÚNICA PARA TRACKING
+            if (!sessionStorage.getItem('session_id')) {
+                const sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                sessionStorage.setItem('session_id', sessionId);
+                console.log('🆔 Nova sessão iniciada:', sessionId);
+            }
+            
             // Mobile-specific initializations
             initializeMobileOptimizations();
             
@@ -2137,29 +2144,85 @@
                     showQuizSection();
                     loadQuestion(currentQuestion);
                     
-                    // Track navigation via browser back/forward
-                    if (typeof fbq !== 'undefined') {
-                        fbq('trackCustom', 'QuizBrowserNavigation', {
-                            question_number: currentQuestion + 1,
-                            question_hash: hashMap[currentQuestion],
-                            navigation_type: 'browser_button'
-                        });
-                    }
+                    // Track navigation via browser back/forward - evitar duplicação
+                    const navEventKey = `QuizBrowserNavigation_${currentQuestion}_${Date.now()}`;
+                    eventsTracker.trackOnce('custom', navEventKey, {
+                        question_number: currentQuestion + 1,
+                        question_hash: hashMap[currentQuestion],
+                        navigation_type: 'browser_button'
+                    });
                 }
             });
             
-            // Track page view inicial
-            if (typeof fbq !== 'undefined') {
-                fbq('track', 'ViewContent', {
-                    content_type: 'landing_page',
-                    content_name: 'Dra Giovana Landing',
-                    content_category: 'nutrição'
-                });
-            }
+            // Track page view inicial - apenas uma vez com melhor estrutura
+            eventsTracker.trackOnce('standard', 'ViewContent', {
+                content_type: 'landing_page',
+                content_name: 'Dra Giovana Landing Initial',
+                content_category: 'nutrição',
+                content_ids: ['landing_page_dra_giovana'],
+                value: 0,
+                currency: 'BRL'
+            });
 
             console.log('🚀 Sistema inicializado - Landing page da Dra. Giovana carregada');
             console.log('📱 Dispositivo móvel detectado:', isMobile());
+            console.log('🔒 Sistema anti-duplicação de eventos ativo');
+            console.log('🆔 Event IDs únicos habilitados para compliance com Facebook');
         });
+
+        // Função para limpar tracking (caso necessário para testes)
+        function clearEventTracking() {
+            eventsTracker.sent.clear();
+            Object.keys(sessionStorage).forEach(key => {
+                if (key.startsWith('fbq_')) {
+                    sessionStorage.removeItem(key);
+                }
+            });
+            // Gerar nova sessão
+            const newSessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            sessionStorage.setItem('session_id', newSessionId);
+            console.log('🧹 Cache de eventos limpo - próximos eventos serão disparados novamente');
+            console.log('🆔 Nova sessão criada:', newSessionId);
+        }
+
+        // Função para debug do status do pixel
+        function debugPixelStatus() {
+            console.log('🔍 DEBUG DO FACEBOOK PIXEL:');
+            console.log('- Pixel carregado:', typeof fbq !== 'undefined');
+            console.log('- Session ID:', sessionStorage.getItem('session_id'));
+            console.log('- Eventos enviados:', Array.from(eventsTracker.sent));
+            console.log('- Event IDs funcionando:', eventsTracker.generateEventId());
+            
+            if (typeof fbq !== 'undefined') {
+                console.log('✅ Facebook Pixel funcionando corretamente');
+                
+                // Testar geração de event_id
+                const testEventId = eventsTracker.generateEventId();
+                console.log('🧪 Event ID de teste gerado:', testEventId);
+                
+            } else {
+                console.log('❌ Facebook Pixel NÃO encontrado');
+            }
+        }
+
+        // Exposar funções globalmente para debug
+        window.clearEventTracking = clearEventTracking;
+        window.debugPixelStatus = debugPixelStatus;
+        window.eventsTracker = eventsTracker; // Para debug avançado
+
+        // ✅ Avisos importantes no console
+        console.log('');
+        console.log('🚀 SISTEMA DE TRACKING INICIALIZADO');
+        console.log('=====================================');
+        console.log('✅ Event IDs únicos: ATIVO');
+        console.log('✅ Anti-duplicação: ATIVO'); 
+        console.log('✅ Facebook compliance: ATIVO');
+        console.log('');
+        console.log('🔧 Debug disponível:');
+        console.log('- clearEventTracking() → Limpar cache de eventos');
+        console.log('- debugPixelStatus() → Verificar status do pixel');
+        console.log('=====================================');
+        console.log('');
 
         function initializeMobileOptimizations() {
             // Detectar se é mobile
@@ -2200,14 +2263,15 @@
             document.getElementById('quizSection').classList.add('hidden');
             updateURL('landing');
             
-            // Track landing page view
-            if (typeof fbq !== 'undefined') {
-                fbq('track', 'ViewContent', {
-                    content_type: 'landing_page',
-                    content_name: 'Dra Giovana Landing',
-                    content_category: 'nutrição'
-                });
-            }
+            // Track landing page view - apenas uma vez com estrutura melhorada
+            eventsTracker.trackOnce('standard', 'ViewContent', {
+                content_type: 'landing_page',
+                content_name: 'Dra Giovana Landing',
+                content_category: 'nutrição',
+                content_ids: ['landing_page_revisit'],
+                value: 0,
+                currency: 'BRL'
+            });
         }
 
         function showQuizSection() {
@@ -2216,49 +2280,106 @@
             document.getElementById('quizSection').classList.remove('hidden');
         }
 
+        // ✅ SISTEMA ANTI-DUPLICAÇÃO DE EVENTOS COM EVENT_ID ÚNICO
+        let eventsTracker = {
+            sent: new Set(),
+            
+            // Gera ID único para cada evento
+            generateEventId: function() {
+                return 'evt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            },
+            
+            // Verifica se evento já foi enviado
+            hasBeenSent: function(eventName) {
+                const key = `fbq_${eventName}`;
+                return this.sent.has(key) || sessionStorage.getItem(key) === 'sent';
+            },
+            
+            // Marca evento como enviado
+            markAsSent: function(eventName) {
+                const key = `fbq_${eventName}`;
+                this.sent.add(key);
+                sessionStorage.setItem(key, 'sent');
+            },
+            
+            // Dispara evento apenas se não foi enviado antes COM EVENT_ID ÚNICO
+            trackOnce: function(eventType, eventName, parameters = {}) {
+                if (this.hasBeenSent(eventName)) {
+                    console.log(`🔄 Evento "${eventName}" já foi enviado - evitando duplicação`);
+                    return false;
+                }
+                
+                if (typeof fbq !== 'undefined') {
+                    // ✅ ADICIONAR EVENT_ID ÚNICO para evitar duplicação no Facebook
+                    const eventId = this.generateEventId();
+                    const eventData = {
+                        ...parameters,
+                        event_id: eventId // Facebook requer este campo para deduplicar
+                    };
+                    
+                    if (eventType === 'custom') {
+                        fbq('trackCustom', eventName, eventData, {
+                            eventID: eventId // Também passar como opção
+                        });
+                    } else {
+                        fbq('track', eventName, eventData, {
+                            eventID: eventId // Também passar como opção
+                        });
+                    }
+                    
+                    this.markAsSent(eventName);
+                    console.log(`✅ Evento "${eventName}" enviado com event_id único: ${eventId}`);
+                    return true;
+                } else {
+                    console.warn('⚠️ Facebook Pixel não encontrado');
+                    return false;
+                }
+            }
+        };
+
+        console.log('🔒 Sistema Anti-Duplicação Ativo: Event IDs únicos para compliance com Facebook Pixel');
+
         function startQuiz() {
             // Feedback visual para mobile
             const button = event.target;
             button.classList.add('loading');
             button.innerHTML = '🚀 Iniciando...';
 
-            // ✅ EVENTO DE CONVERSÃO "Iniciou formulario"
-            console.log('🎯 EVENTO DE CONVERSÃO DISPARADO: "Iniciou formulario"');
+            // ✅ EVENTO DE CONVERSÃO "Iniciou formulario" - COM EVENT_ID ÚNICO
+            console.log('🎯 Tentando disparar evento "Iniciou formulario"...');
             
-            if (typeof fbq !== 'undefined') {
-                // Evento principal de conversão solicitado
-                fbq('trackCustom', 'Iniciou formulario', {
-                    button_location: 'landing_page',
-                    button_text: 'Iniciar Minha Dieta Personalizada',
-                    source: 'landing_page_cta',
-                    timestamp: new Date().toISOString(),
-                    user_agent: navigator.userAgent,
-                    page_url: window.location.href
-                });
+            const eventSent = eventsTracker.trackOnce('custom', 'Iniciou formulario', {
+                button_location: 'landing_page',
+                button_text: 'Iniciar Minha Dieta Personalizada',
+                source: 'landing_page_cta',
+                timestamp: new Date().toISOString(),
+                user_agent: navigator.userAgent,
+                page_url: window.location.href,
+                session_id: sessionStorage.getItem('session_id') || 'session_' + Date.now()
+            });
 
-                console.log('✅ Facebook Pixel - Evento "Iniciou formulario" enviado com sucesso!');
-
-                // Eventos adicionais para tracking detalhado
-                fbq('track', 'ViewContent', {
-                    content_type: 'quiz',
-                    content_name: 'Quiz Início',
-                    content_category: 'landing_page'
-                });
-                
-                fbq('trackCustom', 'QuizStartButton', {
-                    button_location: 'landing_page',
-                    button_text: 'Iniciar Minha Dieta Personalizada'
-                });
-                
-                fbq('trackCustom', 'QuizStarted', {
-                    quiz_name: 'Avaliação Nutricional Dra Giovana',
-                    starting_from: 'landing_page'
-                });
-
-                console.log('📊 Eventos adicionais de tracking enviados');
-            } else {
-                console.warn('⚠️ Facebook Pixel não encontrado - evento "Iniciou formulario" não foi enviado');
+            if (eventSent) {
+                console.log('🎉 EVENTO DE CONVERSÃO "Iniciou formulario" ENVIADO COM EVENT_ID ÚNICO!');
             }
+
+            // Eventos adicionais de tracking (também com event_id único)
+            eventsTracker.trackOnce('standard', 'ViewContent', {
+                content_type: 'quiz',
+                content_name: 'Quiz Início',
+                content_category: 'landing_page',
+                content_ids: ['quiz_nutricional_inicio']
+            });
+            
+            eventsTracker.trackOnce('custom', 'QuizStartButton', {
+                button_location: 'landing_page',
+                button_text: 'Iniciar Minha Dieta Personalizada'
+            });
+            
+            eventsTracker.trackOnce('custom', 'QuizStarted', {
+                quiz_name: 'Avaliação Nutricional Dra Giovana',
+                quiz_type: 'nutritional_assessment',
+                starting_from: 'landing_page'
+            });
 
             // Pequeno delay para feedback visual
             setTimeout(() => {
@@ -2321,15 +2442,14 @@
             nextBtn.disabled = true;
             nextBtn.textContent = index === questions.length - 1 ? 'Finalizar Avaliação →' : 'Continuar →';
 
-            // ✅ Track question view com hash específico
-            if (typeof fbq !== 'undefined') {
-                fbq('trackCustom', 'QuizQuestionViewed', {
-                    question_number: index + 1,
-                    question_title: question.title,
-                    question_hash: hashMap[index],
-                    quiz_progress: Math.round(progress)
-                });
-            }
+            // ✅ Track question view - evitar duplicação por pergunta
+            const questionEventKey = `QuizQuestionViewed_${index}`;
+            eventsTracker.trackOnce('custom', questionEventKey, {
+                question_number: index + 1,
+                question_title: question.title,
+                question_hash: hashMap[index],
+                quiz_progress: Math.round(progress)
+            });
 
             if (question.type === 'choice') {
                 loadChoiceQuestion(question, optionsGrid);
@@ -2431,16 +2551,15 @@
                         const hasSelection = container.querySelectorAll('.option-card.selected').length > 0;
                         document.getElementById('nextBtn').disabled = !hasSelection;
 
-                        // Track selection for multi-select
-                        if (typeof fbq !== 'undefined') {
-                            fbq('trackCustom', 'QuizOptionSelected', {
-                                question_number: currentQuestion + 1,
-                                option_value: option.value,
-                                option_title: option.title,
-                                is_multi_select: true,
-                                selection_action: isSelected ? 'deselected' : 'selected'
-                            });
-                        }
+                        // Track selection for multi-select - evitar duplicação
+                        const selectionEventKey = `QuizOptionSelected_${currentQuestion}_${option.value}_${Date.now()}`;
+                        eventsTracker.trackOnce('custom', selectionEventKey, {
+                            question_number: currentQuestion + 1,
+                            option_value: option.value,
+                            option_title: option.title,
+                            is_multi_select: true,
+                            selection_action: isSelected ? 'deselected' : 'selected'
+                        });
                     } else {
                         container.querySelectorAll('.option-card').forEach(card => {
                             card.classList.remove('selected');
@@ -2453,15 +2572,14 @@
                         
                         document.getElementById('nextBtn').disabled = false;
 
-                        // Track selection for single-select
-                        if (typeof fbq !== 'undefined') {
-                            fbq('trackCustom', 'QuizOptionSelected', {
-                                question_number: currentQuestion + 1,
-                                option_value: option.value,
-                                option_title: option.title,
-                                is_multi_select: false
-                            });
-                        }
+                        // Track selection for single-select - evitar duplicação
+                        const selectionEventKey = `QuizOptionSelected_${currentQuestion}_${option.value}`;
+                        eventsTracker.trackOnce('custom', selectionEventKey, {
+                            question_number: currentQuestion + 1,
+                            option_value: option.value,
+                            option_title: option.title,
+                            is_multi_select: false
+                        });
                     }
                 });
 
@@ -2510,9 +2628,10 @@
                     
                     checkFormCompletion(question);
 
-                    // Track form field completion
-                    if (typeof fbq !== 'undefined' && this.value.trim() !== '') {
-                        fbq('trackCustom', 'QuizFormFieldFilled', {
+                    // Track form field completion - evitar duplicação
+                    if (this.value.trim() !== '') {
+                        const fieldEventKey = `QuizFormFieldFilled_${currentQuestion}_${field.name}`;
+                        eventsTracker.trackOnce('custom', fieldEventKey, {
                             question_number: currentQuestion + 1,
                             field_name: field.name,
                             field_type: field.type
@@ -2535,9 +2654,10 @@
             
             document.getElementById('nextBtn').disabled = !allFilled;
 
-            // Track form completion
-            if (allFilled && typeof fbq !== 'undefined') {
-                fbq('trackCustom', 'QuizFormCompleted', {
+            // Track form completion - evitar duplicação
+            if (allFilled) {
+                const formEventKey = `QuizFormCompleted_${currentQuestion}`;
+                eventsTracker.trackOnce('custom', formEventKey, {
                     question_number: currentQuestion + 1,
                     form_type: questionKey
                 });
@@ -2550,14 +2670,13 @@
         }
 
         function nextQuestion() {
-            // Track question completion com hash
-            if (typeof fbq !== 'undefined') {
-                fbq('trackCustom', 'QuizQuestionCompleted', {
-                    question_number: currentQuestion + 1,
-                    question_hash: hashMap[currentQuestion],
-                    quiz_progress: Math.round(((currentQuestion + 1) / questions.length) * 100)
-                });
-            }
+            // Track question completion - evitar duplicação
+            const completionEventKey = `QuizQuestionCompleted_${currentQuestion}`;
+            eventsTracker.trackOnce('custom', completionEventKey, {
+                question_number: currentQuestion + 1,
+                question_hash: hashMap[currentQuestion],
+                quiz_progress: Math.round(((currentQuestion + 1) / questions.length) * 100)
+            });
 
             if (currentQuestion < questions.length - 1) {
                 currentQuestion++;
@@ -2569,14 +2688,12 @@
                     behavior: 'smooth'
                 });
             } else {
-                // Track quiz completion
-                if (typeof fbq !== 'undefined') {
-                    fbq('trackCustom', 'QuizCompleted', {
-                        total_questions: questions.length,
-                        user_goal: answers.goal,
-                        user_gender: answers.gender
-                    });
-                }
+                // Track quiz completion - apenas uma vez
+                eventsTracker.trackOnce('custom', 'QuizCompleted', {
+                    total_questions: questions.length,
+                    user_goal: answers.goal,
+                    user_gender: answers.gender
+                });
                 
                 // ✅ Atualizar para hash de análise
                 updateURL('analise');
@@ -2601,15 +2718,14 @@
                     behavior: 'smooth'
                 });
 
-                // Track backward navigation com hash
-                if (typeof fbq !== 'undefined') {
-                    fbq('trackCustom', 'QuizNavigationBack', {
-                        from_question: currentQuestion + 2,
-                        from_hash: hashMap[currentQuestion + 1],
-                        to_question: currentQuestion + 1,
-                        to_hash: hashMap[currentQuestion]
-                    });
-                }
+                // Track backward navigation - evitar duplicação
+                const backNavEventKey = `QuizNavigationBack_${currentQuestion}_${Date.now()}`;
+                eventsTracker.trackOnce('custom', backNavEventKey, {
+                    from_question: currentQuestion + 2,
+                    from_hash: hashMap[currentQuestion + 1],
+                    to_question: currentQuestion + 1,
+                    to_hash: hashMap[currentQuestion]
+                });
             }
         }
 
@@ -2619,12 +2735,10 @@
             
             const container = document.getElementById('questionContainer');
             
-            // Track analysis start
-            if (typeof fbq !== 'undefined') {
-                fbq('trackCustom', 'AnalysisStarted', {
-                    user_data_collected: Object.keys(answers).length
-                });
-            }
+            // Track analysis start - apenas uma vez
+            eventsTracker.trackOnce('custom', 'AnalysisStarted', {
+                user_data_collected: Object.keys(answers).length
+            });
             
             container.innerHTML = `
                 <div style="text-align: center; padding: 40px 0;">
@@ -2822,14 +2936,12 @@
                 clearInterval(progressInterval);
                 clearInterval(factInterval);
                 
-                // Track analysis completion
-                if (typeof fbq !== 'undefined') {
-                    fbq('trackCustom', 'AnalysisCompleted', {
-                        user_bmr: calculateResults().bmr,
-                        user_target_calories: calculateResults().targetCalories,
-                        user_goal: answers.goal
-                    });
-                }
+                // Track analysis completion - apenas uma vez
+                eventsTracker.trackOnce('custom', 'AnalysisCompleted', {
+                    user_bmr: calculateResults().bmr,
+                    user_target_calories: calculateResults().targetCalories,
+                    user_goal: answers.goal
+                });
                 
                 // Show results after a brief pause
                 setTimeout(() => {
@@ -2966,16 +3078,14 @@
             
             document.getElementById('progressText').textContent = 'Avaliação Concluída!';
             
-            // Track results shown
-            if (typeof fbq !== 'undefined') {
-                fbq('trackCustom', 'ResultsShown', {
-                    user_bmr: results.bmr,
-                    user_target_calories: results.targetCalories,
-                    projected_weight_change: results.projectedWeightChange,
-                    months_to_goal: results.monthsToGoal,
-                    user_goal: answers.goal
-                });
-            }
+            // Track results shown - apenas uma vez
+            eventsTracker.trackOnce('custom', 'ResultsShown', {
+                user_bmr: results.bmr,
+                user_target_calories: results.targetCalories,
+                projected_weight_change: results.projectedWeightChange,
+                months_to_goal: results.monthsToGoal,
+                user_goal: answers.goal
+            });
             
             container.innerHTML = `
                 <div class="results-container">
@@ -3342,7 +3452,7 @@
             setInterval(updateCountdown, 1000);
         }
 
-        // Enhanced checkout function with multiple fallbacks
+        // Enhanced checkout function with Facebook compliant events
         function handleCheckoutClick() {
            console.log('Checkout button clicked');
 
@@ -3372,41 +3482,55 @@
                 console.error('Erro ao salvar dados no sessionStorage:', error);
             }
 
-            // Track checkout initiation
-            if (typeof fbq !== 'undefined') {
-                try {
-                    const results = calculateResults();
-                    fbq('track', 'InitiateCheckout', {
-                        content_type: 'product',
-                        content_name: 'Protocolo Nutricional Dra Giovana',
-                        value: 29.90,
-                        currency: 'BRL',
-                        user_goal: answers.goal,
-                        user_bmr: results.bmr,
-                        user_target_calories: results.targetCalories
-                    });
-                    
-                    fbq('trackCustom', 'CheckoutButtonClicked', {
-                        price: 29.90,
-                        product_name: 'Protocolo Nutricional',
-                        checkout_url: 'https://pay.cakto.com.br/4ckeveg_405527',
-                        user_profile: {
-                            goal: answers.goal,
-                            gender: answers.gender,
-                            age: answers.age,
-                            activity: answers.activity
-                        }
-                    });
-                    
-                    fbq('track', 'AddToCart', {
-                        content_type: 'product',
-                        content_name: 'Protocolo Nutricional Dra Giovana',
-                        value: 29.90,
-                        currency: 'BRL'
-                    });
-                } catch (e) {
-                    console.log('Pixel tracking error:', e);
-                }
+            // ✅ EVENTOS FACEBOOK COMPLIANCE - COM EVENT_ID ÚNICO
+            try {
+                const results = calculateResults();
+                
+                // Gerar um event_id único para esta sessão de checkout
+                const checkoutEventId = eventsTracker.generateEventId();
+                
+                // InitiateCheckout - evento padrão do Facebook
+                eventsTracker.trackOnce('standard', 'InitiateCheckout', {
+                    content_type: 'product',
+                    content_name: 'Protocolo Nutricional Dra Giovana',
+                    content_ids: ['protocolo_nutricional_001'],
+                    content_category: 'Health & Wellness',
+                    value: 29.90,
+                    currency: 'BRL',
+                    num_items: 1,
+                    predicted_ltv: 29.90,
+                    user_goal: answers.goal,
+                    user_bmr: results.bmr,
+                    user_target_calories: results.targetCalories
+                });
+                
+                // AddToCart - evento padrão do Facebook  
+                eventsTracker.trackOnce('standard', 'AddToCart', {
+                    content_type: 'product',
+                    content_name: 'Protocolo Nutricional Dra Giovana',
+                    content_ids: ['protocolo_nutricional_001'],
+                    content_category: 'Health & Wellness',
+                    value: 29.90,
+                    currency: 'BRL',
+                    num_items: 1
+                });
+                
+                // Evento customizado para tracking interno
+                eventsTracker.trackOnce('custom', 'CheckoutButtonClicked', {
+                    price: 29.90,
+                    product_name: 'Protocolo Nutricional',
+                    product_id: 'protocolo_nutricional_001',
+                    checkout_url: 'https://pay.cakto.com.br/4ckeveg_405527',
+                    user_profile: {
+                        goal: answers.goal,
+                        gender: answers.gender,
+                        age: answers.age,
+                        activity: answers.activity
+                    }
+                });
+                
+            } catch (e) {
+                console.log('Pixel tracking error:', e);
             }
 
             // Visual feedback
@@ -3443,7 +3567,7 @@
             }, 200);
         }
 
-        // Track scroll depth for engagement measurement
+        // Track scroll depth for engagement measurement - com controle de duplicação
         let maxScrollDepth = 0;
         window.addEventListener('scroll', function() {
             const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
@@ -3451,50 +3575,44 @@
             if (scrollPercent > maxScrollDepth) {
                 maxScrollDepth = scrollPercent;
                 
-                // Track scroll milestones
-                if (typeof fbq !== 'undefined') {
-                    if (scrollPercent >= 25 && maxScrollDepth < 25) {
-                        fbq('trackCustom', 'ScrollDepth25');
-                    } else if (scrollPercent >= 50 && maxScrollDepth < 50) {
-                        fbq('trackCustom', 'ScrollDepth50');
-                    } else if (scrollPercent >= 75 && maxScrollDepth < 75) {
-                        fbq('trackCustom', 'ScrollDepth75');
-                    } else if (scrollPercent >= 90 && maxScrollDepth < 90) {
-                        fbq('trackCustom', 'ScrollDepth90');
-                    }
+                // Track scroll milestones - evitar duplicação
+                if (scrollPercent >= 25 && maxScrollDepth < 25) {
+                    eventsTracker.trackOnce('custom', 'ScrollDepth25', {});
+                } else if (scrollPercent >= 50 && maxScrollDepth < 50) {
+                    eventsTracker.trackOnce('custom', 'ScrollDepth50', {});
+                } else if (scrollPercent >= 75 && maxScrollDepth < 75) {
+                    eventsTracker.trackOnce('custom', 'ScrollDepth75', {});
+                } else if (scrollPercent >= 90 && maxScrollDepth < 90) {
+                    eventsTracker.trackOnce('custom', 'ScrollDepth90', {});
                 }
             }
         });
 
-        // Track time on page
+        // Track time on page - com controle de duplicação
         let timeOnPage = 0;
         setInterval(() => {
             timeOnPage += 5;
             
-            // Track time milestones
-            if (typeof fbq !== 'undefined') {
-                if (timeOnPage === 30) {
-                    fbq('trackCustom', 'TimeOnPage30Seconds');
-                } else if (timeOnPage === 60) {
-                    fbq('trackCustom', 'TimeOnPage1Minute');
-                } else if (timeOnPage === 120) {
-                    fbq('trackCustom', 'TimeOnPage2Minutes');
-                } else if (timeOnPage === 300) {
-                    fbq('trackCustom', 'TimeOnPage5Minutes');
-                }
+            // Track time milestones - evitar duplicação
+            if (timeOnPage === 30) {
+                eventsTracker.trackOnce('custom', 'TimeOnPage30Seconds', {});
+            } else if (timeOnPage === 60) {
+                eventsTracker.trackOnce('custom', 'TimeOnPage1Minute', {});
+            } else if (timeOnPage === 120) {
+                eventsTracker.trackOnce('custom', 'TimeOnPage2Minutes', {});
+            } else if (timeOnPage === 300) {
+                eventsTracker.trackOnce('custom', 'TimeOnPage5Minutes', {});
             }
         }, 5000);
 
-        // Track page exit intent
+        // Track page exit intent - evitar duplicação
         document.addEventListener('mouseleave', function(e) {
             if (e.clientY <= 0) {
-                if (typeof fbq !== 'undefined') {
-                    fbq('trackCustom', 'ExitIntent', {
-                        time_on_page: timeOnPage,
-                        max_scroll_depth: maxScrollDepth,
-                        current_question: currentQuestion + 1
-                    });
-                }
+                eventsTracker.trackOnce('custom', 'ExitIntent', {
+                    time_on_page: timeOnPage,
+                    max_scroll_depth: maxScrollDepth,
+                    current_question: currentQuestion + 1
+                });
             }
         });
 

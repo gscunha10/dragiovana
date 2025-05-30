@@ -1728,59 +1728,145 @@
             }
         };
         
-        // ✅ SISTEMA ANTI-DUPLICAÇÃO DE EVENTOS (SEM SESSIONSTORAGE)
+        // ✅ SISTEMA ANTI-DUPLICAÇÃO DE EVENTOS CORRIGIDO
         let eventsTracker = {
             sent: new Set(),
             sessionId: 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
             
-            // Gera ID único para cada evento
-            generateEventId: function() {
-                return 'evt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            // ✅ GERAR EVENT_ID DETERMINÍSTICO baseado no conteúdo do evento
+            generateEventId: function(eventName, eventData = {}) {
+                // Criar um ID único mas determinístico baseado no evento e dados do usuário
+                const userIdentifier = eventData.email || eventData.external_id || this.sessionId;
+                const eventContent = eventName + JSON.stringify(eventData);
+                
+                // Usar hash simples para criar ID determinístico
+                let hash = 0;
+                for (let i = 0; i < eventContent.length; i++) {
+                    const char = eventContent.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash; // Convert to 32bit integer
+                }
+                
+                return 'evt_' + Math.abs(hash).toString(36) + '_' + userIdentifier.slice(-6);
             },
             
-            // Verifica se evento já foi enviado (apenas na memória)
-            hasBeenSent: function(eventName) {
-                return this.sent.has(eventName);
+            // ✅ OBTER EXTERNAL_ID consistente do usuário
+            getExternalId: function() {
+                // Usar email se disponível, senão session ID
+                if (answers.contact && answers.contact.email) {
+                    return answers.contact.email.toLowerCase().trim();
+                }
+                // Fallback para session ID persistente
+                return this.sessionId;
             },
             
-            // Marca evento como enviado (apenas na memória)
-            markAsSent: function(eventName) {
-                this.sent.add(eventName);
+            // Verificar se evento já foi enviado
+            hasBeenSent: function(eventKey) {
+                return this.sent.has(eventKey);
             },
             
-            // Dispara evento apenas se não foi enviado antes COM EVENT_ID ÚNICO
+            // Marcar evento como enviado
+            markAsSent: function(eventKey) {
+                this.sent.add(eventKey);
+            },
+            
+            // ✅ TRACKING COM DEDUPLICAÇÃO ROBUSTA
             trackOnce: function(eventType, eventName, parameters = {}) {
-                if (this.hasBeenSent(eventName)) {
+                // ✅ ADICIONAR EXTERNAL_ID consistente
+                const externalId = this.getExternalId();
+                
+                // ✅ GERAR EVENT_ID DETERMINÍSTICO
+                const eventId = this.generateEventId(eventName, {
+                    ...parameters,
+                    external_id: externalId
+                });
+                
+                // Chave única para verificar duplicação
+                const eventKey = `${eventName}_${eventId}`;
+                
+                if (this.hasBeenSent(eventKey)) {
                     console.log(`🔄 Evento "${eventName}" já foi enviado - evitando duplicação`);
                     return false;
                 }
                 
                 if (typeof fbq !== 'undefined') {
-                    // ✅ ADICIONAR EVENT_ID ÚNICO para evitar duplicação no Facebook
-                    const eventId = this.generateEventId();
+                    // ✅ DADOS DO EVENTO COM DEDUPLICAÇÃO COMPLETA
                     const eventData = {
                         ...parameters,
-                        event_id: eventId, // Facebook requer este campo para deduplicar
+                        external_id: externalId,  // ✅ Identificador único do usuário
+                        event_source_url: window.location.href,
+                        client_user_agent: navigator.userAgent,
+                        fbp: this.getFbp(),       // ✅ Facebook Browser ID
+                        fbc: this.getFbc(),       // ✅ Facebook Click ID
                         session_id: this.sessionId
                     };
                     
-                    if (eventType === 'custom') {
-                        fbq('trackCustom', eventName, eventData, {
-                            eventID: eventId // Também passar como opção
-                        });
-                    } else {
-                        fbq('track', eventName, eventData, {
-                            eventID: eventId // Também passar como opção
-                        });
-                    }
+                    // ✅ OPÇÕES DE EVENTO COM EVENT_ID ÚNICO
+                    const eventOptions = {
+                        eventID: eventId  // ✅ MESMO ID para pixel e API
+                    };
                     
-                    this.markAsSent(eventName);
-                    console.log(`✅ Evento "${eventName}" enviado com event_id único: ${eventId}`);
-                    return true;
+                    try {
+                        if (eventType === 'custom') {
+                            fbq('trackCustom', eventName, eventData, eventOptions);
+                        } else {
+                            fbq('track', eventName, eventData, eventOptions);
+                        }
+                        
+                        this.markAsSent(eventKey);
+                        console.log(`✅ Evento "${eventName}" enviado com deduplicação:`);
+                        console.log(`   - Event ID: ${eventId}`);
+                        console.log(`   - External ID: ${externalId}`);
+                        console.log(`   - FBP: ${this.getFbp()}`);
+                        
+                        return true;
+                        
+                    } catch (error) {
+                        console.error(`❌ Erro ao enviar evento "${eventName}":`, error);
+                        return false;
+                    }
                 } else {
                     console.warn('⚠️ Facebook Pixel não encontrado');
                     return false;
                 }
+            },
+            
+            // ✅ OBTER FACEBOOK BROWSER ID (fbp)
+            getFbp: function() {
+                // Tentar obter do cookie _fbp
+                const fbpCookie = document.cookie
+                    .split('; ')
+                    .find(row => row.startsWith('_fbp='));
+                
+                if (fbpCookie) {
+                    return fbpCookie.split('=')[1];
+                }
+                
+                // Se não existe, criar um
+                const fbpValue = 'fb.1.' + Date.now() + '.' + Math.random().toString().slice(2);
+                document.cookie = `_fbp=${fbpValue}; path=/; max-age=7776000`; // 90 dias
+                return fbpValue;
+            },
+            
+            // ✅ OBTER FACEBOOK CLICK ID (fbc) se disponível
+            getFbc: function() {
+                // Verificar se tem fbclid na URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const fbclid = urlParams.get('fbclid');
+                
+                if (fbclid) {
+                    const fbcValue = 'fb.1.' + Date.now() + '.' + fbclid;
+                    // Salvar no cookie para usar depois
+                    document.cookie = `_fbc=${fbcValue}; path=/; max-age=7776000`; // 90 dias
+                    return fbcValue;
+                }
+                
+                // Tentar obter do cookie _fbc
+                const fbcCookie = document.cookie
+                    .split('; ')
+                    .find(row => row.startsWith('_fbc='));
+                
+                return fbcCookie ? fbcCookie.split('=')[1] : undefined;
             }
         };
         
@@ -2043,35 +2129,33 @@
             document.getElementById('quizSection').classList.remove('hidden');
         }
 
-        // ✅ FUNÇÃO CORRIGIDA - startQuiz (SEM SESSIONSTORAGE)
+        // ✅ FUNÇÃO CORRIGIDA - startQuiz COM DEDUPLICAÇÃO ROBUSTA
         function startQuiz() {
-            console.log('🎯 Tentando disparar evento "Iniciou formulario"...');
+            console.log('🎯 Iniciando quiz com sistema anti-duplicação avançado...');
             
-            // Pegar referência do botão corretamente
             const button = document.getElementById('startQuizBtn');
             
             if (button) {
-                // Feedback visual para mobile
                 button.classList.add('loading');
                 button.innerHTML = '🚀 Iniciando...';
             }
 
-            // ✅ EVENTO DE CONVERSÃO "Iniciou formulario" - COM EVENT_ID ÚNICO
+            // ✅ EVENTO DE CONVERSÃO "Iniciou formulario" COM DEDUPLICAÇÃO COMPLETA
             const eventSent = eventsTracker.trackOnce('custom', 'Iniciou formulario', {
                 button_location: 'landing_page',
                 button_text: 'Iniciar Minha Dieta Personalizada',
                 source: 'landing_page_cta',
-                timestamp: new Date().toISOString(),
-                user_agent: navigator.userAgent,
-                page_url: window.location.href,
-                session_id: eventsTracker.sessionId
+                content_name: 'Quiz Nutricional Inicio',
+                content_category: 'quiz_engagement',
+                value: 0, // Evento de topo de funil
+                currency: 'BRL'
             });
 
             if (eventSent) {
-                console.log('🎉 EVENTO DE CONVERSÃO "Iniciou formulario" ENVIADO COM EVENT_ID ÚNICO!');
+                console.log('🎉 EVENTO "Iniciou formulario" ENVIADO COM DEDUPLICAÇÃO COMPLETA!');
             }
 
-            // Eventos adicionais de tracking (também com event_id único)
+            // Eventos adicionais de tracking (também com deduplicação)
             eventsTracker.trackOnce('standard', 'ViewContent', {
                 content_type: 'quiz',
                 content_name: 'Quiz Início',
@@ -2259,45 +2343,6 @@
                     container.querySelectorAll('.option-card').forEach(c => {
                         c.classList.remove('selected');
                     });
-                    card.classList.add('selected');
-                    answers[questionKey] = ['healthy'];
-                } else if (option.value !== 'healthy' && !isSelected) {
-                    // If selecting any condition, remove "healthy"
-                    const healthyCard = container.querySelector('[data-value="healthy"]');
-                    if (healthyCard) {
-                        healthyCard.classList.remove('selected');
-                    }
-                    
-                    card.classList.add('selected');
-                    answers[questionKey] = answers[questionKey].filter(val => val !== 'healthy');
-                    if (!answers[questionKey].includes(option.value)) {
-                        answers[questionKey].push(option.value);
-                    }
-                } else {
-                    // Toggle selection
-                    card.classList.toggle('selected');
-                    
-                    if (isSelected) {
-                        answers[questionKey] = answers[questionKey].filter(val => val !== option.value);
-                    } else {
-                        answers[questionKey].push(option.value);
-                    }
-                }
-            }
-            // Special logic for allergies
-            else if (questionKey === 'allergies') {
-                if (option.value === 'no_allergies' && !isSelected) {
-                    container.querySelectorAll('.option-card').forEach(c => {
-                        c.classList.remove('selected');
-                    });
-                    card.classList.add('selected');
-                    answers[questionKey] = ['no_allergies'];
-                } else if (option.value !== 'no_allergies' && !isSelected) {
-                    const noAllergiesCard = container.querySelector('[data-value="no_allergies"]');
-                    if (noAllergiesCard) {
-                        noAllergiesCard.classList.remove('selected');
-                    }
-                    
                     card.classList.add('selected');
                     answers[questionKey] = answers[questionKey].filter(val => val !== 'no_allergies');
                     if (!answers[questionKey].includes(option.value)) {
@@ -3236,9 +3281,9 @@
             setInterval(updateCountdown, 1000);
         }
 
-        // Enhanced checkout function with Facebook compliant events + Data Persistence
+        // ✅ CHECKOUT FUNCTION COM DEDUPLICAÇÃO AVANÇADA
         function handleCheckoutClick() {
-           console.log('Checkout button clicked');
+            console.log('🛒 Checkout iniciado com sistema anti-duplicação...');
 
             // ✅ SALVAR DADOS COM SISTEMA ROBUSTO PARA RECUPERAÇÃO PÓS-PAGAMENTO
             try {
@@ -3276,14 +3321,11 @@
                 console.error('Erro ao salvar dados para recuperação:', error);
             }
 
-            // ✅ EVENTOS FACEBOOK COMPLIANCE - COM EVENT_ID ÚNICO
+            // ✅ EVENTOS FACEBOOK COMPLIANCE - COM DEDUPLICAÇÃO ROBUSTA
             try {
                 const results = calculateResults();
                 
-                // Gerar um event_id único para esta sessão de checkout
-                const checkoutEventId = eventsTracker.generateEventId();
-                
-                // InitiateCheckout - evento padrão do Facebook
+                // ✅ INITIATECHECKOUT COM DEDUPLICAÇÃO COMPLETA
                 eventsTracker.trackOnce('standard', 'InitiateCheckout', {
                     content_type: 'product',
                     content_name: 'Protocolo Nutricional Dra Giovana',
@@ -3293,12 +3335,15 @@
                     currency: 'BRL',
                     num_items: 1,
                     predicted_ltv: 29.90,
+                    // ✅ Dados adicionais para melhor matching
                     user_goal: answers.goal,
+                    user_gender: answers.gender,
+                    user_age: answers.age,
                     user_bmr: results.bmr,
                     user_target_calories: results.targetCalories
                 });
                 
-                // AddToCart - evento padrão do Facebook  
+                // ✅ ADDTOCART COM DEDUPLICAÇÃO  
                 eventsTracker.trackOnce('standard', 'AddToCart', {
                     content_type: 'product',
                     content_name: 'Protocolo Nutricional Dra Giovana',
@@ -3309,7 +3354,7 @@
                     num_items: 1
                 });
                 
-                // Evento customizado para tracking interno
+                // ✅ Evento customizado para tracking interno
                 eventsTracker.trackOnce('custom', 'CheckoutButtonClicked', {
                     price: 29.90,
                     product_name: 'Protocolo Nutricional',
@@ -3323,8 +3368,10 @@
                     }
                 });
                 
+                console.log('✅ Todos os eventos de checkout enviados com deduplicação completa');
+                
             } catch (e) {
-                console.log('Pixel tracking error:', e);
+                console.error('❌ Erro no tracking de checkout:', e);
             }
 
             // Visual feedback

@@ -1418,7 +1418,7 @@
 
             <div class="doctor-section">
                 <div class="doctor-photo">
-                    <img src="https://via.placeholder.com/200x200/2c7a2c/ffffff?text=Dra.+Giovana" alt="Dra. Giovana Silva - Nutricionista" />
+                    <img src="Dra Giovana.png" alt="Dra. Giovana Silva - Nutricionista" />
                 </div>
                 
                 <div class="doctor-info">
@@ -1975,12 +1975,21 @@
                 console.error('❌ Botão startQuizBtn não encontrado');
             }
 
-            // Adicionar event listeners aos botões de navegação
+            // ✅ Adicionar event listeners aos botões de navegação (COM PROTEÇÃO ANTI-DUPLICAÇÃO)
             const backBtn = document.getElementById('backBtn');
             const nextBtn = document.getElementById('nextBtn');
             
-            if (backBtn) backBtn.addEventListener('click', previousQuestion);
-            if (nextBtn) nextBtn.addEventListener('click', nextQuestion);
+            if (backBtn && !backBtn.dataset.listenerAdded) {
+                backBtn.addEventListener('click', previousQuestion);
+                backBtn.dataset.listenerAdded = 'true';
+                console.log('✅ Event listener adicionado ao botão Voltar');
+            }
+            
+            if (nextBtn && !nextBtn.dataset.listenerAdded) {
+                nextBtn.addEventListener('click', nextQuestion);
+                nextBtn.dataset.listenerAdded = 'true';
+                console.log('✅ Event listener adicionado ao botão Continuar');
+            }
             
             // Track page view inicial
             updateURL('landing');
@@ -2137,8 +2146,11 @@
             questionSubtitle.textContent = question.subtitle;
 
             backBtn.style.display = index > 0 ? 'block' : 'none';
+            backBtn.dataset.processing = 'false'; // Resetar estado do botão voltar
             
+            // ✅ RESETAR ESTADO DO BOTÃO CORRETAMENTE
             nextBtn.disabled = true;
+            nextBtn.dataset.processing = 'false'; // Garantir que não está em processamento
             nextBtn.textContent = index === questions.length - 1 ? 'Finalizar Avaliação →' : 'Continuar →';
 
             // Track question view
@@ -2174,114 +2186,149 @@
                     <div class="option-description">${option.description}</div>
                 `;
 
-                optionCard.addEventListener('click', function() {
+                // ✅ CORRIGIR PROBLEMA DO DUPLO CLIQUE - Event listener único e bem definido
+                optionCard.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Evitar cliques múltiplos durante processamento
+                    if (this.dataset.processing === 'true') {
+                        return;
+                    }
+                    
+                    this.dataset.processing = 'true';
+                    
+                    setTimeout(() => {
+                        this.dataset.processing = 'false';
+                    }, 300);
+
                     if (question.multiSelect) {
-                        const isSelected = this.classList.contains('selected');
-                        const questionKey = getQuestionKey(currentQuestion);
-                        
-                        // Initialize answers array if not exists
-                        if (!answers[questionKey]) {
-                            answers[questionKey] = [];
-                        }
-                        
-                        // Special logic for health conditions
-                        if (questionKey === 'health') {
-                            if (option.value === 'healthy' && !isSelected) {
-                                // If selecting "healthy", deselect all others
-                                container.querySelectorAll('.option-card').forEach(card => {
-                                    card.classList.remove('selected');
-                                });
-                                this.classList.add('selected');
-                                answers[questionKey] = ['healthy'];
-                            } else if (option.value !== 'healthy' && !isSelected) {
-                                // If selecting any condition, remove "healthy"
-                                const healthyCard = container.querySelector('[data-value="healthy"]');
-                                if (healthyCard) {
-                                    healthyCard.classList.remove('selected');
-                                }
-                                
-                                this.classList.add('selected');
-                                answers[questionKey] = answers[questionKey].filter(val => val !== 'healthy');
-                                if (!answers[questionKey].includes(option.value)) {
-                                    answers[questionKey].push(option.value);
-                                }
-                            } else {
-                                // Toggle selection
-                                this.classList.toggle('selected');
-                                
-                                if (isSelected) {
-                                    answers[questionKey] = answers[questionKey].filter(val => val !== option.value);
-                                } else {
-                                    answers[questionKey].push(option.value);
-                                }
-                            }
-                        }
-                        // Special logic for allergies
-                        else if (questionKey === 'allergies') {
-                            if (option.value === 'no_allergies' && !isSelected) {
-                                container.querySelectorAll('.option-card').forEach(card => {
-                                    card.classList.remove('selected');
-                                });
-                                this.classList.add('selected');
-                                answers[questionKey] = ['no_allergies'];
-                            } else if (option.value !== 'no_allergies' && !isSelected) {
-                                const noAllergiesCard = container.querySelector('[data-value="no_allergies"]');
-                                if (noAllergiesCard) {
-                                    noAllergiesCard.classList.remove('selected');
-                                }
-                                
-                                this.classList.add('selected');
-                                answers[questionKey] = answers[questionKey].filter(val => val !== 'no_allergies');
-                                if (!answers[questionKey].includes(option.value)) {
-                                    answers[questionKey].push(option.value);
-                                }
-                            } else {
-                                this.classList.toggle('selected');
-                                
-                                if (isSelected) {
-                                    answers[questionKey] = answers[questionKey].filter(val => val !== option.value);
-                                } else {
-                                    answers[questionKey].push(option.value);
-                                }
-                            }
-                        }
-                        
-                        const hasSelection = container.querySelectorAll('.option-card.selected').length > 0;
-                        document.getElementById('nextBtn').disabled = !hasSelection;
-
-                        // Track selection for multi-select
-                        const selectionEventKey = `QuizOptionSelected_${currentQuestion}_${option.value}_${Date.now()}`;
-                        eventsTracker.trackOnce('custom', selectionEventKey, {
-                            question_number: currentQuestion + 1,
-                            option_value: option.value,
-                            option_title: option.title,
-                            is_multi_select: true,
-                            selection_action: isSelected ? 'deselected' : 'selected'
-                        });
+                        handleMultiSelectOption(this, option, container, question);
                     } else {
-                        container.querySelectorAll('.option-card').forEach(card => {
-                            card.classList.remove('selected');
-                        });
-                        
-                        this.classList.add('selected');
-                        
-                        const questionKey = getQuestionKey(currentQuestion);
-                        answers[questionKey] = option.value;
-                        
-                        document.getElementById('nextBtn').disabled = false;
-
-                        // Track selection for single-select
-                        const selectionEventKey = `QuizOptionSelected_${currentQuestion}_${option.value}`;
-                        eventsTracker.trackOnce('custom', selectionEventKey, {
-                            question_number: currentQuestion + 1,
-                            option_value: option.value,
-                            option_title: option.title,
-                            is_multi_select: false
-                        });
+                        handleSingleSelectOption(this, option, container);
                     }
                 });
 
                 container.appendChild(optionCard);
+            });
+        }
+
+        function handleSingleSelectOption(card, option, container) {
+            // Remover seleção anterior
+            container.querySelectorAll('.option-card').forEach(c => {
+                c.classList.remove('selected');
+            });
+            
+            // Selecionar esta opção
+            card.classList.add('selected');
+            
+            // Salvar resposta
+            const questionKey = getQuestionKey(currentQuestion);
+            answers[questionKey] = option.value;
+            
+            // ✅ HABILITAR BOTÃO IMEDIATAMENTE SEM DELAY
+            const nextBtn = document.getElementById('nextBtn');
+            if (nextBtn) {
+                nextBtn.disabled = false;
+                console.log(`✅ Opção selecionada: ${option.title} - Botão habilitado`);
+            }
+
+            // Track selection
+            const selectionEventKey = `QuizOptionSelected_${currentQuestion}_${option.value}`;
+            eventsTracker.trackOnce('custom', selectionEventKey, {
+                question_number: currentQuestion + 1,
+                option_value: option.value,
+                option_title: option.title,
+                is_multi_select: false
+            });
+        }
+
+        function handleMultiSelectOption(card, option, container, question) {
+            const isSelected = card.classList.contains('selected');
+            const questionKey = getQuestionKey(currentQuestion);
+            
+            // Initialize answers array if not exists
+            if (!answers[questionKey]) {
+                answers[questionKey] = [];
+            }
+            
+            // Special logic for health conditions
+            if (questionKey === 'health') {
+                if (option.value === 'healthy' && !isSelected) {
+                    // If selecting "healthy", deselect all others
+                    container.querySelectorAll('.option-card').forEach(c => {
+                        c.classList.remove('selected');
+                    });
+                    card.classList.add('selected');
+                    answers[questionKey] = ['healthy'];
+                } else if (option.value !== 'healthy' && !isSelected) {
+                    // If selecting any condition, remove "healthy"
+                    const healthyCard = container.querySelector('[data-value="healthy"]');
+                    if (healthyCard) {
+                        healthyCard.classList.remove('selected');
+                    }
+                    
+                    card.classList.add('selected');
+                    answers[questionKey] = answers[questionKey].filter(val => val !== 'healthy');
+                    if (!answers[questionKey].includes(option.value)) {
+                        answers[questionKey].push(option.value);
+                    }
+                } else {
+                    // Toggle selection
+                    card.classList.toggle('selected');
+                    
+                    if (isSelected) {
+                        answers[questionKey] = answers[questionKey].filter(val => val !== option.value);
+                    } else {
+                        answers[questionKey].push(option.value);
+                    }
+                }
+            }
+            // Special logic for allergies
+            else if (questionKey === 'allergies') {
+                if (option.value === 'no_allergies' && !isSelected) {
+                    container.querySelectorAll('.option-card').forEach(c => {
+                        c.classList.remove('selected');
+                    });
+                    card.classList.add('selected');
+                    answers[questionKey] = ['no_allergies'];
+                } else if (option.value !== 'no_allergies' && !isSelected) {
+                    const noAllergiesCard = container.querySelector('[data-value="no_allergies"]');
+                    if (noAllergiesCard) {
+                        noAllergiesCard.classList.remove('selected');
+                    }
+                    
+                    card.classList.add('selected');
+                    answers[questionKey] = answers[questionKey].filter(val => val !== 'no_allergies');
+                    if (!answers[questionKey].includes(option.value)) {
+                        answers[questionKey].push(option.value);
+                    }
+                } else {
+                    card.classList.toggle('selected');
+                    
+                    if (isSelected) {
+                        answers[questionKey] = answers[questionKey].filter(val => val !== option.value);
+                    } else {
+                        answers[questionKey].push(option.value);
+                    }
+                }
+            }
+            
+            const hasSelection = container.querySelectorAll('.option-card.selected').length > 0;
+            const nextBtn = document.getElementById('nextBtn');
+            if (nextBtn) {
+                nextBtn.disabled = !hasSelection;
+                console.log(`✅ Multi-select - Seleções: ${hasSelection ? 'Sim' : 'Não'} - Botão: ${hasSelection ? 'Habilitado' : 'Desabilitado'}`);
+            }
+
+            // Track selection for multi-select
+            const selectionEventKey = `QuizOptionSelected_${currentQuestion}_${option.value}_${Date.now()}`;
+            eventsTracker.trackOnce('custom', selectionEventKey, {
+                question_number: currentQuestion + 1,
+                option_value: option.value,
+                option_title: option.title,
+                is_multi_select: true,
+                selection_action: isSelected ? 'deselected' : 'selected'
             });
         }
 
@@ -2368,6 +2415,20 @@
         }
 
         function nextQuestion() {
+            // ✅ PROTEÇÃO CONTRA CLIQUES MÚLTIPLOS
+            const nextBtn = document.getElementById('nextBtn');
+            if (nextBtn && nextBtn.dataset.processing === 'true') {
+                console.log('⚠️ Botão já está processando, ignorando clique');
+                return;
+            }
+            
+            if (nextBtn) {
+                nextBtn.dataset.processing = 'true';
+                nextBtn.disabled = true;
+            }
+            
+            console.log(`➡️ Avançando da pergunta ${currentQuestion + 1} para ${currentQuestion + 2}`);
+
             // Track question completion
             const completionEventKey = `QuizQuestionCompleted_${currentQuestion}`;
             eventsTracker.trackOnce('custom', completionEventKey, {
@@ -2400,10 +2461,30 @@
                     behavior: 'smooth'
                 });
             }
+            
+            // Reabilitar botão após pequeno delay
+            setTimeout(() => {
+                if (nextBtn) {
+                    nextBtn.dataset.processing = 'false';
+                }
+            }, 500);
         }
 
         function previousQuestion() {
+            // ✅ PROTEÇÃO CONTRA CLIQUES MÚLTIPLOS
+            const backBtn = document.getElementById('backBtn');
+            if (backBtn && backBtn.dataset.processing === 'true') {
+                console.log('⚠️ Botão voltar já está processando, ignorando clique');
+                return;
+            }
+            
             if (currentQuestion > 0) {
+                if (backBtn) {
+                    backBtn.dataset.processing = 'true';
+                }
+                
+                console.log(`⬅️ Voltando da pergunta ${currentQuestion + 1} para ${currentQuestion}`);
+                
                 currentQuestion--;
                 loadQuestion(currentQuestion);
                 
@@ -2419,6 +2500,13 @@
                     from_question: currentQuestion + 2,
                     to_question: currentQuestion + 1
                 });
+                
+                // Reabilitar botão após pequeno delay
+                setTimeout(() => {
+                    if (backBtn) {
+                        backBtn.dataset.processing = 'false';
+                    }
+                }, 500);
             }
         }
 
@@ -2857,9 +2945,7 @@
                                 <!-- Depoimento 1 -->
                                 <div style="background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 16px; padding: 20px; max-width: 300px; width: 100%; backdrop-filter: blur(10px);">
                                     <div style="display: flex; justify-content: center; margin-bottom: 15px;">
-                                        <div style="width: 100%; max-width: 260px; height: 140px; background: rgba(0, 255, 136, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 14px; text-align: center; color: rgba(255, 255, 255, 0.8);">
-                                            💬 "Segui certinho a dieta e consegui ter os resultados esperados!"
-                                        </div>
+                                        <img src="whatsapp_chat (1).png" alt="Resultado Cliente 1" style="width: 100%; max-width: 260px; height: auto; object-fit: contain; border-radius: 12px;">
                                     </div>
                                     <div style="text-align: center;">
                                         <div style="font-size: 14px; font-weight: 700; color: var(--success); margin-bottom: 8px;">📱 Cliente Real - Amanda Nunes</div>
@@ -2872,9 +2958,7 @@
                                 <!-- Depoimento 2 -->
                                 <div style="background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(108, 192, 74, 0.3); border-radius: 16px; padding: 20px; max-width: 300px; width: 100%; backdrop-filter: blur(10px);">
                                     <div style="display: flex; justify-content: center; margin-bottom: 15px;">
-                                        <div style="width: 100%; max-width: 260px; height: 140px; background: rgba(108, 192, 74, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 14px; text-align: center; color: rgba(255, 255, 255, 0.8);">
-                                            💬 "Segue os meus resultados após seguir o seu planejamento!"
-                                        </div>
+                                        <img src="whatsapp_chat (2).png" alt="Resultado Cliente 2" style="width: 100%; max-width: 260px; height: auto; object-fit: contain; border-radius: 12px;">
                                     </div>
                                     <div style="text-align: center;">
                                         <div style="font-size: 14px; font-weight: 700; color: var(--accent); margin-bottom: 8px;">📱 Cliente Real - Leticia Rocha</div>
@@ -2887,9 +2971,7 @@
                                 <!-- Depoimento 3 -->
                                 <div style="background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(44, 122, 44, 0.3); border-radius: 16px; padding: 20px; max-width: 300px; width: 100%; backdrop-filter: blur(10px);">
                                     <div style="display: flex; justify-content: center; margin-bottom: 15px;">
-                                        <div style="width: 100%; max-width: 260px; height: 140px; background: rgba(44, 122, 44, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 14px; text-align: center; color: rgba(255, 255, 255, 0.8);">
-                                            💬 "Eu ameiii o resultado que tive com o protocolo!"
-                                        </div>
+                                        <img src="whatsapp_chat (3).png" alt="Resultado Cliente 3" style="width: 100%; max-width: 260px; height: auto; object-fit: contain; border-radius: 12px;">
                                     </div>
                                     <div style="text-align: center;">
                                         <div style="font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 8px;">📱 Cliente Real - Pamela Rocha</div>

@@ -976,6 +976,74 @@
             display: none !important;
         }
 
+        .cta-button.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .cta-button.loading::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes revealAnimation {
+            from { opacity: 0; transform: scale(0.9) translateY(30px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        
+        @keyframes numberPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes doctorPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes processingGlow {
+            0%, 100% { 
+                border-color: rgba(44, 122, 44, 0.3); 
+                box-shadow: 0 0 20px rgba(44, 122, 44, 0.2); 
+            }
+            50% { 
+                border-color: rgba(44, 122, 44, 0.8); 
+                box-shadow: 0 0 30px rgba(44, 122, 44, 0.5); 
+            }
+        }
+        
+        .processing {
+            animation: processingGlow 2s ease-in-out infinite !important;
+            background: rgba(44, 122, 44, 0.15) !important;
+            border-color: rgba(44, 122, 44, 0.5) !important;
+        }
+        
+        .completed {
+            background: rgba(0, 255, 136, 0.15) !important;
+            border-color: rgba(0, 255, 136, 0.5) !important;
+        }
+        
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         @media (max-width: 768px) {
             .header {
                 padding: 15px 0;
@@ -1153,349 +1221,6 @@
                 line-height: 1.2;
             }
 
-        /* MOBILE-FIRST OPTIMIZATIONS */
-        @media (max-width: 480px) {
-            .container {
-                padding: 10px 8px;
-            }
-
-            .landing-card {
-                padding: 20px 15px;
-                border-radius: 16px;
-                margin: 5px 0;
-            }
-
-            .main-title {
-                font-size: 24px;
-                line-height: 1.1;
-                margin-bottom: 12px;
-            }
-
-            .subtitle {
-                font-size: 15px;
-                margin-bottom: 20px;
-            }
-
-            .doctor-section {
-                margin: 25px 0;
-                gap: 20px;
-            }
-
-            .doctor-photo {
-                width: 120px;
-                height: 120px;
-            }
-
-            .doctor-name {
-                font-size: 20px;
-                margin-bottom: 8px;
-            }
-
-            .doctor-credentials {
-                font-size: 14px;
-                margin-bottom: 15px;
-            }
-
-            .doctor-description {
-                font-size: 13px;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 8px;
-                margin: 25px 0;
-            }
-
-            .stat-card {
-                padding: 15px 8px;
-                border-radius: 12px;
-            }
-
-            .stat-number {
-                font-size: 18px;
-                margin-bottom: 4px;
-            }
-
-            .stat-label {
-                font-size: 11px;
-            }
-
-            .benefits-title {
-                font-size: 20px;
-                margin-bottom: 20px;
-            }
-
-            .benefit-item {
-                padding: 14px;
-                border-radius: 10px;
-            }
-
-            .benefit-text {
-                font-size: 13px;
-            }
-
-            .cta-section {
-                padding: 20px 15px;
-                border-radius: 15px;
-            }
-
-            .cta-title {
-                font-size: 18px;
-                margin-bottom: 10px;
-            }
-
-            .cta-subtitle {
-                font-size: 13px;
-                margin-bottom: 20px;
-            }
-
-            .cta-button {
-                padding: 14px 20px;
-                font-size: 14px;
-                border-radius: 10px;
-                min-height: 48px; /* Touch target size */
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-            }
-
-            .disclaimer {
-                font-size: 10px;
-                margin-top: 12px;
-            }
-        }
-
-        /* TOUCH OPTIMIZATIONS */
-        .cta-button {
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-        }
-
-        /* LOADING STATE */
-        .cta-button.loading {
-            pointer-events: none;
-            opacity: 0.8;
-        }
-
-        .cta-button.loading::after {
-            content: '';
-            width: 20px;
-            height: 20px;
-            border: 2px solid transparent;
-            border-top: 2px solid white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-left: 10px;
-        }
-
-        /* PERFORMANCE OPTIMIZATIONS */
-        * {
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            -webkit-user-drag: none;
-            -khtml-user-drag: none;
-            -moz-user-drag: none;
-            -o-user-drag: none;
-            user-drag: none;
-        }
-
-        /* LANDSCAPE MOBILE OPTIMIZATIONS */
-        @media (max-width: 896px) and (orientation: landscape) {
-            .container {
-                padding: 15px 10px;
-            }
-
-            .landing-card {
-                padding: 15px 12px;
-            }
-
-            .doctor-section {
-                flex-direction: row;
-                gap: 20px;
-                align-items: center;
-                text-align: left;
-            }
-
-            .doctor-photo {
-                width: 100px;
-                height: 100px;
-                flex-shrink: 0;
-            }
-
-            .doctor-info {
-                text-align: left;
-            }
-
-            .doctor-description {
-                text-align: left;
-            }
-
-            .main-title {
-                font-size: 22px;
-            }
-
-            .subtitle {
-                font-size: 14px;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 8px;
-            }
-
-            .benefits-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-            }
-        }
-
-        /* MOBILE PERFORMANCE & UX ENHANCEMENTS */
-        
-        /* Preload critical fonts */
-        @font-display: swap;
-        
-        /* Reduce motion for users who prefer it */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-
-        /* Better focus indicators for accessibility */
-        .cta-button:focus-visible,
-        .option-card:focus-visible,
-        .btn:focus-visible {
-            outline: 3px solid var(--accent);
-            outline-offset: 2px;
-        }
-
-        /* Prevent zoom on input focus (iOS) */
-        @media screen and (-webkit-min-device-pixel-ratio: 0) {
-            .input-field {
-                font-size: 16px !important;
-            }
-        }
-
-        /* iOS Safari specific fixes */
-        @supports (-webkit-touch-callout: none) {
-            .landing-card, .quiz-card {
-                -webkit-backdrop-filter: blur(30px);
-            }
-            
-            .cta-button {
-                -webkit-appearance: none;
-                -webkit-tap-highlight-color: rgba(0,0,0,0);
-            }
-        }
-
-        /* Android Chrome specific fixes */
-        @media screen and (max-width: 767px) {
-            .landing-card, .quiz-card {
-                transform: translateZ(0);
-                will-change: transform;
-            }
-        }
-
-        /* Smooth scrolling for the entire page */
-        html {
-            scroll-behavior: smooth;
-            -webkit-scroll-behavior: smooth;
-        }
-
-        /* Loading state improvements */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 10, 10, 0.9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .loading-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        /* VERY SMALL SCREENS */
-        @media (max-width: 360px) {
-            .container {
-                padding: 8px 5px;
-            }
-
-            .landing-card {
-                padding: 15px 10px;
-                border-radius: 12px;
-            }
-
-            .main-title {
-                font-size: 22px;
-            }
-
-            .subtitle {
-                font-size: 14px;
-            }
-
-            .doctor-photo {
-                width: 100px;
-                height: 100px;
-            }
-
-            .doctor-name {
-                font-size: 18px;
-            }
-
-            .cta-button {
-                padding: 12px 15px;
-                font-size: 13px;
-            }
-
-            .stat-card {
-                padding: 12px 8px;
-            }
-
-            .stat-number {
-                font-size: 16px;
-            }
-
-            .stat-label {
-                font-size: 10px;
-            }
-
-            .benefit-item {
-                padding: 12px;
-            }
-
-            .benefit-text {
-                font-size: 12px;
-            }
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-            /* ENHANCED MOBILE STYLES */
             .question-title {
                 font-size: 20px;
                 line-height: 1.2;
@@ -1524,7 +1249,7 @@
             .option-card {
                 padding: 16px 14px;
                 border-radius: 14px;
-                min-height: 60px; /* Touch target */
+                min-height: 60px;
             }
 
             .option-icon {
@@ -1651,103 +1376,6 @@
                 padding: 20px 15px !important;
                 border-radius: 16px !important;
             }
-            
-            /* Size overrides for inline styles on mobile */
-            [style*="font-size: 80px"] {
-                font-size: 50px !important;
-            }
-            
-            [style*="font-size: 28px"] {
-                font-size: 20px !important;
-            }
-            
-            [style*="font-size: 36px"] {
-                font-size: 24px !important;
-            }
-            
-            [style*="font-size: 24px"] {
-                font-size: 18px !important;
-            }
-
-            [style*="font-size: 22px"] {
-                font-size: 18px !important;
-            }
-
-            [style*="font-size: 20px"] {
-                font-size: 16px !important;
-            }
-
-            [style*="font-size: 18px"] {
-                font-size: 15px !important;
-            }
-
-            [style*="font-size: 16px"] {
-                font-size: 14px !important;
-            }
-
-            /* Padding adjustments for mobile */
-            [style*="padding: 25px"] {
-                padding: 15px !important;
-            }
-
-            [style*="padding: 20px"] {
-                padding: 12px !important;
-            }
-
-            [style*="margin-bottom: 25px"] {
-                margin-bottom: 15px !important;
-            }
-
-            [style*="margin-bottom: 20px"] {
-                margin-bottom: 12px !important;
-            }
-        }
-
-        @keyframes revealAnimation {
-            from { opacity: 0; transform: scale(0.9) translateY(30px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        
-        @keyframes numberPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes doctorPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        @keyframes processingGlow {
-            0%, 100% { 
-                border-color: rgba(44, 122, 44, 0.3); 
-                box-shadow: 0 0 20px rgba(44, 122, 44, 0.2); 
-            }
-            50% { 
-                border-color: rgba(44, 122, 44, 0.8); 
-                box-shadow: 0 0 30px rgba(44, 122, 44, 0.5); 
-            }
-        }
-        
-        .processing {
-            animation: processingGlow 2s ease-in-out infinite !important;
-            background: rgba(44, 122, 44, 0.15) !important;
-            border-color: rgba(44, 122, 44, 0.5) !important;
-        }
-        
-        .completed {
-            background: rgba(0, 255, 136, 0.15) !important;
-            border-color: rgba(0, 255, 136, 0.5) !important;
-        }
-        
-        @keyframes countUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -1790,7 +1418,7 @@
 
             <div class="doctor-section">
                 <div class="doctor-photo">
-                    <img src="Dra Giovana.png" alt="Dra. Giovana Silva - Nutricionista" />
+                    <img src="https://via.placeholder.com/200x200/2c7a2c/ffffff?text=Dra.+Giovana" alt="Dra. Giovana Silva - Nutricionista" />
                 </div>
                 
                 <div class="doctor-info">
@@ -1877,7 +1505,7 @@
                     São apenas 9 perguntas simples e em 2 minutos você terá seu plano nutricional completo
                 </p>
                 
-                <button class="cta-button" onclick="startQuiz()">
+                <button class="cta-button" id="startQuizBtn">
                     🔥 Iniciar Minha Dieta Personalizada
                 </button>
                 
@@ -1912,33 +1540,14 @@
                 </div>
 
                 <div class="options-grid" id="optionsGrid">
-                    <div class="option-card" data-value="lose_weight">
-                        <div class="option-icon">🔥</div>
-                        <div class="option-title">Perder Peso</div>
-                        <div class="option-description">Eliminar gordura corporal de forma saudável e sustentável</div>
-                    </div>
-                    <div class="option-card" data-value="gain_muscle">
-                        <div class="option-icon">💪</div>
-                        <div class="option-title">Ganhar Massa Muscular</div>
-                        <div class="option-description">Construir músculos magros e definição corporal</div>
-                    </div>
-                    <div class="option-card" data-value="maintain">
-                        <div class="option-icon">⚖️</div>
-                        <div class="option-title">Manter Peso</div>
-                        <div class="option-description">Equilibrar a alimentação e manter o peso atual</div>
-                    </div>
-                    <div class="option-card" data-value="health">
-                        <div class="option-icon">🌱</div>
-                        <div class="option-title">Melhorar Saúde</div>
-                        <div class="option-description">Otimizar nutrição para mais energia e bem-estar</div>
-                    </div>
+                    <!-- Será preenchido dinamicamente -->
                 </div>
 
                 <div class="action-buttons">
-                    <button class="btn btn-secondary" id="backBtn" onclick="previousQuestion()" style="display: none;">
+                    <button class="btn btn-secondary" id="backBtn" style="display: none;">
                         ← Voltar
                     </button>
-                    <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>
+                    <button class="btn btn-primary" id="nextBtn" disabled>
                         Continuar →
                     </button>
                 </div>
@@ -1964,39 +1573,216 @@
             'contato'      // Pergunta 8
         ];
 
-        // ✅ Função para atualizar URL
+        // ✅ Função para atualizar URL e disparar PageView
         function updateURL(questionIndex) {
+            let newHash = '';
+            let pageName = '';
+            
             if (questionIndex === 'landing') {
-                window.location.hash = '';
-            } else if (questionIndex < hashMap.length) {
-                window.location.hash = hashMap[questionIndex];
+                newHash = '';
+                pageName = 'Landing Page';
             } else if (questionIndex === 'analise') {
-                window.location.hash = 'analise';
+                newHash = 'analise';
+                pageName = 'Análise Nutricional';
             } else if (questionIndex === 'resultado') {
-                window.location.hash = 'resultado';
+                newHash = 'resultado';
+                pageName = 'Resultados';
+            } else if (questionIndex < hashMap.length) {
+                newHash = hashMap[questionIndex];
+                pageName = `Pergunta ${questionIndex + 1} - ${hashMap[questionIndex]}`;
             }
             
-            // Track page view para cada hash
-            if (typeof fbq !== 'undefined') {
-                const hashName = questionIndex === 'landing' ? 'landing' : 
-                                questionIndex === 'analise' ? 'analise' :
-                                questionIndex === 'resultado' ? 'resultado' :
-                                hashMap[questionIndex] || 'unknown';
-                                
-                fbq('track', 'PageView', {
-                    content_name: `Quiz - ${hashName}`,
-                    content_category: 'quiz_step'
-                });
+            // Atualizar URL
+            if (window.location.hash !== '#' + newHash) {
+                window.location.hash = newHash;
             }
+            
+            // ✅ DISPARAR PAGEVIEW PARA CADA "PÁGINA"
+            eventsTracker.trackOnce('standard', `PageView_${newHash || 'landing'}`, {
+                content_type: 'quiz_page',
+                content_name: pageName,
+                content_category: 'quiz_step',
+                page_location: window.location.href,
+                page_title: pageName
+            });
+            
+            console.log(`📄 Página rastreada: ${pageName} (${window.location.href})`);
         }
 
         // ✅ Função para obter pergunta pelo hash
         function getQuestionFromHash() {
             const hash = window.location.hash.substring(1);
             if (!hash) return 'landing';
+            if (hash === 'analise') return 'analise';
+            if (hash === 'resultado') return 'resultado';
             const index = hashMap.indexOf(hash);
             return index >= 0 ? index : 'landing';
         }
+
+        // ✅ SISTEMA DE PERSISTÊNCIA DE DADOS (com fallback)
+        const DataStorage = {
+            // Tenta usar localStorage, se não conseguir usa memória
+            isLocalStorageAvailable: function() {
+                try {
+                    const testKey = 'test_' + Date.now();
+                    localStorage.setItem(testKey, 'test');
+                    localStorage.removeItem(testKey);
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            },
+            
+            memoryStorage: {}, // Fallback em memória
+            
+            setItem: function(key, value) {
+                const jsonValue = JSON.stringify(value);
+                if (this.isLocalStorageAvailable()) {
+                    try {
+                        localStorage.setItem('dra_giovana_' + key, jsonValue);
+                        console.log(`💾 Dados salvos no localStorage: ${key}`);
+                        return true;
+                    } catch (e) {
+                        console.warn('Erro ao salvar no localStorage, usando memória:', e);
+                    }
+                }
+                // Fallback para memória
+                this.memoryStorage['dra_giovana_' + key] = jsonValue;
+                console.log(`💾 Dados salvos na memória: ${key}`);
+                return true;
+            },
+            
+            getItem: function(key) {
+                const fullKey = 'dra_giovana_' + key;
+                if (this.isLocalStorageAvailable()) {
+                    try {
+                        const value = localStorage.getItem(fullKey);
+                        if (value) {
+                            console.log(`📄 Dados recuperados do localStorage: ${key}`);
+                            return JSON.parse(value);
+                        }
+                    } catch (e) {
+                        console.warn('Erro ao ler localStorage:', e);
+                    }
+                }
+                // Fallback para memória
+                const memValue = this.memoryStorage[fullKey];
+                if (memValue) {
+                    console.log(`📄 Dados recuperados da memória: ${key}`);
+                    return JSON.parse(memValue);
+                }
+                return null;
+            },
+            
+            removeItem: function(key) {
+                const fullKey = 'dra_giovana_' + key;
+                if (this.isLocalStorageAvailable()) {
+                    try {
+                        localStorage.removeItem(fullKey);
+                    } catch (e) {
+                        console.warn('Erro ao remover do localStorage:', e);
+                    }
+                }
+                delete this.memoryStorage[fullKey];
+                console.log(`🗑️ Dados removidos: ${key}`);
+            },
+            
+            // ✅ Salvar dados do quiz para recuperação pós-pagamento
+            saveQuizData: function(answers, results) {
+                const quizData = {
+                    answers: answers,
+                    results: results,
+                    completedAt: new Date().toISOString(),
+                    sessionId: eventsTracker.sessionId,
+                    userAgent: navigator.userAgent,
+                    timestamp: Date.now()
+                };
+                
+                this.setItem('quiz_data', quizData);
+                this.setItem('user_profile', {
+                    goal: answers.goal,
+                    name: answers.contact?.name,
+                    email: answers.contact?.email,
+                    bmr: results.bmr,
+                    targetCalories: results.targetCalories,
+                    projectedWeightChange: results.projectedWeightChange
+                });
+                
+                console.log('💾 Dados completos do quiz salvos para recuperação pós-pagamento');
+                return quizData;
+            },
+            
+            // ✅ Recuperar dados para personalização
+            getQuizData: function() {
+                return this.getItem('quiz_data');
+            },
+            
+            getUserProfile: function() {
+                return this.getItem('user_profile');
+            },
+            
+            // ✅ Verificar se usuário já fez o quiz
+            hasCompletedQuiz: function() {
+                const data = this.getQuizData();
+                return data && data.answers && data.results;
+            }
+        };
+        
+        // ✅ SISTEMA ANTI-DUPLICAÇÃO DE EVENTOS (SEM SESSIONSTORAGE)
+        let eventsTracker = {
+            sent: new Set(),
+            sessionId: 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+            
+            // Gera ID único para cada evento
+            generateEventId: function() {
+                return 'evt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            },
+            
+            // Verifica se evento já foi enviado (apenas na memória)
+            hasBeenSent: function(eventName) {
+                return this.sent.has(eventName);
+            },
+            
+            // Marca evento como enviado (apenas na memória)
+            markAsSent: function(eventName) {
+                this.sent.add(eventName);
+            },
+            
+            // Dispara evento apenas se não foi enviado antes COM EVENT_ID ÚNICO
+            trackOnce: function(eventType, eventName, parameters = {}) {
+                if (this.hasBeenSent(eventName)) {
+                    console.log(`🔄 Evento "${eventName}" já foi enviado - evitando duplicação`);
+                    return false;
+                }
+                
+                if (typeof fbq !== 'undefined') {
+                    // ✅ ADICIONAR EVENT_ID ÚNICO para evitar duplicação no Facebook
+                    const eventId = this.generateEventId();
+                    const eventData = {
+                        ...parameters,
+                        event_id: eventId, // Facebook requer este campo para deduplicar
+                        session_id: this.sessionId
+                    };
+                    
+                    if (eventType === 'custom') {
+                        fbq('trackCustom', eventName, eventData, {
+                            eventID: eventId // Também passar como opção
+                        });
+                    } else {
+                        fbq('track', eventName, eventData, {
+                            eventID: eventId // Também passar como opção
+                        });
+                    }
+                    
+                    this.markAsSent(eventName);
+                    console.log(`✅ Evento "${eventName}" enviado com event_id único: ${eventId}`);
+                    return true;
+                } else {
+                    console.warn('⚠️ Facebook Pixel não encontrado');
+                    return false;
+                }
+            }
+        };
         
         const questions = [
             {
@@ -2110,21 +1896,41 @@
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
             
-            // ✅ INICIALIZAR SESSÃO ÚNICA PARA TRACKING
-            if (!sessionStorage.getItem('session_id')) {
-                const sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                sessionStorage.setItem('session_id', sessionId);
-                console.log('🆔 Nova sessão iniciada:', sessionId);
-            }
+            // ✅ INICIALIZAR SESSÃO ÚNICA PARA TRACKING (SEM SESSIONSTORAGE)
+            console.log('🆔 Nova sessão iniciada:', eventsTracker.sessionId);
             
             // Mobile-specific initializations
             initializeMobileOptimizations();
+            
+            // ✅ VERIFICAR SE USUÁRIO JÁ COMPLETOU O QUIZ
+            const existingData = DataStorage.getQuizData();
+            if (existingData && existingData.answers && existingData.results) {
+                console.log('🔄 Usuário retornando detectado - dados encontrados');
+                answers = existingData.answers;
+                
+                // Se está na URL de resultado, mostrar resultados salvos
+                const currentRoute = getQuestionFromHash();
+                if (currentRoute === 'resultado') {
+                    console.log('📊 Mostrando resultados salvos para usuário retornando');
+                    setTimeout(() => {
+                        showQuizSection();
+                        showFinalResults();
+                    }, 100);
+                    return;
+                }
+            }
             
             // ✅ Verificar hash na URL ao carregar
             const initialRoute = getQuestionFromHash();
             
             if (initialRoute === 'landing') {
                 showLandingPage();
+            } else if (initialRoute === 'analise') {
+                showQuizSection();
+                showAnalysisProcess();
+            } else if (initialRoute === 'resultado') {
+                showQuizSection();
+                showFinalResults();
             } else if (typeof initialRoute === 'number') {
                 currentQuestion = initialRoute;
                 isOnLandingPage = false;
@@ -2138,13 +1944,19 @@
                 
                 if (newRoute === 'landing' && !isOnLandingPage) {
                     showLandingPage();
+                } else if (newRoute === 'analise') {
+                    showQuizSection();
+                    showAnalysisProcess();
+                } else if (newRoute === 'resultado') {
+                    showQuizSection();
+                    showFinalResults();
                 } else if (typeof newRoute === 'number' && newRoute !== currentQuestion) {
                     currentQuestion = newRoute;
                     isOnLandingPage = false;
                     showQuizSection();
                     loadQuestion(currentQuestion);
                     
-                    // Track navigation via browser back/forward - evitar duplicação
+                    // Track navigation via browser back/forward
                     const navEventKey = `QuizBrowserNavigation_${currentQuestion}_${Date.now()}`;
                     eventsTracker.trackOnce('custom', navEventKey, {
                         question_number: currentQuestion + 1,
@@ -2154,85 +1966,38 @@
                 }
             });
             
-            // Track page view inicial - apenas uma vez com melhor estrutura
-            eventsTracker.trackOnce('standard', 'ViewContent', {
-                content_type: 'landing_page',
-                content_name: 'Dra Giovana Landing Initial',
-                content_category: 'nutrição',
-                content_ids: ['landing_page_dra_giovana'],
-                value: 0,
-                currency: 'BRL'
-            });
+            // Adicionar event listener ao botão CORRIGIDO
+            const startButton = document.getElementById('startQuizBtn');
+            if (startButton) {
+                startButton.addEventListener('click', startQuiz);
+                console.log('✅ Event listener adicionado ao botão');
+            } else {
+                console.error('❌ Botão startQuizBtn não encontrado');
+            }
+
+            // Adicionar event listeners aos botões de navegação
+            const backBtn = document.getElementById('backBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            if (backBtn) backBtn.addEventListener('click', previousQuestion);
+            if (nextBtn) nextBtn.addEventListener('click', nextQuestion);
+            
+            // Track page view inicial
+            updateURL('landing');
 
             console.log('🚀 Sistema inicializado - Landing page da Dra. Giovana carregada');
             console.log('📱 Dispositivo móvel detectado:', isMobile());
-            console.log('🔒 Sistema anti-duplicação de eventos ativo');
+            console.log('🔒 Sistema anti-duplicação de eventos ativo (em memória)');
             console.log('🆔 Event IDs únicos habilitados para compliance com Facebook');
+            console.log('💾 Sistema de persistência de dados ativo');
         });
 
-        // Função para limpar tracking (caso necessário para testes)
-        function clearEventTracking() {
-            eventsTracker.sent.clear();
-            Object.keys(sessionStorage).forEach(key => {
-                if (key.startsWith('fbq_')) {
-                    sessionStorage.removeItem(key);
-                }
-            });
-            // Gerar nova sessão
-            const newSessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            sessionStorage.setItem('session_id', newSessionId);
-            console.log('🧹 Cache de eventos limpo - próximos eventos serão disparados novamente');
-            console.log('🆔 Nova sessão criada:', newSessionId);
-        }
-
-        // Função para debug do status do pixel
-        function debugPixelStatus() {
-            console.log('🔍 DEBUG DO FACEBOOK PIXEL:');
-            console.log('- Pixel carregado:', typeof fbq !== 'undefined');
-            console.log('- Session ID:', sessionStorage.getItem('session_id'));
-            console.log('- Eventos enviados:', Array.from(eventsTracker.sent));
-            console.log('- Event IDs funcionando:', eventsTracker.generateEventId());
-            
-            if (typeof fbq !== 'undefined') {
-                console.log('✅ Facebook Pixel funcionando corretamente');
-                
-                // Testar geração de event_id
-                const testEventId = eventsTracker.generateEventId();
-                console.log('🧪 Event ID de teste gerado:', testEventId);
-                
-            } else {
-                console.log('❌ Facebook Pixel NÃO encontrado');
-            }
-        }
-
-        // Exposar funções globalmente para debug
-        window.clearEventTracking = clearEventTracking;
-        window.debugPixelStatus = debugPixelStatus;
-        window.eventsTracker = eventsTracker; // Para debug avançado
-
-        // ✅ Avisos importantes no console
-        console.log('');
-        console.log('🚀 SISTEMA DE TRACKING INICIALIZADO');
-        console.log('=====================================');
-        console.log('✅ Event IDs únicos: ATIVO');
-        console.log('✅ Anti-duplicação: ATIVO'); 
-        console.log('✅ Facebook compliance: ATIVO');
-        console.log('');
-        console.log('🔧 Debug disponível:');
-        console.log('- clearEventTracking() → Limpar cache de eventos');
-        console.log('- debugPixelStatus() → Verificar status do pixel');
-        console.log('=====================================');
-        console.log('');
-
         function initializeMobileOptimizations() {
-            // Detectar se é mobile
             const isMobileDevice = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             
             if (isMobileDevice) {
-                // Otimizações específicas para mobile
                 document.body.style.overscrollBehavior = 'none';
                 
-                // Prevenir zoom duplo toque no iOS
                 let lastTouchEnd = 0;
                 document.addEventListener('touchend', function (event) {
                     const now = (new Date()).getTime();
@@ -2242,7 +2007,6 @@
                     lastTouchEnd = now;
                 }, false);
 
-                // Melhor handling de orientação
                 window.addEventListener('orientationchange', function() {
                     setTimeout(() => {
                         window.scrollTo(0, 0);
@@ -2262,16 +2026,6 @@
             document.getElementById('landingPage').classList.remove('hidden');
             document.getElementById('quizSection').classList.add('hidden');
             updateURL('landing');
-            
-            // Track landing page view - apenas uma vez com estrutura melhorada
-            eventsTracker.trackOnce('standard', 'ViewContent', {
-                content_type: 'landing_page',
-                content_name: 'Dra Giovana Landing',
-                content_category: 'nutrição',
-                content_ids: ['landing_page_revisit'],
-                value: 0,
-                currency: 'BRL'
-            });
         }
 
         function showQuizSection() {
@@ -2280,74 +2034,20 @@
             document.getElementById('quizSection').classList.remove('hidden');
         }
 
-        // ✅ SISTEMA ANTI-DUPLICAÇÃO DE EVENTOS COM EVENT_ID ÚNICO
-        let eventsTracker = {
-            sent: new Set(),
-            
-            // Gera ID único para cada evento
-            generateEventId: function() {
-                return 'evt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            },
-            
-            // Verifica se evento já foi enviado
-            hasBeenSent: function(eventName) {
-                const key = `fbq_${eventName}`;
-                return this.sent.has(key) || sessionStorage.getItem(key) === 'sent';
-            },
-            
-            // Marca evento como enviado
-            markAsSent: function(eventName) {
-                const key = `fbq_${eventName}`;
-                this.sent.add(key);
-                sessionStorage.setItem(key, 'sent');
-            },
-            
-            // Dispara evento apenas se não foi enviado antes COM EVENT_ID ÚNICO
-            trackOnce: function(eventType, eventName, parameters = {}) {
-                if (this.hasBeenSent(eventName)) {
-                    console.log(`🔄 Evento "${eventName}" já foi enviado - evitando duplicação`);
-                    return false;
-                }
-                
-                if (typeof fbq !== 'undefined') {
-                    // ✅ ADICIONAR EVENT_ID ÚNICO para evitar duplicação no Facebook
-                    const eventId = this.generateEventId();
-                    const eventData = {
-                        ...parameters,
-                        event_id: eventId // Facebook requer este campo para deduplicar
-                    };
-                    
-                    if (eventType === 'custom') {
-                        fbq('trackCustom', eventName, eventData, {
-                            eventID: eventId // Também passar como opção
-                        });
-                    } else {
-                        fbq('track', eventName, eventData, {
-                            eventID: eventId // Também passar como opção
-                        });
-                    }
-                    
-                    this.markAsSent(eventName);
-                    console.log(`✅ Evento "${eventName}" enviado com event_id único: ${eventId}`);
-                    return true;
-                } else {
-                    console.warn('⚠️ Facebook Pixel não encontrado');
-                    return false;
-                }
-            }
-        };
-
-        console.log('🔒 Sistema Anti-Duplicação Ativo: Event IDs únicos para compliance com Facebook Pixel');
-
+        // ✅ FUNÇÃO CORRIGIDA - startQuiz (SEM SESSIONSTORAGE)
         function startQuiz() {
-            // Feedback visual para mobile
-            const button = event.target;
-            button.classList.add('loading');
-            button.innerHTML = '🚀 Iniciando...';
-
-            // ✅ EVENTO DE CONVERSÃO "Iniciou formulario" - COM EVENT_ID ÚNICO
             console.log('🎯 Tentando disparar evento "Iniciou formulario"...');
             
+            // Pegar referência do botão corretamente
+            const button = document.getElementById('startQuizBtn');
+            
+            if (button) {
+                // Feedback visual para mobile
+                button.classList.add('loading');
+                button.innerHTML = '🚀 Iniciando...';
+            }
+
+            // ✅ EVENTO DE CONVERSÃO "Iniciou formulario" - COM EVENT_ID ÚNICO
             const eventSent = eventsTracker.trackOnce('custom', 'Iniciou formulario', {
                 button_location: 'landing_page',
                 button_text: 'Iniciar Minha Dieta Personalizada',
@@ -2355,7 +2055,7 @@
                 timestamp: new Date().toISOString(),
                 user_agent: navigator.userAgent,
                 page_url: window.location.href,
-                session_id: sessionStorage.getItem('session_id') || 'session_' + Date.now()
+                session_id: eventsTracker.sessionId
             });
 
             if (eventSent) {
@@ -2396,8 +2096,10 @@
                 });
 
                 // Reset button state
-                button.classList.remove('loading');
-                button.innerHTML = '🔥 Iniciar Minha Dieta Personalizada';
+                if (button) {
+                    button.classList.remove('loading');
+                    button.innerHTML = '🔥 Iniciar Minha Dieta Personalizada';
+                }
             }, 500);
         }
 
@@ -2426,9 +2128,6 @@
             const backBtn = document.getElementById('backBtn');
             const nextBtn = document.getElementById('nextBtn');
 
-            // ✅ Atualizar URL
-            updateURL(index);
-
             const progress = ((index + 1) / questions.length) * 100;
             progressFill.style.width = progress + '%';
             progressText.textContent = `Avaliação Nutricional - Etapa ${index + 1} de ${questions.length}`;
@@ -2442,12 +2141,11 @@
             nextBtn.disabled = true;
             nextBtn.textContent = index === questions.length - 1 ? 'Finalizar Avaliação →' : 'Continuar →';
 
-            // ✅ Track question view - evitar duplicação por pergunta
+            // Track question view
             const questionEventKey = `QuizQuestionViewed_${index}`;
             eventsTracker.trackOnce('custom', questionEventKey, {
                 question_number: index + 1,
                 question_title: question.title,
-                question_hash: hashMap[index],
                 quiz_progress: Math.round(progress)
             });
 
@@ -2551,7 +2249,7 @@
                         const hasSelection = container.querySelectorAll('.option-card.selected').length > 0;
                         document.getElementById('nextBtn').disabled = !hasSelection;
 
-                        // Track selection for multi-select - evitar duplicação
+                        // Track selection for multi-select
                         const selectionEventKey = `QuizOptionSelected_${currentQuestion}_${option.value}_${Date.now()}`;
                         eventsTracker.trackOnce('custom', selectionEventKey, {
                             question_number: currentQuestion + 1,
@@ -2572,7 +2270,7 @@
                         
                         document.getElementById('nextBtn').disabled = false;
 
-                        // Track selection for single-select - evitar duplicação
+                        // Track selection for single-select
                         const selectionEventKey = `QuizOptionSelected_${currentQuestion}_${option.value}`;
                         eventsTracker.trackOnce('custom', selectionEventKey, {
                             question_number: currentQuestion + 1,
@@ -2628,7 +2326,7 @@
                     
                     checkFormCompletion(question);
 
-                    // Track form field completion - evitar duplicação
+                    // Track form field completion
                     if (this.value.trim() !== '') {
                         const fieldEventKey = `QuizFormFieldFilled_${currentQuestion}_${field.name}`;
                         eventsTracker.trackOnce('custom', fieldEventKey, {
@@ -2654,7 +2352,7 @@
             
             document.getElementById('nextBtn').disabled = !allFilled;
 
-            // Track form completion - evitar duplicação
+            // Track form completion
             if (allFilled) {
                 const formEventKey = `QuizFormCompleted_${currentQuestion}`;
                 eventsTracker.trackOnce('custom', formEventKey, {
@@ -2670,11 +2368,10 @@
         }
 
         function nextQuestion() {
-            // Track question completion - evitar duplicação
+            // Track question completion
             const completionEventKey = `QuizQuestionCompleted_${currentQuestion}`;
             eventsTracker.trackOnce('custom', completionEventKey, {
                 question_number: currentQuestion + 1,
-                question_hash: hashMap[currentQuestion],
                 quiz_progress: Math.round(((currentQuestion + 1) / questions.length) * 100)
             });
 
@@ -2688,15 +2385,13 @@
                     behavior: 'smooth'
                 });
             } else {
-                // Track quiz completion - apenas uma vez
+                // Track quiz completion
                 eventsTracker.trackOnce('custom', 'QuizCompleted', {
                     total_questions: questions.length,
                     user_goal: answers.goal,
                     user_gender: answers.gender
                 });
                 
-                // ✅ Atualizar para hash de análise
-                updateURL('analise');
                 showAnalysisProcess();
                 
                 // Scroll para o topo na tela de análise também
@@ -2718,24 +2413,22 @@
                     behavior: 'smooth'
                 });
 
-                // Track backward navigation - evitar duplicação
+                // Track backward navigation
                 const backNavEventKey = `QuizNavigationBack_${currentQuestion}_${Date.now()}`;
                 eventsTracker.trackOnce('custom', backNavEventKey, {
                     from_question: currentQuestion + 2,
-                    from_hash: hashMap[currentQuestion + 1],
-                    to_question: currentQuestion + 1,
-                    to_hash: hashMap[currentQuestion]
+                    to_question: currentQuestion + 1
                 });
             }
         }
 
         function showAnalysisProcess() {
-            // Atualizar URL para análise
+            // ✅ Atualizar URL para análise
             updateURL('analise');
             
             const container = document.getElementById('questionContainer');
             
-            // Track analysis start - apenas uma vez
+            // Track analysis start
             eventsTracker.trackOnce('custom', 'AnalysisStarted', {
                 user_data_collected: Object.keys(answers).length
             });
@@ -2936,7 +2629,7 @@
                 clearInterval(progressInterval);
                 clearInterval(factInterval);
                 
-                // Track analysis completion - apenas uma vez
+                // Track analysis completion
                 eventsTracker.trackOnce('custom', 'AnalysisCompleted', {
                     user_bmr: calculateResults().bmr,
                     user_target_calories: calculateResults().targetCalories,
@@ -3070,7 +2763,7 @@
         }
 
         function showFinalResults() {
-            // Atualizar URL para resultado
+            // ✅ Atualizar URL para resultado
             updateURL('resultado');
             
             const results = calculateResults();
@@ -3078,7 +2771,10 @@
             
             document.getElementById('progressText').textContent = 'Avaliação Concluída!';
             
-            // Track results shown - apenas uma vez
+            // ✅ SALVAR DADOS PARA RECUPERAÇÃO PÓS-PAGAMENTO
+            DataStorage.saveQuizData(answers, results);
+            
+            // Track results shown
             eventsTracker.trackOnce('custom', 'ResultsShown', {
                 user_bmr: results.bmr,
                 user_target_calories: results.targetCalories,
@@ -3161,7 +2857,9 @@
                                 <!-- Depoimento 1 -->
                                 <div style="background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 16px; padding: 20px; max-width: 300px; width: 100%; backdrop-filter: blur(10px);">
                                     <div style="display: flex; justify-content: center; margin-bottom: 15px;">
-                                        <img src="whatsapp_chat (1).png" alt="Resultado Cliente 1" style="width: 100%; max-width: 260px; height: auto; object-fit: contain; border-radius: 12px;">
+                                        <div style="width: 100%; max-width: 260px; height: 140px; background: rgba(0, 255, 136, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 14px; text-align: center; color: rgba(255, 255, 255, 0.8);">
+                                            💬 "Segui certinho a dieta e consegui ter os resultados esperados!"
+                                        </div>
                                     </div>
                                     <div style="text-align: center;">
                                         <div style="font-size: 14px; font-weight: 700; color: var(--success); margin-bottom: 8px;">📱 Cliente Real - Amanda Nunes</div>
@@ -3174,7 +2872,9 @@
                                 <!-- Depoimento 2 -->
                                 <div style="background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(108, 192, 74, 0.3); border-radius: 16px; padding: 20px; max-width: 300px; width: 100%; backdrop-filter: blur(10px);">
                                     <div style="display: flex; justify-content: center; margin-bottom: 15px;">
-                                        <img src="whatsapp_chat (2).png" alt="Resultado Cliente 2" style="width: 100%; max-width: 260px; height: auto; object-fit: contain; border-radius: 12px;">
+                                        <div style="width: 100%; max-width: 260px; height: 140px; background: rgba(108, 192, 74, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 14px; text-align: center; color: rgba(255, 255, 255, 0.8);">
+                                            💬 "Segue os meus resultados após seguir o seu planejamento!"
+                                        </div>
                                     </div>
                                     <div style="text-align: center;">
                                         <div style="font-size: 14px; font-weight: 700; color: var(--accent); margin-bottom: 8px;">📱 Cliente Real - Leticia Rocha</div>
@@ -3187,12 +2887,14 @@
                                 <!-- Depoimento 3 -->
                                 <div style="background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(44, 122, 44, 0.3); border-radius: 16px; padding: 20px; max-width: 300px; width: 100%; backdrop-filter: blur(10px);">
                                     <div style="display: flex; justify-content: center; margin-bottom: 15px;">
-                                        <img src="whatsapp_chat (3).png" alt="Resultado Cliente 3" style="width: 100%; max-width: 260px; height: auto; object-fit: contain; border-radius: 12px;">
+                                        <div style="width: 100%; max-width: 260px; height: 140px; background: rgba(44, 122, 44, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 14px; text-align: center; color: rgba(255, 255, 255, 0.8);">
+                                            💬 "Eu ameiii o resultado que tive com o protocolo!"
+                                        </div>
                                     </div>
                                     <div style="text-align: center;">
                                         <div style="font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 8px;">📱 Cliente Real - Pamela Rocha</div>
                                         <div style="font-size: 13px; color: rgba(255, 255, 255, 0.9); line-height: 1.4;">
-                                            <strong>"eu ameii o resultado"</strong> que tive
+                                            <strong>"eu ameiii o resultado"</strong> que tive
                                         </div>
                                     </div>
                                 </div>
@@ -3452,34 +3154,44 @@
             setInterval(updateCountdown, 1000);
         }
 
-        // Enhanced checkout function with Facebook compliant events
+        // Enhanced checkout function with Facebook compliant events + Data Persistence
         function handleCheckoutClick() {
            console.log('Checkout button clicked');
 
-            // SALVAR DADOS NO SESSIONSTORAGE ANTES DO CHECKOUT
+            // ✅ SALVAR DADOS COM SISTEMA ROBUSTO PARA RECUPERAÇÃO PÓS-PAGAMENTO
             try {
-                // Salvar todas as respostas do quiz
-                sessionStorage.setItem('quizAnswers', JSON.stringify(answers));
-                
-                // Calcular e salvar resultados nutricionais
                 const results = calculateResults();
-                sessionStorage.setItem('quizResults', JSON.stringify(results));
                 
-                // Salvar dados de contato se disponível
-                const contactData = answers.contact || {};
-                sessionStorage.setItem('userContactData', JSON.stringify(contactData));
+                // Salvar dados completos para recuperação
+                const savedData = DataStorage.saveQuizData(answers, results);
                 
-                // Salvar timestamp da completude do quiz
-                sessionStorage.setItem('quizCompletedAt', new Date().toISOString());
-                
-                console.log('Dados salvos no sessionStorage:', {
+                // Também salvar dados específicos para checkout
+                DataStorage.setItem('checkout_data', {
                     answers: answers,
                     results: results,
-                    contact: contactData
+                    checkoutInitiatedAt: new Date().toISOString(),
+                    checkoutSessionId: eventsTracker.sessionId,
+                    userAgent: navigator.userAgent,
+                    referrer: document.referrer,
+                    pageUrl: window.location.href,
+                    userProfile: {
+                        goal: answers.goal,
+                        gender: answers.gender,
+                        age: answers.age,
+                        activity: answers.activity,
+                        name: answers.contact?.name,
+                        email: answers.contact?.email,
+                        bmr: results.bmr,
+                        targetCalories: results.targetCalories,
+                        projectedWeightChange: results.projectedWeightChange,
+                        monthsToGoal: results.monthsToGoal
+                    }
                 });
                 
+                console.log('💾 Dados salvos para recuperação pós-pagamento:', savedData);
+                
             } catch (error) {
-                console.error('Erro ao salvar dados no sessionStorage:', error);
+                console.error('Erro ao salvar dados para recuperação:', error);
             }
 
             // ✅ EVENTOS FACEBOOK COMPLIANCE - COM EVENT_ID ÚNICO

@@ -60,6 +60,143 @@
             color: var(--light);
         }
 
+        /* ✨ CONTADOR DE USUÁRIOS ATIVOS - DESIGN ELEGANTE */
+        #activeUsersCounter {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 50px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(0, 255, 136, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(100%);
+            opacity: 0;
+            animation: slideInCounter 1s ease-out 2s forwards;
+        }
+
+        @keyframes slideInCounter {
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        #activeUsersCounter:hover {
+            transform: translateX(0) scale(1.05);
+            border-color: rgba(0, 255, 136, 0.6);
+            box-shadow: 
+                0 12px 48px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(0, 255, 136, 0.4);
+        }
+
+        .active-indicator {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulseGreen 2s ease-in-out infinite;
+            position: relative;
+        }
+
+        .active-indicator::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            background: var(--success);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: pulseGreen 2s ease-in-out infinite 0.5s;
+        }
+
+        @keyframes pulseGreen {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 1; 
+            }
+            50% { 
+                transform: scale(1.4); 
+                opacity: 0.7; 
+            }
+        }
+
+        .counter-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            letter-spacing: 0.3px;
+        }
+
+        .counter-number {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--success);
+            margin: 0 2px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .counter-number.updating {
+            transform: scale(1.2);
+            color: #00ff88;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        /* ✨ VERSÃO MOBILE DO CONTADOR */
+        @media (max-width: 768px) {
+            #activeUsersCounter {
+                top: 70px;
+                right: 12px;
+                padding: 10px 16px;
+                border-radius: 25px;
+                max-width: calc(100vw - 24px);
+            }
+            
+            .counter-text {
+                font-size: 12px;
+            }
+            
+            .counter-number {
+                font-size: 14px;
+            }
+            
+            #activeUsersCounter:hover {
+                transform: translateX(0) scale(1.02);
+            }
+        }
+
+        /* ✨ CONTADOR ALTERNATIVO PARA LANDING PAGE */
+        #landingUsersInfo {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 25px;
+            padding: 8px 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--success);
+            font-weight: 600;
+            margin-left: 15px;
+            animation: gentlePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+
         .particles {
             position: fixed;
             top: 0;
@@ -1376,10 +1513,25 @@
                 padding: 20px 15px !important;
                 border-radius: 16px !important;
             }
+
+            #landingUsersInfo {
+                font-size: 11px;
+                padding: 6px 12px;
+                margin-left: 10px;
+                gap: 6px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- ✨ CONTADOR DE USUÁRIOS ATIVOS FLUTUANTE -->
+    <div id="activeUsersCounter">
+        <div class="active-indicator"></div>
+        <div class="counter-text">
+            <span class="counter-number" id="activeCount">23</span> pessoas fazendo o quiz agora
+        </div>
+    </div>
+
     <div class="particles" id="particles"></div>
 
     <header class="header">
@@ -1556,9 +1708,132 @@
     </div>
 
     <script>
+        // ✨ SISTEMA DE USUÁRIOS ATIVOS COM OSCILAÇÃO NATURAL
+        class ActiveUsersManager {
+            constructor() {
+                this.baseNumbers = [16, 19, 23, 27, 30, 34]; // Números base que você mencionou
+                this.currentIndex = 2; // Começar com 23
+                this.isUpdating = false;
+                this.updateInterval = null;
+                this.variations = [-2, -1, 0, 1, 2, 3]; // Pequenas variações para realismo
+                
+                this.counterElement = document.getElementById('activeCount');
+                
+                this.init();
+            }
+            
+            init() {
+                // Inicializar com números diferentes para criar variedade
+                this.updateDisplay(this.getRandomNumber());
+                this.startOscillation();
+                
+                // Adicionar listeners para mudanças de página
+                this.setupPageChangeListeners();
+            }
+            
+            getRandomNumber() {
+                const baseNumber = this.baseNumbers[this.currentIndex];
+                const variation = this.variations[Math.floor(Math.random() * this.variations.length)];
+                return Math.max(12, baseNumber + variation); // Nunca menos que 12
+            }
+            
+            getNextNumber() {
+                // Lógica inteligente para próximo número
+                const shouldGoUp = Math.random() > 0.4; // 60% chance de subir
+                
+                if (shouldGoUp && this.currentIndex < this.baseNumbers.length - 1) {
+                    this.currentIndex++;
+                } else if (!shouldGoUp && this.currentIndex > 0) {
+                    this.currentIndex--;
+                } else {
+                    // Se está nos extremos, força mudança na direção oposta
+                    if (this.currentIndex === 0) this.currentIndex = 1;
+                    else if (this.currentIndex === this.baseNumbers.length - 1) this.currentIndex = this.baseNumbers.length - 2;
+                }
+                
+                return this.getRandomNumber();
+            }
+            
+            updateDisplay(number) {
+                if (this.isUpdating) return;
+                
+                this.isUpdating = true;
+                
+                // Animar contador principal se visível
+                if (this.counterElement) {
+                    this.animateNumber(this.counterElement, number);
+                }
+                
+                setTimeout(() => {
+                    this.isUpdating = false;
+                }, 800);
+            }
+            
+            animateNumber(element, newNumber) {
+                element.classList.add('updating');
+                
+                setTimeout(() => {
+                    element.textContent = newNumber;
+                    element.classList.remove('updating');
+                }, 150);
+            }
+            
+            startOscillation() {
+                // Primeira mudança após 3-8 segundos
+                setTimeout(() => {
+                    this.scheduleNextUpdate();
+                }, Math.random() * 5000 + 3000);
+            }
+            
+            scheduleNextUpdate() {
+                if (this.updateInterval) {
+                    clearTimeout(this.updateInterval);
+                }
+                
+                // Intervalo variável entre 8-25 segundos para parecer natural
+                const nextInterval = Math.random() * 17000 + 8000;
+                
+                this.updateInterval = setTimeout(() => {
+                    const nextNumber = this.getNextNumber();
+                    this.updateDisplay(nextNumber);
+                    this.scheduleNextUpdate(); // Agendar próxima atualização
+                }, nextInterval);
+            }
+            
+            setupPageChangeListeners() {
+                // Quando usuário inicia o quiz, simular aumento de atividade
+                document.addEventListener('quizStarted', () => {
+                    setTimeout(() => {
+                        const boostNumber = this.getRandomNumber() + Math.floor(Math.random() * 4) + 2;
+                        this.updateDisplay(Math.min(38, boostNumber)); // Máximo 38
+                    }, Math.random() * 2000 + 1000);
+                });
+                
+                // Quando usuário volta para landing page
+                document.addEventListener('backToLanding', () => {
+                    setTimeout(() => {
+                        this.updateDisplay(this.getRandomNumber());
+                    }, 500);
+                });
+            }
+            
+            // Simular entrada/saída de usuários em momentos específicos
+            simulateUserActivity() {
+                // Pequeno boost quando alguém chega nos resultados
+                if (Math.random() > 0.7) { // 30% chance
+                    setTimeout(() => {
+                        const currentBase = this.baseNumbers[this.currentIndex];
+                        const boostedNumber = currentBase + Math.floor(Math.random() * 3) + 1;
+                        this.updateDisplay(Math.min(36, boostedNumber));
+                    }, Math.random() * 3000 + 1000);
+                }
+            }
+        }
+
         let currentQuestion = 0;
         let answers = {};
         let isOnLandingPage = true;
+        let activeUsersManager;
         
         // ✅ Hash routing - Mapeamento de hash para cada pergunta
         const hashMap = [
@@ -2066,6 +2341,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
             
+            // ✨ INICIALIZAR SISTEMA DE USUÁRIOS ATIVOS
+            activeUsersManager = new ActiveUsersManager();
+            
             // ✅ INICIALIZAR SESSÃO ÚNICA PARA TRACKING (SEM SESSIONSTORAGE)
             console.log('🆔 Nova sessão iniciada:', eventsTracker.sessionId);
             
@@ -2114,6 +2392,7 @@
                 
                 if (newRoute === 'landing' && !isOnLandingPage) {
                     showLandingPage();
+                    document.dispatchEvent(new CustomEvent('backToLanding'));
                 } else if (newRoute === 'analise') {
                     showQuizSection();
                     showAnalysisProcess();
@@ -2171,6 +2450,7 @@
             console.log('💾 Sistema de persistência de dados com fallback ativo');
             console.log('📊 Rate limiting aplicado em eventos de engajamento');
             console.log('✅ Sequência correta de eventos de conversão: Lead → AddToCart → InitiateCheckout');
+            console.log('✨ Sistema de usuários ativos com oscilação natural ativo');
         });
 
         function initializeMobileOptimizations() {
@@ -2206,6 +2486,13 @@
             isOnLandingPage = true;
             document.getElementById('landingPage').classList.remove('hidden');
             document.getElementById('quizSection').classList.add('hidden');
+            
+            // ✨ Mostrar contador flutuante na landing page
+            const counter = document.getElementById('activeUsersCounter');
+            if (counter) {
+                counter.style.display = 'flex';
+            }
+            
             updateURL('landing');
         }
 
@@ -2213,6 +2500,12 @@
             isOnLandingPage = false;
             document.getElementById('landingPage').classList.add('hidden');
             document.getElementById('quizSection').classList.remove('hidden');
+            
+            // ✨ Manter contador flutuante visível no quiz também
+            const counter = document.getElementById('activeUsersCounter');
+            if (counter) {
+                counter.style.display = 'flex';
+            }
         }
 
         // ✅ FUNÇÃO CORRIGIDA - startQuiz COM 100% COMPLIANCE META
@@ -2224,6 +2517,14 @@
             if (button) {
                 button.classList.add('loading');
                 button.innerHTML = '🚀 Iniciando...';
+            }
+
+            // ✨ DISPARAR EVENTO PARA SISTEMA DE USUÁRIOS ATIVOS
+            document.dispatchEvent(new CustomEvent('quizStarted'));
+            
+            // ✨ SIMULAR ATIVIDADE NO CONTADOR
+            if (activeUsersManager) {
+                activeUsersManager.simulateUserActivity();
             }
 
             // ✅ EVENTO PRINCIPAL DE CONVERSÃO - Lead Generation
@@ -3032,6 +3333,11 @@
             
             // ✅ SALVAR DADOS PARA RECUPERAÇÃO PÓS-PAGAMENTO
             DataStorage.saveQuizData(answers, results);
+            
+            // ✨ SIMULAR BOOST NO CONTADOR DE USUÁRIOS ATIVOS
+            if (activeUsersManager) {
+                activeUsersManager.simulateUserActivity();
+            }
             
             // Track results shown
             eventsTracker.trackOnce('custom', 'ResultsShown', {

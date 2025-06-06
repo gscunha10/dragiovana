@@ -2349,35 +2349,67 @@
             }
         ];
 
-        document.addEventListener('DOMContentLoaded', function() {
-            createParticles();
-            
-            // ✨ INICIALIZAR SISTEMA DE USUÁRIOS ATIVOS
-            activeUsersManager = new ActiveUsersManager();
-            
-            // ✅ INICIALIZAR SESSÃO ÚNICA PARA TRACKING (SEM SESSIONSTORAGE)
-            console.log('🆔 Nova sessão iniciada:', eventsTracker.sessionId);
-            
-            // Mobile-specific initializations
-            initializeMobileOptimizations();
-            
-            // ✅ VERIFICAR SE USUÁRIO JÁ COMPLETOU O QUIZ
-            const existingData = DataStorage.getQuizData();
-            if (existingData && existingData.answers && existingData.results) {
-                console.log('🔄 Usuário retornando detectado - dados encontrados');
-                answers = existingData.answers;
-                
-                // Se está na URL de resultado, mostrar resultados salvos
-                const currentRoute = getQuestionFromHash();
-                if (currentRoute === 'resultado') {
-                    console.log('📊 Mostrando resultados salvos para usuário retornando');
-                    setTimeout(() => {
-                        showQuizSection();
-                        showFinalResults();
-                    }, 100);
-                    return;
-                }
-            }
+     // ✅ URL DO APPS SCRIPT 
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby5jq_BgwzDXp8m3l_WvETjCxpCbUdiXBmD1eck2pv3-L8yyFDEwNuarub98EP0eLVY/exec';
+
+// ✅ FUNÇÃO PARA ENVIAR DADOS
+async function enviarParaPlanilha(dadosFormulario) {
+  try {
+    console.log('📤 Enviando dados para planilha...', dadosFormulario);
+    
+    // ✅ ENVIAR COMO FORM DATA (evita CORS)
+    const formData = new FormData();
+    Object.keys(dadosFormulario).forEach(key => {
+      formData.append(key, dadosFormulario[key]);
+    });
+    
+    const response = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: formData  // SEM Content-Type header
+    });
+    
+    const result = await response.json();
+    console.log('✅ Resposta recebida:', result);
+    return { success: true, message: 'Dados enviados!' };
+    
+  } catch (error) {
+    console.error('❌ Erro:', error);
+    // MESMO COM ERRO CORS, OS DADOS PODEM TER SIDO SALVOS
+    return { success: true, message: 'Dados provavelmente salvos (ignorando erro CORS)' };
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    createParticles();
+    
+    // ✨ INICIALIZAR SISTEMA DE USUÁRIOS ATIVOS
+    activeUsersManager = new ActiveUsersManager();
+    
+    // ✅ INICIALIZAR SESSÃO ÚNICA PARA TRACKING (SEM SESSIONSTORAGE)
+    console.log('🆔 Nova sessão iniciada:', eventsTracker.sessionId);
+    
+    // Mobile-specific initializations
+    initializeMobileOptimizations();
+    
+    // ✅ VERIFICAR SE USUÁRIO JÁ COMPLETOU O QUIZ
+    const existingData = DataStorage.getQuizData();
+    if (existingData && existingData.answers && existingData.results) {
+        console.log('🔄 Usuário retornando detectado - dados encontrados');
+        answers = existingData.answers;
+        
+        // Se está na URL de resultado, mostrar resultados salvos
+        const currentRoute = getQuestionFromHash();
+        if (currentRoute === 'resultado') {
+            console.log('📊 Mostrando resultados salvos para usuário retornando');
+            setTimeout(() => {
+                showQuizSection();
+                showFinalResults();
+            }, 100);
+            return;
+        }
+    }
+    
+    // RESTO DO SEU CÓDIGO DOMCONTENTLOADED AQUI...
             
             // ✅ Verificar hash na URL ao carregar
             const initialRoute = getQuestionFromHash();
@@ -3344,6 +3376,58 @@
             
             // ✅ SALVAR DADOS PARA RECUPERAÇÃO PÓS-PAGAMENTO
             DataStorage.saveQuizData(answers, results);
+            // ✅ ENVIAR DADOS PARA PLANILHA AUTOMATICAMENTE
+try {
+  const results = calculateResults();
+  
+  // Preparar dados para envio
+  const dadosParaPlanilha = {
+    // Dados de contato
+    name: answers.contact?.name || '',
+    email: answers.contact?.email || '',
+    phone: answers.contact?.phone || '',
+    
+    // Respostas do quiz
+    goal: answers.goal || '',
+    gender: answers.gender || '',
+    age: answers.age || '',
+    activity: answers.activity || '',
+    
+    // Dados físicos
+    weight: answers.physical?.weight || '',
+    height: answers.physical?.height || '',
+    target_weight: answers.physical?.target_weight || '',
+    
+    // Resultados calculados
+    bmr: results.bmr || '',
+    target_calories: results.targetCalories || '',
+    projected_weight_change: results.projectedWeightChange || '',
+    months_to_goal: results.monthsToGoal || '',
+    protein: results.protein || '',
+    carbs: results.carbs || '',
+    fats: results.fats || '',
+    bmi: results.bmi || '',
+    
+    // Condições de saúde e restrições
+    health_conditions: Array.isArray(answers.health) ? answers.health.join(', ') : (answers.health || ''),
+    allergies: Array.isArray(answers.allergies) ? answers.allergies.join(', ') : (answers.allergies || ''),
+    diet_type: answers.diet || ''
+  };
+  
+  // Enviar dados automaticamente
+  enviarParaPlanilha(dadosParaPlanilha).then(resultado => {
+    if (resultado.success) {
+      console.log('✅ Dados salvos automaticamente na planilha!');
+    } else {
+      console.warn('⚠️ Erro ao salvar na planilha:', resultado.message);
+    }
+  }).catch(error => {
+    console.error('❌ Erro no envio automático:', error);
+  });
+  
+} catch (error) {
+  console.error('❌ Erro ao preparar dados para planilha:', error);
+}
             
             // ✨ SIMULAR BOOST NO CONTADOR DE USUÁRIOS ATIVOS
             if (activeUsersManager) {

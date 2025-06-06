@@ -23,7 +23,6 @@
             --success: #00ff88;
             --danger: #ff3366;
             --gold: #FFD700;
-            --economy: #28a745;
         }
 
         body {
@@ -153,19 +152,6 @@
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
-        }
-
-        .economy-badge {
-            background: linear-gradient(135deg, var(--economy), #20c997);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin: 10px 0;
-            display: inline-block;
         }
 
         .welcome-card {
@@ -515,22 +501,6 @@
             line-height: 1.5;
         }
 
-        .economy-highlight {
-            background: linear-gradient(135deg, rgba(40, 167, 69, 0.15), rgba(32, 201, 151, 0.15));
-            border: 2px solid rgba(40, 167, 69, 0.4);
-            border-radius: 16px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .economy-highlight h4 {
-            color: var(--economy);
-            margin-bottom: 10px;
-            font-size: 16px;
-            font-weight: 700;
-        }
-
         @keyframes slideInUp {
             from {
                 opacity: 0;
@@ -651,28 +621,19 @@
     <div class="container">
         <div class="success-header">
             <div class="success-icon">🎉</div>
-            <h1 class="success-title">Parabéns! Sua Dieta Econômica Está Pronta!</h1>
+            <h1 class="success-title">Parabéns! Sua Dieta Está Pronta!</h1>
             <p class="success-subtitle">
-                Seu plano nutricional personalizado foi criado com foco em <strong>alimentos acessíveis e nutritivos</strong>. 
-                Agora você tem tudo que precisa para alcançar seus objetivos sem pesar no orçamento!
+                Seu plano nutricional personalizado foi criado com base na sua avaliação completa. 
+                Agora você tem tudo que precisa para alcançar seus objetivos de forma saudável e sustentável.
             </p>
-            <div class="economy-badge">💰 Dieta Econômica - Alimentos Básicos</div>
         </div>
 
         <div class="welcome-card">
-            <h2 class="user-name" id="userName">Olá, Cliente!</h2>
+            <h2 class="user-name" id="userName">Olá, Maria Silva!</h2>
             <p style="font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.5;">
-                Seu protocolo nutricional econômico está pronto! Desenvolvido com <strong>alimentos básicos e acessíveis</strong> 
-                que você encontra em qualquer mercado, sem comprometer a qualidade nutricional.
+                Seu protocolo nutricional personalizado está pronto! Baseado em evidências científicas e 
+                adaptado especialmente para seu perfil, objetivos e restrições alimentares.
             </p>
-            
-            <div class="economy-highlight">
-                <h4>💡 Foco em Economia</h4>
-                <p style="color: rgba(255, 255, 255, 0.9); font-size: 14px;">
-                    Todos os alimentos desta dieta foram escolhidos pensando no seu bolso. Ingredientes básicos, 
-                    nutritivos e que cabem no orçamento de qualquer família brasileira.
-                </p>
-            </div>
         </div>
 
         <div class="content-grid">
@@ -718,10 +679,10 @@
                                 </div>
                             </div>
                             <div class="profile-item">
-                                <div class="profile-icon">💰</div>
+                                <div class="profile-icon">🥗</div>
                                 <div>
-                                    <strong>Foco:</strong><br>
-                                    <span id="userDiet">Alimentos Econômicos</span>
+                                    <strong>Dieta:</strong><br>
+                                    <span id="userDiet">Sem restrições</span>
                                 </div>
                             </div>
                         </div>
@@ -760,15 +721,15 @@
                     <div class="download-item" onclick="downloadFile('dieta-personalizada')">
                         <div class="download-icon">📋</div>
                         <div class="download-info">
-                            <div class="download-name">Dieta Econômica Personalizada</div>
-                            <div class="download-desc">Plano completo com alimentos baratos</div>
+                            <div class="download-name">Dieta Personalizada</div>
+                            <div class="download-desc">Seu plano completo em PDF</div>
                         </div>
                     </div>
 
                     <div class="download-item disabled">
                         <div class="download-icon">📅</div>
                         <div class="download-info">
-                            <div class="download-name">Cardápio 30 Dias Econômico</div>
+                            <div class="download-name">Cardápio 30 Dias</div>
                             <div class="download-desc">Disponível na área de membros</div>
                         </div>
                     </div>
@@ -776,26 +737,26 @@
                     <div class="download-item disabled">
                         <div class="download-icon">👩‍🍳</div>
                         <div class="download-info">
-                            <div class="download-name">200+ Receitas Baratas</div>
+                            <div class="download-name">200+ Receitas</div>
                             <div class="download-desc">Disponível na área de membros</div>
                         </div>
                     </div>
 
                     <div class="download-item disabled">
-                        <div class="download-icon">💰</div>
+                        <div class="download-icon">📝</div>
                         <div class="download-info">
-                            <div class="download-name">Lista de Compras Econômica</div>
+                            <div class="download-name">Lista de Alimentos</div>
                             <div class="download-desc">Disponível na área de membros</div>
                         </div>
                     </div>
 
                     <button class="download-button" onclick="downloadFile('dieta-personalizada')">
-                        📥 BAIXAR DIETA ECONÔMICA
+                        📥 BAIXAR DIETA PERSONALIZADA
                     </button>
 
                     <div class="members-area-info">
                         <h4>🔑 Área de Membros</h4>
-                        <p>Os demais materiais (cardápio econômico, receitas baratas e lista de compras) estão disponíveis na sua área de membros exclusiva. O link de acesso foi enviado para o seu e-mail!</p>
+                        <p>Os demais materiais (cardápio, receitas e lista de alimentos) estão disponíveis na sua área de membros exclusiva. O link de acesso foi enviado para o seu e-mail!</p>
                     </div>
                 </div>
             </div>
@@ -803,9 +764,9 @@
     </div>
 
     <script>
-        // ✅ SISTEMA DE PERSISTÊNCIA 100% COMPATÍVEL COM INDEX.HTML
+        // ✅ SISTEMA CORRIGIDO PARA LER DADOS DA PÁGINA INDEX
         const DataStorage = {
-            // Verificar se localStorage está disponível (exato do index)
+            // Verificar se localStorage está disponível
             isLocalStorageAvailable: function() {
                 try {
                     const testKey = 'test_' + Date.now();
@@ -817,105 +778,37 @@
                 }
             },
             
-            memoryStorage: {}, // Fallback em memória (exato do index)
-            
-            // ✅ MÉTODO SETITEM 100% IDÊNTICO AO INDEX
-            setItem: function(key, value) {
-                const jsonValue = JSON.stringify(value);
-                if (this.isLocalStorageAvailable()) {
-                    try {
-                        localStorage.setItem('dra_giovana_' + key, jsonValue);
-                        console.log(`💾 Dados econômicos salvos no localStorage: ${key}`);
-                        return true;
-                    } catch (e) {
-                        console.warn('Erro ao salvar no localStorage, usando memória:', e);
-                    }
-                }
-                // Fallback para memória
-                this.memoryStorage['dra_giovana_' + key] = jsonValue;
-                console.log(`💾 Dados econômicos salvos na memória: ${key}`);
-                return true;
-            },
-            
-            // ✅ MÉTODO GETITEM 100% IDÊNTICO AO INDEX
+            // ✅ LER DADOS COM O MESMO SISTEMA DA PÁGINA INDEX
             getItem: function(key) {
                 const fullKey = 'dra_giovana_' + key;
                 if (this.isLocalStorageAvailable()) {
                     try {
                         const value = localStorage.getItem(fullKey);
                         if (value) {
-                            console.log(`📄 Dados econômicos recuperados do localStorage: ${key}`);
+                            console.log(`📄 Dados recuperados do localStorage: ${key}`);
                             return JSON.parse(value);
                         }
                     } catch (e) {
                         console.warn('Erro ao ler localStorage:', e);
                     }
                 }
-                // Fallback para memória
-                const memValue = this.memoryStorage[fullKey];
-                if (memValue) {
-                    console.log(`📄 Dados econômicos recuperados da memória: ${key}`);
-                    return JSON.parse(memValue);
-                }
                 return null;
-            },
-            
-            removeItem: function(key) {
-                const fullKey = 'dra_giovana_' + key;
-                if (this.isLocalStorageAvailable()) {
-                    try {
-                        localStorage.removeItem(fullKey);
-                    } catch (e) {
-                        console.warn('Erro ao remover do localStorage:', e);
-                    }
-                }
-                delete this.memoryStorage[fullKey];
-                console.log(`🗑️ Dados econômicos removidos: ${key}`);
-            },
-            
-            // ✅ MÉTODOS ESPECÍFICOS 100% COMPATÍVEIS COM INDEX
-            saveQuizData: function(answers, results) {
-                const quizData = {
-                    answers: answers,
-                    results: results,
-                    completedAt: new Date().toISOString(),
-                    sessionId: Date.now().toString(),
-                    userAgent: navigator.userAgent,
-                    timestamp: Date.now(),
-                    version: 'economica' // Identificar versão econômica
-                };
-                
-                this.setItem('quiz_data', quizData);
-                this.setItem('user_profile', {
-                    goal: answers.goal,
-                    name: answers.contact?.name,
-                    email: answers.contact?.email,
-                    bmr: results.bmr,
-                    targetCalories: results.targetCalories,
-                    projectedWeightChange: results.projectedWeightChange
-                });
-                
-                console.log('💾 Dados completos do quiz econômico salvos para recuperação pós-pagamento');
-                return quizData;
-            },
-            
-            getQuizData: function() {
-                return this.getItem('quiz_data');
-            },
-            
-            getUserProfile: function() {
-                return this.getItem('user_profile');
-            },
-            
-            hasCompletedQuiz: function() {
-                const data = this.getQuizData();
-                return data && data.answers && data.results;
             }
         };
 
         // ✅ FUNÇÃO CORRIGIDA PARA LER DADOS DA PÁGINA INDEX
         function getQuizData() {
             try {
+                // ✅ LER DADOS DO MESMO LOCAL QUE A PÁGINA INDEX SALVA
+                const quizData = DataStorage.getItem('quiz_data');
+                const checkoutData = DataStorage.getItem('checkout_data');
+                const userProfile = DataStorage.getItem('user_profile');
+                
+                console.log('🔍 Dados encontrados:');
+                console.log('Quiz Data:', quizData);
+                console.log('Checkout Data:', checkoutData);
+                console.log('User Profile:', userProfile);
+                
                 // ✅ USAR quiz_data COMO FONTE PRINCIPAL (mais completo)
                 if (quizData && quizData.answers && quizData.results) {
                     return {
@@ -1018,12 +911,12 @@
                 intense: "Intensa"
             },
             diet: {
-                no_restrictions: "Alimentos Econômicos",
-                vegetarian: "Vegetariana Econômica",
-                vegan: "Vegana Econômica",
-                low_carb: "Low Carb Econômico",
-                mediterranean: "Mediterrânea Econômica",
-                paleo: "Paleo Econômico"
+                no_restrictions: "Sem restrições",
+                vegetarian: "Vegetariana",
+                vegan: "Vegana",
+                low_carb: "Low Carb",
+                mediterranean: "Mediterrânea",
+                paleo: "Paleo"
             },
             age: {
                 "18-25": "18-25 anos",
@@ -1114,9 +1007,9 @@
             return processedData;
         }
 
-        // ✅ FUNÇÃO PARA CALCULAR NUTRIÇÃO (100% IDÊNTICA AO INDEX)
+        // ✅ FUNÇÃO PARA CALCULAR NUTRIÇÃO (usando dados corrigidos)
         function calculateNutritionFromQuiz(userData) {
-            console.log('🧮 Calculando nutrição econômica para:', userData);
+            console.log('🧮 Calculando nutrição para:', userData);
             
             const weight = userData.weight;
             const height = userData.height;
@@ -1124,7 +1017,7 @@
             const activity = userData.activity;
             const gender = userData.gender;
             
-            // ✅ CÁLCULOS 100% IDÊNTICOS AO INDEX.HTML
+            // ✅ CÁLCULOS IGUAIS AOS DA PÁGINA INDEX
             const ageRanges = {
                 '18-25': 21.5,
                 '26-35': 30.5,
@@ -1134,7 +1027,7 @@
             };
             const ageValue = ageRanges[userData.age] || 30;
             
-            // Calcular TMB (fórmula de Mifflin-St Jeor - mesma do index)
+            // Calcular TMB (mesma fórmula da página index)
             let bmr;
             if (gender === 'male') {
                 bmr = 10 * weight + 6.25 * height - 5 * ageValue + 5;
@@ -1142,7 +1035,7 @@
                 bmr = 10 * weight + 6.25 * height - 5 * ageValue - 161;
             }
             
-            // Multiplicadores de atividade (exatamente iguais ao index)
+            // Multiplicadores de atividade (iguais à página index)
             const activityMultipliers = {
                 sedentary: 1.2,
                 light: 1.375,
@@ -1152,58 +1045,34 @@
             
             const tdee = Math.round(bmr * (activityMultipliers[activity] || 1.55));
             
-            // Ajustar calorias baseado no objetivo (exatamente igual ao index)
-            let targetCalories = tdee;
-            let projectedWeightChange = 0;
-            let monthsToGoal = 0;
-
-            if (goal === 'lose_weight') {
-                targetCalories = Math.round(tdee - 500);
-                const targetWeight = userData.targetWeight || (weight * 0.9);
-                if (targetWeight < weight) {
-                    projectedWeightChange = weight - targetWeight;
-                    monthsToGoal = Math.ceil(projectedWeightChange / 2);
-                } else {
-                    projectedWeightChange = Math.min(weight * 0.1, 10);
-                    monthsToGoal = Math.ceil(projectedWeightChange / 2);
-                }
-            } else if (goal === 'gain_muscle') {
-                targetCalories = Math.round(tdee + 300);
-                const targetWeight = userData.targetWeight || (weight * 1.1);
-                if (targetWeight > weight) {
-                    projectedWeightChange = targetWeight - weight;
-                    monthsToGoal = Math.ceil(projectedWeightChange / 1);
-                } else {
-                    projectedWeightChange = 5;
-                    monthsToGoal = 5;
-                }
+            // Ajustar calorias baseado no objetivo (igual à página index)
+            let calories;
+            switch(goal) {
+                case 'lose_weight':
+                    calories = Math.round(tdee - 500);
+                    break;
+                case 'gain_muscle':
+                    calories = Math.round(tdee + 300);
+                    break;
+                default:
+                    calories = Math.round(tdee);
             }
             
-            // Calcular macronutrientes (exatamente igual ao index)
+            // Calcular macronutrientes (igual à página index)
             const protein = Math.round(weight * 2.2);
-            const fats = Math.round(targetCalories * 0.3 / 9);
-            const carbs = Math.round((targetCalories - (protein * 4) - (fats * 9)) / 4);
-            
-            // IMC
-            const bmi = weight / ((height / 100) ** 2);
+            const fats = Math.round(calories * 0.3 / 9);
+            const carbs = Math.round((calories - (protein * 4) - (fats * 9)) / 4);
             
             const result = { 
-                bmr: Math.round(bmr),
-                tdee: tdee,
-                targetCalories: targetCalories,
-                calories: targetCalories, // Alias para compatibilidade
+                calories, 
                 protein, 
                 carbs, 
                 fats,
-                projectedWeightChange: Math.round(projectedWeightChange * 10) / 10,
-                monthsToGoal,
-                bmi: Math.round(bmi * 10) / 10,
-                currentWeight: weight,
-                targetWeight: userData.targetWeight || weight,
-                height
+                bmr: Math.round(bmr),
+                tdee: tdee
             };
             
-            console.log('✅ Nutrição econômica calculada (igual ao index):', result);
+            console.log('✅ Nutrição calculada:', result);
             return result;
         }
 
@@ -1234,18 +1103,18 @@
             `;
             
             if (hasRealData) {
-                statusDiv.style.background = 'linear-gradient(135deg, rgba(40, 167, 69, 0.9), rgba(32, 201, 151, 0.9))';
-                statusDiv.style.borderColor = '#28a745';
+                statusDiv.style.background = 'linear-gradient(135deg, rgba(0, 255, 136, 0.9), rgba(44, 122, 44, 0.9))';
+                statusDiv.style.borderColor = '#00ff88';
                 statusDiv.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                         <span style="font-size: 20px;">✅</span>
-                        <strong>Dieta Econômica Gerada!</strong>
+                        <strong>Dados Carregados com Sucesso!</strong>
                     </div>
                     <div style="font-size: 12px; opacity: 0.9; margin-bottom: 8px;">
-                        Plano com alimentos baratos para <strong>${userData.name}</strong>
+                        Dieta personalizada gerada para <strong>${userData.name}</strong>
                     </div>
                     <div style="font-size: 11px; opacity: 0.8;">
-                        💰 Foco em economia • ${userData.weight}kg • ${translations.goal[userData.goal] || userData.goal}
+                        Fonte: ${userData.dataSource || 'quiz_data'} • ${userData.weight}kg • ${translations.goal[userData.goal] || userData.goal}
                     </div>
                 `;
                 
@@ -1262,10 +1131,10 @@
                 statusDiv.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                         <span style="font-size: 20px;">⚠️</span>
-                        <strong>Usando Dieta Demonstração</strong>
+                        <strong>Usando Dados de Demonstração</strong>
                     </div>
                     <div style="font-size: 12px; opacity: 0.9; margin-bottom: 10px;">
-                        Para sua dieta econômica personalizada, refaça o quiz
+                        Para sua dieta verdadeiramente personalizada, refaça o quiz
                     </div>
                     <button onclick="window.location.href='index.html'" style="
                         background: white;
@@ -1284,60 +1153,8 @@
             document.body.appendChild(statusDiv);
         }
 
-        // ✅ FUNÇÃO PARA MOSTRAR ESTATÍSTICAS DE ECONOMIA EM TEMPO REAL
-        function showEconomyStats(userData) {
-            const economyCard = document.createElement('div');
-            economyCard.style.cssText = `
-                background: linear-gradient(135deg, rgba(40, 167, 69, 0.15), rgba(32, 201, 151, 0.15));
-                border: 2px solid rgba(40, 167, 69, 0.4);
-                border-radius: 16px;
-                padding: 20px;
-                margin: 20px 0;
-                text-align: center;
-                animation: gentlePulse 3s ease-in-out infinite;
-            `;
-            
-            // Calcular economia estimada baseada no perfil
-            const weeklyMealCost = calculateWeeklyMealCost(userData);
-            const monthlySavings = calculateMonthlySavings(userData);
-            
-            economyCard.innerHTML = `
-                <h4 style="color: var(--economy); margin-bottom: 15px; font-size: 18px; font-weight: 700;">
-                    💰 Economia Personalizada para ${userData.name.split(' ')[0]}
-                </h4>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px;">
-                    <div style="background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 12px;">
-                        <div style="font-size: 20px; font-weight: 900; color: var(--economy);">R$ ${weeklyMealCost}</div>
-                        <div style="font-size: 12px; color: rgba(255, 255, 255, 0.8);">Custo semanal estimado</div>
-                    </div>
-                    <div style="background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 12px;">
-                        <div style="font-size: 20px; font-weight: 900; color: var(--success);">R$ ${monthlySavings}</div>
-                        <div style="font-size: 12px; color: rgba(255, 255, 255, 0.8);">Economia mensal vs delivery</div>
-                    </div>
-                </div>
-                <p style="font-size: 13px; color: rgba(255, 255, 255, 0.9); margin-top: 15px; line-height: 1.4;">
-                    Com alimentos básicos e nutritivos, você economiza <strong>até 70%</strong> comparado a delivery e produtos prontos
-                </p>
-            `;
-            
-            return economyCard;
-        }
-        
-        function calculateWeeklyMealCost(userData) {
-            // Estimativa baseada no peso e objetivo
-            const baseWeeklyCost = 45; // Base para uma pessoa
-            const weightFactor = userData.weight > 80 ? 1.2 : userData.weight < 60 ? 0.8 : 1;
-            const goalFactor = userData.goal === 'gain_muscle' ? 1.3 : userData.goal === 'lose_weight' ? 0.9 : 1;
-            
-            return Math.round(baseWeeklyCost * weightFactor * goalFactor);
-        }
-        
-        function calculateMonthlySavings(userData) {
-            const economicCost = calculateWeeklyMealCost(userData) * 4;
-            const deliveryCost = economicCost * 3.5; // Delivery custa ~3.5x mais
-            
-            return Math.round(deliveryCost - economicCost);
-        }
+        // ✅ FUNÇÃO PARA ADICIONAR AVISO DE DEMONSTRAÇÃO NA INTERFACE
+        function addDemoWarningToInterface() {
             const welcomeCard = document.querySelector('.welcome-card');
             if (welcomeCard && !document.getElementById('demoWarning')) {
                 const demoWarning = document.createElement('div');
@@ -1356,10 +1173,10 @@
                 demoWarning.innerHTML = `
                     <div style="font-size: 24px; margin-bottom: 12px;">⚠️</div>
                     <h4 style="color: #ff6b35; margin-bottom: 12px; font-size: 18px; font-weight: 800;">
-                        Dieta de Demonstração
+                        Visualização de Demonstração
                     </h4>
                     <p style="color: rgba(255, 255, 255, 0.9); font-size: 14px; line-height: 1.5; margin-bottom: 15px;">
-                        Esta é uma prévia com alimentos econômicos genéricos. Para sua dieta verdadeiramente personalizada com ingredientes baratos específicos para você, refaça o quiz completo.
+                        Esta é uma prévia com dados genéricos. Para sua dieta verdadeiramente personalizada baseada nas suas informações específicas, você precisa refazer o quiz completo.
                     </p>
                     <button onclick="window.location.href='index.html'" style="
                         background: linear-gradient(135deg, #ff6b35, #f7931e);
@@ -1374,7 +1191,7 @@
                         letter-spacing: 0.5px;
                         transition: all 0.3s ease;
                     " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                        🚀 Fazer Minha Avaliação Econômica
+                        🚀 Fazer Minha Avaliação Personalizada
                     </button>
                 `;
                 
@@ -1384,7 +1201,7 @@
 
         // ✅ FUNÇÃO PRINCIPAL CORRIGIDA PARA CARREGAR DADOS
         function loadUserData() {
-            console.log('🚀 Carregando dados do usuário - versão econômica...');
+            console.log('🚀 Carregando dados do usuário - versão corrigida...');
             
             try {
                 // ✅ 1. LER DADOS DO LOCAL CORRETO
@@ -1416,7 +1233,7 @@
                 window.dataSource = quizData.source;
                 
                 // ✅ 8. LOG COMPLETO PARA DEBUG
-                console.log('📊 RESUMO FINAL DA CARGA DE DADOS ECONÔMICOS:');
+                console.log('📊 RESUMO FINAL DA CARGA DE DADOS:');
                 console.log('┌─ Fonte dos dados:', quizData.source);
                 console.log('├─ Dados válidos:', hasRealData);
                 console.log('├─ Nome:', userData.name);
@@ -1431,9 +1248,9 @@
                 // ✅ 9. ADICIONAR INFORMAÇÕES EXTRAS SE NÃO TEMOS DADOS REAIS
                 if (!hasRealData) {
                     addDemoWarningToInterface();
-                    console.log('⚠️ Usando dados de demonstração econômica - usuário deve refazer quiz');
+                    console.log('⚠️ Usando dados de demonstração - usuário deve refazer quiz');
                 } else {
-                    console.log('✅ Sistema econômico funcionando perfeitamente com dados reais!');
+                    console.log('✅ Sistema funcionando perfeitamente com dados reais!');
                 }
                 
             } catch (error) {
@@ -1451,11 +1268,11 @@
                 window.currentNutrition = nutrition;
                 window.hasRealData = false;
                 
-                console.log('🔄 Fallback aplicado - usando dados padrão econômicos');
+                console.log('🔄 Fallback aplicado - usando dados padrão');
             }
         }
 
-        // Função para gerar mensagem personalizada baseada no objetivo (versão econômica)
+        // Função para gerar mensagem personalizada baseada no objetivo
         function getPersonalizedMessage(userData) {
             const { goal, weight, targetWeight, health, allergies } = userData;
             
@@ -1464,33 +1281,33 @@
             switch(goal) {
                 case 'lose_weight':
                     const weightToLose = weight - targetWeight;
-                    message = `Seu protocolo econômico foi desenvolvido para eliminar ${weightToLose}kg usando alimentos básicos e acessíveis. `;
+                    message = `Seu protocolo foi desenvolvido para eliminar ${weightToLose}kg de forma saudável e sustentável. `;
                     break;
                 case 'gain_muscle':
-                    message = "Seu protocolo econômico foi desenvolvido para ganho de massa muscular com ingredientes baratos e nutritivos. ";
+                    message = "Seu protocolo foi desenvolvido para ganho de massa muscular magra e definição corporal. ";
                     break;
                 case 'maintain':
-                    message = "Seu protocolo econômico foi desenvolvido para manutenção do peso com foco em economia. ";
+                    message = "Seu protocolo foi desenvolvido para manutenção do peso e equilíbrio nutricional. ";
                     break;
                 case 'health':
-                    message = "Seu protocolo econômico foi desenvolvido para melhorar a saúde sem gastar muito. ";
+                    message = "Seu protocolo foi desenvolvido para otimização da saúde e bem-estar geral. ";
                     break;
             }
             
             // Adicionar informações sobre condições de saúde
             if (health && health.length > 0 && !health.includes('healthy')) {
-                message += "Consideramos suas condições de saúde usando apenas ingredientes acessíveis. ";
+                message += "Consideramos suas condições de saúde específicas na elaboração do plano. ";
             }
             
             // Adicionar informações sobre alergias
             if (allergies && allergies.length > 0 && !allergies.includes('no_allergies')) {
-                message += "Todas as suas restrições foram respeitadas com substitutos econômicos. ";
+                message += "Todas as suas restrições alimentares foram respeitadas no cardápio. ";
             }
             
             return message;
         }
 
-        // Função para atualizar a interface (versão econômica)
+        // Função para atualizar a interface
         function updateUserInterface(userData, nutrition) {
             // Nome do usuário
             const firstName = userData.name.split(' ')[0];
@@ -1502,7 +1319,7 @@
             document.getElementById('userHeight').textContent = userData.height + 'cm';
             document.getElementById('userAge').textContent = translations.age[userData.age] || userData.age;
             document.getElementById('userActivity').textContent = translations.activity[userData.activity] || 'Não definido';
-            document.getElementById('userDiet').textContent = translations.diet[userData.diet] || 'Alimentos Econômicos';
+            document.getElementById('userDiet').textContent = translations.diet[userData.diet] || 'Não definido';
             
             // Metas nutricionais
             document.getElementById('targetCalories').textContent = nutrition.calories;
@@ -1510,11 +1327,11 @@
             document.getElementById('targetCarbs').textContent = nutrition.carbs + 'g';
             document.getElementById('targetFats').textContent = nutrition.fats + 'g';
             
-            // Atualizar subtítulo com mensagem personalizada econômica
+            // Atualizar subtítulo com mensagem personalizada
             const welcomeCard = document.querySelector('.welcome-card p');
             if (welcomeCard) {
                 const personalizedMessage = getPersonalizedMessage(userData);
-                welcomeCard.innerHTML = personalizedMessage + 'Baseado em evidências científicas e adaptado especialmente para seu orçamento e objetivos.';
+                welcomeCard.innerHTML = personalizedMessage + 'Baseado em evidências científicas e adaptado especialmente para seu perfil, objetivos e restrições alimentares.';
             }
             
             // Adicionar informações de saúde se houver
@@ -1554,7 +1371,7 @@
             }
         }
 
-        // ✅ FUNÇÃO DE GERAÇÃO DE PDF ATUALIZADA COM FOCO EM ECONOMIA
+        // 💰 FUNÇÃO DE GERAÇÃO DE PDF COM ALIMENTOS ECONÔMICOS + PÁGINA DE OPÇÕES
         function generateDietaPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -1562,7 +1379,7 @@
             const userData = window.currentUserData || defaultUserData;
             const nutrition = window.currentNutrition || { calories: 1500, protein: 120, carbs: 150, fats: 50 };
             
-            // Detectar alergias/intolerâncias para adaptar receitas econômicas
+            // Detectar alergias/intolerâncias para adaptar receitas
             const hasLactoseIntolerance = userData.allergies && userData.allergies.includes('lactose');
             const hasGlutenIntolerance = userData.allergies && userData.allergies.includes('gluten');
             const hasNutsAllergy = userData.allergies && userData.allergies.includes('nuts');
@@ -1575,18 +1392,16 @@
             
             let pageCount = 1;
             
-            // =================== CAPA ECONÔMICA ===================
-            doc.setFillColor(40, 167, 69);
+            // =================== CAPA ===================
+            doc.setFillColor(44, 122, 44);
             doc.rect(0, 0, 210, 297, 'F');
             
             doc.setTextColor(255, 255, 255);
-            doc.setFontSize(28);
-            doc.text('DIETA ECONÔMICA', 105, 60, { align: 'center' });
-            doc.setFontSize(24);
-            doc.text('PERSONALIZADA', 105, 80, { align: 'center' });
+            doc.setFontSize(32);
+            doc.text('DIETA PERSONALIZADA', 105, 70, { align: 'center' });
             
-            doc.setFontSize(16);
-            doc.text('Protocolo Nutricional com Alimentos Baratos', 105, 100, { align: 'center' });
+            doc.setFontSize(18);
+            doc.text('Protocolo Nutricional Econômico', 105, 90, { align: 'center' });
             
             doc.setFontSize(26);
             doc.text(userData.name, 105, 130, { align: 'center' });
@@ -1595,27 +1410,23 @@
             doc.text(`Objetivo: ${translations.goal[userData.goal] || userData.goal}`, 105, 150, { align: 'center' });
             doc.text(`${nutrition.calories} calorias diárias`, 105, 170, { align: 'center' });
             
-            // Destaque econômico
             doc.setFontSize(14);
-            doc.text('💰 FOCO EM ECONOMIA E NUTRIÇÃO 💰', 105, 190, { align: 'center' });
-            
-            doc.setFontSize(12);
-            doc.text('Dra. Giovana Nutricionista', 105, 220, { align: 'center' });
-            doc.text('CRN: 3 87654 | Especialista em Nutrição Econômica', 105, 235, { align: 'center' });
+            doc.text('Dra. Giovana Nutricionista', 105, 210, { align: 'center' });
+            doc.text('CRN: 3 87654 | Especialista em Nutrição Clínica', 105, 225, { align: 'center' });
             
             const today = new Date().toLocaleDateString('pt-BR');
             doc.text('Data: ' + today, 105, 260, { align: 'center' });
             
-            // =================== PÁGINA 2 - AVALIAÇÃO ECONÔMICA ===================
+            // =================== PÁGINA 2 - AVALIAÇÃO ===================
             doc.addPage();
             pageCount++;
             
             doc.setTextColor(0, 0, 0);
             doc.setFontSize(22);
-            doc.setTextColor(40, 167, 69);
-            doc.text('SUA AVALIAÇÃO NUTRICIONAL ECONÔMICA', 20, 25);
+            doc.setTextColor(44, 122, 44);
+            doc.text('SUA AVALIAÇÃO NUTRICIONAL', 20, 25);
             
-            doc.setDrawColor(40, 167, 69);
+            doc.setDrawColor(44, 122, 44);
             doc.setLineWidth(2);
             doc.line(20, 30, 190, 30);
             
@@ -1633,7 +1444,7 @@
                 ['Altura:', userData.height + 'cm'],
                 ['Faixa Etária:', translations.age[userData.age] || userData.age],
                 ['Nível de Atividade:', translations.activity[userData.activity] || userData.activity],
-                ['Foco:', 'Alimentos Econômicos e Nutritivos']
+                ['Tipo de Dieta:', translations.diet[userData.diet] || userData.diet]
             ];
             
             dadosUsuario.forEach(([label, value]) => {
@@ -1642,24 +1453,12 @@
                 yPos += 8;
             });
             
-            // Destaque econômico
-            yPos += 10;
-            doc.setFontSize(12);
-            doc.setTextColor(40, 167, 69);
-            doc.text('FILOSOFIA ECONÔMICA:', 25, yPos);
-            yPos += 8;
-            doc.setFontSize(10);
-            doc.setTextColor(0, 0, 0);
-            doc.text('Esta dieta prioriza ingredientes básicos, acessíveis e nutritivos', 30, yPos);
-            yPos += 6;
-            doc.text('que cabem no orçamento familiar brasileiro.', 30, yPos);
-            yPos += 15;
-            
             // Condições de saúde
             if (userData.health && userData.health.length > 0 && !userData.health.includes('healthy')) {
+                yPos += 10;
                 doc.setFontSize(12);
-                doc.setTextColor(40, 167, 69);
-                doc.text('CONDIÇÕES DE SAÚDE (com soluções econômicas):', 25, yPos);
+                doc.setTextColor(44, 122, 44);
+                doc.text('CONDIÇÕES DE SAÚDE:', 25, yPos);
                 yPos += 8;
                 doc.setFontSize(11);
                 doc.setTextColor(0, 0, 0);
@@ -1673,8 +1472,8 @@
             if (userData.allergies && userData.allergies.length > 0 && !userData.allergies.includes('no_allergies')) {
                 yPos += 10;
                 doc.setFontSize(12);
-                doc.setTextColor(40, 167, 69);
-                doc.text('RESTRIÇÕES ALIMENTARES (com substitutos baratos):', 25, yPos);
+                doc.setTextColor(44, 122, 44);
+                doc.text('RESTRIÇÕES ALIMENTARES:', 25, yPos);
                 yPos += 8;
                 doc.setFontSize(11);
                 doc.setTextColor(0, 0, 0);
@@ -1687,7 +1486,7 @@
             // Cálculos
             yPos += 15;
             doc.setFontSize(14);
-            doc.setTextColor(40, 167, 69);
+            doc.setTextColor(44, 122, 44);
             doc.text('SEUS NÚMEROS', 20, yPos);
             yPos += 12;
             
@@ -1721,74 +1520,81 @@
             pageCount++;
             
             doc.setFontSize(22);
-            doc.setTextColor(40, 167, 69);
+            doc.setTextColor(44, 122, 44);
             doc.text('CARDÁPIO ECONÔMICO - 7 DIAS', 20, 25);
             
-            doc.setDrawColor(40, 167, 69);
+            doc.setDrawColor(44, 122, 44);
             doc.setLineWidth(2);
             doc.line(20, 30, 190, 30);
             
-            yPos = 45;
+            // ✅ AVISO SOBRE INGREDIENTES ECONÔMICOS
+            yPos = 40;
+            doc.setFontSize(10);
+            doc.setTextColor(0, 100, 0);
+            doc.text('💰 Este cardápio foi desenvolvido com ingredientes acessíveis (R$ 15-25/dia)', 20, yPos);
+            doc.text('📄 Veja opções premium e substituições na página 8', 20, yPos + 5);
+            
+            yPos = 55;
             doc.setFontSize(10);
             doc.setTextColor(0, 0, 0);
             
-            // ✅ CARDÁPIO ECONÔMICO ADAPTADO ÀS RESTRIÇÕES
+            // 💰 CARDÁPIO COM INGREDIENTES ECONÔMICOS
             const cardapioEconomico = [
                 {
                     dia: 'SEGUNDA-FEIRA',
-                    cafe: hasLactoseIntolerance ? 'Ovo mexido + Pão francês + Café com açúcar' : 'Ovo mexido + Pão francês + Leite com achocolatado',
-                    lanche1: hasNutsAllergy ? 'Banana + Biscoito água e sal' : 'Banana + 3 castanhas-do-pará',
-                    almoco: 'Frango cozido + Arroz branco + Feijão carioca + Salada de alface',
-                    lanche2: hasLactoseIntolerance ? 'Pão com margarina + Suco de limão' : 'Pão com requeijão + Suco de limão',
-                    jantar: 'Ovo cozido + Batata cozida + Cenoura refogada'
+                    cafe: hasLactoseIntolerance ? 'Ovos mexidos + Pão integral + Leite de aveia' : 'Ovos mexidos + Pão integral + Café com leite',
+                    lanche1: 'Banana + Amendoim torrado (1 col. sopa)',
+                    almoco: 'Frango coxa grelhada + Arroz integral + Feijão + Salada de repolho',
+                    lanche2: hasLactoseIntolerance ? 'Vitamina de banana com leite de aveia' : 'Vitamina de banana com leite',
+                    jantar: 'Ovo mexido + Abobrinha refogada + Batata doce'
                 },
                 {
                     dia: 'TERÇA-FEIRA', 
-                    cafe: hasGlutenIntolerance ? 'Mingau de fubá + Banana' : 'Pão francês + Margarina + Café doce',
-                    lanche1: 'Maçã + Bolacha maisena',
-                    almoco: 'Carne moída + Macarrão comum + Molho de tomate + Couve refogada',
-                    lanche2: hasLactoseIntolerance ? 'Vitamina de banana com água' : 'Vitamina de banana com leite',
-                    jantar: 'Sardinha + Arroz branco + Abóbora cozida'
+                    cafe: hasGlutenIntolerance ? 'Tapioca com ovo + Café' : 'Aveia com banana + Café',
+                    lanche1: 'Maçã + Pasta de amendoim (1 col. chá)',
+                    almoco: 'Carne moída (acém) + Arroz integral + Cenoura refogada + Salada',
+                    lanche2: 'Batata doce cozida (1 unidade pequena)',
+                    jantar: 'Frango desfiado + Abobrinha + Mandioca'
                 },
                 {
                     dia: 'QUARTA-FEIRA',
-                    cafe: hasLactoseIntolerance ? 'Mingau de aveia com água + Açúcar' : 'Mingau de aveia + Leite + Açúcar',
-                    lanche1: 'Laranja + Pão francês',
-                    almoco: 'Fígado de frango + Arroz + Feijão + Salada de tomate',
-                    lanche2: 'Batata doce cozida + Café',
-                    jantar: hasSeafoodAllergy ? 'Ovo mexido + Farinha de mandioca + Banana' : 'Peixe cozido + Purê de batata'
+                    cafe: hasLactoseIntolerance ? 'Mingau de aveia com leite vegetal + Banana' : 'Mingau de aveia + Leite + Banana',
+                    lanche1: 'Laranja + Castanha do Pará (3 unidades)',
+                    almoco: 'Sardinha em conserva + Arroz integral + Feijão + Couve refogada',
+                    lanche2: 'Abacate amassado com cacau',
+                    jantar: 'Ovo cozido (2 unidades) + Legumes refogados + Inhame'
                 },
                 {
                     dia: 'QUINTA-FEIRA',
-                    cafe: hasGlutenIntolerance ? 'Tapioca simples + Ovo' : 'Pão francês + Ovo mexido + Café',
-                    lanche1: 'Mamão + Biscoito cream cracker',
-                    almoco: 'Frango cozido + Macarrão + Feijão + Acelga refogada',
-                    lanche2: hasLactoseIntolerance ? 'Suco de goiaba + Pão' : 'Iogurte natural + Açúcar',
-                    jantar: 'Carne moída + Polenta + Salada de repolho'
+                    cafe: hasGlutenIntolerance ? 'Ovo mexido + Tapioca + Café' : 'Pão integral + Pasta de amendoim + Banana',
+                    lanche1: 'Mamão + Aveia (1 col. sopa)',
+                    almoco: 'Frango coxa + Macarrão integral + Molho de tomate + Salada de tomate',
+                    lanche2: hasLactoseIntolerance ? 'Vitamina verde com leite vegetal' : 'Iogurte natural + Mel',
+                    jantar: 'Carne moída + Abobrinha + Arroz integral'
                 },
                 {
                     dia: 'SEXTA-FEIRA',
-                    cafe: hasLactoseIntolerance ? 'Cuscuz + Margarina' : 'Cuscuz + Leite + Açúcar',
-                    lanche1: 'Banana + Água',
-                    almoco: hasSeafoodAllergy ? 'Frango + Lentilha + Arroz + Couve' : 'Peixe + Lentilha + Arroz + Couve',
-                    lanche2: 'Pão francês + Margarina',
-                    jantar: 'Omelete simples + Batata cozida + Salada'
+                    cafe: hasLactoseIntolerance ? 'Vitamina de banana com aveia e leite vegetal' : 'Vitamina de banana com aveia e leite',
+                    lanche1: 'Maçã + Canela',
+                    almoco: 'Frango desfiado + Lentilha + Salada de beterraba',
+                    lanche2: 'Amendoim torrado (1 col. sopa)',
+                    jantar: 'Omelete simples + Batata doce + Salada verde'
                 },
                 {
                     dia: 'SÁBADO',
-                    cafe: hasGlutenIntolerance ? 'Mingau de milho + Banana' : 'Pão francês + Margarina + Café',
-                    lanche1: 'Goiaba + Biscoito',
-                    almoco: 'Carne de panela + Arroz + Feijão + Abóbora',
-                    lanche2: hasLactoseIntolerance ? 'Suco de limão + Pão' : 'Leite + Bolacha maria',
-                    jantar: 'Sardinha + Farofa de farinha + Salada'
+                    cafe: hasGlutenIntolerance ? 'Tapioca + Ovo + Tomate + Café' : 'Panqueca de aveia + Banana + Café',
+                    lanche1: 'Banana + Aveia',
+                    almoco: 'Sardinha + Arroz integral + Feijão + Cenoura',
+                    lanche2: hasLactoseIntolerance ? 'Vitamina de manga com leite vegetal' : 'Iogurte natural',
+                    jantar: 'Frango + Purê de mandioca + Couve'
                 },
                 {
                     dia: 'DOMINGO',
-                    cafe: 'Ovos mexidos + Pão francês + Café doce',
-                    lanche1: 'Laranja + Biscoito água e sal',
-                    almoco: 'Frango assado + Arroz + Feijão + Salada de alface e tomate',
-                    lanche2: 'Vitamina de banana',
-                    jantar: hasSeafoodAllergy ? 'Ovo cozido + Batata + Cenoura' : 'Peixe + Purê de batata + Cenoura'
+                    cafe: 'Ovos mexidos + Abacate + Pão (sem glúten se necessário)',
+                    lanche1: 'Banana + Pasta de amendoim',
+                    almoco: 'Carne assada (acém) + Batata doce + Vagem + Salada',
+                    lanche2: 'Vitamina de frutas da época',
+                    jantar: 'Omelete + Legumes + Mandioca'
                 }
             ];
             
@@ -1800,7 +1606,7 @@
                 }
                 
                 doc.setFontSize(12);
-                doc.setTextColor(40, 167, 69);
+                doc.setTextColor(44, 122, 44);
                 doc.text(refeicao.dia, 20, yPos);
                 yPos += 10;
                 
@@ -1838,125 +1644,116 @@
                 yPos += 8;
             });
             
-            // =================== PÁGINA RECEITAS ECONÔMICAS ===================
+            // =================== PÁGINA 4 - RECEITAS ECONÔMICAS ===================
             doc.addPage();
             pageCount++;
             
             doc.setFontSize(22);
-            doc.setTextColor(40, 167, 69);
+            doc.setTextColor(44, 122, 44);
             doc.text('RECEITAS ECONÔMICAS', 20, 25);
             
-            doc.setDrawColor(40, 167, 69);
+            doc.setDrawColor(44, 122, 44);
             doc.setLineWidth(2);
             doc.line(20, 30, 190, 30);
             
             yPos = 45;
             
-            // ✅ RECEITAS ECONÔMICAS ADAPTADAS ÀS RESTRIÇÕES
+            // 💰 RECEITAS COM INGREDIENTES BARATOS
             const receitasEconomicas = [
                 {
-                    nome: hasLactoseIntolerance ? 'Omelete Simples Econômica' : 'Omelete com Leite',
+                    nome: 'Omelete Econômica',
                     categoria: 'Café da Manhã',
                     tempo: '10 min',
                     calorias: '220 cal',
-                    custo: 'R$ 1,50',
-                    ingredientes: hasLactoseIntolerance ? [
-                        '2 ovos',
-                        '1 col. sopa óleo',
-                        '1 pitada sal',
-                        '1 fatia pão francês',
-                        'Tempero verde (opcional)'
-                    ] : [
-                        '2 ovos',
-                        '2 col. sopa leite',
-                        '1 col. chá óleo',
-                        '1 pitada sal',
-                        '1 fatia pão francês'
+                    custo: 'R$ 2,50',
+                    ingredientes: [
+                        '2 ovos inteiros',
+                        '1 tomate picado', 
+                        '1 col. chá azeite',
+                        'Sal e pimenta',
+                        'Cebola (opcional)',
+                        'Cheiro verde'
                     ],
                     preparo: [
-                        'Bata os ovos com sal',
-                        'Adicione o leite ou tempero verde',
-                        'Aqueça o óleo na frigideira',
-                        'Despeje os ovos batidos',
-                        'Cozinhe em fogo baixo por 3-4 min',
-                        'Dobre ao meio e sirva com pão'
+                        'Bata os ovos com sal e pimenta',
+                        'Aqueça o azeite na frigideira',
+                        'Refogue o tomate por 1 min',
+                        'Adicione os ovos batidos',
+                        'Cozinhe em fogo médio 3-4 min',
+                        'Dobre e sirva com cheiro verde'
                     ]
                 },
                 {
-                    nome: hasGlutenIntolerance ? 'Mingau de Fubá Doce' : 'Pão Caseiro Simples',
-                    categoria: 'Café da Manhã',
-                    tempo: hasGlutenIntolerance ? '15 min' : '3 horas',
-                    calorias: hasGlutenIntolerance ? '180 cal' : '250 cal',
-                    custo: hasGlutenIntolerance ? 'R$ 0,80' : 'R$ 2,00',
-                    ingredientes: hasGlutenIntolerance ? [
-                        '3 col. sopa fubá',
-                        '1 xícara água',
-                        '2 col. sopa açúcar',
-                        '1 pitada sal',
-                        '1 col. chá margarina'
-                    ] : [
-                        '500g farinha de trigo',
-                        '1 sachê fermento biológico',
-                        '1 col. sopa açúcar',
-                        '1 col. chá sal',
-                        '300ml água morna'
+                    nome: 'Vitamina Econômica',
+                    categoria: 'Lanche',
+                    tempo: '5 min',
+                    calorias: '180 cal',
+                    custo: 'R$ 1,80',
+                    ingredientes: [
+                        '1 banana madura',
+                        '200ml leite (ou vegetal)',
+                        '1 col. sopa aveia',
+                        '1 col. chá mel (opcional)',
+                        'Canela em pó'
                     ],
-                    preparo: hasGlutenIntolerance ? [
-                        'Ferva a água com sal',
-                        'Adicione o fubá mexendo sempre',
-                        'Cozinhe por 10 minutos mexendo',
-                        'Adicione açúcar e margarina',
-                        'Sirva quente'
-                    ] : [
-                        'Misture fermento, açúcar e água morna',
-                        'Adicione farinha e sal aos poucos',
-                        'Sove por 10 minutos',
-                        'Deixe crescer por 1 hora',
-                        'Modele os pães e deixe crescer mais 1 hora',
-                        'Asse por 30 min a 180°C'
+                    preparo: [
+                        'Corte a banana em pedaços',
+                        'Bata tudo no liquidificador',
+                        'Adicione gelo se preferir gelado',
+                        'Sirva imediatamente',
+                        'Polvilhe canela por cima'
                     ]
                 },
                 {
-                    nome: hasSeafoodAllergy ? 'Frango Cozido Temperado' : 'Sardinha Refogada',
+                    nome: 'Frango Temperado Econômico',
                     categoria: 'Almoço/Jantar',
-                    tempo: hasSeafoodAllergy ? '40 min' : '15 min',
-                    calorias: hasSeafoodAllergy ? '280 cal' : '200 cal',
-                    custo: hasSeafoodAllergy ? 'R$ 3,50' : 'R$ 2,00',
-                    ingredientes: hasSeafoodAllergy ? [
-                        '200g frango (coxa ou sobrecoxa)',
-                        '2 dentes alho',
-                        '1 cebola pequena',
-                        '1 col. sopa óleo',
-                        'Sal, pimenta, colorau',
-                        '1 tomate pequeno'
-                    ] : [
-                        '1 lata sardinha',
-                        '1 cebola média',
-                        '2 dentes alho',
-                        '1 col. sopa óleo',
-                        '1 tomate',
-                        'Sal, pimenta, cheiro verde'
+                    tempo: '30 min',
+                    calorias: '280 cal',
+                    custo: 'R$ 4,00',
+                    ingredientes: [
+                        '150g coxa de frango sem pele',
+                        '2 dentes alho amassados',
+                        '1 col. sopa azeite',
+                        'Suco de 1/2 limão',
+                        'Sal, pimenta, orégano',
+                        'Cebola em fatias'
                     ],
-                    preparo: hasSeafoodAllergy ? [
-                        'Tempere o frango com sal e alho',
-                        'Doure em óleo quente',
-                        'Adicione cebola e tomate picados',
-                        'Cubra com água e cozinhe por 30 min',
-                        'Tempere com colorau e pimenta',
-                        'Sirva com arroz e feijão'
-                    ] : [
-                        'Refogue alho e cebola no óleo',
-                        'Adicione tomate picado',
-                        'Acrescente a sardinha escorrida',
-                        'Tempere com sal e pimenta',
-                        'Cozinhe por 5 minutos',
-                        'Finalize com cheiro verde'
+                    preparo: [
+                        'Tempere o frango com todos os temperos',
+                        'Deixe marinar por 15 minutos',
+                        'Aqueça frigideira com azeite',
+                        'Doure a cebola primeiro',
+                        'Grelhe o frango 8-10 min cada lado',
+                        'Sirva com limão'
+                    ]
+                },
+                {
+                    nome: 'Batata Doce Refogada',
+                    categoria: 'Acompanhamento',
+                    tempo: '20 min',
+                    calorias: '150 cal',
+                    custo: 'R$ 1,20',
+                    ingredientes: [
+                        '1 batata doce média',
+                        '1 col. chá azeite',
+                        '1 dente alho',
+                        'Sal a gosto',
+                        'Cheiro verde',
+                        'Cebola (opcional)'
+                    ],
+                    preparo: [
+                        'Descasque e corte a batata em cubos',
+                        'Cozinhe em água até amolecer',
+                        'Escorra e reserve',
+                        'Refogue alho e cebola no azeite',
+                        'Adicione a batata e temperos',
+                        'Mexa por 2-3 min e sirva'
                     ]
                 }
             ];
             
             receitasEconomicas.forEach(receita => {
-                if (yPos > 220) {
+                if (yPos > 230) {
                     doc.addPage();
                     pageCount++;
                     yPos = 30;
@@ -1964,14 +1761,14 @@
                 
                 // Título da receita
                 doc.setFontSize(14);
-                doc.setTextColor(40, 167, 69);
+                doc.setTextColor(44, 122, 44);
                 doc.text(receita.nome, 20, yPos);
                 yPos += 8;
                 
                 // Info da receita
                 doc.setFontSize(9);
-                doc.setTextColor(100, 100, 100);
-                doc.text(`${receita.categoria} | ${receita.tempo} | ${receita.calorias} | Custo: ${receita.custo}`, 20, yPos);
+                doc.setTextColor(0, 100, 0);
+                doc.text(`${receita.categoria} | ${receita.tempo} | ${receita.calorias} | ${receita.custo}`, 20, yPos);
                 yPos += 12;
                 
                 // Ingredientes
@@ -2000,207 +1797,92 @@
                 yPos += 15;
             });
             
-            // =================== PÁGINA LISTAS DE ALIMENTOS ECONÔMICOS ===================
+            // =================== PÁGINA 5 - LISTA DE COMPRAS ECONÔMICA ===================
             doc.addPage();
             pageCount++;
             
             doc.setFontSize(22);
-            doc.setTextColor(40, 167, 69);
+            doc.setTextColor(44, 122, 44);
             doc.text('LISTA DE COMPRAS ECONÔMICA', 20, 25);
             
-            doc.setDrawColor(40, 167, 69);
-            doc.setLineWidth(2);
-            doc.line(20, 30, 190, 30);
-            
-            yPos = 45;
-            
-            // ✅ LISTAS ECONÔMICAS ADAPTADAS ÀS RESTRIÇÕES
-            const listasEconomicas = [
-                {
-                    categoria: 'PROTEÍNAS BARATAS ✅',
-                    permitidos: hasSeafoodAllergy ? [
-                        'Ovos (bandeja com 30)',
-                        'Frango (coxa e sobrecoxa)', 
-                        'Carne moída comum',
-                        'Fígado de frango',
-                        'Sardinha enlatada',
-                        'Feijão carioca',
-                        'Lentilha'
-                    ] : [
-                        'Ovos (bandeja com 30)',
-                        'Frango (coxa e sobrecoxa)',
-                        'Carne moída comum', 
-                        'Peixe (tilápia, sardinha)',
-                        'Fígado de frango',
-                        'Feijão carioca',
-                        'Lentilha'
-                    ],
-                    evitar: [
-                        'Carnes nobres (picanha, alcatra)',
-                        'Salmão e peixes importados',
-                        'Camarão e frutos do mar caros',
-                        'Whey protein e suplementos'
-                    ]
-                },
-                {
-                    categoria: 'CARBOIDRATOS EM CONTA ✅',
-                    permitidos: hasGlutenIntolerance ? [
-                        'Arroz branco (saco 5kg)',
-                        'Batata comum',
-                        'Batata doce',
-                        'Mandioca/Aipim',
-                        'Fubá de milho',
-                        'Tapioca/Goma',
-                        'Banana'
-                    ] : [
-                        'Arroz branco (saco 5kg)',
-                        'Macarrão comum',
-                        'Pão francês',
-                        'Farinha de trigo',
-                        'Batata comum',
-                        'Aveia em flocos',
-                        'Banana'
-                    ],
-                    evitar: hasGlutenIntolerance ? [
-                        'Trigo e derivados',
-                        'Pães especiais',
-                        'Massas importadas',
-                        'Quinoa e grãos caros'
-                    ] : [
-                        'Quinoa e grãos importados',
-                        'Pães especiais/integrais caros',
-                        'Massas premium',
-                        'Cereais matinais industrializados'
-                    ]
-                }
-            ];
-            
-            if (hasLactoseIntolerance) {
-                listasEconomicas.push({
-                    categoria: 'SUBSTITUTOS LÁCTEOS BARATOS ✅',
-                    permitidos: [
-                        'Leite de soja em pó',
-                        'Margarina comum',
-                        'Creme vegetal',
-                        'Achocolatado em pó',
-                        'Leite condensado de soja'
-                    ],
-                    evitar: [
-                        'Leite de vaca',
-                        'Queijos',
-                        'Iogurtes',
-                        'Manteiga',
-                        'Creme de leite'
-                    ]
-                });
-            }
-            
-            // Adicionar lista de temperos econômicos
-            listasEconomicas.push({
-                categoria: 'TEMPEROS E BÁSICOS 🧄',
-                permitidos: [
-                    'Alho (saco 1kg)',
-                    'Cebola (saco 2kg)',
-                    'Sal refinado',
-                    'Óleo de soja',
-                    'Açúcar cristal',
-                    'Colorau/Urucum',
-                    'Cheiro verde'
-                ],
-                evitar: [
-                    'Temperos importados',
-                    'Azeite extra virgem caro',
-                    'Sal rosa/especiais',
-                    'Açúcar orgânico',
-                    'Especiarias raras'
-                ]
-            });
-            
-            listasEconomicas.forEach(lista => {
-                if (yPos > 200) {
-                    doc.addPage();
-                    pageCount++;
-                    yPos = 30;
-                }
-                
-                doc.setFontSize(12);
-                doc.setTextColor(40, 167, 69);
-                doc.text(lista.categoria, 20, yPos);
-                yPos += 10;
-                
-                doc.setFontSize(9);
-                doc.setTextColor(0, 0, 0);
-                
-                lista.permitidos.forEach(item => {
-                    doc.text('✅ ' + item, 25, yPos);
-                    yPos += 5;
-                });
-                
-                yPos += 5;
-                doc.setTextColor(200, 0, 0);
-                doc.text('EVITAR (muito caro):', 25, yPos);
-                yPos += 6;
-                
-                lista.evitar.forEach(item => {
-                    doc.text('❌ ' + item, 25, yPos);
-                    yPos += 5;
-                });
-                
-                yPos += 15;
-                doc.setTextColor(0, 0, 0);
-            });
-            
-            // =================== PÁGINA DICAS DE ECONOMIA ===================
-            doc.addPage();
-            pageCount++;
-            
-            doc.setFontSize(22);
-            doc.setTextColor(40, 167, 69);
-            doc.text('DICAS DE ECONOMIA NA ALIMENTAÇÃO', 20, 25);
-            
-            doc.setDrawColor(40, 167, 69);
+            doc.setDrawColor(44, 122, 44);
             doc.setLineWidth(2);
             doc.line(20, 30, 190, 30);
             
             yPos = 45;
             doc.setFontSize(10);
-            doc.setTextColor(0, 0, 0);
+            doc.setTextColor(0, 100, 0);
+            doc.text('💰 Lista organizada por preço - compre no atacado para economizar mais!', 20, yPos);
+            yPos += 15;
             
-            // Dicas específicas de economia
-            const dicasEconomia = [
+            // 💰 LISTA SUPER ECONÔMICA
+            const listaEconomica = [
                 {
-                    titulo: '🛒 COMPRAS INTELIGENTES',
-                    dicas: [
-                        'Compre em atacados e feiras (final do dia)',
-                        'Prefira marcas próprias dos supermercados',
-                        'Compre carnes em promoção e congele',
-                        'Aproveite frutas e verduras da época',
-                        'Faça lista de compras e não saia dela'
+                    categoria: 'PROTEÍNAS BARATAS (R$ 8-18/kg)',
+                    items: [
+                        'Ovos (cartela 30 unidades) - R$ 12-15',
+                        'Frango coxa/sobrecoxa - R$ 8-12/kg',
+                        'Carne moída de segunda (acém) - R$ 15-18/kg',
+                        'Sardinha em conserva - R$ 3-4/lata',
+                        'Feijão carioca - R$ 6-8/kg',
+                        'Lentilha - R$ 8-10/kg'
                     ]
                 },
                 {
-                    titulo: '👩‍🍳 PREPARO ECONÔMICO',
-                    dicas: [
-                        'Cozinhe em grandes quantidades',
-                        'Aproveite sobras para novas refeições',
-                        'Use todas as partes dos alimentos',
-                        'Prepare temperos caseiros',
-                        'Congele porções individuais'
+                    categoria: 'CARBOIDRATOS BARATOS (R$ 2-8/kg)',
+                    items: hasGlutenIntolerance ? [
+                        'Arroz integral - R$ 4-6/kg',
+                        'Batata doce - R$ 3-5/kg',
+                        'Mandioca/Aipim - R$ 2-4/kg',
+                        'Tapioca (goma) - R$ 6-8/kg',
+                        'Inhame - R$ 4-6/kg',
+                        'Banana - R$ 3-5/kg'
+                    ] : [
+                        'Arroz integral - R$ 4-6/kg',
+                        'Aveia em flocos - R$ 6-8/kg',
+                        'Batata doce - R$ 3-5/kg',
+                        'Pão integral - R$ 6-8/unidade',
+                        'Macarrão integral - R$ 4-6/kg',
+                        'Banana - R$ 3-5/kg'
                     ]
                 },
                 {
-                    titulo: '💡 SUBSTITUIÇÕES BARATAS',
-                    dicas: [
-                        'Troque carne vermelha por ovos 2x/semana',
-                        'Use fígado de frango (rico em ferro)',
-                        'Substitua iogurte por vitamina caseira',
-                        'Troque quinoa por lentilha',
-                        'Use banana como adoçante natural'
+                    categoria: 'VEGETAIS BARATOS (R$ 1-5/kg)',
+                    items: [
+                        'Abobrinha - R$ 2-4/kg',
+                        'Repolho - R$ 1-3/kg',
+                        'Cenoura - R$ 2-4/kg',
+                        'Cebola - R$ 2-4/kg',
+                        'Tomate - R$ 3-5/kg',
+                        'Couve - R$ 1-2/maço'
+                    ]
+                },
+                {
+                    categoria: 'TEMPEROS E EXTRAS (R$ 2-15/unidade)',
+                    items: [
+                        'Azeite extra virgem - R$ 8-15/500ml',
+                        'Alho - R$ 3-5/kg',
+                        'Limão - R$ 2-4/kg',
+                        'Pasta de amendoim - R$ 8-12/500g',
+                        'Amendoim torrado - R$ 5-8/kg',
+                        'Sal/temperos - R$ 2-4/unidade'
                     ]
                 }
             ];
             
-            dicasEconomia.forEach(secao => {
+            if (hasLactoseIntolerance) {
+                listaEconomica.push({
+                    categoria: 'SUBSTITUTOS LÁCTEOS BARATOS (R$ 3-8/litro)',
+                    items: [
+                        'Leite de aveia - R$ 4-6/litro',
+                        'Leite de soja - R$ 3-5/litro',
+                        'Óleo de coco - R$ 8-12/500ml',
+                        'Castanhas para leite caseiro - R$ 15-20/kg'
+                    ]
+                });
+            }
+            
+            listaEconomica.forEach(categoria => {
                 if (yPos > 250) {
                     doc.addPage();
                     pageCount++;
@@ -2208,41 +1890,375 @@
                 }
                 
                 doc.setFontSize(12);
-                doc.setTextColor(40, 167, 69);
-                doc.text(secao.titulo, 20, yPos);
+                doc.setTextColor(44, 122, 44);
+                doc.text(categoria.categoria, 20, yPos);
                 yPos += 10;
                 
-                doc.setFontSize(10);
+                doc.setFontSize(9);
                 doc.setTextColor(0, 0, 0);
                 
-                secao.dicas.forEach(dica => {
-                    doc.text('• ' + dica, 25, yPos);
-                    yPos += 7;
+                categoria.items.forEach(item => {
+                    doc.text('✅ ' + item, 25, yPos);
+                    yPos += 6;
                 });
                 yPos += 10;
             });
             
-            // Orientações específicas por condição de saúde (versão econômica)
-            if (hasDiabetes) {
-                if (yPos > 220) {
+            // ✅ RESUMO DE GASTOS
+            yPos += 10;
+            doc.setFontSize(14);
+            doc.setTextColor(44, 122, 44);
+            doc.text('💰 RESUMO DE GASTOS SEMANAIS', 20, yPos);
+            yPos += 15;
+            
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            const gastosSemanais = [
+                'Proteínas: R$ 35-50',
+                'Carboidratos: R$ 15-25',
+                'Vegetais: R$ 10-20',
+                'Temperos/Extras: R$ 10-15',
+                '',
+                'TOTAL SEMANAL: R$ 70-110',
+                'CUSTO DIÁRIO: R$ 10-16'
+            ];
+            
+            gastosSemanais.forEach(gasto => {
+                if (gasto === '') {
+                    yPos += 5;
+                } else if (gasto.includes('TOTAL')) {
+                    doc.setFontSize(11);
+                    doc.setTextColor(44, 122, 44);
+                    doc.text('• ' + gasto, 25, yPos);
+                    yPos += 8;
+                    doc.setFontSize(10);
+                    doc.setTextColor(0, 0, 0);
+                } else {
+                    doc.text('• ' + gasto, 25, yPos);
+                    yPos += 7;
+                }
+            });
+            
+            // =================== 💰 NOVA PÁGINA: OPÇÕES DE SUBSTITUIÇÃO ===================
+            doc.addPage();
+            pageCount++;
+            
+            doc.setFontSize(22);
+            doc.setTextColor(44, 122, 44);
+            doc.text('GUIA DE SUBSTITUIÇÕES INTELIGENTES', 20, 25);
+            
+            doc.setDrawColor(44, 122, 44);
+            doc.setLineWidth(2);
+            doc.line(20, 30, 190, 30);
+            
+            yPos = 40;
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text('Adapte sua dieta ao seu orçamento - você pode trocar qualquer alimento pelas opções abaixo:', 20, yPos);
+            yPos += 20;
+            
+            // 🥩 PROTEÍNAS - OPÇÕES DE TROCA
+            doc.setFontSize(14);
+            doc.setTextColor(44, 122, 44);
+            doc.text('🥩 PROTEÍNAS - OPÇÕES DE TROCA', 20, yPos);
+            yPos += 12;
+            
+            const proteinasSubstituicao = [
+                {
+                    categoria: 'ECONÔMICAS (R$ 8-15/kg)',
+                    opcoes: [
+                        'Ovos inteiros (6 unidades = 1 porção)',
+                        'Frango coxa/sobrecoxa sem pele',
+                        'Carne moída de segunda (acém)',
+                        'Sardinha em conserva (1 lata)',
+                        'Feijão carioca (1 xícara)',
+                        'Lentilha (1 xícara cozida)'
+                    ]
+                },
+                {
+                    categoria: 'INTERMEDIÁRIAS (R$ 16-28/kg)', 
+                    opcoes: [
+                        'Peito de frango',
+                        'Carne bovina magra (patinho)',
+                        'Atum em conserva (1 lata)',
+                        'Queijo cottage (4 col. sopa)',
+                        'Iogurte grego (1 pote)',
+                        'Tofu (100g)'
+                    ]
+                },
+                {
+                    categoria: 'PREMIUM (R$ 30-60/kg)',
+                    opcoes: hasSeafoodAllergy ? [
+                        'Carne orgânica',
+                        'Whey protein (1 scoop)',
+                        'Queijos especiais',
+                        'Peru defumado',
+                        'Suplementos proteicos'
+                    ] : [
+                        'Salmão fresco (120g)',
+                        'Tilápia (150g)',
+                        'Camarão (100g)',
+                        'Whey protein (1 scoop)',
+                        'Queijos especiais',
+                        'Carne orgânica'
+                    ]
+                }
+            ];
+            
+            proteinasSubstituicao.forEach(grupo => {
+                if (yPos > 250) {
                     doc.addPage();
                     pageCount++;
                     yPos = 30;
                 }
+                
+                doc.setFontSize(11);
+                doc.setTextColor(100, 100, 100);
+                doc.text(grupo.categoria, 25, yPos);
+                yPos += 8;
+                
+                doc.setFontSize(9);
+                doc.setTextColor(0, 0, 0);
+                grupo.opcoes.forEach(opcao => {
+                    doc.text('• ' + opcao, 30, yPos);
+                    yPos += 5;
+                });
+                yPos += 8;
+            });
+            
+            // 🌾 CARBOIDRATOS - OPÇÕES DE TROCA
+            yPos += 5;
+            doc.setFontSize(14);
+            doc.setTextColor(44, 122, 44);
+            doc.text('🌾 CARBOIDRATOS - OPÇÕES DE TROCA', 20, yPos);
+            yPos += 12;
+            
+            const carboidratosSubstituicao = [
+                {
+                    categoria: 'ECONÔMICOS (R$ 2-8/kg)',
+                    opcoes: hasGlutenIntolerance ? [
+                        'Arroz integral (1 xícara)',
+                        'Batata doce (1 unidade média)',
+                        'Mandioca/Aipim (150g)',
+                        'Tapioca (2 col. sopa goma)',
+                        'Banana (1 unidade)',
+                        'Inhame (100g)'
+                    ] : [
+                        'Arroz integral (1 xícara)',
+                        'Batata doce (1 unidade média)',
+                        'Aveia em flocos (1/2 xícara)',
+                        'Pão integral (2 fatias)',
+                        'Banana (1 unidade)',
+                        'Mandioca (150g)'
+                    ]
+                },
+                {
+                    categoria: 'INTERMEDIÁRIOS (R$ 9-20/kg)',
+                    opcoes: hasGlutenIntolerance ? [
+                        'Quinoa (1/2 xícara)',
+                        'Amaranto (1/3 xícara)',
+                        'Farinha de coco (2 col. sopa)',
+                        'Batata inglesa orgânica'
+                    ] : [
+                        'Quinoa (1/2 xícara)',
+                        'Macarrão integral (1 xícara)',
+                        'Granola sem açúcar (3 col. sopa)',
+                        'Pão de forma integral premium'
+                    ]
+                },
+                {
+                    categoria: 'PREMIUM (R$ 21-40/kg)',
+                    opcoes: [
+                        'Produtos sem glúten especiais',
+                        'Farinhas alternativas (amêndoa)',
+                        'Produtos orgânicos certificados',
+                        'Grãos antigos (kamut, espelta)'
+                    ]
+                }
+            ];
+            
+            carboidratosSubstituicao.forEach(grupo => {
+                if (yPos > 250) {
+                    doc.addPage();
+                    pageCount++;
+                    yPos = 30;
+                }
+                
+                doc.setFontSize(11);
+                doc.setTextColor(100, 100, 100);
+                doc.text(grupo.categoria, 25, yPos);
+                yPos += 8;
+                
+                doc.setFontSize(9);
+                doc.setTextColor(0, 0, 0);
+                grupo.opcoes.forEach(opcao => {
+                    doc.text('• ' + opcao, 30, yPos);
+                    yPos += 5;
+                });
+                yPos += 8;
+            });
+            
+            // 🥬 VEGETAIS E FRUTAS - OPÇÕES DE TROCA
+            if (yPos > 220) {
+                doc.addPage();
+                pageCount++;
+                yPos = 30;
+            }
+            
+            yPos += 5;
+            doc.setFontSize(14);
+            doc.setTextColor(44, 122, 44);
+            doc.text('🥬 VEGETAIS E FRUTAS - OPÇÕES DE TROCA', 20, yPos);
+            yPos += 12;
+            
+            const vegetaisSubstituicao = [
+                {
+                    categoria: 'ECONÔMICOS (R$ 1-5/kg)',
+                    opcoes: [
+                        'Abobrinha, chuchu, repolho',
+                        'Cenoura, beterraba, cebola',
+                        'Couve, acelga, espinafre',
+                        'Banana, maçã, laranja',
+                        'Mamão, melancia (época)',
+                        'Limão, abacate'
+                    ]
+                },
+                {
+                    categoria: 'INTERMEDIÁRIOS (R$ 6-12/kg)',
+                    opcoes: [
+                        'Brócolis, couve-flor',
+                        'Berinjela, abobrinha italiana',
+                        'Tomate cereja, pimentões',
+                        'Uva, pêra, manga',
+                        'Abacaxi, melão',
+                        'Frutas vermelhas (época)'
+                    ]
+                },
+                {
+                    categoria: 'PREMIUM (R$ 13-25/kg)',
+                    opcoes: [
+                        'Aspargos, alcachofra',
+                        'Vegetais orgânicos',
+                        'Frutas importadas',
+                        'Frutas vermelhas fora de época',
+                        'Vegetais gourmet',
+                        'Microgreens'
+                    ]
+                }
+            ];
+            
+            vegetaisSubstituicao.forEach(grupo => {
+                if (yPos > 250) {
+                    doc.addPage();
+                    pageCount++;
+                    yPos = 30;
+                }
+                
+                doc.setFontSize(11);
+                doc.setTextColor(100, 100, 100);
+                doc.text(grupo.categoria, 25, yPos);
+                yPos += 8;
+                
+                doc.setFontSize(9);
+                doc.setTextColor(0, 0, 0);
+                grupo.opcoes.forEach(opcao => {
+                    doc.text('• ' + opcao, 30, yPos);
+                    yPos += 5;
+                });
+                yPos += 8;
+            });
+            
+            // 📖 COMO FAZER AS TROCAS
+            if (yPos > 200) {
+                doc.addPage();
+                pageCount++;
+                yPos = 30;
+            }
+            
+            yPos += 10;
+            doc.setFontSize(14);
+            doc.setTextColor(44, 122, 44);
+            doc.text('📖 COMO FAZER AS TROCAS CORRETAMENTE', 20, yPos);
+            yPos += 15;
+            
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            
+            const dicasTroca = [
+                '✅ REGRA DE OURO: Troque sempre dentro da mesma categoria',
+                '• Proteína por proteína, carboidrato por carboidrato',
+                '',
+                '✅ EQUIVALÊNCIAS DE PROTEÍNAS:',
+                '• 1 ovo inteiro = 50g de frango = 1/2 xícara de feijão',
+                '• 100g de carne = 150g de peixe = 3/4 xícara de lentilha',
+                '',
+                '✅ EQUIVALÊNCIAS DE CARBOIDRATOS:',
+                '• 1 xícara de arroz = 1 batata doce média = 150g mandioca',
+                '• 2 fatias de pão = 1/2 xícara de aveia = 3 col. sopa tapioca',
+                '',
+                '✅ DICAS IMPORTANTES:',
+                '• Mantenha a quantidade em gramas similar',
+                '• Adapte os temperos conforme sua preferência',
+                '• Teste uma troca por vez para ver como se adapta',
+                '• Prefira alimentos da época (mais baratos)',
+                '• Compre no atacado para economizar mais'
+            ];
+            
+            dicasTroca.forEach(dica => {
+                if (yPos > 270) {
+                    doc.addPage();
+                    pageCount++;
+                    yPos = 30;
+                }
+                
+                if (dica === '') {
+                    yPos += 4;
+                } else if (dica.includes('✅')) {
+                    doc.setFontSize(10);
+                    doc.setTextColor(44, 122, 44);
+                    doc.text(dica, 25, yPos);
+                    yPos += 8;
+                    doc.setTextColor(0, 0, 0);
+                } else {
+                    doc.setFontSize(9);
+                    doc.text(dica, 25, yPos);
+                    yPos += 6;
+                }
+            });
+            
+            // =================== PÁGINA ORIENTAÇÕES ESPECÍFICAS ===================
+            doc.addPage();
+            pageCount++;
+            
+            doc.setFontSize(22);
+            doc.setTextColor(44, 122, 44);
+            doc.text('ORIENTAÇÕES PERSONALIZADAS', 20, 25);
+            
+            doc.setDrawColor(44, 122, 44);
+            doc.setLineWidth(2);
+            doc.line(20, 30, 190, 30);
+            
+            yPos = 45;
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            
+            // Orientações específicas por condição de saúde
+            if (hasDiabetes) {
                 doc.setFontSize(12);
                 doc.setTextColor(200, 0, 0);
-                doc.text('⚠️ DIABETES - SOLUÇÕES ECONÔMICAS:', 20, yPos);
+                doc.text('⚠️ ORIENTAÇÕES PARA DIABETES:', 20, yPos);
                 yPos += 10;
                 doc.setFontSize(10);
                 doc.setTextColor(0, 0, 0);
-                const diabetesEconomico = [
-                    'Prefira arroz parboilizado (mais barato que integral)',
-                    'Use canela em pó para adoçar (barata e natural)',
-                    'Coma frutas com casca (mais fibras, mesmo preço)',
-                    'Batata doce é mais barata que produtos diet',
-                    'Aveia em flocos ajuda controlar glicemia'
+                const diabetesOrientacoes = [
+                    'Monitore a glicemia antes e após refeições',
+                    'Prefira carboidratos de baixo índice glicêmico',
+                    'Distribua carboidratos ao longo do dia',
+                    'Evite açúcares simples e doces',
+                    'Mantenha horários regulares das refeições',
+                    'Priorize: batata doce, aveia, quinoa'
                 ];
-                diabetesEconomico.forEach(orientacao => {
+                diabetesOrientacoes.forEach(orientacao => {
                     doc.text('• ' + orientacao, 25, yPos);
                     yPos += 6;
                 });
@@ -2250,63 +2266,106 @@
             }
             
             if (hasHypertension) {
-                if (yPos > 220) {
-                    doc.addPage();
-                    pageCount++;
-                    yPos = 30;
-                }
                 doc.setFontSize(12);
                 doc.setTextColor(200, 0, 0);
-                doc.text('⚠️ HIPERTENSÃO - TEMPEROS BARATOS:', 20, yPos);
+                doc.text('⚠️ ORIENTAÇÕES PARA HIPERTENSÃO:', 20, yPos);
                 yPos += 10;
                 doc.setFontSize(10);
                 doc.setTextColor(0, 0, 0);
-                const hipertensaoEconomico = [
-                    'Use alho, cebola e cheiro verde (baratos)',
-                    'Limão é mais barato que temperos prontos',
-                    'Cultive ervas em casa (manjericão, salsa)',
-                    'Use menos sal e mais temperos naturais',
-                    'Banana é rica em potássio e barata'
+                const hipertensaoOrientacoes = [
+                    'Reduza o consumo de sódio para menos de 2g/dia',
+                    'Aumente o consumo de potássio (banana, espinafre)',
+                    'Evite alimentos industrializados ricos em sódio',
+                    'Use temperos naturais em vez de sal',
+                    'Monitore a pressão arterial regularmente',
+                    'Evite: enlatados, embutidos, temperos prontos'
                 ];
-                hipertensaoEconomico.forEach(orientacao => {
+                hipertensaoOrientacoes.forEach(orientacao => {
                     doc.text('• ' + orientacao, 25, yPos);
                     yPos += 6;
                 });
                 yPos += 10;
             }
             
-            // Orientações gerais econômicas
-            yPos += 5;
+            if (hasLactoseIntolerance) {
+                doc.setFontSize(12);
+                doc.setTextColor(200, 0, 0);
+                doc.text('⚠️ ORIENTAÇÕES PARA INTOLERÂNCIA À LACTOSE:', 20, yPos);
+                yPos += 10;
+                doc.setFontSize(10);
+                doc.setTextColor(0, 0, 0);
+                const lactoseOrientacoes = [
+                    'Substitua leite comum por leites vegetais',
+                    'Use iogurtes de coco ou amêndoas',
+                    'Verifique rótulos de produtos industrializados',
+                    'Experimente queijos vegetais (mais caros)',
+                    'Suplementar cálcio se necessário',
+                    'Opção barata: leite de aveia caseiro'
+                ];
+                lactoseOrientacoes.forEach(orientacao => {
+                    doc.text('• ' + orientacao, 25, yPos);
+                    yPos += 6;
+                });
+                yPos += 10;
+            }
+            
+            if (hasGlutenIntolerance) {
+                doc.setFontSize(12);
+                doc.setTextColor(200, 0, 0);
+                doc.text('⚠️ ORIENTAÇÕES PARA INTOLERÂNCIA AO GLÚTEN:', 20, yPos);
+                yPos += 10;
+                doc.setFontSize(10);
+                doc.setTextColor(0, 0, 0);
+                const glutenOrientacoes = [
+                    'Substitua trigo por arroz, quinoa, tapioca',
+                    'Leia sempre os rótulos dos produtos',
+                    'Evite: pães, massas, biscoitos tradicionais',
+                    'Opções baratas: tapioca, batata doce, arroz',
+                    'Cuidado com contaminação cruzada',
+                    'Aveia: compre certificada sem glúten'
+                ];
+                glutenOrientacoes.forEach(orientacao => {
+                    doc.text('• ' + orientacao, 25, yPos);
+                    yPos += 6;
+                });
+                yPos += 10;
+            }
+            
+            // Orientações gerais
             doc.setFontSize(12);
-            doc.setTextColor(40, 167, 69);
-            doc.text('ORIENTAÇÕES GERAIS ECONÔMICAS:', 20, yPos);
+            doc.setTextColor(44, 122, 44);
+            doc.text('ORIENTAÇÕES GERAIS PARA TODOS:', 20, yPos);
             yPos += 10;
             doc.setFontSize(10);
             doc.setTextColor(0, 0, 0);
             
-            let orientacoesEconomicas = [
-                'Beba água da torneira (filtrada) em vez de comprar',
-                'Faça 4-5 refeições com ingredientes básicos',
-                'Café da manhã é a refeição mais barata e importante',
-                'Pratique atividade física gratuita (caminhada)',
-                'Durma bem para controlar a fome',
-                'Cozinhe mais, compre menos comida pronta',
-                'Use panela de pressão (economiza gás)',
-                'Congele alimentos em promoção'
+            let orientacoes = [
+                'Beba pelo menos 2-3 litros de água por dia',
+                'Faça 5-6 refeições pequenas ao longo do dia',
+                'Nunca pule o café da manhã',
+                'Pratique atividade física regularmente',
+                'Durma pelo menos 7-8 horas por noite',
+                'Prefira sempre alimentos integrais',
+                'Mastigue bem os alimentos',
+                'Mantenha horários regulares',
+                'Cozinhe em casa sempre que possível',
+                'Compre alimentos da época (mais baratos)'
             ];
             
-            // Orientações específicas por objetivo (econômicas)
+            // Orientações específicas por objetivo
             if (userData.goal === 'lose_weight') {
-                orientacoesEconomicas.push('Reduza porções em vez de comprar produtos light');
-                orientacoesEconomicas.push('Coma mais verduras baratas (acelga, couve)');
-                orientacoesEconomicas.push('Caminhe 30 min/dia (exercício gratuito)');
+                orientacoes.push('Crie déficit calórico de 500 cal/dia');
+                orientacoes.push('Priorize proteínas em todas refeições');
+                orientacoes.push('Pratique cardio 4-5x/semana');
+                orientacoes.push('Evite: doces, frituras, refrigerantes');
             } else if (userData.goal === 'gain_muscle') {
-                orientacoesEconomicas.push('Coma mais ovos (proteína mais barata)');
-                orientacoesEconomicas.push('Inclua feijão em todas as refeições');
-                orientacoesEconomicas.push('Use exercícios com peso corporal');
+                orientacoes.push('Mantenha superávit calórico de 300 cal/dia');
+                orientacoes.push('Consuma proteína a cada 3-4 horas');
+                orientacoes.push('Foque em musculação');
+                orientacoes.push('Não pule refeições');
             }
             
-            orientacoesEconomicas.forEach(orientacao => {
+            orientacoes.forEach(orientacao => {
                 if (yPos > 270) {
                     doc.addPage();
                     pageCount++;
@@ -2316,106 +2375,114 @@
                 yPos += 6;
             });
             
-            // =================== PÁGINA FINAL - CRONOGRAMA ECONÔMICO ===================
+            // =================== PÁGINA FINAL - CRONOGRAMA E ECONOMIA ===================
             doc.addPage();
             pageCount++;
             
             doc.setFontSize(22);
-            doc.setTextColor(40, 167, 69);
-            doc.text('CRONOGRAMA E ORÇAMENTO', 20, 25);
+            doc.setTextColor(44, 122, 44);
+            doc.text('CRONOGRAMA E DICAS DE ECONOMIA', 20, 25);
             
-            doc.setDrawColor(40, 167, 69);
+            doc.setDrawColor(44, 122, 44);
             doc.setLineWidth(2);
             doc.line(20, 30, 190, 30);
             
             yPos = 45;
             
-            // Estimativa de gastos
             doc.setFontSize(14);
-            doc.setTextColor(40, 167, 69);
-            doc.text('💰 ESTIMATIVA DE GASTOS SEMANAIS', 20, yPos);
-            yPos += 15;
-            
-            doc.setFontSize(11);
-            doc.setTextColor(0, 0, 0);
-            
-            const gastosSemanais = [
-                ['Proteínas (ovos, frango, feijão):', 'R$ 25,00 - R$ 35,00'],
-                ['Carboidratos (arroz, pão, batata):', 'R$ 15,00 - R$ 20,00'],
-                ['Vegetais e frutas:', 'R$ 10,00 - R$ 15,00'],
-                ['Temperos e básicos:', 'R$ 8,00 - R$ 12,00'],
-                ['TOTAL SEMANAL:', 'R$ 58,00 - R$ 82,00'],
-                ['TOTAL MENSAL:', 'R$ 230,00 - R$ 330,00']
-            ];
-            
-            gastosSemanais.forEach(([item, valor]) => {
-                doc.text(item, 25, yPos);
-                doc.text(valor, 120, yPos);
-                yPos += 8;
-            });
-            
-            yPos += 10;
-            doc.setFontSize(10);
-            doc.setTextColor(100, 100, 100);
-            doc.text('*Valores baseados em preços médios do Brasil em 2024', 25, yPos);
-            yPos += 15;
-            
-            doc.setFontSize(14);
-            doc.setTextColor(40, 167, 69);
+            doc.setTextColor(44, 122, 44);
             doc.text('⏰ HORÁRIOS IDEAIS DAS REFEIÇÕES', 20, yPos);
             yPos += 15;
             
             doc.setFontSize(11);
             doc.setTextColor(0, 0, 0);
             
-            const horariosEconomicos = [
-                ['Café da manhã:', '7h00 - 8h00 (não pule - evita gastos extras)'],
-                ['Lanche da manhã:', '10h00 - 10h30 (fruta simples)'], 
-                ['Almoço:', '12h00 - 13h00 (refeição principal)'],
-                ['Lanche da tarde:', '15h30 - 16h00 (pão ou fruta)'],
-                ['Jantar:', '19h00 - 20h00 (mais leve)']
+            const horarios = [
+                ['Café da manhã:', '7h00 - 8h00'],
+                ['Lanche da manhã:', '10h00 - 10h30'], 
+                ['Almoço:', '12h00 - 13h00'],
+                ['Lanche da tarde:', '15h30 - 16h00'],
+                ['Jantar:', '19h00 - 20h00']
             ];
             
-            horariosEconomicos.forEach(([refeicao, horario]) => {
+            horarios.forEach(([refeicao, horario]) => {
                 doc.text(refeicao, 25, yPos);
-                doc.text(horario, 80, yPos);
+                doc.text(horario, 100, yPos);
                 yPos += 8;
             });
             
             yPos += 15;
             doc.setFontSize(14);
-            doc.setTextColor(40, 167, 69);
+            doc.setTextColor(44, 122, 44);
             doc.text('📅 CRONOGRAMA DE RESULTADOS', 20, yPos);
             yPos += 15;
             
             doc.setFontSize(10);
             doc.setTextColor(0, 0, 0);
             
-            const cronogramaEconomico = [
-                'Semana 1-2: Organização das compras e rotina',
-                'Semana 3-4: Adaptação aos sabores e economia real',
-                'Mês 2: Primeiros resultados visíveis na saúde',
-                'Mês 3: Economia consolidada no orçamento familiar',
-                'Mês 4+: Hábitos saudáveis e econômicos estabelecidos'
+            const cronograma = [
+                'Semana 1-2: Adaptação do corpo, redução de inchaço',
+                'Semana 3-4: Primeiros resultados visíveis',
+                'Mês 2: Mudanças na composição corporal',
+                'Mês 3: Resultados consolidados',
+                'Mês 4+: Manutenção e refinamentos'
             ];
             
-            cronogramaEconomico.forEach(item => {
+            cronograma.forEach(item => {
                 doc.text('• ' + item, 25, yPos);
                 yPos += 8;
             });
             
-            yPos += 20;
-            doc.setFontSize(12);
-            doc.setTextColor(40, 167, 69);
-            doc.text('💪 Saúde de qualidade não precisa ser cara!', 20, yPos);
-            yPos += 10;
-            doc.text('🏆 Você consegue alcançar seus objetivos economizando!', 20, yPos);
+            yPos += 15;
+            doc.setFontSize(14);
+            doc.setTextColor(44, 122, 44);
+            doc.text('💰 DICAS PARA ECONOMIZAR AINDA MAIS', 20, yPos);
+            yPos += 15;
             
-            console.log(`PDF econômico gerado com ${pageCount} páginas para ${userData.name}`);
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            
+            const dicasEconomia = [
+                'Compre no atacado: ovos (cartela 30), arroz (5kg), feijão (2kg)',
+                'Congele porções: cozinhe grandes quantidades e congele',
+                'Aproveite promoções: estoque alimentos não perecíveis',
+                'Cultive temperos: manjericão, salsinha crescem em casa',
+                'Use sobras: transforme sobras em novas refeições',
+                'Sazonalidade: frutas e verduras da época são mais baratas',
+                'Feiras: final do dia têm preços melhores',
+                'Marcas próprias: supermercados têm qualidade similar',
+                'Evite desperdício: planeje as refeições da semana',
+                'Cozinhe em casa: sempre mais barato que delivery'
+            ];
+            
+            dicasEconomia.forEach(dica => {
+                if (yPos > 270) {
+                    doc.addPage();
+                    pageCount++;
+                    yPos = 30;
+                }
+                doc.text('• ' + dica, 25, yPos);
+                yPos += 7;
+            });
+            
+            yPos += 15;
+            doc.setFontSize(12);
+            doc.setTextColor(44, 122, 44);
+            doc.text('💪 Você tem tudo para alcançar seus objetivos gastando pouco!', 20, yPos);
+            yPos += 10;
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            doc.text('Lembre-se: uma dieta saudável não precisa ser cara. O segredo está no planejamento!', 20, yPos);
+            
+            console.log(`✅ PDF econômico gerado com ${pageCount} páginas para ${userData.name}`);
+            console.log('💰 Dieta principal: ingredientes econômicos (R$ 10-16/dia)');
+            console.log('📄 Página de opções: substitutos para todos os orçamentos');
+            console.log('🎯 100% personalizado baseado no quiz');
+            
             return doc;
         }
 
-        // Função de download (atualizada para dieta econômica)
+        // Função de download
         function downloadFile(type) {
             if (type !== 'dieta-personalizada') {
                 alert('Este material está disponível na sua área de membros exclusiva! Verifique seu e-mail para o link de acesso.');
@@ -2428,53 +2495,22 @@
                 const filename = `Dieta_Economica_${userData.name.replace(/\s+/g, '_')}_DrGiovana.pdf`;
                 doc.save(filename);
                 
-                // Mostrar mensagem de sucesso personalizada
-                const successMessage = document.createElement('div');
-                successMessage.style.cssText = `
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    background: linear-gradient(135deg, #28a745, #20c997);
-                    color: white;
-                    padding: 30px;
-                    border-radius: 16px;
-                    text-align: center;
-                    z-index: 10000;
-                    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-                    max-width: 400px;
-                `;
-                
-                successMessage.innerHTML = `
-                    <div style="font-size: 48px; margin-bottom: 15px;">💰</div>
-                    <h3 style="margin-bottom: 10px;">Dieta Econômica Baixada!</h3>
-                    <p style="font-size: 14px; opacity: 0.9;">
-                        Seu plano com alimentos baratos e nutritivos está pronto. 
-                        Economize sem perder qualidade!
-                    </p>
-                `;
-                
-                document.body.appendChild(successMessage);
-                
-                setTimeout(() => {
-                    successMessage.style.opacity = '0';
-                    setTimeout(() => successMessage.remove(), 300);
-                }, 3000);
+                console.log('📥 Download iniciado:', filename);
                 
             } catch (error) {
-                console.error('Erro ao gerar PDF econômico:', error);
+                console.error('Erro ao gerar PDF:', error);
                 alert('Erro ao gerar PDF. Tente novamente.');
             }
         }
 
         // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🎯 Página de obrigado ECONÔMICA carregada - iniciando sistema...');
+            console.log('🎯 Página de obrigado carregada - versão econômica...');
             
             // ✅ 1. CRIAR PARTÍCULAS
             createParticles();
             
-            // ✅ 2. CARREGAR DADOS DO USUÁRIO (VERSÃO ECONÔMICA)
+            // ✅ 2. CARREGAR DADOS DO USUÁRIO (VERSÃO CORRIGIDA)
             loadUserData();
             
             // ✅ 3. ADICIONAR BOTÃO DE DEBUG EM DESENVOLVIMENTO
@@ -2484,7 +2520,10 @@
                 }, 1000);
             }
             
-            console.log('🚀 Sistema de obrigado ECONÔMICO inicializado com 100% de compatibilidade!');
+            console.log('🚀 Sistema econômico inicializado!');
+            console.log('💰 Dieta principal: ingredientes econômicos');
+            console.log('📄 Nova página: opções de substituição por orçamento');
+            console.log('🎯 100% personalizado baseado no quiz');
         });
 
         function createParticles() {
@@ -2532,7 +2571,7 @@
             
             debugButton.onmouseover = () => {
                 debugButton.style.transform = 'translateY(-2px)';
-                debugButton.style.borderColor = '#28a745';
+                debugButton.style.borderColor = '#00ff88';
             };
             
             debugButton.onmouseout = () => {
@@ -2562,7 +2601,7 @@
                 max-height: 80vh;
                 overflow-y: auto;
                 background: rgba(0, 0, 0, 0.95);
-                border: 2px solid #28a745;
+                border: 2px solid #00ff88;
                 border-radius: 12px;
                 padding: 20px;
                 color: white;
@@ -2579,20 +2618,20 @@
             
             let debugContent = `
                 <div style="text-align: center; margin-bottom: 15px;">
-                    <div style="font-size: 18px; margin-bottom: 5px;">🔍 DEBUG ECONÔMICO</div>
+                    <div style="font-size: 18px; margin-bottom: 5px;">🔍 DEBUG INFO - VERSÃO ECONÔMICA</div>
                     <div style="font-size: 12px; opacity: 0.8;">${new Date().toLocaleString()}</div>
                 </div>
 
                 <div style="margin-bottom: 15px;">
-                    <div style="color: #28a745; font-weight: bold; margin-bottom: 5px;">📊 STATUS GERAL:</div>
+                    <div style="color: #00ff88; font-weight: bold; margin-bottom: 5px;">📊 STATUS GERAL:</div>
                     <div>• Dados do quiz: ${quizData.hasData ? '✅ Encontrados' : '❌ Não encontrados'}</div>
                     <div>• Fonte: ${quizData.source || 'Nenhuma'}</div>
                     <div>• Dados reais: ${window.hasRealData ? '✅ Sim' : '❌ Não'}</div>
-                    <div>• Versão: 💰 Econômica</div>
+                    <div>• Versão: Econômica + Opções</div>
                 </div>
 
                 <div style="margin-bottom: 15px;">
-                    <div style="color: #28a745; font-weight: bold; margin-bottom: 5px;">👤 DADOS DO USUÁRIO:</div>
+                    <div style="color: #00ff88; font-weight: bold; margin-bottom: 5px;">👤 DADOS DO USUÁRIO:</div>
                     <div>• Nome: ${userData.name || 'N/A'}</div>
                     <div>• Peso: ${userData.weight || 'N/A'}kg</div>
                     <div>• Altura: ${userData.height || 'N/A'}cm</div>
@@ -2600,7 +2639,7 @@
                 </div>
 
                 <div style="margin-bottom: 15px;">
-                    <div style="color: #28a745; font-weight: bold; margin-bottom: 5px;">🧮 DADOS NUTRICIONAIS:</div>
+                    <div style="color: #00ff88; font-weight: bold; margin-bottom: 5px;">🧮 DADOS NUTRICIONAIS:</div>
                     <div>• Calorias: ${nutrition.calories || 'N/A'}</div>
                     <div>• Proteínas: ${nutrition.protein || 'N/A'}g</div>
                     <div>• Carboidratos: ${nutrition.carbs || 'N/A'}g</div>
@@ -2608,7 +2647,15 @@
                 </div>
 
                 <div style="margin-bottom: 15px;">
-                    <div style="color: #28a745; font-weight: bold; margin-bottom: 5px;">💾 LOCALSTORAGE:</div>
+                    <div style="color: #00ff88; font-weight: bold; margin-bottom: 5px;">💰 NOVIDADES ECONÔMICAS:</div>
+                    <div>• Cardápio: Ingredientes baratos</div>
+                    <div>• Custo: R$ 10-16/dia</div>
+                    <div>• Opções: Página de substituições</div>
+                    <div>• Personalização: 100% mantida</div>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <div style="color: #00ff88; font-weight: bold; margin-bottom: 5px;">💾 LOCALSTORAGE:</div>
             `;
 
             // Verificar localStorage
@@ -2636,7 +2683,7 @@
                 </div>
 
                 <div style="margin-bottom: 15px;">
-                    <div style="color: #28a745; font-weight: bold; margin-bottom: 5px;">🔧 AÇÕES:</div>
+                    <div style="color: #00ff88; font-weight: bold; margin-bottom: 5px;">🔧 AÇÕES:</div>
                     <button onclick="console.log('Quiz Data:', getQuizData())" style="
                         background: #333; color: white; border: 1px solid #666; 
                         padding: 5px 10px; margin: 2px; border-radius: 4px; 
@@ -2680,13 +2727,13 @@
                     const progressData = {
                         completed: true,
                         completionDate: new Date().toISOString(),
-                        pageVisited: 'thank_you_economica',
-                        dietType: 'economica',
+                        pageVisited: 'thank_you_economico',
+                        version: 'economica_com_opcoes',
                         timestamp: Date.now()
                     };
                     
                     localStorage.setItem('dra_giovana_progress', JSON.stringify(progressData));
-                    console.log('💾 Progresso econômico salvo nos dois sistemas');
+                    console.log('💾 Progresso salvo - versão econômica');
                 }
             } catch (error) {
                 console.log('⚠️ Erro ao salvar progresso:', error);
@@ -2715,6 +2762,9 @@
                 console.log('4. Geração de PDF econômico:', pdf ? '✅' : '❌');
                 
                 console.log('✅ Sistema econômico funcionando perfeitamente!');
+                console.log('💰 Cardápio principal: ingredientes econômicos');
+                console.log('📄 Nova página: opções de substituição');
+                console.log('🎯 Personalização: 100% mantida');
                 return true;
                 
             } catch (error) {
@@ -2731,19 +2781,11 @@
         window.showDebugInfo = showDebugInfo;
         window.getQuizData = getQuizData;
         
-        console.log('✅ Sistema econômico carregado - 100% compatível com página index');
+        console.log('✅ Sistema econômico carregado - 100% compatível!');
+        console.log('💰 Dieta principal com ingredientes baratos (R$ 10-16/dia)');
+        console.log('📄 Nova página com opções de substituição por orçamento');
+        console.log('🎯 Personalização completa baseada no quiz mantida');
         console.log('🔧 Para debug: testCompleteSystem(), showDebugInfo()');
-        console.log('💰 Versão: Dieta Econômica com alimentos acessíveis');
     </script>
 </body>
-</html> LER DADOS DO MESMO LOCAL QUE A PÁGINA INDEX SALVA
-                const quizData = DataStorage.getItem('quiz_data');
-                const checkoutData = DataStorage.getItem('checkout_data');
-                const userProfile = DataStorage.getItem('user_profile');
-                
-                console.log('🔍 Dados encontrados:');
-                console.log('Quiz Data:', quizData);
-                console.log('Checkout Data:', checkoutData);
-                console.log('User Profile:', userProfile);
-                
-                // ✅
+</html>

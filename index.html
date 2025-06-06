@@ -1845,7 +1845,39 @@
         let answers = {};
         let isOnLandingPage = true;
         let activeUsersManager;
+        // ✅ FUNÇÃO PARA ENVIAR DADOS PARA GOOGLE SHEETS - VERSÃO JSONP (SEM CORS)
+async function sendToGoogleSheets(userData) {
+    try {
+        // URL do seu Google Apps Script com parâmetros GET
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZeCwbEfXRSO0rsK1VGwxMoSMsQQQTS3Tc55r9hnBE8TxUhQ2BPCK7wcPY1cwgg8H5/exec';
         
+        console.log('📊 Enviando dados para Google Sheets via GET...');
+        console.log('👤 Dados do usuário:', userData);
+        
+        // Converter dados para parâmetros de URL
+        const params = new URLSearchParams();
+        Object.keys(userData).forEach(key => {
+            if (userData[key] !== null && userData[key] !== undefined) {
+                params.append(key, userData[key]);
+            }
+        });
+        
+        const fullURL = `${GOOGLE_SCRIPT_URL}?${params.toString()}`;
+        
+        const response = await fetch(fullURL, {
+            method: 'GET',
+            mode: 'no-cors' // Evita problemas de CORS
+        });
+        
+        console.log('✅ Dados enviados com sucesso para Google Sheets!');
+        return true;
+        
+    } catch (error) {
+        console.error('❌ Erro ao enviar para Google Sheets:', error);
+        return false;
+    }
+}
+                
         // ✅ Hash routing - Mapeamento de hash para cada pergunta
         const hashMap = [
             'objetivo',    // Pergunta 0
@@ -2993,17 +3025,54 @@
             }
         }
 
-        function showAnalysisProcess() {
-            // ✅ Atualizar URL para análise
-            updateURL('analise');
-            
-            const container = document.getElementById('questionContainer');
-            
-            // Track analysis start
-            eventsTracker.trackOnce('custom', 'AnalysisStarted', {
-                user_data_collected: Object.keys(answers).length
-            });
-            
+      function showAnalysisProcess() {
+    // ✅ Atualizar URL para análise
+    updateURL('analise');
+    
+    const container = document.getElementById('questionContainer');
+    
+    // ✅ ENVIAR DADOS PARA GOOGLE SHEETS QUANDO QUIZ FOR CONCLUÍDO
+    const results = calculateResults();
+    const contact = answers.contact || {};
+    
+    // Preparar dados para envio
+    const userData = {
+        name: contact.name || '',
+        email: contact.email || '',
+        phone: contact.phone || '',
+        goal: answers.goal || '',
+        gender: answers.gender || '',
+        age: answers.age || '',
+        activity: answers.activity || '',
+        weight: answers.physical?.weight || '',
+        height: answers.physical?.height || '',
+        target_weight: answers.physical?.target_weight || '',
+        bmr: results.bmr || '',
+        target_calories: results.targetCalories || '',
+        projected_weight_change: results.projectedWeightChange || '',
+        months_to_goal: results.monthsToGoal || '',
+        protein: results.protein || '',
+        carbs: results.carbs || '',
+        fats: results.fats || '',
+        bmi: results.bmi || '',
+        health_conditions: Array.isArray(answers.health) ? answers.health.join(', ') : (answers.health || ''),
+        allergies: Array.isArray(answers.allergies) ? answers.allergies.join(', ') : (answers.allergies || ''),
+        diet_type: answers.diet || ''
+    };
+    
+    // Enviar para Google Sheets de forma assíncrona (não bloqueia a interface)
+    sendToGoogleSheets(userData).then(success => {
+        if (success) {
+            console.log('📊 Lead salvo na planilha do Google Sheets!');
+        } else {
+            console.log('⚠️ Falha ao salvar na planilha, mas quiz continua funcionando');
+        }
+    });
+    
+    // Track analysis start
+    eventsTracker.trackOnce('custom', 'AnalysisStarted', {
+        user_data_collected: Object.keys(answers).length
+    });
             container.innerHTML = `
                 <div style="text-align: center; padding: 40px 0;">
                     <div style="font-size: 80px; margin-bottom: 20px; animation: doctorPulse 2s ease-in-out infinite;">👩‍⚕️</div>

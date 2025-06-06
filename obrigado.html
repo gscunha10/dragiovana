@@ -803,9 +803,9 @@
     </div>
 
     <script>
-        // ✅ SISTEMA CORRIGIDO PARA LER DADOS DA PÁGINA INDEX
+        // ✅ SISTEMA DE PERSISTÊNCIA 100% COMPATÍVEL COM INDEX.HTML
         const DataStorage = {
-            // Verificar se localStorage está disponível
+            // Verificar se localStorage está disponível (exato do index)
             isLocalStorageAvailable: function() {
                 try {
                     const testKey = 'test_' + Date.now();
@@ -817,21 +817,99 @@
                 }
             },
             
-            // ✅ LER DADOS COM O MESMO SISTEMA DA PÁGINA INDEX
+            memoryStorage: {}, // Fallback em memória (exato do index)
+            
+            // ✅ MÉTODO SETITEM 100% IDÊNTICO AO INDEX
+            setItem: function(key, value) {
+                const jsonValue = JSON.stringify(value);
+                if (this.isLocalStorageAvailable()) {
+                    try {
+                        localStorage.setItem('dra_giovana_' + key, jsonValue);
+                        console.log(`💾 Dados econômicos salvos no localStorage: ${key}`);
+                        return true;
+                    } catch (e) {
+                        console.warn('Erro ao salvar no localStorage, usando memória:', e);
+                    }
+                }
+                // Fallback para memória
+                this.memoryStorage['dra_giovana_' + key] = jsonValue;
+                console.log(`💾 Dados econômicos salvos na memória: ${key}`);
+                return true;
+            },
+            
+            // ✅ MÉTODO GETITEM 100% IDÊNTICO AO INDEX
             getItem: function(key) {
                 const fullKey = 'dra_giovana_' + key;
                 if (this.isLocalStorageAvailable()) {
                     try {
                         const value = localStorage.getItem(fullKey);
                         if (value) {
-                            console.log(`📄 Dados recuperados do localStorage: ${key}`);
+                            console.log(`📄 Dados econômicos recuperados do localStorage: ${key}`);
                             return JSON.parse(value);
                         }
                     } catch (e) {
                         console.warn('Erro ao ler localStorage:', e);
                     }
                 }
+                // Fallback para memória
+                const memValue = this.memoryStorage[fullKey];
+                if (memValue) {
+                    console.log(`📄 Dados econômicos recuperados da memória: ${key}`);
+                    return JSON.parse(memValue);
+                }
                 return null;
+            },
+            
+            removeItem: function(key) {
+                const fullKey = 'dra_giovana_' + key;
+                if (this.isLocalStorageAvailable()) {
+                    try {
+                        localStorage.removeItem(fullKey);
+                    } catch (e) {
+                        console.warn('Erro ao remover do localStorage:', e);
+                    }
+                }
+                delete this.memoryStorage[fullKey];
+                console.log(`🗑️ Dados econômicos removidos: ${key}`);
+            },
+            
+            // ✅ MÉTODOS ESPECÍFICOS 100% COMPATÍVEIS COM INDEX
+            saveQuizData: function(answers, results) {
+                const quizData = {
+                    answers: answers,
+                    results: results,
+                    completedAt: new Date().toISOString(),
+                    sessionId: Date.now().toString(),
+                    userAgent: navigator.userAgent,
+                    timestamp: Date.now(),
+                    version: 'economica' // Identificar versão econômica
+                };
+                
+                this.setItem('quiz_data', quizData);
+                this.setItem('user_profile', {
+                    goal: answers.goal,
+                    name: answers.contact?.name,
+                    email: answers.contact?.email,
+                    bmr: results.bmr,
+                    targetCalories: results.targetCalories,
+                    projectedWeightChange: results.projectedWeightChange
+                });
+                
+                console.log('💾 Dados completos do quiz econômico salvos para recuperação pós-pagamento');
+                return quizData;
+            },
+            
+            getQuizData: function() {
+                return this.getItem('quiz_data');
+            },
+            
+            getUserProfile: function() {
+                return this.getItem('user_profile');
+            },
+            
+            hasCompletedQuiz: function() {
+                const data = this.getQuizData();
+                return data && data.answers && data.results;
             }
         };
 
@@ -1036,9 +1114,9 @@
             return processedData;
         }
 
-        // ✅ FUNÇÃO PARA CALCULAR NUTRIÇÃO (usando dados corrigidos)
+        // ✅ FUNÇÃO PARA CALCULAR NUTRIÇÃO (100% IDÊNTICA AO INDEX)
         function calculateNutritionFromQuiz(userData) {
-            console.log('🧮 Calculando nutrição para:', userData);
+            console.log('🧮 Calculando nutrição econômica para:', userData);
             
             const weight = userData.weight;
             const height = userData.height;
@@ -1046,7 +1124,7 @@
             const activity = userData.activity;
             const gender = userData.gender;
             
-            // ✅ CÁLCULOS IGUAIS AOS DA PÁGINA INDEX
+            // ✅ CÁLCULOS 100% IDÊNTICOS AO INDEX.HTML
             const ageRanges = {
                 '18-25': 21.5,
                 '26-35': 30.5,
@@ -1056,7 +1134,7 @@
             };
             const ageValue = ageRanges[userData.age] || 30;
             
-            // Calcular TMB (mesma fórmula da página index)
+            // Calcular TMB (fórmula de Mifflin-St Jeor - mesma do index)
             let bmr;
             if (gender === 'male') {
                 bmr = 10 * weight + 6.25 * height - 5 * ageValue + 5;
@@ -1064,7 +1142,7 @@
                 bmr = 10 * weight + 6.25 * height - 5 * ageValue - 161;
             }
             
-            // Multiplicadores de atividade (iguais à página index)
+            // Multiplicadores de atividade (exatamente iguais ao index)
             const activityMultipliers = {
                 sedentary: 1.2,
                 light: 1.375,
@@ -1074,34 +1152,58 @@
             
             const tdee = Math.round(bmr * (activityMultipliers[activity] || 1.55));
             
-            // Ajustar calorias baseado no objetivo (igual à página index)
-            let calories;
-            switch(goal) {
-                case 'lose_weight':
-                    calories = Math.round(tdee - 500);
-                    break;
-                case 'gain_muscle':
-                    calories = Math.round(tdee + 300);
-                    break;
-                default:
-                    calories = Math.round(tdee);
+            // Ajustar calorias baseado no objetivo (exatamente igual ao index)
+            let targetCalories = tdee;
+            let projectedWeightChange = 0;
+            let monthsToGoal = 0;
+
+            if (goal === 'lose_weight') {
+                targetCalories = Math.round(tdee - 500);
+                const targetWeight = userData.targetWeight || (weight * 0.9);
+                if (targetWeight < weight) {
+                    projectedWeightChange = weight - targetWeight;
+                    monthsToGoal = Math.ceil(projectedWeightChange / 2);
+                } else {
+                    projectedWeightChange = Math.min(weight * 0.1, 10);
+                    monthsToGoal = Math.ceil(projectedWeightChange / 2);
+                }
+            } else if (goal === 'gain_muscle') {
+                targetCalories = Math.round(tdee + 300);
+                const targetWeight = userData.targetWeight || (weight * 1.1);
+                if (targetWeight > weight) {
+                    projectedWeightChange = targetWeight - weight;
+                    monthsToGoal = Math.ceil(projectedWeightChange / 1);
+                } else {
+                    projectedWeightChange = 5;
+                    monthsToGoal = 5;
+                }
             }
             
-            // Calcular macronutrientes (igual à página index)
+            // Calcular macronutrientes (exatamente igual ao index)
             const protein = Math.round(weight * 2.2);
-            const fats = Math.round(calories * 0.3 / 9);
-            const carbs = Math.round((calories - (protein * 4) - (fats * 9)) / 4);
+            const fats = Math.round(targetCalories * 0.3 / 9);
+            const carbs = Math.round((targetCalories - (protein * 4) - (fats * 9)) / 4);
+            
+            // IMC
+            const bmi = weight / ((height / 100) ** 2);
             
             const result = { 
-                calories, 
+                bmr: Math.round(bmr),
+                tdee: tdee,
+                targetCalories: targetCalories,
+                calories: targetCalories, // Alias para compatibilidade
                 protein, 
                 carbs, 
                 fats,
-                bmr: Math.round(bmr),
-                tdee: tdee
+                projectedWeightChange: Math.round(projectedWeightChange * 10) / 10,
+                monthsToGoal,
+                bmi: Math.round(bmi * 10) / 10,
+                currentWeight: weight,
+                targetWeight: userData.targetWeight || weight,
+                height
             };
             
-            console.log('✅ Nutrição calculada:', result);
+            console.log('✅ Nutrição econômica calculada (igual ao index):', result);
             return result;
         }
 
@@ -1182,8 +1284,60 @@
             document.body.appendChild(statusDiv);
         }
 
-        // ✅ FUNÇÃO PARA ADICIONAR AVISO DE DEMONSTRAÇÃO NA INTERFACE
-        function addDemoWarningToInterface() {
+        // ✅ FUNÇÃO PARA MOSTRAR ESTATÍSTICAS DE ECONOMIA EM TEMPO REAL
+        function showEconomyStats(userData) {
+            const economyCard = document.createElement('div');
+            economyCard.style.cssText = `
+                background: linear-gradient(135deg, rgba(40, 167, 69, 0.15), rgba(32, 201, 151, 0.15));
+                border: 2px solid rgba(40, 167, 69, 0.4);
+                border-radius: 16px;
+                padding: 20px;
+                margin: 20px 0;
+                text-align: center;
+                animation: gentlePulse 3s ease-in-out infinite;
+            `;
+            
+            // Calcular economia estimada baseada no perfil
+            const weeklyMealCost = calculateWeeklyMealCost(userData);
+            const monthlySavings = calculateMonthlySavings(userData);
+            
+            economyCard.innerHTML = `
+                <h4 style="color: var(--economy); margin-bottom: 15px; font-size: 18px; font-weight: 700;">
+                    💰 Economia Personalizada para ${userData.name.split(' ')[0]}
+                </h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px;">
+                    <div style="background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 12px;">
+                        <div style="font-size: 20px; font-weight: 900; color: var(--economy);">R$ ${weeklyMealCost}</div>
+                        <div style="font-size: 12px; color: rgba(255, 255, 255, 0.8);">Custo semanal estimado</div>
+                    </div>
+                    <div style="background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 12px;">
+                        <div style="font-size: 20px; font-weight: 900; color: var(--success);">R$ ${monthlySavings}</div>
+                        <div style="font-size: 12px; color: rgba(255, 255, 255, 0.8);">Economia mensal vs delivery</div>
+                    </div>
+                </div>
+                <p style="font-size: 13px; color: rgba(255, 255, 255, 0.9); margin-top: 15px; line-height: 1.4;">
+                    Com alimentos básicos e nutritivos, você economiza <strong>até 70%</strong> comparado a delivery e produtos prontos
+                </p>
+            `;
+            
+            return economyCard;
+        }
+        
+        function calculateWeeklyMealCost(userData) {
+            // Estimativa baseada no peso e objetivo
+            const baseWeeklyCost = 45; // Base para uma pessoa
+            const weightFactor = userData.weight > 80 ? 1.2 : userData.weight < 60 ? 0.8 : 1;
+            const goalFactor = userData.goal === 'gain_muscle' ? 1.3 : userData.goal === 'lose_weight' ? 0.9 : 1;
+            
+            return Math.round(baseWeeklyCost * weightFactor * goalFactor);
+        }
+        
+        function calculateMonthlySavings(userData) {
+            const economicCost = calculateWeeklyMealCost(userData) * 4;
+            const deliveryCost = economicCost * 3.5; // Delivery custa ~3.5x mais
+            
+            return Math.round(deliveryCost - economicCost);
+        }
             const welcomeCard = document.querySelector('.welcome-card');
             if (welcomeCard && !document.getElementById('demoWarning')) {
                 const demoWarning = document.createElement('div');
@@ -2582,4 +2736,14 @@
         console.log('💰 Versão: Dieta Econômica com alimentos acessíveis');
     </script>
 </body>
-</html> 
+</html> LER DADOS DO MESMO LOCAL QUE A PÁGINA INDEX SALVA
+                const quizData = DataStorage.getItem('quiz_data');
+                const checkoutData = DataStorage.getItem('checkout_data');
+                const userProfile = DataStorage.getItem('user_profile');
+                
+                console.log('🔍 Dados encontrados:');
+                console.log('Quiz Data:', quizData);
+                console.log('Checkout Data:', checkoutData);
+                console.log('User Profile:', userProfile);
+                
+                // ✅

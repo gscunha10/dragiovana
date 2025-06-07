@@ -1593,8 +1593,10 @@
         border-radius: 12px !important;
     }
         }
-    </style>
-   
+    
+</style>
+
+<!-- 🛡️ PROTEÇÕES ANTI-CLONE -->
 <script>
 // Anti-DevTools e teclas de desenvolvedor
 document.addEventListener('keydown', function(e) {
@@ -1627,67 +1629,12 @@ document.addEventListener('dragstart', function(e) {
     e.preventDefault();
     return false;
 });
-
-// Detectar DevTools aberto (método avançado)
-let devtools = {open: false, orientation: null};
-const threshold = 160;
-
-setInterval(() => {
-    if (window.outerHeight - window.innerHeight > threshold || 
-        window.outerWidth - window.innerWidth > threshold) {
-        if (!devtools.open) {
-            devtools.open = true;
-            // Não quebrar a página, só alertar
-            console.clear();
-            console.warn('⚠️ Monitoramento detectado');
-        }
-    } else {
-        devtools.open = false;
-    }
-}, 500);
-
-// Limpar console periodicamente
-setInterval(() => {
-    console.clear();
-}, 1000);
-
-// Anti-print screen (desabilitar)
-document.addEventListener('keyup', function(e) {
-    if (e.key === 'PrintScreen') {
-        navigator.clipboard.writeText('');
-    }
-});
-
-// Ofuscar código com setTimeout
-setTimeout(() => {
-    // Remover comentários do DOM após carregamento
-    const walker = document.createTreeWalker(
-        document.body,
-        NodeFilter.SHOW_COMMENT,
-        null,
-        false
-    );
-    
-    const comments = [];
-    let node;
-    while (node = walker.nextNode()) {
-        comments.push(node);
-    }
-    
-    comments.forEach(comment => {
-        if (comment.textContent.includes('📱') || 
-            comment.textContent.includes('CTA') ||
-            comment.textContent.includes('MOBILE')) {
-            comment.remove();
-        }
-    });
-}, 2000);
 </script>
 
 <!-- Anti-hotlinking de imagens -->
 <meta name="referrer" content="no-referrer">
 
-<!-- Desabilitar cache agressivo para dificultar download -->
+<!-- Desabilitar cache agressivo -->
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">

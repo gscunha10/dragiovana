@@ -1848,8 +1848,8 @@
         // ✅ FUNÇÃO PARA ENVIAR DADOS PARA GOOGLE SHEETS - VERSÃO JSONP (SEM CORS)
 async function sendToGoogleSheets(userData) {
     try {
-        // URL do seu Google Apps Script com parâmetros GET
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZeCwbEfXRSO0rsK1VGwxMoSMsQQQTS3Tc55r9hnBE8TxUhQ2BPCK7wcPY1cwgg8H5/exec';
+        // ✅ URL ATUALIZADA DO SEU GOOGLE APPS SCRIPT
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxzkKkSiEvFsc90ANEFLfvuXKxWIR5udYpB7yEWHxkzOdNzUc0Q1mEKPkeOQbL2ErUW/exec';
         
         console.log('📊 Enviando dados para Google Sheets via GET...');
         console.log('👤 Dados do usuário:', userData);
@@ -1863,17 +1863,46 @@ async function sendToGoogleSheets(userData) {
         });
         
         const fullURL = `${GOOGLE_SCRIPT_URL}?${params.toString()}`;
+        console.log('🔗 URL de envio:', fullURL);
         
-        const response = await fetch(fullURL, {
-            method: 'GET',
-            mode: 'no-cors' // Evita problemas de CORS
-        });
-        
-        console.log('✅ Dados enviados com sucesso para Google Sheets!');
-        return true;
+        // ✅ PRIMEIRA TENTATIVA: Sem no-cors para capturar erros reais
+        try {
+            const response = await fetch(fullURL, {
+                method: 'GET'
+            });
+            
+            if (response.ok) {
+                const result = await response.text();
+                console.log('✅ Resposta do servidor:', result);
+                console.log('✅ Dados enviados com sucesso para Google Sheets!');
+                return true;
+            } else {
+                console.warn('⚠️ Resposta não OK:', response.status, response.statusText);
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+        } catch (corsError) {
+            console.log('⚠️ CORS detectado, usando fallback no-cors...');
+            console.log('📝 Erro original:', corsError.message);
+            
+            // ✅ FALLBACK: Com no-cors para contornar CORS
+            await fetch(fullURL, {
+                method: 'GET',
+                mode: 'no-cors'
+            });
+            
+            console.log('✅ Dados enviados via fallback no-cors');
+            console.log('ℹ️ Verifique a planilha para confirmar se os dados foram salvos');
+            return true;
+        }
         
     } catch (error) {
         console.error('❌ Erro ao enviar para Google Sheets:', error);
+        console.error('📍 Detalhes do erro:', {
+            message: error.message,
+            stack: error.stack,
+            userData: userData
+        });
         return false;
     }
 }

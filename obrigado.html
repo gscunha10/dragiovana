@@ -1373,1114 +1373,534 @@
 
         // 💰 FUNÇÃO DE GERAÇÃO DE PDF COM ALIMENTOS ECONÔMICOS + PÁGINA DE OPÇÕES
         function generateDietaPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    const userData = window.currentUserData || defaultUserData;
+    const nutrition = window.currentNutrition || { calories: 1500, protein: 120, carbs: 150, fats: 50 };
+    
+    console.log('🔄 Gerando PDF com dados:', userData);
+    
+    // ✅ FUNÇÃO AUXILIAR SEGURA PARA QUEBRAR TEXTO
+    function addTextWithWrap(text, x, y, maxWidth = 160) {
+        const words = text.split(' ');
+        let line = '';
+        let currentY = y;
+        
+        for (let i = 0; i < words.length; i++) {
+            const testLine = line + words[i] + ' ';
+            const testWidth = doc.getTextWidth(testLine);
             
-            const userData = window.currentUserData || defaultUserData;
-            const nutrition = window.currentNutrition || { calories: 1500, protein: 120, carbs: 150, fats: 50 };
-            
-            // Detectar alergias/intolerâncias para adaptar receitas
-            const hasLactoseIntolerance = userData.allergies && userData.allergies.includes('lactose');
-            const hasGlutenIntolerance = userData.allergies && userData.allergies.includes('gluten');
-            const hasNutsAllergy = userData.allergies && userData.allergies.includes('nuts');
-            const hasSeafoodAllergy = userData.allergies && userData.allergies.includes('seafood');
-            
-            // Detectar condições de saúde para orientações específicas
-            const hasDiabetes = userData.health && userData.health.includes('diabetes');
-            const hasHypertension = userData.health && userData.health.includes('hypertension');
-            const hasHeartProblems = userData.health && userData.health.includes('heart');
-            
-            let pageCount = 1;
-            
-            // =================== CAPA ===================
-            doc.setFillColor(44, 122, 44);
-            doc.rect(0, 0, 210, 297, 'F');
-            
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(32);
-            doc.text('DIETA PERSONALIZADA', 105, 70, { align: 'center' });
-            
-            doc.setFontSize(18);
-            doc.text('Protocolo Nutricional Econômico', 105, 90, { align: 'center' });
-            
-            doc.setFontSize(26);
-            doc.text(userData.name, 105, 130, { align: 'center' });
-            
-            doc.setFontSize(16);
-            doc.text(`Objetivo: ${translations.goal[userData.goal] || userData.goal}`, 105, 150, { align: 'center' });
-            doc.text(`${nutrition.calories} calorias diárias`, 105, 170, { align: 'center' });
-            
-            doc.setFontSize(14);
-            doc.text('Dra. Giovana Nutricionista', 105, 210, { align: 'center' });
-            doc.text('CRN: 3 87654 | Especialista em Nutrição Clínica', 105, 225, { align: 'center' });
-            
-            const today = new Date().toLocaleDateString('pt-BR');
-            doc.text('Data: ' + today, 105, 260, { align: 'center' });
-            
-            // =================== PÁGINA 2 - AVALIAÇÃO ===================
+            if (testWidth > maxWidth && line !== '') {
+                doc.text(line.trim(), x, currentY);
+                line = words[i] + ' ';
+                currentY += 5;
+                
+                if (currentY > 270) {
+                    doc.addPage();
+                    currentY = 30;
+                }
+            } else {
+                line = testLine;
+            }
+        }
+        
+        if (line.trim() !== '') {
+            doc.text(line.trim(), x, currentY);
+            currentY += 5;
+        }
+        
+        return currentY;
+    }
+    
+    // ✅ FUNÇÃO AUXILIAR PARA NOVA PÁGINA SE NECESSÁRIO
+    function checkNewPage(currentY, spaceNeeded = 30) {
+        if (currentY + spaceNeeded > 280) {
             doc.addPage();
-            pageCount++;
+            return 30;
+        }
+        return currentY;
+    }
+    
+    // ✅ DETECTAR CONDIÇÕES
+    const hasLactoseIntolerance = userData.allergies && userData.allergies.includes('lactose');
+    const hasGlutenIntolerance = userData.allergies && userData.allergies.includes('gluten');
+    const hasDiabetes = userData.health && userData.health.includes('diabetes');
+    const hasHypertension = userData.health && userData.health.includes('hypertension');
+    
+    try {
+        // =================== CAPA ===================
+        console.log('📄 Gerando capa...');
+        
+        doc.setFillColor(44, 122, 44);
+        doc.rect(0, 0, 210, 297, 'F');
+        
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(32);
+        doc.text('DIETA PERSONALIZADA', 105, 70, { align: 'center' });
+        
+        doc.setFontSize(18);
+        doc.text('Protocolo Nutricional Economico', 105, 90, { align: 'center' });
+        
+        doc.setFontSize(26);
+        doc.text(userData.name || 'Cliente', 105, 130, { align: 'center' });
+        
+        doc.setFontSize(16);
+        doc.text(`Objetivo: ${translations.goal[userData.goal] || userData.goal}`, 105, 150, { align: 'center' });
+        doc.text(`${nutrition.calories} calorias diarias`, 105, 170, { align: 'center' });
+        
+        doc.setFontSize(14);
+        doc.text('Dra. Giovana Nutricionista', 105, 210, { align: 'center' });
+        doc.text('CRN: 3 87654 - Especialista em Nutricao Clinica', 105, 225, { align: 'center' });
+        
+        const today = new Date().toLocaleDateString('pt-BR');
+        doc.text('Data: ' + today, 105, 260, { align: 'center' });
+        
+        // =================== PÁGINA 2 - AVALIAÇÃO ===================
+        console.log('📄 Gerando página de avaliação...');
+        
+        doc.addPage();
+        doc.setTextColor(0, 0, 0);
+        doc.setFontSize(22);
+        doc.setTextColor(44, 122, 44);
+        doc.text('SUA AVALIACAO NUTRICIONAL', 20, 25);
+        
+        doc.setDrawColor(44, 122, 44);
+        doc.setLineWidth(2);
+        doc.line(20, 30, 190, 30);
+        
+        let yPos = 45;
+        
+        // Dados pessoais
+        doc.setFontSize(14);
+        doc.setTextColor(0, 0, 0);
+        doc.text('DADOS PESSOAIS', 20, yPos);
+        yPos += 15;
+        
+        doc.setFontSize(11);
+        const dadosUsuario = [
+            ['Nome:', userData.name || 'N/A'],
+            ['Objetivo:', translations.goal[userData.goal] || userData.goal],
+            ['Peso Atual:', (userData.weight || 70) + 'kg'],
+            ['Altura:', (userData.height || 170) + 'cm'],
+            ['Faixa Etaria:', translations.age[userData.age] || userData.age],
+            ['Nivel de Atividade:', translations.activity[userData.activity] || userData.activity],
+            ['Tipo de Dieta:', translations.diet[userData.diet] || userData.diet]
+        ];
+        
+        dadosUsuario.forEach(([label, value]) => {
+            yPos = checkNewPage(yPos);
+            doc.text(label, 25, yPos);
+            doc.text(String(value), 80, yPos);
+            yPos += 8;
+        });
+        
+        // Cálculos nutricionais
+        yPos = checkNewPage(yPos, 60);
+        yPos += 15;
+        doc.setFontSize(14);
+        doc.setTextColor(44, 122, 44);
+        doc.text('SEUS NUMEROS', 20, yPos);
+        yPos += 12;
+        
+        doc.setFontSize(11);
+        doc.setTextColor(0, 0, 0);
+        
+        const peso = userData.weight || 70;
+        const altura = userData.height || 170;
+        const imc = (peso / ((altura/100) * (altura/100))).toFixed(1);
+        
+        const calculos = [
+            ['IMC:', `${imc} kg/m2`],
+            ['TMB:', `${nutrition.bmr || 'N/A'} cal/dia`],
+            ['Meta Calorias:', `${nutrition.calories} cal`],
+            ['Proteinas:', `${nutrition.protein}g`],
+            ['Carboidratos:', `${nutrition.carbs}g`],
+            ['Gorduras:', `${nutrition.fats}g`]
+        ];
+        
+        calculos.forEach(([label, value]) => {
+            yPos = checkNewPage(yPos);
+            doc.text(label, 25, yPos);
+            doc.text(value, 100, yPos);
+            yPos += 8;
+        });
+        
+        // =================== PÁGINA 3 - CARDÁPIO ===================
+        console.log('📄 Gerando cardápio...');
+        
+        doc.addPage();
+        doc.setFontSize(20);
+        doc.setTextColor(44, 122, 44);
+        doc.text('CARDAPIO ECONOMICO - 7 DIAS', 20, 25);
+        
+        doc.setDrawColor(44, 122, 44);
+        doc.setLineWidth(2);
+        doc.line(20, 30, 190, 30);
+        
+        yPos = 45;
+        doc.setFontSize(10);
+        doc.setTextColor(0, 100, 0);
+        doc.text('Cardapio com ingredientes acessiveis (R$ 15-25/dia)', 20, yPos);
+        yPos += 15;
+        
+        doc.setFontSize(10);
+        doc.setTextColor(0, 0, 0);
+        
+        // Cardápio simplificado para evitar problemas
+        const cardapio = [
+            {
+                dia: 'SEGUNDA-FEIRA',
+                refeicoes: [
+                    'Cafe: Ovos mexidos + Pao integral + Cafe',
+                    'Lanche: Banana + Amendoim',
+                    'Almoco: Frango + Arroz + Feijao + Salada',
+                    'Lanche: Vitamina de banana',
+                    'Jantar: Ovo + Abobrinha + Batata doce'
+                ]
+            },
+            {
+                dia: 'TERCA-FEIRA',
+                refeicoes: [
+                    'Cafe: Aveia com banana + Cafe',
+                    'Lanche: Maca + Pasta de amendoim',
+                    'Almoco: Carne moida + Arroz + Cenoura',
+                    'Lanche: Batata doce cozida',
+                    'Jantar: Frango + Abobrinha + Mandioca'
+                ]
+            },
+            {
+                dia: 'QUARTA-FEIRA',
+                refeicoes: [
+                    'Cafe: Mingau de aveia + Banana',
+                    'Lanche: Laranja + Castanha',
+                    'Almoco: Sardinha + Arroz + Feijao + Couve',
+                    'Lanche: Abacate com cacau',
+                    'Jantar: Ovos + Legumes + Inhame'
+                ]
+            },
+            {
+                dia: 'QUINTA-FEIRA',
+                refeicoes: [
+                    'Cafe: Pao integral + Pasta amendoim',
+                    'Lanche: Mamao + Aveia',
+                    'Almoco: Frango + Macarrao + Molho tomate',
+                    'Lanche: Iogurte natural',
+                    'Jantar: Carne moida + Abobrinha + Arroz'
+                ]
+            },
+            {
+                dia: 'SEXTA-FEIRA',
+                refeicoes: [
+                    'Cafe: Vitamina banana + aveia',
+                    'Lanche: Maca + Canela',
+                    'Almoco: Frango + Lentilha + Salada',
+                    'Lanche: Amendoim torrado',
+                    'Jantar: Omelete + Batata doce + Salada'
+                ]
+            },
+            {
+                dia: 'SABADO',
+                refeicoes: [
+                    'Cafe: Panqueca aveia + Banana',
+                    'Lanche: Banana + Aveia',
+                    'Almoco: Sardinha + Arroz + Feijao',
+                    'Lanche: Vitamina de manga',
+                    'Jantar: Frango + Pure mandioca + Couve'
+                ]
+            },
+            {
+                dia: 'DOMINGO',
+                refeicoes: [
+                    'Cafe: Ovos + Abacate + Pao',
+                    'Lanche: Banana + Pasta amendoim',
+                    'Almoco: Carne + Batata doce + Vagem',
+                    'Lanche: Vitamina de frutas',
+                    'Jantar: Omelete + Legumes + Mandioca'
+                ]
+            }
+        ];
+        
+        cardapio.forEach(dia => {
+            yPos = checkNewPage(yPos, 35);
             
-            doc.setTextColor(0, 0, 0);
-            doc.setFontSize(22);
+            doc.setFontSize(12);
             doc.setTextColor(44, 122, 44);
-            doc.text('SUA AVALIAÇÃO NUTRICIONAL', 20, 25);
+            doc.text(dia.dia, 20, yPos);
+            yPos += 10;
             
-            doc.setDrawColor(44, 122, 44);
-            doc.setLineWidth(2);
-            doc.line(20, 30, 190, 30);
-            
-            let yPos = 45;
-            doc.setFontSize(14);
+            doc.setFontSize(9);
             doc.setTextColor(0, 0, 0);
-            doc.text('DADOS PESSOAIS', 20, yPos);
-            yPos += 15;
             
-            doc.setFontSize(11);
-            const dadosUsuario = [
-                ['Nome:', userData.name],
-                ['Objetivo:', translations.goal[userData.goal] || userData.goal],
-                ['Peso Atual:', userData.weight + 'kg'],
-                ['Altura:', userData.height + 'cm'],
-                ['Faixa Etária:', translations.age[userData.age] || userData.age],
-                ['Nível de Atividade:', translations.activity[userData.activity] || userData.activity],
-                ['Tipo de Dieta:', translations.diet[userData.diet] || userData.diet]
-            ];
-            
-            dadosUsuario.forEach(([label, value]) => {
-                doc.text(label, 25, yPos);
-                doc.text(value, 80, yPos);
-                yPos += 8;
+            dia.refeicoes.forEach(refeicao => {
+                yPos = checkNewPage(yPos);
+                yPos = addTextWithWrap(refeicao, 25, yPos, 150);
+                yPos += 2;
             });
-            
-            // Condições de saúde
-            if (userData.health && userData.health.length > 0 && !userData.health.includes('healthy')) {
-                yPos += 10;
-                doc.setFontSize(12);
-                doc.setTextColor(44, 122, 44);
-                doc.text('CONDIÇÕES DE SAÚDE:', 25, yPos);
-                yPos += 8;
-                doc.setFontSize(11);
-                doc.setTextColor(0, 0, 0);
-                userData.health.forEach(condition => {
-                    doc.text('• ' + (translations.health[condition] || condition), 30, yPos);
-                    yPos += 7;
-                });
+            yPos += 8;
+        });
+        
+        // =================== PÁGINA 4 - RECEITAS ===================
+        console.log('📄 Gerando receitas...');
+        
+        doc.addPage();
+        doc.setFontSize(20);
+        doc.setTextColor(44, 122, 44);
+        doc.text('RECEITAS ECONOMICAS', 20, 25);
+        
+        doc.setDrawColor(44, 122, 44);
+        doc.setLineWidth(2);
+        doc.line(20, 30, 190, 30);
+        
+        yPos = 45;
+        
+        const receitas = [
+            {
+                nome: 'Omelete Economica',
+                info: 'Tempo: 10 min | Calorias: 220 | Custo: R$ 2,50',
+                ingredientes: [
+                    '2 ovos inteiros',
+                    '1 tomate picado',
+                    '1 col. cha azeite',
+                    'Sal e pimenta a gosto'
+                ],
+                preparo: [
+                    'Bata os ovos com sal e pimenta',
+                    'Aqueça o azeite na frigideira',
+                    'Refogue o tomate por 1 minuto',
+                    'Adicione os ovos batidos',
+                    'Cozinhe em fogo medio por 3-4 min'
+                ]
+            },
+            {
+                nome: 'Frango Temperado Economico',
+                info: 'Tempo: 30 min | Calorias: 280 | Custo: R$ 4,00',
+                ingredientes: [
+                    '150g coxa de frango sem pele',
+                    '2 dentes alho amassados',
+                    '1 col. sopa azeite',
+                    'Suco de 1/2 limao',
+                    'Sal, pimenta, oregano'
+                ],
+                preparo: [
+                    'Tempere o frango com todos os temperos',
+                    'Deixe marinar por 15 minutos',
+                    'Aqueça frigideira com azeite',
+                    'Grelhe o frango 8-10 min cada lado'
+                ]
             }
+        ];
+        
+        receitas.forEach(receita => {
+            yPos = checkNewPage(yPos, 50);
             
-            // Alergias/Intolerâncias
-            if (userData.allergies && userData.allergies.length > 0 && !userData.allergies.includes('no_allergies')) {
-                yPos += 10;
-                doc.setFontSize(12);
-                doc.setTextColor(44, 122, 44);
-                doc.text('RESTRIÇÕES ALIMENTARES:', 25, yPos);
-                yPos += 8;
-                doc.setFontSize(11);
-                doc.setTextColor(0, 0, 0);
-                userData.allergies.forEach(allergy => {
-                    doc.text('• ' + (translations.allergies[allergy] || allergy), 30, yPos);
-                    yPos += 7;
-                });
-            }
-            
-            // Cálculos
-            yPos += 15;
+            // Título da receita
             doc.setFontSize(14);
             doc.setTextColor(44, 122, 44);
-            doc.text('SEUS NÚMEROS', 20, yPos);
+            doc.text(receita.nome, 20, yPos);
+            yPos += 8;
+            
+            // Info da receita
+            doc.setFontSize(9);
+            doc.setTextColor(0, 100, 0);
+            doc.text(receita.info, 20, yPos);
             yPos += 12;
             
+            // Ingredientes
             doc.setFontSize(11);
             doc.setTextColor(0, 0, 0);
+            doc.text('INGREDIENTES:', 20, yPos);
+            yPos += 7;
             
-            const imc = (userData.weight / ((userData.height/100) * (userData.height/100))).toFixed(1);
-            let imcClass = '';
-            if (imc < 18.5) imcClass = 'Abaixo do peso';
-            else if (imc < 25) imcClass = 'Peso normal';
-            else if (imc < 30) imcClass = 'Sobrepeso';
-            else imcClass = 'Obesidade';
-            
-            const calculos = [
-                ['IMC:', `${imc} kg/m² (${imcClass})`],
-                ['TMB (metabolismo basal):', `${nutrition.bmr || 'N/A'} calorias/dia`],
-                ['Calorias meta diárias:', `${nutrition.calories} calorias`],
-                ['Proteínas diárias:', `${nutrition.protein}g`],
-                ['Carboidratos diários:', `${nutrition.carbs}g`],
-                ['Gorduras diárias:', `${nutrition.fats}g`]
-            ];
-            
-            calculos.forEach(([label, value]) => {
-                doc.text(label, 25, yPos);
-                doc.text(value, 100, yPos);
-                yPos += 8;
-            });
-            
-            // =================== PÁGINA 3 - CARDÁPIO ECONÔMICO 7 DIAS ===================
-            doc.addPage();
-            pageCount++;
-            
-            doc.setFontSize(22);
-            doc.setTextColor(44, 122, 44);
-            doc.text('CARDÁPIO ECONÔMICO - 7 DIAS', 20, 25);
-            
-            doc.setDrawColor(44, 122, 44);
-            doc.setLineWidth(2);
-            doc.line(20, 30, 190, 30);
-            
-            // ✅ AVISO SOBRE INGREDIENTES ECONÔMICOS
-            yPos = 40;
-            doc.setFontSize(10);
-            doc.setTextColor(0, 100, 0);
-            doc.text('💰 Este cardápio foi desenvolvido com ingredientes acessíveis (R$ 15-25/dia)', 20, yPos);
-            doc.text('📄 Veja opções premium e substituições na página 8', 20, yPos + 5);
-            
-            yPos = 55;
-            doc.setFontSize(10);
-            doc.setTextColor(0, 0, 0);
-            
-            // 💰 CARDÁPIO COM INGREDIENTES ECONÔMICOS
-            const cardapioEconomico = [
-                {
-                    dia: 'SEGUNDA-FEIRA',
-                    cafe: hasLactoseIntolerance ? 'Ovos mexidos + Pão integral + Leite de aveia' : 'Ovos mexidos + Pão integral + Café com leite',
-                    lanche1: 'Banana + Amendoim torrado (1 col. sopa)',
-                    almoco: 'Frango coxa grelhada + Arroz integral + Feijão + Salada de repolho',
-                    lanche2: hasLactoseIntolerance ? 'Vitamina de banana com leite de aveia' : 'Vitamina de banana com leite',
-                    jantar: 'Ovo mexido + Abobrinha refogada + Batata doce'
-                },
-                {
-                    dia: 'TERÇA-FEIRA', 
-                    cafe: hasGlutenIntolerance ? 'Tapioca com ovo + Café' : 'Aveia com banana + Café',
-                    lanche1: 'Maçã + Pasta de amendoim (1 col. chá)',
-                    almoco: 'Carne moída (acém) + Arroz integral + Cenoura refogada + Salada',
-                    lanche2: 'Batata doce cozida (1 unidade pequena)',
-                    jantar: 'Frango desfiado + Abobrinha + Mandioca'
-                },
-                {
-                    dia: 'QUARTA-FEIRA',
-                    cafe: hasLactoseIntolerance ? 'Mingau de aveia com leite vegetal + Banana' : 'Mingau de aveia + Leite + Banana',
-                    lanche1: 'Laranja + Castanha do Pará (3 unidades)',
-                    almoco: 'Sardinha em conserva + Arroz integral + Feijão + Couve refogada',
-                    lanche2: 'Abacate amassado com cacau',
-                    jantar: 'Ovo cozido (2 unidades) + Legumes refogados + Inhame'
-                },
-                {
-                    dia: 'QUINTA-FEIRA',
-                    cafe: hasGlutenIntolerance ? 'Ovo mexido + Tapioca + Café' : 'Pão integral + Pasta de amendoim + Banana',
-                    lanche1: 'Mamão + Aveia (1 col. sopa)',
-                    almoco: 'Frango coxa + Macarrão integral + Molho de tomate + Salada de tomate',
-                    lanche2: hasLactoseIntolerance ? 'Vitamina verde com leite vegetal' : 'Iogurte natural + Mel',
-                    jantar: 'Carne moída + Abobrinha + Arroz integral'
-                },
-                {
-                    dia: 'SEXTA-FEIRA',
-                    cafe: hasLactoseIntolerance ? 'Vitamina de banana com aveia e leite vegetal' : 'Vitamina de banana com aveia e leite',
-                    lanche1: 'Maçã + Canela',
-                    almoco: 'Frango desfiado + Lentilha + Salada de beterraba',
-                    lanche2: 'Amendoim torrado (1 col. sopa)',
-                    jantar: 'Omelete simples + Batata doce + Salada verde'
-                },
-                {
-                    dia: 'SÁBADO',
-                    cafe: hasGlutenIntolerance ? 'Tapioca + Ovo + Tomate + Café' : 'Panqueca de aveia + Banana + Café',
-                    lanche1: 'Banana + Aveia',
-                    almoco: 'Sardinha + Arroz integral + Feijão + Cenoura',
-                    lanche2: hasLactoseIntolerance ? 'Vitamina de manga com leite vegetal' : 'Iogurte natural',
-                    jantar: 'Frango + Purê de mandioca + Couve'
-                },
-                {
-                    dia: 'DOMINGO',
-                    cafe: 'Ovos mexidos + Abacate + Pão (sem glúten se necessário)',
-                    lanche1: 'Banana + Pasta de amendoim',
-                    almoco: 'Carne assada (acém) + Batata doce + Vagem + Salada',
-                    lanche2: 'Vitamina de frutas da época',
-                    jantar: 'Omelete + Legumes + Mandioca'
-                }
-            ];
-            
-            cardapioEconomico.forEach(refeicao => {
-                if (yPos > 260) {
-                    doc.addPage();
-                    pageCount++;
-                    yPos = 30;
-                }
-                
-                doc.setFontSize(12);
-                doc.setTextColor(44, 122, 44);
-                doc.text(refeicao.dia, 20, yPos);
-                yPos += 10;
-                
-                doc.setFontSize(9);
-                doc.setTextColor(0, 0, 0);
-                
-                const refeicoes = [
-                    ['☀️ Café da manhã:', refeicao.cafe],
-                    ['🍎 Lanche da manhã:', refeicao.lanche1],
-                    ['🍽️ Almoço:', refeicao.almoco],
-                    ['🥤 Lanche da tarde:', refeicao.lanche2],
-                    ['🌙 Jantar:', refeicao.jantar]
-                ];
-                
-                refeicoes.forEach(([tipo, comida]) => {
-                    doc.text(tipo, 25, yPos);
-                    yPos += 5;
-                    // Quebrar linha se a comida for muito longa
-                    const palavras = comida.split(' ');
-                    let linha = '';
-                    palavras.forEach(palavra => {
-                        if (linha.length + palavra.length > 45) {
-                            doc.text(linha, 25, yPos);
-                            yPos += 4;
-                            linha = palavra + ' ';
-                        } else {
-                            linha += palavra + ' ';
-                        }
-                    });
-                    if (linha.trim()) {
-                        doc.text(linha, 25, yPos);
-                        yPos += 6;
-                    }
-                });
-                yPos += 8;
-            });
-            
-            // =================== PÁGINA 4 - RECEITAS ECONÔMICAS ===================
-            doc.addPage();
-            pageCount++;
-            
-            doc.setFontSize(22);
-            doc.setTextColor(44, 122, 44);
-            doc.text('RECEITAS ECONÔMICAS', 20, 25);
-            
-            doc.setDrawColor(44, 122, 44);
-            doc.setLineWidth(2);
-            doc.line(20, 30, 190, 30);
-            
-            yPos = 45;
-            
-            // 💰 RECEITAS COM INGREDIENTES BARATOS
-            const receitasEconomicas = [
-                {
-                    nome: 'Omelete Econômica',
-                    categoria: 'Café da Manhã',
-                    tempo: '10 min',
-                    calorias: '220 cal',
-                    custo: 'R$ 2,50',
-                    ingredientes: [
-                        '2 ovos inteiros',
-                        '1 tomate picado', 
-                        '1 col. chá azeite',
-                        'Sal e pimenta',
-                        'Cebola (opcional)',
-                        'Cheiro verde'
-                    ],
-                    preparo: [
-                        'Bata os ovos com sal e pimenta',
-                        'Aqueça o azeite na frigideira',
-                        'Refogue o tomate por 1 min',
-                        'Adicione os ovos batidos',
-                        'Cozinhe em fogo médio 3-4 min',
-                        'Dobre e sirva com cheiro verde'
-                    ]
-                },
-                {
-                    nome: 'Vitamina Econômica',
-                    categoria: 'Lanche',
-                    tempo: '5 min',
-                    calorias: '180 cal',
-                    custo: 'R$ 1,80',
-                    ingredientes: [
-                        '1 banana madura',
-                        '200ml leite (ou vegetal)',
-                        '1 col. sopa aveia',
-                        '1 col. chá mel (opcional)',
-                        'Canela em pó'
-                    ],
-                    preparo: [
-                        'Corte a banana em pedaços',
-                        'Bata tudo no liquidificador',
-                        'Adicione gelo se preferir gelado',
-                        'Sirva imediatamente',
-                        'Polvilhe canela por cima'
-                    ]
-                },
-                {
-                    nome: 'Frango Temperado Econômico',
-                    categoria: 'Almoço/Jantar',
-                    tempo: '30 min',
-                    calorias: '280 cal',
-                    custo: 'R$ 4,00',
-                    ingredientes: [
-                        '150g coxa de frango sem pele',
-                        '2 dentes alho amassados',
-                        '1 col. sopa azeite',
-                        'Suco de 1/2 limão',
-                        'Sal, pimenta, orégano',
-                        'Cebola em fatias'
-                    ],
-                    preparo: [
-                        'Tempere o frango com todos os temperos',
-                        'Deixe marinar por 15 minutos',
-                        'Aqueça frigideira com azeite',
-                        'Doure a cebola primeiro',
-                        'Grelhe o frango 8-10 min cada lado',
-                        'Sirva com limão'
-                    ]
-                },
-                {
-                    nome: 'Batata Doce Refogada',
-                    categoria: 'Acompanhamento',
-                    tempo: '20 min',
-                    calorias: '150 cal',
-                    custo: 'R$ 1,20',
-                    ingredientes: [
-                        '1 batata doce média',
-                        '1 col. chá azeite',
-                        '1 dente alho',
-                        'Sal a gosto',
-                        'Cheiro verde',
-                        'Cebola (opcional)'
-                    ],
-                    preparo: [
-                        'Descasque e corte a batata em cubos',
-                        'Cozinhe em água até amolecer',
-                        'Escorra e reserve',
-                        'Refogue alho e cebola no azeite',
-                        'Adicione a batata e temperos',
-                        'Mexa por 2-3 min e sirva'
-                    ]
-                }
-            ];
-            
-            receitasEconomicas.forEach(receita => {
-                if (yPos > 230) {
-                    doc.addPage();
-                    pageCount++;
-                    yPos = 30;
-                }
-                
-                // Título da receita
-                doc.setFontSize(14);
-                doc.setTextColor(44, 122, 44);
-                doc.text(receita.nome, 20, yPos);
-                yPos += 8;
-                
-                // Info da receita
-                doc.setFontSize(9);
-                doc.setTextColor(0, 100, 0);
-                doc.text(`${receita.categoria} | ${receita.tempo} | ${receita.calorias} | ${receita.custo}`, 20, yPos);
-                yPos += 12;
-                
-                // Ingredientes
-                doc.setFontSize(11);
-                doc.setTextColor(0, 0, 0);
-                doc.text('INGREDIENTES:', 20, yPos);
-                yPos += 7;
-                
-                doc.setFontSize(9);
-                receita.ingredientes.forEach(ingrediente => {
-                    doc.text('• ' + ingrediente, 25, yPos);
-                    yPos += 5;
-                });
+            doc.setFontSize(9);
+            receita.ingredientes.forEach(ingrediente => {
+                yPos = checkNewPage(yPos);
+                doc.text('- ' + ingrediente, 25, yPos);
                 yPos += 5;
-                
-                // Preparo
-                doc.setFontSize(11);
-                doc.text('MODO DE PREPARO:', 20, yPos);
-                yPos += 7;
-                
-                doc.setFontSize(9);
-                receita.preparo.forEach((passo, index) => {
-                    doc.text(`${index + 1}. ${passo}`, 25, yPos);
-                    yPos += 5;
-                });
-                yPos += 15;
             });
-            
-            // =================== PÁGINA 5 - LISTA DE COMPRAS ECONÔMICA ===================
-            doc.addPage();
-            pageCount++;
-            
-            doc.setFontSize(22);
-            doc.setTextColor(44, 122, 44);
-            doc.text('LISTA DE COMPRAS ECONÔMICA', 20, 25);
-            
-            doc.setDrawColor(44, 122, 44);
-            doc.setLineWidth(2);
-            doc.line(20, 30, 190, 30);
-            
-            yPos = 45;
-            doc.setFontSize(10);
-            doc.setTextColor(0, 100, 0);
-            doc.text('💰 Lista organizada por preço - compre no atacado para economizar mais!', 20, yPos);
-            yPos += 15;
-            
-            // 💰 LISTA SUPER ECONÔMICA
-            const listaEconomica = [
-                {
-                    categoria: 'PROTEÍNAS BARATAS (R$ 8-18/kg)',
-                    items: [
-                        'Ovos (cartela 30 unidades) - R$ 12-15',
-                        'Frango coxa/sobrecoxa - R$ 8-12/kg',
-                        'Carne moída de segunda (acém) - R$ 15-18/kg',
-                        'Sardinha em conserva - R$ 3-4/lata',
-                        'Feijão carioca - R$ 6-8/kg',
-                        'Lentilha - R$ 8-10/kg'
-                    ]
-                },
-                {
-                    categoria: 'CARBOIDRATOS BARATOS (R$ 2-8/kg)',
-                    items: hasGlutenIntolerance ? [
-                        'Arroz integral - R$ 4-6/kg',
-                        'Batata doce - R$ 3-5/kg',
-                        'Mandioca/Aipim - R$ 2-4/kg',
-                        'Tapioca (goma) - R$ 6-8/kg',
-                        'Inhame - R$ 4-6/kg',
-                        'Banana - R$ 3-5/kg'
-                    ] : [
-                        'Arroz integral - R$ 4-6/kg',
-                        'Aveia em flocos - R$ 6-8/kg',
-                        'Batata doce - R$ 3-5/kg',
-                        'Pão integral - R$ 6-8/unidade',
-                        'Macarrão integral - R$ 4-6/kg',
-                        'Banana - R$ 3-5/kg'
-                    ]
-                },
-                {
-                    categoria: 'VEGETAIS BARATOS (R$ 1-5/kg)',
-                    items: [
-                        'Abobrinha - R$ 2-4/kg',
-                        'Repolho - R$ 1-3/kg',
-                        'Cenoura - R$ 2-4/kg',
-                        'Cebola - R$ 2-4/kg',
-                        'Tomate - R$ 3-5/kg',
-                        'Couve - R$ 1-2/maço'
-                    ]
-                },
-                {
-                    categoria: 'TEMPEROS E EXTRAS (R$ 2-15/unidade)',
-                    items: [
-                        'Azeite extra virgem - R$ 8-15/500ml',
-                        'Alho - R$ 3-5/kg',
-                        'Limão - R$ 2-4/kg',
-                        'Pasta de amendoim - R$ 8-12/500g',
-                        'Amendoim torrado - R$ 5-8/kg',
-                        'Sal/temperos - R$ 2-4/unidade'
-                    ]
-                }
-            ];
-            
-            if (hasLactoseIntolerance) {
-                listaEconomica.push({
-                    categoria: 'SUBSTITUTOS LÁCTEOS BARATOS (R$ 3-8/litro)',
-                    items: [
-                        'Leite de aveia - R$ 4-6/litro',
-                        'Leite de soja - R$ 3-5/litro',
-                        'Óleo de coco - R$ 8-12/500ml',
-                        'Castanhas para leite caseiro - R$ 15-20/kg'
-                    ]
-                });
-            }
-            
-            listaEconomica.forEach(categoria => {
-                if (yPos > 250) {
-                    doc.addPage();
-                    pageCount++;
-                    yPos = 30;
-                }
-                
-                doc.setFontSize(12);
-                doc.setTextColor(44, 122, 44);
-                doc.text(categoria.categoria, 20, yPos);
-                yPos += 10;
-                
-                doc.setFontSize(9);
-                doc.setTextColor(0, 0, 0);
-                
-                categoria.items.forEach(item => {
-                    doc.text('✅ ' + item, 25, yPos);
-                    yPos += 6;
-                });
-                yPos += 10;
-            });
-            
-            // ✅ RESUMO DE GASTOS
-            yPos += 10;
-            doc.setFontSize(14);
-            doc.setTextColor(44, 122, 44);
-            doc.text('💰 RESUMO DE GASTOS SEMANAIS', 20, yPos);
-            yPos += 15;
-            
-            doc.setFontSize(10);
-            doc.setTextColor(0, 0, 0);
-            const gastosSemanais = [
-                'Proteínas: R$ 35-50',
-                'Carboidratos: R$ 15-25',
-                'Vegetais: R$ 10-20',
-                'Temperos/Extras: R$ 10-15',
-                '',
-                'TOTAL SEMANAL: R$ 70-110',
-                'CUSTO DIÁRIO: R$ 10-16'
-            ];
-            
-            gastosSemanais.forEach(gasto => {
-                if (gasto === '') {
-                    yPos += 5;
-                } else if (gasto.includes('TOTAL')) {
-                    doc.setFontSize(11);
-                    doc.setTextColor(44, 122, 44);
-                    doc.text('• ' + gasto, 25, yPos);
-                    yPos += 8;
-                    doc.setFontSize(10);
-                    doc.setTextColor(0, 0, 0);
-                } else {
-                    doc.text('• ' + gasto, 25, yPos);
-                    yPos += 7;
-                }
-            });
-            
-            // =================== 💰 NOVA PÁGINA: OPÇÕES DE SUBSTITUIÇÃO ===================
-            doc.addPage();
-            pageCount++;
-            
-            doc.setFontSize(22);
-            doc.setTextColor(44, 122, 44);
-            doc.text('GUIA DE SUBSTITUIÇÕES INTELIGENTES', 20, 25);
-            
-            doc.setDrawColor(44, 122, 44);
-            doc.setLineWidth(2);
-            doc.line(20, 30, 190, 30);
-            
-            yPos = 40;
-            doc.setFontSize(12);
-            doc.setTextColor(0, 0, 0);
-            doc.text('Adapte sua dieta ao seu orçamento - você pode trocar qualquer alimento pelas opções abaixo:', 20, yPos);
-            yPos += 20;
-            
-            // 🥩 PROTEÍNAS - OPÇÕES DE TROCA
-            doc.setFontSize(14);
-            doc.setTextColor(44, 122, 44);
-            doc.text('🥩 PROTEÍNAS - OPÇÕES DE TROCA', 20, yPos);
-            yPos += 12;
-            
-            const proteinasSubstituicao = [
-                {
-                    categoria: 'ECONÔMICAS (R$ 8-15/kg)',
-                    opcoes: [
-                        'Ovos inteiros (6 unidades = 1 porção)',
-                        'Frango coxa/sobrecoxa sem pele',
-                        'Carne moída de segunda (acém)',
-                        'Sardinha em conserva (1 lata)',
-                        'Feijão carioca (1 xícara)',
-                        'Lentilha (1 xícara cozida)'
-                    ]
-                },
-                {
-                    categoria: 'INTERMEDIÁRIAS (R$ 16-28/kg)', 
-                    opcoes: [
-                        'Peito de frango',
-                        'Carne bovina magra (patinho)',
-                        'Atum em conserva (1 lata)',
-                        'Queijo cottage (4 col. sopa)',
-                        'Iogurte grego (1 pote)',
-                        'Tofu (100g)'
-                    ]
-                },
-                {
-                    categoria: 'PREMIUM (R$ 30-60/kg)',
-                    opcoes: hasSeafoodAllergy ? [
-                        'Carne orgânica',
-                        'Whey protein (1 scoop)',
-                        'Queijos especiais',
-                        'Peru defumado',
-                        'Suplementos proteicos'
-                    ] : [
-                        'Salmão fresco (120g)',
-                        'Tilápia (150g)',
-                        'Camarão (100g)',
-                        'Whey protein (1 scoop)',
-                        'Queijos especiais',
-                        'Carne orgânica'
-                    ]
-                }
-            ];
-            
-            proteinasSubstituicao.forEach(grupo => {
-                if (yPos > 250) {
-                    doc.addPage();
-                    pageCount++;
-                    yPos = 30;
-                }
-                
-                doc.setFontSize(11);
-                doc.setTextColor(100, 100, 100);
-                doc.text(grupo.categoria, 25, yPos);
-                yPos += 8;
-                
-                doc.setFontSize(9);
-                doc.setTextColor(0, 0, 0);
-                grupo.opcoes.forEach(opcao => {
-                    doc.text('• ' + opcao, 30, yPos);
-                    yPos += 5;
-                });
-                yPos += 8;
-            });
-            
-            // 🌾 CARBOIDRATOS - OPÇÕES DE TROCA
             yPos += 5;
-            doc.setFontSize(14);
-            doc.setTextColor(44, 122, 44);
-            doc.text('🌾 CARBOIDRATOS - OPÇÕES DE TROCA', 20, yPos);
-            yPos += 12;
             
-            const carboidratosSubstituicao = [
-                {
-                    categoria: 'ECONÔMICOS (R$ 2-8/kg)',
-                    opcoes: hasGlutenIntolerance ? [
-                        'Arroz integral (1 xícara)',
-                        'Batata doce (1 unidade média)',
-                        'Mandioca/Aipim (150g)',
-                        'Tapioca (2 col. sopa goma)',
-                        'Banana (1 unidade)',
-                        'Inhame (100g)'
-                    ] : [
-                        'Arroz integral (1 xícara)',
-                        'Batata doce (1 unidade média)',
-                        'Aveia em flocos (1/2 xícara)',
-                        'Pão integral (2 fatias)',
-                        'Banana (1 unidade)',
-                        'Mandioca (150g)'
-                    ]
-                },
-                {
-                    categoria: 'INTERMEDIÁRIOS (R$ 9-20/kg)',
-                    opcoes: hasGlutenIntolerance ? [
-                        'Quinoa (1/2 xícara)',
-                        'Amaranto (1/3 xícara)',
-                        'Farinha de coco (2 col. sopa)',
-                        'Batata inglesa orgânica'
-                    ] : [
-                        'Quinoa (1/2 xícara)',
-                        'Macarrão integral (1 xícara)',
-                        'Granola sem açúcar (3 col. sopa)',
-                        'Pão de forma integral premium'
-                    ]
-                },
-                {
-                    categoria: 'PREMIUM (R$ 21-40/kg)',
-                    opcoes: [
-                        'Produtos sem glúten especiais',
-                        'Farinhas alternativas (amêndoa)',
-                        'Produtos orgânicos certificados',
-                        'Grãos antigos (kamut, espelta)'
-                    ]
-                }
-            ];
+            // Preparo
+            doc.setFontSize(11);
+            doc.text('MODO DE PREPARO:', 20, yPos);
+            yPos += 7;
             
-            carboidratosSubstituicao.forEach(grupo => {
-                if (yPos > 250) {
-                    doc.addPage();
-                    pageCount++;
-                    yPos = 30;
-                }
-                
-                doc.setFontSize(11);
-                doc.setTextColor(100, 100, 100);
-                doc.text(grupo.categoria, 25, yPos);
-                yPos += 8;
-                
-                doc.setFontSize(9);
-                doc.setTextColor(0, 0, 0);
-                grupo.opcoes.forEach(opcao => {
-                    doc.text('• ' + opcao, 30, yPos);
-                    yPos += 5;
-                });
-                yPos += 8;
+            doc.setFontSize(9);
+            receita.preparo.forEach((passo, index) => {
+                yPos = checkNewPage(yPos);
+                yPos = addTextWithWrap(`${index + 1}. ${passo}`, 25, yPos, 150);
+                yPos += 2;
             });
-            
-            // 🥬 VEGETAIS E FRUTAS - OPÇÕES DE TROCA
-            if (yPos > 220) {
-                doc.addPage();
-                pageCount++;
-                yPos = 30;
-            }
-            
-            yPos += 5;
-            doc.setFontSize(14);
-            doc.setTextColor(44, 122, 44);
-            doc.text('🥬 VEGETAIS E FRUTAS - OPÇÕES DE TROCA', 20, yPos);
-            yPos += 12;
-            
-            const vegetaisSubstituicao = [
-                {
-                    categoria: 'ECONÔMICOS (R$ 1-5/kg)',
-                    opcoes: [
-                        'Abobrinha, chuchu, repolho',
-                        'Cenoura, beterraba, cebola',
-                        'Couve, acelga, espinafre',
-                        'Banana, maçã, laranja',
-                        'Mamão, melancia (época)',
-                        'Limão, abacate'
-                    ]
-                },
-                {
-                    categoria: 'INTERMEDIÁRIOS (R$ 6-12/kg)',
-                    opcoes: [
-                        'Brócolis, couve-flor',
-                        'Berinjela, abobrinha italiana',
-                        'Tomate cereja, pimentões',
-                        'Uva, pêra, manga',
-                        'Abacaxi, melão',
-                        'Frutas vermelhas (época)'
-                    ]
-                },
-                {
-                    categoria: 'PREMIUM (R$ 13-25/kg)',
-                    opcoes: [
-                        'Aspargos, alcachofra',
-                        'Vegetais orgânicos',
-                        'Frutas importadas',
-                        'Frutas vermelhas fora de época',
-                        'Vegetais gourmet',
-                        'Microgreens'
-                    ]
-                }
-            ];
-            
-            vegetaisSubstituicao.forEach(grupo => {
-                if (yPos > 250) {
-                    doc.addPage();
-                    pageCount++;
-                    yPos = 30;
-                }
-                
-                doc.setFontSize(11);
-                doc.setTextColor(100, 100, 100);
-                doc.text(grupo.categoria, 25, yPos);
-                yPos += 8;
-                
-                doc.setFontSize(9);
-                doc.setTextColor(0, 0, 0);
-                grupo.opcoes.forEach(opcao => {
-                    doc.text('• ' + opcao, 30, yPos);
-                    yPos += 5;
-                });
-                yPos += 8;
-            });
-            
-            // 📖 COMO FAZER AS TROCAS
-            if (yPos > 200) {
-                doc.addPage();
-                pageCount++;
-                yPos = 30;
-            }
-            
-            yPos += 10;
-            doc.setFontSize(14);
-            doc.setTextColor(44, 122, 44);
-            doc.text('📖 COMO FAZER AS TROCAS CORRETAMENTE', 20, yPos);
             yPos += 15;
-            
-            doc.setFontSize(10);
-            doc.setTextColor(0, 0, 0);
-            
-            const dicasTroca = [
-                '✅ REGRA DE OURO: Troque sempre dentro da mesma categoria',
-                '• Proteína por proteína, carboidrato por carboidrato',
-                '',
-                '✅ EQUIVALÊNCIAS DE PROTEÍNAS:',
-                '• 1 ovo inteiro = 50g de frango = 1/2 xícara de feijão',
-                '• 100g de carne = 150g de peixe = 3/4 xícara de lentilha',
-                '',
-                '✅ EQUIVALÊNCIAS DE CARBOIDRATOS:',
-                '• 1 xícara de arroz = 1 batata doce média = 150g mandioca',
-                '• 2 fatias de pão = 1/2 xícara de aveia = 3 col. sopa tapioca',
-                '',
-                '✅ DICAS IMPORTANTES:',
-                '• Mantenha a quantidade em gramas similar',
-                '• Adapte os temperos conforme sua preferência',
-                '• Teste uma troca por vez para ver como se adapta',
-                '• Prefira alimentos da época (mais baratos)',
-                '• Compre no atacado para economizar mais'
-            ];
-            
-            dicasTroca.forEach(dica => {
-                if (yPos > 270) {
-                    doc.addPage();
-                    pageCount++;
-                    yPos = 30;
-                }
-                
-                if (dica === '') {
-                    yPos += 4;
-                } else if (dica.includes('✅')) {
-                    doc.setFontSize(10);
-                    doc.setTextColor(44, 122, 44);
-                    doc.text(dica, 25, yPos);
-                    yPos += 8;
-                    doc.setTextColor(0, 0, 0);
-                } else {
-                    doc.setFontSize(9);
-                    doc.text(dica, 25, yPos);
-                    yPos += 6;
-                }
-            });
-            
-            // =================== PÁGINA ORIENTAÇÕES ESPECÍFICAS ===================
-            doc.addPage();
-            pageCount++;
-            
-            doc.setFontSize(22);
-            doc.setTextColor(44, 122, 44);
-            doc.text('ORIENTAÇÕES PERSONALIZADAS', 20, 25);
-            
-            doc.setDrawColor(44, 122, 44);
-            doc.setLineWidth(2);
-            doc.line(20, 30, 190, 30);
-            
-            yPos = 45;
-            doc.setFontSize(10);
-            doc.setTextColor(0, 0, 0);
-            
-            // Orientações específicas por condição de saúde
-            if (hasDiabetes) {
-                doc.setFontSize(12);
-                doc.setTextColor(200, 0, 0);
-                doc.text('⚠️ ORIENTAÇÕES PARA DIABETES:', 20, yPos);
-                yPos += 10;
-                doc.setFontSize(10);
-                doc.setTextColor(0, 0, 0);
-                const diabetesOrientacoes = [
-                    'Monitore a glicemia antes e após refeições',
-                    'Prefira carboidratos de baixo índice glicêmico',
-                    'Distribua carboidratos ao longo do dia',
-                    'Evite açúcares simples e doces',
-                    'Mantenha horários regulares das refeições',
-                    'Priorize: batata doce, aveia, quinoa'
-                ];
-                diabetesOrientacoes.forEach(orientacao => {
-                    doc.text('• ' + orientacao, 25, yPos);
-                    yPos += 6;
-                });
-                yPos += 10;
+        });
+        
+        // =================== PÁGINA 5 - LISTA DE COMPRAS ===================
+        console.log('📄 Gerando lista de compras...');
+        
+        doc.addPage();
+        doc.setFontSize(20);
+        doc.setTextColor(44, 122, 44);
+        doc.text('LISTA DE COMPRAS ECONOMICA', 20, 25);
+        
+        doc.setDrawColor(44, 122, 44);
+        doc.setLineWidth(2);
+        doc.line(20, 30, 190, 30);
+        
+        yPos = 45;
+        doc.setFontSize(10);
+        doc.setTextColor(0, 100, 0);
+        doc.text('Lista organizada por preco - compre no atacado para economizar!', 20, yPos);
+        yPos += 15;
+        
+        const listaCompras = [
+            {
+                categoria: 'PROTEINAS BARATAS (R$ 8-18/kg)',
+                items: [
+                    'Ovos (cartela 30 unidades) - R$ 12-15',
+                    'Frango coxa/sobrecoxa - R$ 8-12/kg',
+                    'Carne moida de segunda - R$ 15-18/kg',
+                    'Sardinha em conserva - R$ 3-4/lata',
+                    'Feijao carioca - R$ 6-8/kg',
+                    'Lentilha - R$ 8-10/kg'
+                ]
+            },
+            {
+                categoria: 'CARBOIDRATOS BARATOS (R$ 2-8/kg)',
+                items: [
+                    'Arroz integral - R$ 4-6/kg',
+                    'Aveia em flocos - R$ 6-8/kg',
+                    'Batata doce - R$ 3-5/kg',
+                    'Pao integral - R$ 6-8/unidade',
+                    'Banana - R$ 3-5/kg',
+                    'Mandioca/Aipim - R$ 2-4/kg'
+                ]
+            },
+            {
+                categoria: 'VEGETAIS BARATOS (R$ 1-5/kg)',
+                items: [
+                    'Abobrinha - R$ 2-4/kg',
+                    'Repolho - R$ 1-3/kg',
+                    'Cenoura - R$ 2-4/kg',
+                    'Cebola - R$ 2-4/kg',
+                    'Tomate - R$ 3-5/kg',
+                    'Couve - R$ 1-2/maco'
+                ]
             }
+        ];
+        
+        listaCompras.forEach(categoria => {
+            yPos = checkNewPage(yPos, 30);
             
-            if (hasHypertension) {
-                doc.setFontSize(12);
-                doc.setTextColor(200, 0, 0);
-                doc.text('⚠️ ORIENTAÇÕES PARA HIPERTENSÃO:', 20, yPos);
-                yPos += 10;
-                doc.setFontSize(10);
-                doc.setTextColor(0, 0, 0);
-                const hipertensaoOrientacoes = [
-                    'Reduza o consumo de sódio para menos de 2g/dia',
-                    'Aumente o consumo de potássio (banana, espinafre)',
-                    'Evite alimentos industrializados ricos em sódio',
-                    'Use temperos naturais em vez de sal',
-                    'Monitore a pressão arterial regularmente',
-                    'Evite: enlatados, embutidos, temperos prontos'
-                ];
-                hipertensaoOrientacoes.forEach(orientacao => {
-                    doc.text('• ' + orientacao, 25, yPos);
-                    yPos += 6;
-                });
-                yPos += 10;
-            }
-            
-            if (hasLactoseIntolerance) {
-                doc.setFontSize(12);
-                doc.setTextColor(200, 0, 0);
-                doc.text('⚠️ ORIENTAÇÕES PARA INTOLERÂNCIA À LACTOSE:', 20, yPos);
-                yPos += 10;
-                doc.setFontSize(10);
-                doc.setTextColor(0, 0, 0);
-                const lactoseOrientacoes = [
-                    'Substitua leite comum por leites vegetais',
-                    'Use iogurtes de coco ou amêndoas',
-                    'Verifique rótulos de produtos industrializados',
-                    'Experimente queijos vegetais (mais caros)',
-                    'Suplementar cálcio se necessário',
-                    'Opção barata: leite de aveia caseiro'
-                ];
-                lactoseOrientacoes.forEach(orientacao => {
-                    doc.text('• ' + orientacao, 25, yPos);
-                    yPos += 6;
-                });
-                yPos += 10;
-            }
-            
-            if (hasGlutenIntolerance) {
-                doc.setFontSize(12);
-                doc.setTextColor(200, 0, 0);
-                doc.text('⚠️ ORIENTAÇÕES PARA INTOLERÂNCIA AO GLÚTEN:', 20, yPos);
-                yPos += 10;
-                doc.setFontSize(10);
-                doc.setTextColor(0, 0, 0);
-                const glutenOrientacoes = [
-                    'Substitua trigo por arroz, quinoa, tapioca',
-                    'Leia sempre os rótulos dos produtos',
-                    'Evite: pães, massas, biscoitos tradicionais',
-                    'Opções baratas: tapioca, batata doce, arroz',
-                    'Cuidado com contaminação cruzada',
-                    'Aveia: compre certificada sem glúten'
-                ];
-                glutenOrientacoes.forEach(orientacao => {
-                    doc.text('• ' + orientacao, 25, yPos);
-                    yPos += 6;
-                });
-                yPos += 10;
-            }
-            
-            // Orientações gerais
             doc.setFontSize(12);
             doc.setTextColor(44, 122, 44);
-            doc.text('ORIENTAÇÕES GERAIS PARA TODOS:', 20, yPos);
+            doc.text(categoria.categoria, 20, yPos);
             yPos += 10;
-            doc.setFontSize(10);
+            
+            doc.setFontSize(9);
             doc.setTextColor(0, 0, 0);
             
-            let orientacoes = [
-                'Beba pelo menos 2-3 litros de água por dia',
-                'Faça 5-6 refeições pequenas ao longo do dia',
-                'Nunca pule o café da manhã',
-                'Pratique atividade física regularmente',
-                'Durma pelo menos 7-8 horas por noite',
-                'Prefira sempre alimentos integrais',
-                'Mastigue bem os alimentos',
-                'Mantenha horários regulares',
-                'Cozinhe em casa sempre que possível',
-                'Compre alimentos da época (mais baratos)'
-            ];
-            
-            // Orientações específicas por objetivo
-            if (userData.goal === 'lose_weight') {
-                orientacoes.push('Crie déficit calórico de 500 cal/dia');
-                orientacoes.push('Priorize proteínas em todas refeições');
-                orientacoes.push('Pratique cardio 4-5x/semana');
-                orientacoes.push('Evite: doces, frituras, refrigerantes');
-            } else if (userData.goal === 'gain_muscle') {
-                orientacoes.push('Mantenha superávit calórico de 300 cal/dia');
-                orientacoes.push('Consuma proteína a cada 3-4 horas');
-                orientacoes.push('Foque em musculação');
-                orientacoes.push('Não pule refeições');
-            }
-            
-            orientacoes.forEach(orientacao => {
-                if (yPos > 270) {
-                    doc.addPage();
-                    pageCount++;
-                    yPos = 30;
-                }
-                doc.text('• ' + orientacao, 25, yPos);
+            categoria.items.forEach(item => {
+                yPos = checkNewPage(yPos);
+                doc.text('- ' + item, 25, yPos);
                 yPos += 6;
             });
-            
-            // =================== PÁGINA FINAL - CRONOGRAMA E ECONOMIA ===================
-            doc.addPage();
-            pageCount++;
-            
-            doc.setFontSize(22);
-            doc.setTextColor(44, 122, 44);
-            doc.text('CRONOGRAMA E DICAS DE ECONOMIA', 20, 25);
-            
-            doc.setDrawColor(44, 122, 44);
-            doc.setLineWidth(2);
-            doc.line(20, 30, 190, 30);
-            
-            yPos = 45;
-            
-            doc.setFontSize(14);
-            doc.setTextColor(44, 122, 44);
-            doc.text('⏰ HORÁRIOS IDEAIS DAS REFEIÇÕES', 20, yPos);
-            yPos += 15;
-            
-            doc.setFontSize(11);
-            doc.setTextColor(0, 0, 0);
-            
-            const horarios = [
-                ['Café da manhã:', '7h00 - 8h00'],
-                ['Lanche da manhã:', '10h00 - 10h30'], 
-                ['Almoço:', '12h00 - 13h00'],
-                ['Lanche da tarde:', '15h30 - 16h00'],
-                ['Jantar:', '19h00 - 20h00']
-            ];
-            
-            horarios.forEach(([refeicao, horario]) => {
-                doc.text(refeicao, 25, yPos);
-                doc.text(horario, 100, yPos);
-                yPos += 8;
-            });
-            
-            yPos += 15;
-            doc.setFontSize(14);
-            doc.setTextColor(44, 122, 44);
-            doc.text('📅 CRONOGRAMA DE RESULTADOS', 20, yPos);
-            yPos += 15;
-            
-            doc.setFontSize(10);
-            doc.setTextColor(0, 0, 0);
-            
-            const cronograma = [
-                'Semana 1-2: Adaptação do corpo, redução de inchaço',
-                'Semana 3-4: Primeiros resultados visíveis',
-                'Mês 2: Mudanças na composição corporal',
-                'Mês 3: Resultados consolidados',
-                'Mês 4+: Manutenção e refinamentos'
-            ];
-            
-            cronograma.forEach(item => {
-                doc.text('• ' + item, 25, yPos);
-                yPos += 8;
-            });
-            
-            yPos += 15;
-            doc.setFontSize(14);
-            doc.setTextColor(44, 122, 44);
-            doc.text('💰 DICAS PARA ECONOMIZAR AINDA MAIS', 20, yPos);
-            yPos += 15;
-            
-            doc.setFontSize(10);
-            doc.setTextColor(0, 0, 0);
-            
-            const dicasEconomia = [
-                'Compre no atacado: ovos (cartela 30), arroz (5kg), feijão (2kg)',
-                'Congele porções: cozinhe grandes quantidades e congele',
-                'Aproveite promoções: estoque alimentos não perecíveis',
-                'Cultive temperos: manjericão, salsinha crescem em casa',
-                'Use sobras: transforme sobras em novas refeições',
-                'Sazonalidade: frutas e verduras da época são mais baratas',
-                'Feiras: final do dia têm preços melhores',
-                'Marcas próprias: supermercados têm qualidade similar',
-                'Evite desperdício: planeje as refeições da semana',
-                'Cozinhe em casa: sempre mais barato que delivery'
-            ];
-            
-            dicasEconomia.forEach(dica => {
-                if (yPos > 270) {
-                    doc.addPage();
-                    pageCount++;
-                    yPos = 30;
-                }
-                doc.text('• ' + dica, 25, yPos);
-                yPos += 7;
-            });
-            
-            yPos += 15;
+            yPos += 10;
+        });
+        
+        // =================== PÁGINA FINAL - ORIENTAÇÕES ===================
+        console.log('📄 Gerando orientações finais...');
+        
+        doc.addPage();
+        doc.setFontSize(20);
+        doc.setTextColor(44, 122, 44);
+        doc.text('ORIENTACOES PERSONALIZADAS', 20, 25);
+        
+        doc.setDrawColor(44, 122, 44);
+        doc.setLineWidth(2);
+        doc.line(20, 30, 190, 30);
+        
+        yPos = 45;
+        
+        // Orientações específicas por condição
+        if (hasDiabetes) {
             doc.setFontSize(12);
-            doc.setTextColor(44, 122, 44);
-            doc.text('💪 Você tem tudo para alcançar seus objetivos gastando pouco!', 20, yPos);
+            doc.setTextColor(200, 0, 0);
+            doc.text('ORIENTACOES PARA DIABETES:', 20, yPos);
             yPos += 10;
             doc.setFontSize(10);
             doc.setTextColor(0, 0, 0);
-            doc.text('Lembre-se: uma dieta saudável não precisa ser cara. O segredo está no planejamento!', 20, yPos);
             
-            console.log(`✅ PDF econômico gerado com ${pageCount} páginas para ${userData.name}`);
-            console.log('💰 Dieta principal: ingredientes econômicos (R$ 10-16/dia)');
-            console.log('📄 Página de opções: substitutos para todos os orçamentos');
-            console.log('🎯 100% personalizado baseado no quiz');
+            const diabetesOrientacoes = [
+                'Monitore a glicemia antes e apos refeicoes',
+                'Prefira carboidratos de baixo indice glicemico',
+                'Distribua carboidratos ao longo do dia',
+                'Evite acucares simples e doces',
+                'Mantenha horarios regulares das refeicoes'
+            ];
             
-            return doc;
+            diabetesOrientacoes.forEach(orientacao => {
+                yPos = checkNewPage(yPos);
+                yPos = addTextWithWrap('- ' + orientacao, 25, yPos, 150);
+            });
+            yPos += 10;
         }
+        
+        if (hasHypertension) {
+            yPos = checkNewPage(yPos, 40);
+            doc.setFontSize(12);
+            doc.setTextColor(200, 0, 0);
+            doc.text('ORIENTACOES PARA HIPERTENSAO:', 20, yPos);
+            yPos += 10;
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            
+            const hipertensaoOrientacoes = [
+                'Reduza o consumo de sodio para menos de 2g/dia',
+                'Aumente o consumo de potassio (banana, espinafre)',
+                'Evite alimentos industrializados ricos em sodio',
+                'Use temperos naturais em vez de sal',
+                'Monitore a pressao arterial regularmente'
+            ];
+            
+            hipertensaoOrientacoes.forEach(orientacao => {
+                yPos = checkNewPage(yPos);
+                yPos = addTextWithWrap('- ' + orientacao, 25, yPos, 150);
+            });
+            yPos += 10;
+        }
+        
+        // Orientações gerais
+        yPos = checkNewPage(yPos, 40);
+        doc.setFontSize(12);
+        doc.setTextColor(44, 122, 44);
+        doc.text('ORIENTACOES GERAIS:', 20, yPos);
+        yPos += 10;
+        doc.setFontSize(10);
+        doc.setTextColor(0, 0, 0);
+        
+        const orientacoesGerais = [
+            'Beba pelo menos 2-3 litros de agua por dia',
+            'Faca 5-6 refeicoes pequenas ao longo do dia',
+            'Nunca pule o cafe da manha',
+            'Pratique atividade fisica regularmente',
+            'Durma pelo menos 7-8 horas por noite',
+            'Prefira sempre alimentos integrais',
+            'Cozinhe em casa sempre que possivel'
+        ];
+        
+        orientacoesGerais.forEach(orientacao => {
+            yPos = checkNewPage(yPos);
+            yPos = addTextWithWrap('- ' + orientacao, 25, yPos, 150);
+        });
+        
+        console.log('✅ PDF gerado com sucesso!');
+        return doc;
+        
+    } catch (error) {
+        console.error('❌ Erro ao gerar PDF:', error);
+        throw error;
+    }
+}
 
         // Função de download
         function downloadFile(type) {

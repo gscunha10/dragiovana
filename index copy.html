@@ -3028,7 +3028,13 @@ async function sendToGoogleSheets(userData) {
       function showAnalysisProcess() {
     // ✅ Atualizar URL para análise
     updateURL('analise');
-    
+     // ✅ CORRIGIR: Scroll para o topo ao mostrar resultados
+    setTimeout(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, 100);
     const container = document.getElementById('questionContainer');
     
     // ✅ ENVIAR DADOS PARA GOOGLE SHEETS QUANDO QUIZ FOR CONCLUÍDO
@@ -3670,7 +3676,7 @@ async function sendToGoogleSheets(userData) {
                     </div>
                 </div>
             `;
-            
+              
             // Start social proof notifications
             startSocialProofNotifications();
             

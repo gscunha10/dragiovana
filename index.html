@@ -3413,6 +3413,12 @@ async function sendToGoogleSheets(userData) {
             
             // ✅ SALVAR DADOS PARA RECUPERAÇÃO PÓS-PAGAMENTO
             DataStorage.saveQuizData(answers, results);
+            setTimeout(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, 100);
             
             // ✨ SIMULAR BOOST NO CONTADOR DE USUÁRIOS ATIVOS
             if (activeUsersManager) {

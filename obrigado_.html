@@ -891,32 +891,7 @@
             allergies: ["no_allergies"],
             dataSource: 'default'
         };
-         // ✅ MAPEAMENTO PARA AS 6 NOVAS PERGUNTAS
-function mapOldToNewStructure(answers) {
-    // Se já está na estrutura nova, retornar como está
-    if (answers.frustration || answers.urgency || answers.attempts) {
-        return answers;
-    }
-    
-    // Mapear estrutura antiga para nova se necessário
-    return {
-        frustration: answers.frustration || answers.goal || 'no_results',
-        urgency: answers.urgency || '1_month',
-        attempts: answers.attempts || ['generic_apps'],
-        physical: answers.physical || {
-            current_weight: answers.weight,
-            height: answers.height,
-            dream_weight: answers.target_weight || answers.targetWeight,
-            age: answers.age
-        },
-        lifestyle: answers.lifestyle || answers.diet || ['no_restrictions'],
-        contact: answers.contact || {
-            name: answers.name,
-            email: answers.email,
-            whatsapp: answers.phone
-        }
-    };
-}
+
         // Traduções completas
         const translations = {
             goal: {
@@ -982,12 +957,7 @@ function mapOldToNewStructure(answers) {
                 };
             }
             
-            // ✅ MAPEAR ESTRUTURA ANTIGA PARA NOVA SE NECESSÁRIO
-const rawAnswers = quizData.answers;
-const answers = mapOldToNewStructure(rawAnswers);
-const { contact, results } = quizData;
-
-console.log('🔄 Estrutura mapeada:', answers);
+            const { answers, contact, results } = quizData;
             
             // ✅ EXTRAIR DADOS COM ESTRUTURA CORRETA DA PÁGINA INDEX
             const physical = answers.physical || {};

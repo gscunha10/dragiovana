@@ -186,7 +186,17 @@
                 transform: translateX(0) scale(1.02);
             }
         }
+ .option-card:hover:not(.selected):not([data-processing="true"]) {
+            transform: translateY(-4px) scale(1.01) !important;
+            border-color: rgba(44, 122, 44, 0.4) !important;
+            background: rgba(44, 122, 44, 0.05) !important;
+            box-shadow: 0 12px 24px rgba(44, 122, 44, 0.15) !important;
+        }
 
+        .option-card[data-processing="true"] {
+            pointer-events: none !important;
+            opacity: 0.8 !important;
+        }
         /* ✨ CONTADOR ALTERNATIVO PARA LANDING PAGE */
         #landingUsersInfo {
             background: rgba(0, 255, 136, 0.1);
@@ -781,18 +791,40 @@
         }
 
         .option-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 30px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 30px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
         }
+.option-card:active {
+    transform: translateY(-2px) scale(0.98);
+    transition: transform 0.1s ease;
+}
 
+@media (max-width: 768px) {
+    .options-grid {
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;
+    }
+    
+    .option-card {
+        min-height: 80px;
+    }
+}
         .option-card::before {
             content: '';
             position: absolute;
@@ -808,23 +840,23 @@
             left: 100%;
         }
 
-        .option-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: var(--primary);
-            box-shadow: 
-                0 20px 40px rgba(44, 122, 44, 0.2),
-                0 0 0 1px rgba(44, 122, 44, 0.1);
-            background: rgba(44, 122, 44, 0.1);
-        }
+        .option-card:hover:not(.selected) {
+    transform: translateY(-4px) scale(1.01);
+    border-color: rgba(44, 122, 44, 0.4);
+    box-shadow: 
+        0 12px 24px rgba(44, 122, 44, 0.15),
+        0 0 0 1px rgba(44, 122, 44, 0.1);
+    background: rgba(44, 122, 44, 0.05);
+}
 
-        .option-card.selected {
-            transform: translateY(-8px) scale(1.05);
-            border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(44, 122, 44, 0.2), rgba(108, 192, 74, 0.1));
-            box-shadow: 
-                0 24px 48px rgba(44, 122, 44, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
+.option-card.selected {
+    transform: translateY(-8px) scale(1.05) !important;
+    border-color: var(--primary) !important;
+    background: linear-gradient(135deg, rgba(44, 122, 44, 0.2), rgba(108, 192, 74, 0.1)) !important;
+    box-shadow: 
+        0 24px 48px rgba(44, 122, 44, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
 
         .option-card.selected .option-icon {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -2369,7 +2401,7 @@ async function sendToGoogleSheets(userData) {
             }
         };
         
-        const questions = [
+       const questions = [
     // 1️⃣ PERGUNTA EMOCIONAL - Criar conexão emocional
     {
         title: "Qual é a sua MAIOR frustração com a alimentação?",
@@ -2399,18 +2431,6 @@ async function sendToGoogleSheets(userData) {
                 icon: "🍫", 
                 title: "Não consigo controlar a fome", 
                 description: "Tenho compulsão alimentar e como por ansiedade" 
-            },
-            { 
-                value: "health_issues", 
-                icon: "💊", 
-                title: "Problemas de saúde", 
-                description: "Diabetes, pressão alta, colesterol ou outros problemas" 
-            },
-            { 
-                value: "low_confidence", 
-                icon: "😞", 
-                title: "Baixa autoestima", 
-                description: "Não me sinto bem comigo mesma, evito espelhos e fotos" 
             }
         ]
     },
@@ -2451,21 +2471,14 @@ async function sendToGoogleSheets(userData) {
     // 3️⃣ PERGUNTA SOBRE TENTATIVAS ANTERIORES
     {
         title: "O que você já tentou que NÃO funcionou?",
-        subtitle: "Vou garantir que seu novo plano seja diferente de tudo que você já tentou. Selecione todas as suas tentativas frustrantes:",
+        subtitle: "Vou garantir que seu novo plano seja diferente de tudo que você já tentou. Selecione o que mais se aplica:",
         type: "choice",
-        multiSelect: true,
         options: [
             { 
                 value: "restrictive_diets", 
                 icon: "🚫", 
                 title: "Dietas muito restritivas", 
                 description: "Low carb radical, detox, jejum extremo que não consegui manter" 
-            },
-            { 
-                value: "gym_only", 
-                icon: "🏋️", 
-                title: "Só academia/exercícios", 
-                description: "Malho mas não vejo resultados porque a alimentação está errada" 
             },
             { 
                 value: "generic_apps", 
@@ -2480,12 +2493,6 @@ async function sendToGoogleSheets(userData) {
                 description: "Paguei R$300-500 por consulta e recebi dieta 'de gaveta'" 
             },
             { 
-                value: "crash_diets", 
-                icon: "⚡", 
-                title: "Dietas da moda", 
-                description: "Sopa, shake, cortar tudo... efeito sanfona garantido" 
-            },
-            { 
                 value: "no_support", 
                 icon: "😢", 
                 title: "Tentei sozinha", 
@@ -2494,39 +2501,35 @@ async function sendToGoogleSheets(userData) {
         ]
     },
 
-    // 4️⃣ DADOS FÍSICOS + CONTEXTO EMOCIONAL
+    // 4️⃣ DADOS FÍSICOS SIMPLIFICADOS
     {
-        title: "Me conte sobre seu corpo atual",
-        subtitle: "Estes dados são FUNDAMENTAIS para calcular sua dieta personalizada. Seja sincera - aqui não há julgamentos, só ciência.",
-        type: "form",
-        fields: [
+        title: "Me conte sobre seu perfil físico",
+        subtitle: "Vou criar uma estimativa personalizada baseada no que você me contar. Não precisa ser exato, me dê uma ideia geral:",
+        type: "choice",
+        options: [
             { 
-                name: "current_weight", 
-                label: "Peso Atual (kg)", 
-                type: "number", 
-                placeholder: "Ex: 75",
-                helpText: "💡 Seu peso atual me ajuda a calcular suas necessidades calóricas exatas"
+                value: "petite_lose", 
+                icon: "👩", 
+                title: "Baixinha e quero emagrecer", 
+                description: "Entre 1,50-1,65m, peso entre 55-75kg, meta: perder uns 5-15kg" 
             },
             { 
-                name: "height", 
-                label: "Altura (cm)", 
-                type: "number", 
-                placeholder: "Ex: 165",
-                helpText: "📏 Fundamental para calcular seu IMC e metabolismo basal"
+                value: "average_lose", 
+                icon: "🚶‍♀️", 
+                title: "Altura média e quero emagrecer", 
+                description: "Entre 1,60-1,75m, peso entre 65-85kg, meta: perder uns 8-20kg" 
             },
             { 
-                name: "dream_weight", 
-                label: "Peso dos Seus Sonhos (kg)", 
-                type: "number", 
-                placeholder: "Ex: 65",
-                helpText: "✨ Qual peso te faria se sentir INCRÍVEL e confiante?"
+                value: "tall_lose", 
+                icon: "🏃‍♀️", 
+                title: "Mais alta e quero emagrecer", 
+                description: "Acima de 1,70m, peso entre 75-95kg, meta: perder uns 10-25kg" 
             },
             { 
-                name: "age", 
-                label: "Idade", 
-                type: "number", 
-                placeholder: "Ex: 32",
-                helpText: "🎂 Cada idade tem necessidades metabólicas específicas"
+                value: "gain_muscle", 
+                icon: "💪", 
+                title: "Quero ganhar massa muscular", 
+                description: "Qualquer altura, quero definir o corpo e ganhar músculos" 
             }
         ]
     },
@@ -2536,7 +2539,6 @@ async function sendToGoogleSheets(userData) {
         title: "Qual é a sua realidade alimentar?",
         subtitle: "Vou criar um plano que SE ADAPTE à sua vida real, não o contrário. Me conte como é seu dia a dia:",
         type: "choice",
-        multiSelect: true,
         options: [
             { 
                 value: "busy_mom", 
@@ -2557,34 +2559,10 @@ async function sendToGoogleSheets(userData) {
                 description: "Chocolate, bolo, sorvete... meu ponto fraco são os doces" 
             },
             { 
-                value: "hate_cooking", 
+                value: "simple_cooking", 
                 icon: "🍳", 
-                title: "Odeio cozinhar", 
-                description: "Preciso de receitas SUPER simples e rápidas" 
-            },
-            { 
-                value: "eat_anxiety", 
-                icon: "😰", 
-                title: "Como por ansiedade", 
-                description: "Quando estou estressada ou triste, ataco a geladeira" 
-            },
-            { 
-                value: "no_money", 
-                icon: "💸", 
-                title: "Orçamento apertado", 
-                description: "Preciso de opções baratas, sem ingredientes caros" 
-            },
-            { 
-                value: "family_resist", 
-                icon: "👨‍👩‍👧‍👦", 
-                title: "Família não colabora", 
-                description: "Marido/filhos não querem comer comida saudável" 
-            },
-            { 
-                value: "health_conditions", 
-                icon: "💊", 
-                title: "Problemas de saúde", 
-                description: "Diabetes, pressão alta, tireoide ou outras condições" 
+                title: "Quero receitas simples", 
+                description: "Preciso de opções práticas, rápidas e sem complicação" 
             }
         ]
     },
@@ -2611,19 +2589,10 @@ async function sendToGoogleSheets(userData) {
             },
             { 
                 name: "whatsapp", 
-                label: "WhatsApp", 
+                label: "WhatsApp (opcional)", 
                 type: "tel", 
                 placeholder: "(11) 99999-9999",
-                helpText: "📱 Para suporte direto e lembretes motivacionais (opcional)"
-            },
-            { 
-                name: "commitment", 
-                label: "Nível de comprometimento (1-10)", 
-                type: "number", 
-                min: "1",
-                max: "10",
-                placeholder: "Ex: 8",
-                helpText: "🔥 Seja honesta: O quanto você está disposta a se dedicar? (1=pouco, 10=totalmente focada)"
+                helpText: "📱 Para suporte direto e lembretes motivacionais"
             }
         ]
     }
@@ -3202,11 +3171,13 @@ async function sendToGoogleSheets(userData) {
                 currentQuestion--;
                 loadQuestion(currentQuestion);
                 
-                // Scroll suave para o topo
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+                // ✅ SCROLL AUTOMÁTICO PARA O TOPO - MESMO PADRÃO DA loadQuestion
+setTimeout(() => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}, 100);
 
                 // Track backward navigation
                 const backNavEventKey = `QuizNavigationBack_${currentQuestion}_${Date.now()}`;
@@ -3612,12 +3583,13 @@ async function sendToGoogleSheets(userData) {
     
     // ✅ SALVAR DADOS PARA RECUPERAÇÃO PÓS-PAGAMENTO
     DataStorage.saveQuizData(answers, results);
-    setTimeout(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }, 100);
+    // ✅ SCROLL AUTOMÁTICO PARA O TOPO
+setTimeout(() => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}, 100);
     
     // ✨ SIMULAR BOOST NO CONTADOR DE USUÁRIOS ATIVOS
     if (activeUsersManager) {

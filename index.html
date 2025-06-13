@@ -3741,7 +3741,7 @@ setTimeout(() => {
                         <div style="background: rgba(0, 255, 136, 0.15); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 10px; padding: 12px; position: relative;">
                             <div style="position: absolute; top: -6px; right: -6px; background: var(--danger); color: white; padding: 2px 8px; border-radius: 10px; font-size: 8px; font-weight: 800;">OFERTA</div>
                             <div style="font-size: 12px; color: rgba(255, 255, 255, 0.8);">Protocolo Dra. Giovana</div>
-                            <div style="font-size: 20px; font-weight: 900; color: var(--success);">R$ 29,90</div>
+                            <div style="font-size: 20px; font-weight: 900; color: var(--success);">R$ 39,90</div>
                             <div style="font-size: 10px; color: rgba(255, 255, 255, 0.6);">Acesso vitalício</div>
                         </div>
                     </div>
@@ -3831,7 +3831,7 @@ setTimeout(() => {
     animation: pulseBright 2s ease-in-out infinite;
     box-shadow: 0 8px 32px rgba(0, 255, 100, 0.4), 0 0 20px rgba(0, 255, 100, 0.3);
 " onclick="handleCheckoutClick()" onmouseover="this.style.animation='pulseBright 1.5s ease-in-out infinite'; this.style.transform='translateY(-6px) scale(1.03)'; this.style.boxShadow='0 20px 60px rgba(0, 255, 100, 0.6), 0 0 50px rgba(0, 255, 100, 0.5)'" onmouseout="this.style.animation='pulseBright 2s ease-in-out infinite'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 32px rgba(0, 255, 100, 0.4), 0 0 20px rgba(0, 255, 100, 0.3)'">
-    🔓 GARANTIR SUA DIETA POR R$ 29,90
+    🔓 GARANTIR SUA DIETA POR R$ 39,90
 </button>
                     </div>
                     
@@ -4021,7 +4021,7 @@ setTimeout(() => {
                 const results = calculateResults();
                 
                 // ✅ 1. ADDTOCART - Primeiro evento da sequência de checkout
-                const addToCartSuccess = eventsTracker.trackConversion('AddToCart', 29.90, 'BRL', {
+                const addToCartSuccess = eventsTracker.trackConversion('AddToCart', 39.90, 'BRL', {
                     content_type: 'product',
                     content_name: 'Protocolo Nutricional Dra Giovana',
                     content_ids: ['protocolo_nutricional_001'],
@@ -4032,7 +4032,7 @@ setTimeout(() => {
                 });
                 
                 // ✅ 2. INITIATECHECKOUT - Segundo evento da sequência
-                const initiateCheckoutSuccess = eventsTracker.trackConversion('InitiateCheckout', 29.90, 'BRL', {
+                const initiateCheckoutSuccess = eventsTracker.trackConversion('InitiateCheckout', 39.90, 'BRL', {
                     content_type: 'product',
                     content_name: 'Protocolo Nutricional Dra Giovana',
                     content_ids: ['protocolo_nutricional_001'],
@@ -4048,7 +4048,7 @@ setTimeout(() => {
                 
                 // ✅ 3. EVENTO CUSTOMIZADO PARA TRACKING INTERNO
                 eventsTracker.trackOnce('custom', 'Checkout_Button_Clicked', {
-                    price: 29.90,
+                    price: 39.90,
                     product_name: 'Protocolo Nutricional',
                     product_id: 'protocolo_nutricional_001',
                     checkout_url: 'https://pay.cakto.com.br/4ckeveg_405527',
@@ -4099,7 +4099,7 @@ setTimeout(() => {
                 setTimeout(() => {
                     if (button) {
                         button.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
-                        button.innerHTML = '🔓 GARANTIR ACESSO POR R$ 29,90';
+                        button.innerHTML = '🔓 GARANTIR ACESSO POR R$ 39,90';
                         button.disabled = false;
                     }
                 }, 3000);

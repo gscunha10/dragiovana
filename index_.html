@@ -2891,39 +2891,36 @@ async function sendToGoogleSheets(userData) {
             });
         }
 
-        function loadFormQuestion(question, container) {
-            container.innerHTML = '';
-            container.className = 'form-grid';
+       function loadFormQuestion(question, container) {
+    container.innerHTML = '';
+    container.className = 'form-grid';
 
-            question.fields.forEach(field => {
-                const inputGroup = document.createElement('div');
-                inputGroup.className = 'input-group';
-                
-                inputGroup.innerHTML = `
-                    <label class="input-label" for="${field.name}">${field.label}</label>
-                    <input 
-                        class="input-field" 
-                        type="${field.type}" 
-                        name="${field.name}" 
-                        placeholder="${field.placeholder}"
-                        ${field.type === 'number' ? 'min="1"' : ''}
-                    >
-                `;
+    question.fields.forEach(field => {
+        const inputGroup = document.createElement('div');
+        inputGroup.className = 'input-group';
+        
+        inputGroup.innerHTML = `
+            <label class="input-label" for="${field.name}">${field.label}</label>
+            <input 
+                class="input-field" 
+                type="${field.type}" 
+                name="${field.name}" 
+                id="${field.name}"
+                placeholder="${field.placeholder}"
+                ${field.type === 'number' ? 'min="1" max="999"' : ''}
+                ${field.type === 'email' ? 'required' : ''}
+                autocomplete="off"
+            >
+        `;
 
-                const input = inputGroup.querySelector('input');
+        const input = inputGroup.querySelector('input');
 
-                if (field.type === 'tel') {
-                    input.addEventListener('input', function() {
-                        let value = this.value.replace(/\D/g, '');
-                        if (value.length >= 2) {
-                            value = value.replace(/^(\d{2})(\d)/, '($1) $2');
-                        }
-                        if (value.length >= 10) {
-                            value = value.replace(/(\d{4,5})(\d{4})$/, '$1-$2');
-                        }
-                        this.value = value;
-                    });
-                }
+        // ✅ CARREGAR VALORES SALVOS SE EXISTIREM
+        const questionKey = getQuestionKey(currentQuestion);
+        const savedAnswers = answers[questionKey] || {};
+        if (savedAnswers[field.name]) {
+            input.value = savedAnswers[field.name];
+        }
 
                 input.addEventListener('input', function() {
                     const questionKey = getQuestionKey(currentQuestion);
@@ -2947,17 +2944,38 @@ async function sendToGoogleSheets(userData) {
             });
         }
 
-        function checkFormCompletion(question) {
-            const questionKey = getQuestionKey(currentQuestion);
-            const questionAnswers = answers[questionKey] || {};
-            
-            const allFilled = question.fields.every(field => {
-                const value = questionAnswers[field.name];
-                return value && value.trim() !== '';
-            });
-            
-            document.getElementById('nextBtn').disabled = !allFilled;
-
+       function checkFormCompletion(question) {
+    const questionKey = getQuestionKey(currentQuestion);
+    const questionAnswers = answers[questionKey] || {};
+    
+    // ✅ VALIDAÇÃO MAIS ROBUSTA
+    const allFilled = question.fields.every(field => {
+        const value = questionAnswers[field.name];
+        
+        if (!value || value.toString().trim() === '') {
+            return false;
+        }
+        
+        // Validação específica para números
+        if (field.type === 'number') {
+            const numValue = parseFloat(value);
+            return !isNaN(numValue) && numValue > 0;
+        }
+        
+        // Validação específica para email
+        if (field.type === 'email') {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(value);
+        }
+        
+        return true;
+    });
+    
+    const nextBtn = document.getElementById('nextBtn');
+    if (nextBtn) {
+        nextBtn.disabled = !allFilled;
+        console.log(`✅ Formulário pergunta ${currentQuestion + 1} - Completo: ${allFilled ? 'Sim' : 'Não'}`);
+    }
             // Track form completion
             if (allFilled) {
                 const formEventKey = `QuizFormCompleted_${currentQuestion}`;

@@ -2812,7 +2812,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
         container.innerHTML = `
             <div class="results-container">
                 <div class="success-icon">🎉</div>
-                <h1 class="reveal-title">Análise Nutricional Completa!</h1>
+               <h1 class="reveal-title">${answers.contact?.name || 'Sua'} Análise Nutricional Completa!</h1>
                 <p class="reveal-subtitle">
                     A Dra. Giovana analisou seu perfil e criou um 
                     <strong>plano nutricional científico</strong> personalizado para seus objetivos
@@ -2822,9 +2822,9 @@ inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
                     <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--success); color: #000; padding: 6px 20px; border-radius: 15px; font-size: 12px; font-weight: 900;">
                         ⬇️ IMPORTANTE ⬇️
                     </div>
-                    <h3 style="font-size: 18px; font-weight: 800; color: var(--success); margin-bottom: 10px; margin-top: 8px;">
-                        🎯 Seu Protocolo Está Pronto!
-                    </h3>
+                   <h3 style="font-size: 18px; font-weight: 800; color: var(--success); margin-bottom: 10px; margin-top: 8px;">
+    🎯 ${answers.contact?.name || 'Seu'} Protocolo Está Pronto!
+</h3>
                     <p style="font-size: 15px; color: rgba(255, 255, 255, 0.9); margin-bottom: 15px; line-height: 1.4;">
                         Veja seus resultados abaixo e <strong>role até o final da página</strong> para garantir acesso ao seu plano completo.
                     </p>
@@ -2924,7 +2924,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
                         
                         <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center; margin-bottom: 15px;">
                             <div style="background: rgba(255, 51, 102, 0.15); border: 1px solid rgba(255, 51, 102, 0.3); border-radius: 10px; padding: 12px;">
-                                <div style="font-size: 12px; color: rgba(255, 255, 255, 0.8);">Nutricionista</div>
+                                <div style="font-size: 12px; color: rgba(255, 255, 255, 0.8);">Nutricionista Presencial</div>
                                 <div style="font-size: 20px; font-weight: 900; color: var(--danger);">R$ 400+</div>
                                 <div style="font-size: 10px; color: rgba(255, 255, 255, 0.6);">Por consulta</div>
                             </div>
@@ -2933,7 +2933,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
                             
                             <div style="background: rgba(0, 255, 136, 0.15); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 10px; padding: 12px; position: relative;">
                                 <div style="position: absolute; top: -6px; right: -6px; background: var(--danger); color: white; padding: 2px 8px; border-radius: 10px; font-size: 8px; font-weight: 800;">OFERTA</div>
-                                <div style="font-size: 12px; color: rgba(255, 255, 255, 0.8);">Protocolo Dra. Giovana</div>
+                                <div style="font-size: 12px; color: rgba(255, 255, 255, 0.8);">Protocolo Dra. Giovana Online</div>
                                 <div style="font-size: 20px; font-weight: 900; color: var(--success);">R$ 19,90</div>
                                 <div style="font-size: 10px; color: rgba(255, 255, 255, 0.6);">Acesso vitalício</div>
                             </div>

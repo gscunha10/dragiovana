@@ -2776,18 +2776,16 @@ inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
     }
 
     function showFinalResults() {
-        window.history.pushState({page: 'resultados'}, 'Resultados', '#resultados');
         const results = calculateResults();
         const container = document.getElementById('questionContainer');
         
         document.getElementById('progressText').textContent = 'Avaliação Concluída!';
         
-       DataStorage.setItem('quiz_data', {
-    answers: answers,
-    results: results,
-    completedAt: new Date().toISOString(),
-    expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
-});
+        DataStorage.setItem('quiz_data', {
+            answers: answers,
+            results: results,
+            completedAt: new Date().toISOString()
+        });
 
         setTimeout(() => {
             window.scrollTo({
@@ -3288,30 +3286,4 @@ inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
             }, 3000);
         }, 200);
     }
-    // Gerenciar navegação por hash
-// Gerenciar navegação por hash
-window.addEventListener('hashchange', function() {
-    if (window.location.hash === '#resultados') {
-        const savedData = DataStorage.getItem('quiz_data');
-        if (savedData && savedData.results && (!savedData.expiresAt || new Date(savedData.expiresAt) > new Date())) {
-            // Mostrar a seção do quiz e esconder landing
-            document.getElementById('landingPage').classList.add('hidden');
-            document.getElementById('quizSection').classList.remove('hidden');
-            showFinalResults();
-        }
-    }
-});
-
-// Verificar hash na carga da página
-window.addEventListener('load', function() {
-    if (window.location.hash === '#resultados') {
-        const savedData = DataStorage.getItem('quiz_data');
-        if (savedData && savedData.results && (!savedData.expiresAt || new Date(savedData.expiresAt) > new Date())) {
-            // Mostrar a seção do quiz e esconder landing
-            document.getElementById('landingPage').classList.add('hidden');
-            document.getElementById('quizSection').classList.remove('hidden');
-            showFinalResults();
-        }
-    }
-});
 </script>

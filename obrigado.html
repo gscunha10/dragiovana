@@ -1932,26 +1932,47 @@ console.log('🔄 Estrutura mapeada:', answers);
     }
 }
 
-        // Função de download
-        function downloadFile(type) {
-            if (type !== 'dieta-personalizada') {
-                alert('Este material está disponível na sua área de membros exclusiva! Verifique seu e-mail para o link de acesso.');
-                return;
-            }
+       // ✅ FUNÇÃO DE DOWNLOAD UNIVERSAL
+function downloadFile(type) {
+    if (type !== 'dieta-personalizada') {
+        alert('Este material está disponível na sua área de membros exclusiva! Verifique seu e-mail para o link de acesso.');
+        return;
+    }
 
-            try {
-                const doc = generateDietaPDF();
-                const userData = window.currentUserData || { name: 'Cliente' };
-                const filename = `Dieta_Economica_${userData.name.replace(/\s+/g, '_')}_DrGiovana.pdf`;
-                doc.save(filename);
-                
-                console.log('📥 Download iniciado:', filename);
-                
-            } catch (error) {
-                console.error('Erro ao gerar PDF:', error);
-                alert('Erro ao gerar PDF. Tente novamente.');
-            }
+    try {
+        console.log('📥 Iniciando download...');
+        
+        // ✅ DETECTAR TIPO DE NAVEGADOR
+        const isInApp = isInAppBrowser();
+        console.log('🔍 Navegador embutido detectado:', isInApp);
+        
+        if (isInApp) {
+            // ✅ PARA NAVEGADORES EMBUTIDOS: MOSTRAR MODAL COM INSTRUÇÕES
+            showDownloadModal();
+        } else {
+            // ✅ PARA NAVEGADORES NORMAIS: DOWNLOAD DIRETO
+            performDirectDownload();
         }
+        
+    } catch (error) {
+        console.error('❌ Erro no download:', error);
+        showDownloadModal(); // Fallback para modal
+    }
+}
+
+// ✅ DOWNLOAD DIRETO (navegadores normais)
+function performDirectDownload() {
+    try {
+        const doc = generateDietaPDF();
+        const userData = window.currentUserData || { name: 'Cliente' };
+        const filename = `Dieta_Economica_${userData.name.replace(/\s+/g, '_')}_DrGiovana.pdf`;
+        doc.save(filename);
+        console.log('✅ Download direto realizado:', filename);
+    } catch (error) {
+        console.error('❌ Erro no download direto:', error);
+        showDownloadModal(); // Fallback para modal
+    }
+}
 
         // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
@@ -2236,6 +2257,264 @@ console.log('🔄 Estrutura mapeada:', answers);
         console.log('📄 Nova página com opções de substituição por orçamento');
         console.log('🎯 Personalização completa baseada no quiz mantida');
         console.log('🔧 Para debug: testCompleteSystem(), showDebugInfo()');
+console.log('🔧 Para debug: testCompleteSystem(), showDebugInfo()');
+
+        // ✅ DETECTAR NAVEGADOR EMBUTIDO
+        function isInAppBrowser() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            return (
+                userAgent.includes('instagram') ||
+                userAgent.includes('fban') ||
+                userAgent.includes('fbav') ||
+                userAgent.includes('tiktok') ||
+                userAgent.includes('snapchat') ||
+                userAgent.includes('wechat') ||
+                userAgent.includes('line') ||
+                navigator.standalone === false
+            );
+        }
+
+        // ✅ MODAL PARA NAVEGADORES EMBUTIDOS
+        function showDownloadModal() {
+            const existingModal = document.getElementById('downloadModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            const modal = document.createElement('div');
+            modal.id = 'downloadModal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                padding: 20px;
+                backdrop-filter: blur(10px);
+            `;
+            
+            modal.innerHTML = `
+                <div style="
+                    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+                    border: 2px solid var(--primary);
+                    border-radius: 20px;
+                    padding: 30px;
+                    max-width: 400px;
+                    width: 100%;
+                    text-align: center;
+                    color: white;
+                    position: relative;
+                ">
+                    <div style="font-size: 60px; margin-bottom: 20px;">📱</div>
+                    <h3 style="color: var(--accent); margin-bottom: 15px; font-size: 20px;">
+                        Navegador Detectado
+                    </h3>
+                    <p style="margin-bottom: 20px; line-height: 1.5; font-size: 14px;">
+                        Para baixar seu PDF personalizado, você precisa abrir este link no seu navegador principal (Chrome, Safari, etc.)
+                    </p>
+                    
+                    <div style="margin-bottom: 25px;">
+                        <button onclick="copyCurrentUrl()" style="
+                            background: linear-gradient(135deg, var(--primary), var(--secondary));
+                            color: white;
+                            border: none;
+                            padding: 12px 20px;
+                            border-radius: 10px;
+                            font-weight: bold;
+                            cursor: pointer;
+                            width: 100%;
+                            margin-bottom: 10px;
+                            font-size: 14px;
+                        ">📋 Copiar Link da Página</button>
+                        
+                        <button onclick="shareCurrentUrl()" style="
+                            background: linear-gradient(135deg, #0066cc, #0088ff);
+                            color: white;
+                            border: none;
+                            padding: 12px 20px;
+                            border-radius: 10px;
+                            font-weight: bold;
+                            cursor: pointer;
+                            width: 100%;
+                            margin-bottom: 10px;
+                            font-size: 14px;
+                        ">🔗 Compartilhar Link</button>
+                        
+                        <button onclick="tryForcedDownload()" style="
+                            background: linear-gradient(135deg, #ff6b35, #f7931e);
+                            color: white;
+                            border: none;
+                            padding: 12px 20px;
+                            border-radius: 10px;
+                            font-weight: bold;
+                            cursor: pointer;
+                            width: 100%;
+                            font-size: 14px;
+                        ">🚀 Tentar Download Mesmo Assim</button>
+                    </div>
+                    
+                    <div style="font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 15px;">
+                        <strong>Instruções:</strong><br>
+                        1. Copie o link acima<br>
+                        2. Abra seu navegador (Chrome/Safari)<br>
+                        3. Cole o link e acesse<br>
+                        4. Baixe normalmente
+                    </div>
+                    
+                    <button onclick="closeDownloadModal()" style="
+                        background: transparent;
+                        color: var(--accent);
+                        border: 1px solid var(--accent);
+                        padding: 8px 15px;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        font-size: 12px;
+                    ">Fechar</button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeDownloadModal();
+                }
+            });
+        }
+
+        // ✅ FUNÇÕES AUXILIARES
+        function copyCurrentUrl() {
+            const url = window.location.href;
+            
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(url).then(() => {
+                    showToast('✅ Link copiado! Cole no seu navegador', 'success');
+                }).catch(() => {
+                    fallbackCopyText(url);
+                });
+            } else {
+                fallbackCopyText(url);
+            }
+        }
+
+        function fallbackCopyText(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showToast('✅ Link copiado! Cole no seu navegador', 'success');
+            } catch (err) {
+                showToast('❌ Erro ao copiar. Copie manualmente: ' + text, 'error');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function shareCurrentUrl() {
+            const url = window.location.href;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Minha Dieta Personalizada',
+                    text: 'Acesse para baixar sua dieta personalizada',
+                    url: url
+                }).catch(console.error);
+            } else {
+                copyCurrentUrl();
+            }
+        }
+
+        function tryForcedDownload() {
+            try {
+                showToast('🔄 Tentando download forçado...', 'info');
+                
+                const doc = generateDietaPDF();
+                const pdfBlob = doc.output('blob');
+                
+                const url = URL.createObjectURL(pdfBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `Dieta_Personalizada_${Date.now()}.pdf`;
+                
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                setTimeout(() => {
+                    URL.revokeObjectURL(url);
+                    showToast('📥 Download iniciado! Verifique seus downloads', 'success');
+                }, 100);
+                
+            } catch (error) {
+                console.error('❌ Download forçado falhou:', error);
+                showToast('❌ Download não suportado neste navegador. Use as instruções acima.', 'error');
+            }
+        }
+
+        function closeDownloadModal() {
+            const modal = document.getElementById('downloadModal');
+            if (modal) {
+                modal.style.opacity = '0';
+                modal.style.transform = 'scale(0.9)';
+                setTimeout(() => modal.remove(), 300);
+            }
+        }
+
+        function showToast(message, type = 'info') {
+            const existingToast = document.getElementById('toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+            
+            const toast = document.createElement('div');
+            toast.id = 'toast';
+            
+            const colors = {
+                success: '#00ff88',
+                error: '#ff3366',
+                info: '#0088ff'
+            };
+            
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(0, 0, 0, 0.9);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                border-left: 4px solid ${colors[type]};
+                font-size: 14px;
+                font-weight: bold;
+                z-index: 10001;
+                max-width: 300px;
+                backdrop-filter: blur(10px);
+            `;
+            
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateX(100%)';
+                    setTimeout(() => toast.remove(), 300);
+                }
+            }, 4000);
+        }
+
     </script>
 </body>
 </html>

@@ -2277,7 +2277,8 @@ inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
     ];
 
     document.addEventListener('DOMContentLoaded', function() {
-        createParticles();
+    cleanExpiredData(); // ✅ ADICIONE ESTA LINHA
+    createParticles();
         
         activeUsersManager = new ActiveUsersManager();
         
@@ -2775,17 +2776,32 @@ inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
         }, 50);
     }
 
-    function showFinalResults() {
-        const results = calculateResults();
-        const container = document.getElementById('questionContainer');
-        
-        document.getElementById('progressText').textContent = 'Avaliação Concluída!';
-        
-        DataStorage.setItem('quiz_data', {
-            answers: answers,
-            results: results,
-            completedAt: new Date().toISOString()
-        });
+   function showFinalResults() {
+    window.history.pushState({page: 'resultados'}, 'Resultados', '#resultados');
+    
+    // ✅ CARREGAR DADOS DA STORAGE SE NECESSÁRIO
+    const savedData = DataStorage.getItem('quiz_data');
+    if (savedData && savedData.answers && (!answers.contact || Object.keys(answers).length === 0)) {
+        answers = savedData.answers;
+        console.log('📂 Dados carregados da storage:', answers);
+    }
+
+    // ✅ CALCULAR RESULTADOS COM DADOS COMPLETOS
+    const results = calculateResults();
+    const container = document.getElementById('questionContainer');
+    
+    const progressText = document.getElementById('progressText');
+    if (progressText) {
+        progressText.textContent = 'Avaliação Concluída!';
+    }
+    
+    // ✅ SALVAR DADOS COM EXPIRAÇÃO DE 30 DIAS
+    DataStorage.setItem('quiz_data', {
+        answers: answers,
+        results: results,
+        completedAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+    });
 
         setTimeout(() => {
             window.scrollTo({
@@ -3286,4 +3302,57 @@ inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
             }, 3000);
         }, 200);
     }
+    // ✅ GERENCIAR NAVEGAÇÃO POR HASH
+window.addEventListener('hashchange', function() {
+    if (window.location.hash === '#resultados') {
+        const savedData = DataStorage.getItem('quiz_data');
+        if (savedData && savedData.results && (!savedData.expiresAt || new Date(savedData.expiresAt) > new Date())) {
+            // Mostrar a seção do quiz e esconder landing
+            document.getElementById('landingPage').classList.add('hidden');
+            document.getElementById('quizSection').classList.remove('hidden');
+            
+            // Carregar dados salvos
+            answers = savedData.answers;
+            showFinalResults();
+        } else {
+            // Dados expirados ou não existem, redirecionar para início
+            window.location.hash = '';
+            location.reload();
+        }
+    }
+});
+
+// ✅ VERIFICAR HASH NA CARGA DA PÁGINA
+window.addEventListener('load', function() {
+    if (window.location.hash === '#resultados') {
+        const savedData = DataStorage.getItem('quiz_data');
+        if (savedData && savedData.results && (!savedData.expiresAt || new Date(savedData.expiresAt) > new Date())) {
+            document.getElementById('landingPage').classList.add('hidden');
+            document.getElementById('quizSection').classList.remove('hidden');
+            
+            answers = savedData.answers;
+            showFinalResults();
+        } else {
+            window.location.hash = '';
+        }
+    }
+});
+
+// ✅ FUNÇÃO PARA CRIAR URL DE REMARKETING
+function generateRemarketingURL() {
+    const baseUrl = window.location.origin + window.location.pathname;
+    return baseUrl + '#resultados';
+}
+
+// ✅ LIMPAR DADOS EXPIRADOS
+function cleanExpiredData() {
+    const savedData = DataStorage.getItem('quiz_data');
+    if (savedData && savedData.expiresAt && new Date(savedData.expiresAt) < new Date()) {
+        if (DataStorage.isLocalStorageAvailable()) {
+            localStorage.removeItem('dra_giovana_quiz_data');
+        }
+        delete DataStorage.memoryStorage['dra_giovana_quiz_data'];
+        console.log('🗑️ Dados expirados removidos');
+    }
+}
 </script>

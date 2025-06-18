@@ -1933,144 +1933,49 @@ console.log('🔄 Estrutura mapeada:', answers);
 }
 
         // Função de download
-function downloadFile(type) {
-    if (type !== 'dieta-personalizada') {
-        alert('Todos os materiais estão incluídos no PDF principal! Use o botão "Baixar Dieta Personalizada".');
-        return;
-    }
+        function downloadFile(type) {
+            if (type !== 'dieta-personalizada') {
+                alert('Este material está disponível na sua área de membros exclusiva! Verifique seu e-mail para o link de acesso.');
+                return;
+            }
 
-    try {
-        const doc = generateDietaPDF();
-        const userData = window.currentUserData || { name: 'Cliente' };
-        const filename = `Dieta_Economica_${userData.name.replace(/\s+/g, '_')}_DrGiovana.pdf`;
-        
-        // ✅ SISTEMA UNIVERSAL DE DOWNLOAD
-        downloadUniversal(doc, filename);
-        
-    } catch (error) {
-        console.error('Erro ao gerar PDF:', error);
-        alert('Erro ao gerar PDF. Tente novamente.');
-    }
-}
-
-// ✅ FUNÇÃO UNIVERSAL DE DOWNLOAD
-function downloadUniversal(doc, filename) {
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    const isInApp = /FBAN|FBAV|Instagram|Twitter|LinkedIn|TikTok/i.test(navigator.userAgent);
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    
-    console.log('📱 Detectado:', { isMobile, isInApp, isIOS });
-    
-    try {
-        // MÉTODO 1: Download direto para desktop
-        if (!isInApp && !isIOS && !isMobile) {
-            console.log('💻 Download direto desktop');
-            doc.save(filename);
-            showDownloadSuccess('Download iniciado com sucesso!');
-            return;
+            try {
+                const doc = generateDietaPDF();
+                const userData = window.currentUserData || { name: 'Cliente' };
+                const filename = `Dieta_Economica_${userData.name.replace(/\s+/g, '_')}_DrGiovana.pdf`;
+                doc.save(filename);
+                
+                console.log('📥 Download iniciado:', filename);
+                
+            } catch (error) {
+                console.error('Erro ao gerar PDF:', error);
+                alert('Erro ao gerar PDF. Tente novamente.');
+            }
         }
-        
-        // MÉTODO 2: Nova aba para móvel/redes sociais
-        console.log('📱 Abrindo em nova aba para dispositivo móvel');
-        const pdfOutput = doc.output('bloburl');
-        const newWindow = window.open(pdfOutput, '_blank');
-        
-        if (newWindow) {
-            showDownloadSuccess('PDF aberto! Toque em "Salvar" ou "Compartilhar" no navegador.');
-        } else {
-            // MÉTODO 3: Fallback blob
-            console.log('💾 Usando método blob fallback');
-            const blob = doc.output('blob');
-            downloadBlob(blob, filename);
-        }
-        
-    } catch (error) {
-        console.error('❌ Erro no download:', error);
-        try {
-            const blob = doc.output('blob');
-            downloadBlob(blob, filename);
-        } catch (blobError) {
-            console.error('❌ Erro final:', blobError);
-            alert('Erro no download. Tente abrir em outro navegador.');
-        }
-    }
-}
 
-function downloadBlob(blob, filename) {
-    try {
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = filename;
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-        showDownloadSuccess('Download iniciado!');
-    } catch (error) {
-        console.log('🌐 Abrindo PDF em nova aba como fallback');
-        const url = URL.createObjectURL(blob);
-        window.open(url, '_blank');
-        showDownloadSuccess('PDF aberto! Use "Salvar como" no navegador.');
-    }
-}
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎯 Página de obrigado carregada - versão econômica...');
+            
+            // ✅ 1. CRIAR PARTÍCULAS
+            createParticles();
+            
+            // ✅ 2. CARREGAR DADOS DO USUÁRIO (VERSÃO CORRIGIDA)
+            loadUserData();
+            
+            // ✅ 3. ADICIONAR BOTÃO DE DEBUG EM DESENVOLVIMENTO
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                setTimeout(() => {
+                    addDebugButton();
+                }, 1000);
+            }
+            
+            console.log('🚀 Sistema econômico inicializado!');
+            console.log('💰 Dieta principal: ingredientes econômicos');
+            console.log('📄 Nova página: opções de substituição por orçamento');
+            console.log('🎯 100% personalizado baseado no quiz');
+        });
 
-function showDownloadSuccess(message) {
-    const existing = document.getElementById('downloadNotification');
-    if (existing) existing.remove();
-    
-    const notification = document.createElement('div');
-    notification.id = 'downloadNotification';
-    notification.style.cssText = `
-        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-        background: linear-gradient(135deg, rgba(0, 255, 136, 0.95), rgba(44, 122, 44, 0.95));
-        color: white; padding: 25px 35px; border-radius: 16px; font-weight: bold;
-        z-index: 10000; text-align: center; backdrop-filter: blur(10px);
-        border: 2px solid #00ff88; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        max-width: 90vw; font-size: 16px; line-height: 1.4;
-    `;
-    
-    notification.innerHTML = `
-        <div style="font-size: 40px; margin-bottom: 15px;">✅</div>
-        <div style="margin-bottom: 8px;">${message}</div>
-        <div style="font-size: 13px; opacity: 0.9;">Esta mensagem desaparecerá automaticamente</div>
-    `;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.style.opacity = '0';
-        notification.style.transform = 'translate(-50%, -50%) scale(0.9)';
-        setTimeout(() => notification.remove(), 300);
-    }, 4000);
-}
-
-       // Inicialização
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('🎯 Página de obrigado carregada - versão econômica...');
-    
-    // ✅ DELAY PARA GARANTIR ESTABILIDADE NO UPSELL
-    setTimeout(() => {
-        // ✅ 1. CRIAR PARTÍCULAS
-        createParticles();
-        
-        // ✅ 2. CARREGAR DADOS DO USUÁRIO (VERSÃO CORRIGIDA)
-        loadUserData();
-        
-        // ✅ 3. ADICIONAR BOTÃO DE DEBUG EM DESENVOLVIMENTO
-        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-            setTimeout(() => {
-                addDebugButton();
-            }, 1000);
-        }
-        
-        console.log('🚀 Sistema econômico inicializado!');
-        console.log('💰 Dieta principal: ingredientes econômicos');
-        console.log('📄 Nova página: opções de substituição por orçamento');
-        console.log('🎯 100% personalizado baseado no quiz');
-    }, 800); // 800ms de delay para upsell
-});
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
             const particleCount = window.innerWidth > 768 ? 50 : 25;

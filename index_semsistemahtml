@@ -53,25 +53,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-        /* ✅ CAMPOS HONEYPOT - INVISÍVEIS */
-.honeypot,
-input[name="website"],
-input[name="email_confirmation"], 
-input[name="company"] {
-    position: absolute !important;
-    left: -9999px !important;
-    top: -9999px !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    display: none !important;
-    visibility: hidden !important;
-    width: 0 !important;
-    height: 0 !important;
-    border: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    font-size: 0 !important;
-}
 
         :root {
             --primary: #2c7a2c;
@@ -2295,35 +2276,28 @@ inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
         }
     ];
 
-   document.addEventListener('DOMContentLoaded', function() {
-    cleanExpiredData();
+    document.addEventListener('DOMContentLoaded', function() {
+    cleanExpiredData(); // ✅ ADICIONE ESTA LINHA
     createParticles();
-    
-    // ✅ INICIALIZAR SISTEMA ANTI-BOT
-    console.log('🛡️ Inicializando sistemas anti-bot...');
-    BehaviorTracker.init();
-    RateLimiter.cleanup();
-    console.log('✅ Sistemas anti-bot ativos');
-    
-    activeUsersManager = new ActiveUsersManager();
-    
-    // Resto do código existente...
-    const startButton = document.getElementById('startQuizBtn');
-    if (startButton) {
-        startButton.addEventListener('click', startQuiz);
-    }
+        
+        activeUsersManager = new ActiveUsersManager();
+        
+        const startButton = document.getElementById('startQuizBtn');
+        if (startButton) {
+            startButton.addEventListener('click', startQuiz);
+        }
 
-    const backBtn = document.getElementById('backBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    
-    if (backBtn) {
-        backBtn.addEventListener('click', previousQuestion);
-    }
-    
-    if (nextBtn) {
-        nextBtn.addEventListener('click', nextQuestion);
-    }
-});
+        const backBtn = document.getElementById('backBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        if (backBtn) {
+            backBtn.addEventListener('click', previousQuestion);
+        }
+        
+        if (nextBtn) {
+            nextBtn.addEventListener('click', nextQuestion);
+        }
+    });
 
     function createParticles() {
         const particlesContainer = document.getElementById('particles');
@@ -2447,82 +2421,64 @@ inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
     }
 
     function loadFormQuestion(question, container) {
-    container.innerHTML = '';
-    container.className = 'form-grid';
+        container.innerHTML = '';
+        container.className = 'form-grid';
 
-    // ✅ ADICIONAR CAMPOS HONEYPOT NO FORMULÁRIO DE CONTATO
-    if (currentQuestion === 5) { // Última pergunta - contato
-        const honeypotFields = `
-            <!-- ✅ CAMPOS HONEYPOT INVISÍVEIS -->
-            <div class="honeypot">
-                <label for="website">Website (não preencha):</label>
-                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
-            </div>
+        question.fields.forEach(field => {
+            const inputGroup = document.createElement('div');
+            inputGroup.className = 'input-group';
             
-            <input type="email" name="email_confirmation" class="honeypot" tabindex="-1" autocomplete="new-password">
-            
-            <div class="honeypot">
-                <input type="text" name="company" placeholder="Empresa" tabindex="-1">
-            </div>
-        `;
-        container.insertAdjacentHTML('afterbegin', honeypotFields);
-    }
+            inputGroup.innerHTML = `
+                <label class="input-label" for="${field.name}">${field.label}</label>
+                <input 
+                    class="input-field" 
+                    type="${field.type}" 
+                    name="${field.name}" 
+                    placeholder="${field.placeholder}"
+                    ${field.type === 'number' ? 'min="1"' : ''}
+                    autocomplete="off"
+                >
+            `;
 
-    question.fields.forEach(field => {
-        const inputGroup = document.createElement('div');
-        inputGroup.className = 'input-group';
-        
-        inputGroup.innerHTML = `
-            <label class="input-label" for="${field.name}">${field.label}</label>
-            <input 
-                class="input-field" 
-                type="${field.type}" 
-                name="${field.name}" 
-                placeholder="${field.placeholder}"
-                ${field.type === 'number' ? 'min="1"' : ''}
-                autocomplete="off"
-            >
-        `;
+            const input = inputGroup.querySelector('input');
 
-        const input = inputGroup.querySelector('input');
-
-        if (field.type === 'tel') {
-            input.addEventListener('input', function() {
-                let value = this.value.replace(/\D/g, '');
-                if (value.length >= 2) {
-                    value = value.replace(/^(\d{2})(\d)/, '($1) $2');
-                }
-                if (value.length >= 10) {
-                    value = value.replace(/(\d{4,5})(\d{4})$/, '$1-$2');
-                }
-                this.value = value;
-            });
-        }
-
-        input.addEventListener('input', function() {
-            const questionKey = getQuestionKey(currentQuestion);
-            if (!answers[questionKey]) answers[questionKey] = {};
-            
-            let value = this.value;
-            if (field.type === 'number' && value) {
-                value = parseFloat(value) || this.value;
+            if (field.type === 'tel') {
+                input.addEventListener('input', function() {
+                    let value = this.value.replace(/\D/g, '');
+                    if (value.length >= 2) {
+                        value = value.replace(/^(\d{2})(\d)/, '($1) $2');
+                    }
+                    if (value.length >= 10) {
+                        value = value.replace(/(\d{4,5})(\d{4})$/, '$1-$2');
+                    }
+                    this.value = value;
+                });
             }
-            
-            answers[questionKey][field.name] = value;
-            
-            validateFormCompletion(question);
+
+            input.addEventListener('input', function() {
+                const questionKey = getQuestionKey(currentQuestion);
+                if (!answers[questionKey]) answers[questionKey] = {};
+                
+                let value = this.value;
+                if (field.type === 'number' && value) {
+                    value = parseFloat(value) || this.value;
+                }
+                
+                answers[questionKey][field.name] = value;
+                
+                validateFormCompletion(question);
+            });
+
+            const questionKey = getQuestionKey(currentQuestion);
+            if (answers[questionKey] && answers[questionKey][field.name]) {
+                input.value = answers[questionKey][field.name];
+            }
+
+            container.appendChild(inputGroup);
         });
 
-        const questionKey = getQuestionKey(currentQuestion);
-        if (answers[questionKey] && answers[questionKey][field.name]) {
-            input.value = answers[questionKey][field.name];
-        }
-
-        container.appendChild(inputGroup);
-    });
-
-    setTimeout(() => validateFormCompletion(question), 100);
-}
+        setTimeout(() => validateFormCompletion(question), 100);
+    }
 
     function validateFormCompletion(question) {
         const questionKey = getQuestionKey(currentQuestion);
@@ -3291,86 +3247,61 @@ inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
         };
     }
 
-   function handleCheckoutClick() {
-    console.log('🛒 Checkout iniciado...');
-
-    // ✅ COLETAR TODOS OS DADOS INCLUINDO HONEYPOTS
-    const formData = {
-        ...answers,
-        // Incluir campos honeypot para validação
-        website: document.getElementById('website')?.value || '',
-        email_confirmation: document.querySelector('input[name="email_confirmation"]')?.value || '',
-        company: document.querySelector('input[name="company"]')?.value || '',
-        timestamp: new Date().toISOString(),
-        userAgent: navigator.userAgent
-    };
-
-    // ✅ VALIDAÇÃO ANTI-BOT
-    if (!handleFormSubmission(formData)) {
-        console.log('🛡️ Checkout bloqueado pelo sistema anti-bot');
-        return;
-    }
-
-    // 🎯 Facebook Pixel - InitiateCheckout Event
-    if (typeof fbq !== 'undefined') {
-        fbq('track', 'InitiateCheckout', {
-            content_category: 'Protocolo Nutricional',
-            content_name: 'Dieta Personalizada Dra. Giovana',
-            value: 19.90,
-            currency: 'BRL',
-            num_items: 1,
-            custom_goal: answers.goal
-        });
-    }
-
-    try {
-        const results = calculateResults();
-        
-        // Remover campos honeypot antes de salvar
-        const cleanData = { ...formData };
-        delete cleanData.website;
-        delete cleanData.email_confirmation;
-        delete cleanData.company;
-        
-        DataStorage.setItem('checkout_data', {
-            answers: cleanData,
-            results: results,
-            checkoutInitiatedAt: new Date().toISOString(),
-            userAgent: navigator.userAgent,
-            pageUrl: window.location.href
-        });
-        
-    } catch (error) {
-        console.error('Erro ao salvar dados para recuperação:', error);
-    }
-
-    const button = document.getElementById('checkout-btn');
-    if (button) {
-        button.style.background = 'linear-gradient(135deg, #228B22, #32CD32)';
-        button.innerHTML = '🚀 Redirecionando...';
-        button.disabled = true;
-    }
-
-    setTimeout(() => {
+    function handleCheckoutClick() {
+        console.log('🛒 Checkout iniciado...');
+// 🎯 Facebook Pixel - InitiateCheckout Event
+        if (typeof fbq !== 'undefined') {
+            fbq('track', 'InitiateCheckout', {
+                content_category: 'Protocolo Nutricional',
+                content_name: 'Dieta Personalizada Dra. Giovana',
+                value: 19.90,
+                currency: 'BRL',
+                num_items: 1,
+                custom_goal: answers.goal
+            });
+        }
         try {
-            const newWindow = window.open('https://pay.cakto.com.br/4ckeveg_405527', '_blank');
+            const results = calculateResults();
             
-            if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+            DataStorage.setItem('checkout_data', {
+                answers: answers,
+                results: results,
+                checkoutInitiatedAt: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                pageUrl: window.location.href
+            });
+            
+        } catch (error) {
+            console.error('Erro ao salvar dados para recuperação:', error);
+        }
+
+        const button = document.getElementById('checkout-btn');
+        if (button) {
+            button.style.background = 'linear-gradient(135deg, #228B22, #32CD32)';
+            button.innerHTML = '🚀 Redirecionando...';
+            button.disabled = true;
+        }
+
+        setTimeout(() => {
+            try {
+                const newWindow = window.open('https://pay.cakto.com.br/4ckeveg_405527', '_blank');
+                
+                if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+                    window.location.href = 'https://pay.cakto.com.br/4ckeveg_405527';
+                }
+            } catch (e) {
                 window.location.href = 'https://pay.cakto.com.br/4ckeveg_405527';
             }
-        } catch (e) {
-            window.location.href = 'https://pay.cakto.com.br/4ckeveg_405527';
-        }
-        
-        setTimeout(() => {
-            if (button) {
-                button.style.background = 'linear-gradient(135deg, #00ff64, #00e054, #00cc48)';
-                button.innerHTML = '🔓 GARANTIR SUA DIETA POR R$ 29,90';
-                button.disabled = false;
-            }
-        }, 3000);
-    }, 200);
-}
+            
+            setTimeout(() => {
+                if (button) {
+                    button.style.background = 'linear-gradient(135deg, #00ff64, #00e054, #00cc48)';
+                    button.innerHTML = '🔓 GARANTIR SUA DIETA POR R$ 19,90';
+                    button.disabled = false;
+                }
+            }, 3000);
+        }, 200);
+    }
     // ✅ GERENCIAR NAVEGAÇÃO POR HASH
 window.addEventListener('hashchange', function() {
     if (window.location.hash === '#resultados') {
@@ -3423,300 +3354,5 @@ function cleanExpiredData() {
         delete DataStorage.memoryStorage['dra_giovana_quiz_data'];
         console.log('🗑️ Dados expirados removidos');
     }
-}
-// =====================================
-// 🛡️ SISTEMA ANTI-BOT COMPLETO
-// =====================================
-
-// ===== RATE LIMITING =====
-const RateLimiter = {
-    config: {
-        maxSubmissions: 3,
-        timeWindow: 3600000, // 1 hora
-        blockDuration: 1800000, // 30 min
-        storageKey: 'dra_giovana_submissions'
-    },
-
-    getSubmissions() {
-        try {
-            const stored = localStorage.getItem(this.config.storageKey);
-            return stored ? JSON.parse(stored) : [];
-        } catch (e) {
-            return [];
-        }
-    },
-
-    saveSubmission() {
-        try {
-            const submissions = this.getSubmissions();
-            submissions.push(Date.now());
-            localStorage.setItem(this.config.storageKey, JSON.stringify(submissions));
-        } catch (e) {
-            console.warn('Erro ao salvar submissão:', e);
-        }
-    },
-
-    canSubmit() {
-        const now = Date.now();
-        const submissions = this.getSubmissions();
-        
-        const recentSubmissions = submissions.filter(
-            timestamp => (now - timestamp) < this.config.timeWindow
-        );
-
-        const lastSubmission = submissions[submissions.length - 1];
-        if (lastSubmission && recentSubmissions.length >= this.config.maxSubmissions) {
-            const timeSinceBlock = now - lastSubmission;
-            if (timeSinceBlock < this.config.blockDuration) {
-                const remainingTime = Math.ceil((this.config.blockDuration - timeSinceBlock) / 60000);
-                return {
-                    allowed: false,
-                    reason: 'rate_limit',
-                    message: `Muitas tentativas. Tente novamente em ${remainingTime} minutos.`,
-                    remainingMinutes: remainingTime
-                };
-            }
-        }
-
-        if (recentSubmissions.length >= this.config.maxSubmissions) {
-            return {
-                allowed: false,
-                reason: 'too_many_requests',
-                message: 'Limite de envios atingido. Tente novamente mais tarde.',
-                remainingMinutes: Math.ceil(this.config.timeWindow / 60000)
-            };
-        }
-
-        return {
-            allowed: true,
-            remaining: this.config.maxSubmissions - recentSubmissions.length
-        };
-    },
-
-    cleanup() {
-        const now = Date.now();
-        const submissions = this.getSubmissions();
-        const validSubmissions = submissions.filter(
-            timestamp => (now - timestamp) < this.config.timeWindow
-        );
-        
-        try {
-            localStorage.setItem(this.config.storageKey, JSON.stringify(validSubmissions));
-        } catch (e) {
-            console.warn('Erro na limpeza:', e);
-        }
-    }
-};
-
-// ===== VALIDAÇÃO COMPORTAMENTAL =====
-const BehaviorTracker = {
-    data: {
-        mouseMovements: 0,
-        clicks: 0,
-        keystrokes: 0,
-        timeOnPage: Date.now(),
-        focusEvents: 0,
-        scrollEvents: 0
-    },
-
-    init() {
-        document.addEventListener('mousemove', () => {
-            this.data.mouseMovements++;
-        });
-
-        document.addEventListener('click', () => {
-            this.data.clicks++;
-        });
-
-        document.addEventListener('keydown', () => {
-            this.data.keystrokes++;
-        });
-
-        window.addEventListener('focus', () => {
-            this.data.focusEvents++;
-        });
-
-        window.addEventListener('scroll', () => {
-            this.data.scrollEvents++;
-        });
-    },
-
-    isHuman() {
-        const timeOnPage = Date.now() - this.data.timeOnPage;
-        
-        const criteria = {
-            minTimeOnPage: 10000,
-            minMouseMovements: 5,
-            minInteractions: 2,
-            minTotalActivity: 10
-        };
-
-        const totalInteractions = this.data.clicks + this.data.keystrokes;
-        const totalActivity = this.data.mouseMovements + totalInteractions + this.data.scrollEvents;
-
-        const isValid = 
-            timeOnPage >= criteria.minTimeOnPage &&
-            this.data.mouseMovements >= criteria.minMouseMovements &&
-            totalInteractions >= criteria.minInteractions &&
-            totalActivity >= criteria.minTotalActivity;
-
-        return isValid;
-    }
-};
-
-// ===== VALIDAÇÃO HONEYPOT =====
-function validateHoneypot(formData) {
-    const honeypotFields = ['website', 'email_confirmation', 'company'];
-    
-    for (const field of honeypotFields) {
-        if (formData[field] && formData[field].trim() !== '') {
-            console.log('🤖 Bot detectado via honeypot:', field);
-            return false;
-        }
-    }
-    
-    return true;
-}
-
-// ===== FUNÇÃO PRINCIPAL DE VALIDAÇÃO =====
-function validateSubmission(formData) {
-    console.log('🛡️ Iniciando validação anti-bot...');
-    
-    // 1. Verificar Honeypot
-    if (!validateHoneypot(formData)) {
-        return {
-            valid: false,
-            reason: 'honeypot',
-            message: 'Submissão inválida detectada.',
-            action: 'block_silent'
-        };
-    }
-
-    // 2. Verificar Rate Limiting
-    const rateLimitCheck = RateLimiter.canSubmit();
-    if (!rateLimitCheck.allowed) {
-        return {
-            valid: false,
-            reason: rateLimitCheck.reason,
-            message: rateLimitCheck.message,
-            action: 'show_error'
-        };
-    }
-
-    // 3. Verificar Comportamento Humano
-    if (!BehaviorTracker.isHuman()) {
-        return {
-            valid: false,
-            reason: 'behavior',
-            message: 'Complete a avaliação normalmente antes de enviar.',
-            action: 'show_warning'
-        };
-    }
-
-    // 4. Validação passou
-    RateLimiter.saveSubmission();
-    
-    console.log('✅ Validação anti-bot aprovada');
-    return {
-        valid: true,
-        remaining: rateLimitCheck.remaining
-    };
-}
-
-// ===== FUNÇÃO DE TRATAMENTO =====
-function handleFormSubmission(formData) {
-    const validation = validateSubmission(formData);
-    
-    if (!validation.valid) {
-        switch (validation.action) {
-            case 'block_silent':
-                console.log('🤖 Bot bloqueado silenciosamente');
-                return false;
-                
-            case 'show_error':
-                showErrorMessage(validation.message);
-                return false;
-                
-            case 'show_warning':
-                showWarningMessage(validation.message);
-                return false;
-        }
-    }
-
-    console.log(`✅ Submissão aprovada (${validation.remaining} envios restantes)`);
-    return true;
-}
-
-// ===== FUNÇÕES DE UI =====
-function showErrorMessage(message) {
-    const errorDiv = document.createElement('div');
-    errorDiv.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: linear-gradient(135deg, rgba(255, 51, 102, 0.95), rgba(220, 38, 127, 0.95));
-        color: white;
-        padding: 25px 35px;
-        border-radius: 16px;
-        font-weight: bold;
-        z-index: 10000;
-        text-align: center;
-        backdrop-filter: blur(10px);
-        border: 2px solid #ff3366;
-        max-width: 90vw;
-        font-size: 16px;
-    `;
-    
-    errorDiv.innerHTML = `
-        <div style="font-size: 40px; margin-bottom: 15px;">⚠️</div>
-        <div style="margin-bottom: 10px;">${message}</div>
-        <button onclick="this.parentElement.remove()" style="
-            background: white;
-            color: #ff3366;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 15px;
-        ">Entendi</button>
-    `;
-    
-    document.body.appendChild(errorDiv);
-    setTimeout(() => errorDiv.remove(), 10000);
-}
-
-function showWarningMessage(message) {
-    const warningDiv = document.createElement('div');
-    warningDiv.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: linear-gradient(135deg, rgba(255, 193, 7, 0.95), rgba(255, 171, 0, 0.95));
-        color: #333;
-        padding: 20px;
-        border-radius: 12px;
-        font-weight: bold;
-        z-index: 10000;
-        max-width: 350px;
-        font-size: 14px;
-        border: 2px solid #ffc107;
-    `;
-    
-    warningDiv.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-            <span style="font-size: 24px;">⚠️</span>
-            <strong>Atenção</strong>
-        </div>
-        <div>${message}</div>
-    `;
-    
-    document.body.appendChild(warningDiv);
-    
-    setTimeout(() => {
-        warningDiv.style.opacity = '0';
-        setTimeout(() => warningDiv.remove(), 300);
-    }, 5000);
 }
 </script>

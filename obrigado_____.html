@@ -717,7 +717,17 @@
             <div class="sidebar">
                 <div class="download-section">
                     <h3 class="download-title">📁 Seus Materiais</h3>
-                    
+                    <!-- Novo botão de email -->
+    <button class="download-button" onclick="sendDietByEmail()" style="
+        background: linear-gradient(135deg, #0066cc, #004499);
+        margin-bottom: 15px;
+    ">
+        📧 ENVIAR DIETA POR EMAIL
+    </button>
+    
+    <div style="text-align: center; margin-bottom: 20px; font-size: 12px; color: rgba(255,255,255,0.7);">
+        ou baixe diretamente:
+    </div>
                     <div class="download-item" onclick="downloadFile('dieta-personalizada')">
                         <div class="download-icon">📋</div>
                         <div class="download-info">
@@ -1933,49 +1943,305 @@ console.log('🔄 Estrutura mapeada:', answers);
 }
 
         // Função de download
-        function downloadFile(type) {
-            if (type !== 'dieta-personalizada') {
-                alert('Este material está disponível na sua área de membros exclusiva! Verifique seu e-mail para o link de acesso.');
-                return;
-            }
+function downloadFile(type) {
+    if (type !== 'dieta-personalizada') {
+        alert('Todos os materiais estão incluídos no PDF principal! Use o botão "Baixar Dieta Personalizada".');
+        return;
+    }
 
-            try {
-                const doc = generateDietaPDF();
-                const userData = window.currentUserData || { name: 'Cliente' };
-                const filename = `Dieta_Economica_${userData.name.replace(/\s+/g, '_')}_DrGiovana.pdf`;
-                doc.save(filename);
-                
-                console.log('📥 Download iniciado:', filename);
-                
-            } catch (error) {
-                console.error('Erro ao gerar PDF:', error);
-                alert('Erro ao gerar PDF. Tente novamente.');
-            }
+    try {
+        const doc = generateDietaPDF();
+        const userData = window.currentUserData || { name: 'Cliente' };
+        const filename = `Dieta_Economica_${userData.name.replace(/\s+/g, '_')}_DrGiovana.pdf`;
+        
+        // ✅ SISTEMA UNIVERSAL DE DOWNLOAD
+        downloadUniversal(doc, filename);
+        
+    } catch (error) {
+        console.error('Erro ao gerar PDF:', error);
+        alert('Erro ao gerar PDF. Tente novamente.');
+    }
+}
+
+// ✅ FUNÇÃO UNIVERSAL DE DOWNLOAD
+function downloadUniversal(doc, filename) {
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isInApp = /FBAN|FBAV|Instagram|Twitter|LinkedIn|TikTok/i.test(navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    
+    console.log('📱 Detectado:', { isMobile, isInApp, isIOS });
+    
+    try {
+        // MÉTODO 1: Download direto para desktop
+        if (!isInApp && !isIOS && !isMobile) {
+            console.log('💻 Download direto desktop');
+            doc.save(filename);
+            showDownloadSuccess('Download iniciado com sucesso!');
+            return;
         }
+        
+        // MÉTODO 2: Nova aba para móvel/redes sociais
+        console.log('📱 Abrindo em nova aba para dispositivo móvel');
+        const pdfOutput = doc.output('bloburl');
+        const newWindow = window.open(pdfOutput, '_blank');
+        
+        if (newWindow) {
+            showDownloadSuccess('PDF aberto! Toque em "Salvar" ou "Compartilhar" no navegador.');
+        } else {
+            // MÉTODO 3: Fallback blob
+            console.log('💾 Usando método blob fallback');
+            const blob = doc.output('blob');
+            downloadBlob(blob, filename);
+        }
+        
+    } catch (error) {
+        console.error('❌ Erro no download:', error);
+        try {
+            const blob = doc.output('blob');
+            downloadBlob(blob, filename);
+        } catch (blobError) {
+            console.error('❌ Erro final:', blobError);
+            alert('Erro no download. Tente abrir em outro navegador.');
+        }
+    }
+}
+// ✅ SISTEMA DE LINK ÚNICO PARA EMAIL
+function generateUniqueLink() {
+    try {
+        const userData = window.currentUserData || {};
+        const nutrition = window.currentNutrition || {};
+        
+        // Gerar ID único baseado nos dados + timestamp
+        const timestamp = Date.now();
+        const userString = `${userData.name}_${userData.weight}_${userData.height}_${userData.goal}`;
+        const uniqueId = btoa(userString + '_' + timestamp).replace(/[^a-zA-Z0-9]/g, '').substring(0, 16);
+        
+        // Dados completos para o link
+        const linkData = {
+            id: uniqueId,
+            userData: userData,
+            nutrition: nutrition,
+            createdAt: timestamp,
+            expiresAt: timestamp + (30 * 24 * 60 * 60 * 1000) // 30 dias
+        };
+        
+        // Salvar no localStorage com chave única
+        localStorage.setItem(`diet_link_${uniqueId}`, JSON.stringify(linkData));
+        
+        // Gerar URL do link
+        const baseUrl = window.location.origin + window.location.pathname.replace('thank-you-economico.html', '');
+        const dietUrl = `${baseUrl}dieta.html?id=${uniqueId}`;
+        
+        console.log('🔗 Link único gerado:', dietUrl);
+        return { url: dietUrl, id: uniqueId, data: linkData };
+        
+    } catch (error) {
+        console.error('❌ Erro ao gerar link:', error);
+        return null;
+    }
+}
 
-        // Inicialização
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🎯 Página de obrigado carregada - versão econômica...');
-            
-            // ✅ 1. CRIAR PARTÍCULAS
-            createParticles();
-            
-            // ✅ 2. CARREGAR DADOS DO USUÁRIO (VERSÃO CORRIGIDA)
-            loadUserData();
-            
-            // ✅ 3. ADICIONAR BOTÃO DE DEBUG EM DESENVOLVIMENTO
-            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                setTimeout(() => {
-                    addDebugButton();
-                }, 1000);
-            }
-            
-            console.log('🚀 Sistema econômico inicializado!');
-            console.log('💰 Dieta principal: ingredientes econômicos');
-            console.log('📄 Nova página: opções de substituição por orçamento');
-            console.log('🎯 100% personalizado baseado no quiz');
+// ✅ ENVIAR DIETA POR EMAIL VIA MAKE.COM
+async function sendDietByEmail() {
+    try {
+        const userData = window.currentUserData || {};
+        const nutrition = window.currentNutrition || {};
+        
+        if (!userData.email && !userData.contact?.email) {
+            alert('Email não encontrado. Verifique se completou o quiz corretamente.');
+            return false;
+        }
+        
+        // Gerar link único
+        const linkInfo = generateUniqueLink();
+        if (!linkInfo) {
+            throw new Error('Erro ao gerar link da dieta');
+        }
+        
+        const email = userData.email || userData.contact?.email;
+        const firstName = (userData.name || 'Cliente').split(' ')[0];
+        
+        // Dados para envio via Make.com
+        const emailData = {
+            to_email: email,
+            to_name: firstName,
+            subject: `${firstName}, sua Dieta Personalizada está pronta! 🌟`,
+            diet_link: linkInfo.url,
+            user_name: firstName,
+            user_goal: translations.goal[userData.goal] || userData.goal,
+            calories: nutrition.calories,
+            protein: nutrition.protein,
+            carbs: nutrition.carbs,
+            fats: nutrition.fats,
+            weight: userData.weight,
+            height: userData.height,
+            timestamp: new Date().toLocaleString('pt-BR')
+        };
+        
+        // Webhook do Make.com (substitua pela sua URL)
+        const webhookUrl = 'https://hook.us2.make.com/fmcirsgdnh11fhs13x7w4p5t96jkl2me';
+        
+        const response = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(emailData)
         });
+        
+        if (response.ok) {
+            showEmailSuccess(email);
+            return true;
+        } else {
+            throw new Error('Erro no envio');
+        }
+        
+    } catch (error) {
+        console.error('❌ Erro ao enviar email:', error);
+        showEmailError();
+        return false;
+    }
+}
 
+// Função para mostrar sucesso
+function showEmailSuccess(email) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, rgba(0, 255, 136, 0.95), rgba(44, 122, 44, 0.95));
+        color: white; padding: 30px 40px; border-radius: 20px; font-weight: bold;
+        z-index: 10000; text-align: center; backdrop-filter: blur(15px);
+        border: 2px solid #00ff88; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        max-width: 90vw; font-size: 16px; line-height: 1.5;
+    `;
+    
+    notification.innerHTML = `
+        <div style="font-size: 50px; margin-bottom: 20px;">📧</div>
+        <div style="margin-bottom: 15px; font-size: 18px;">Email Enviado com Sucesso!</div>
+        <div style="margin-bottom: 10px;">Sua dieta personalizada foi enviada para:</div>
+        <div style="color: #00ff88; font-size: 14px; margin-bottom: 15px;">${email}</div>
+        <div style="font-size: 13px; opacity: 0.9;">Verifique sua caixa de entrada e spam</div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => notification.remove(), 300);
+    }, 5000);
+}
+
+function showEmailError() {
+    alert('Erro ao enviar email. Você pode baixar a dieta diretamente usando o botão abaixo.');
+}
+
+// Função para mostrar sucesso
+function showEmailSuccess(email) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, rgba(0, 255, 136, 0.95), rgba(44, 122, 44, 0.95));
+        color: white; padding: 30px 40px; border-radius: 20px; font-weight: bold;
+        z-index: 10000; text-align: center; backdrop-filter: blur(15px);
+        border: 2px solid #00ff88; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        max-width: 90vw; font-size: 16px; line-height: 1.5;
+    `;
+    
+    notification.innerHTML = `
+        <div style="font-size: 50px; margin-bottom: 20px;">📧</div>
+        <div style="margin-bottom: 15px; font-size: 18px;">Email Enviado com Sucesso!</div>
+        <div style="margin-bottom: 10px;">Sua dieta personalizada foi enviada para:</div>
+        <div style="color: #00ff88; font-size: 14px; margin-bottom: 15px;">${email}</div>
+        <div style="font-size: 13px; opacity: 0.9;">Verifique sua caixa de entrada e spam</div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => notification.remove(), 300);
+    }, 5000);
+}
+
+function showEmailError() {
+    alert('Erro ao enviar email. Você pode baixar a dieta diretamente usando o botão abaixo.');
+}
+
+function downloadBlob(blob, filename) {
+    try {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        showDownloadSuccess('Download iniciado!');
+    } catch (error) {
+        console.log('🌐 Abrindo PDF em nova aba como fallback');
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+        showDownloadSuccess('PDF aberto! Use "Salvar como" no navegador.');
+    }
+}
+
+function showDownloadSuccess(message) {
+    const existing = document.getElementById('downloadNotification');
+    if (existing) existing.remove();
+    
+    const notification = document.createElement('div');
+    notification.id = 'downloadNotification';
+    notification.style.cssText = `
+        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, rgba(0, 255, 136, 0.95), rgba(44, 122, 44, 0.95));
+        color: white; padding: 25px 35px; border-radius: 16px; font-weight: bold;
+        z-index: 10000; text-align: center; backdrop-filter: blur(10px);
+        border: 2px solid #00ff88; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        max-width: 90vw; font-size: 16px; line-height: 1.4;
+    `;
+    
+    notification.innerHTML = `
+        <div style="font-size: 40px; margin-bottom: 15px;">✅</div>
+        <div style="margin-bottom: 8px;">${message}</div>
+        <div style="font-size: 13px; opacity: 0.9;">Esta mensagem desaparecerá automaticamente</div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translate(-50%, -50%) scale(0.9)';
+        setTimeout(() => notification.remove(), 300);
+    }, 4000);
+}
+
+       // Inicialização
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🎯 Página de obrigado carregada - versão econômica...');
+    
+    // ✅ DELAY PARA GARANTIR ESTABILIDADE NO UPSELL
+    setTimeout(() => {
+        // ✅ 1. CRIAR PARTÍCULAS
+        createParticles();
+        
+        // ✅ 2. CARREGAR DADOS DO USUÁRIO (VERSÃO CORRIGIDA)
+        loadUserData();
+        
+        // ✅ 3. ADICIONAR BOTÃO DE DEBUG EM DESENVOLVIMENTO
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            setTimeout(() => {
+                addDebugButton();
+            }, 1000);
+        }
+        
+        console.log('🚀 Sistema econômico inicializado!');
+        console.log('💰 Dieta principal: ingredientes econômicos');
+        console.log('📄 Nova página: opções de substituição por orçamento');
+        console.log('🎯 100% personalizado baseado no quiz');
+    }, 800); // 800ms de delay para upsell
+});
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
             const particleCount = window.innerWidth > 768 ? 50 : 25;

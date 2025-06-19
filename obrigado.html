@@ -2039,7 +2039,9 @@ function generateUniqueLink() {
         console.error('❌ Erro ao gerar link:', error);
         return null;
     }
-    // ✅ ENVIAR DIETA POR EMAIL VIA MAKE.COM
+}
+
+// ✅ ENVIAR DIETA POR EMAIL VIA MAKE.COM
 async function sendDietByEmail() {
     try {
         const userData = window.currentUserData || {};
@@ -2132,7 +2134,39 @@ function showEmailSuccess(email) {
 function showEmailError() {
     alert('Erro ao enviar email. Você pode baixar a dieta diretamente usando o botão abaixo.');
 }
+
+// Função para mostrar sucesso
+function showEmailSuccess(email) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, rgba(0, 255, 136, 0.95), rgba(44, 122, 44, 0.95));
+        color: white; padding: 30px 40px; border-radius: 20px; font-weight: bold;
+        z-index: 10000; text-align: center; backdrop-filter: blur(15px);
+        border: 2px solid #00ff88; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        max-width: 90vw; font-size: 16px; line-height: 1.5;
+    `;
+    
+    notification.innerHTML = `
+        <div style="font-size: 50px; margin-bottom: 20px;">📧</div>
+        <div style="margin-bottom: 15px; font-size: 18px;">Email Enviado com Sucesso!</div>
+        <div style="margin-bottom: 10px;">Sua dieta personalizada foi enviada para:</div>
+        <div style="color: #00ff88; font-size: 14px; margin-bottom: 15px;">${email}</div>
+        <div style="font-size: 13px; opacity: 0.9;">Verifique sua caixa de entrada e spam</div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => notification.remove(), 300);
+    }, 5000);
 }
+
+function showEmailError() {
+    alert('Erro ao enviar email. Você pode baixar a dieta diretamente usando o botão abaixo.');
+}
+
 function downloadBlob(blob, filename) {
     try {
         const url = URL.createObjectURL(blob);

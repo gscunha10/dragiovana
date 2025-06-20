@@ -1728,7 +1728,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
     <div id="activeUsersCounter">
         <div class="active-indicator"></div>
         <div class="counter-text">
-            <span class="counter-number" id="activeCount">34</span> pessoas montando a dieta agora
+            <span class="counter-number" id="activeCount">51</span> pessoas fazendo a dieta agora
         </div>
     </div>
     <div class="particles" id="particles"></div>
@@ -1960,17 +1960,17 @@ inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 <script>
     // ✨ SISTEMA DE USUÁRIOS ATIVOS COM OSCILAÇÃO NATURAL
     class ActiveUsersManager {
-        constructor() {
-            this.baseNumbers = [16, 19, 23, 27, 30, 34, 38, 49];
-            this.currentIndex = 2; // Começar com 34
-            this.isUpdating = false;
-            this.updateInterval = null;
-            this.variations = [-2, -1, 0, 1, 2, 3];
-            
-            this.counterElement = document.getElementById('activeCount');
-            
-            this.init();
-        }
+    constructor() {
+        this.baseNumbers = [42, 45, 48, 51, 54, 57, 60, 63]; // Números base entre 42-63
+        this.currentIndex = 3; // Começar com 51 (meio do range)
+        this.isUpdating = false;
+        this.updateInterval = null;
+        this.variations = [-3, -2, -1, 0, 1, 2]; // Variações menores para manter no range
+        
+        this.counterElement = document.getElementById('activeCount');
+        
+        this.init();
+    }
         
         init() {
             this.updateDisplay(this.getRandomNumber());

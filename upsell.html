@@ -836,7 +836,6 @@
                 <!-- Botão de aceitar como link direto -->
                 <a href="https://pay.cakto.com.br/33jjqh5" 
                    class="cakto-accept-button"
-                   onclick="trackUpsellAccept()"
                    style="
                        background: linear-gradient(135deg, #2c7a2c, #4a9f4a);
                        color: white;
@@ -872,7 +871,6 @@
                 <!-- Botão de rejeitar como link direto -->
                 <a href="https://www.dietaperfeita.online/obrigado.html" 
                    class="cakto-reject-button"
-                   onclick="trackUpsellReject()"
                    style="
                        background: rgba(255, 255, 255, 0.1);
                        color: rgba(255, 255, 255, 0.7);
@@ -935,7 +933,7 @@
         </div>
     </div>
 
-    <!-- ✅ SCRIPTS DE TRACKING - MESMOS DO PRODUTO PRINCIPAL -->
+    <!-- ✅ SCRIPTS DE TRACKING - APENAS UTMIFY -->
     <script>
         window.pixelId = "6854369b2f2ab7e4442539ea";
         var a = document.createElement("script");
@@ -945,7 +943,7 @@
         document.head.appendChild(a);
     </script>
 
-    <!-- Meta Pixel Code -->
+    <!-- Meta Pixel Code - APENAS PAGEVIEW -->
     <script async defer>
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -957,10 +955,29 @@
         'https://connect.facebook.net/en_US/fbevents.js');
         fbq('init', '1002938195345180');
         fbq('track', 'PageView');
+        
+        // Apenas ViewContent para remarketing
+        fbq('track', 'ViewContent', {
+            content_type: 'product',
+            content_ids: ['upsell_audios_reprogramacao'],
+            content_name: 'Upsell - Áudios Reprogramação Mental',
+            content_category: 'Upsell',
+            value: 14.90,
+            currency: 'BRL'
+        });
     </script>
     <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=1002938195345180&ev=PageView&noscript=1"
     /></noscript>
+
+    <!-- Clarity tracking code -->
+    <script type="text/javascript" async defer>
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "rtz89p15pn");
+    </script>
 
     <!-- Clarity tracking code -->
     <script type="text/javascript" async defer>
@@ -1013,43 +1030,7 @@
             setInterval(updateCountdown, 1000);
         }
 
-        // ✅ TRACKING DE EVENTOS
-        function trackUpsellView() {
-            if (typeof fbq !== 'undefined') {
-                fbq('track', 'ViewContent', {
-                    content_type: 'product',
-                    content_ids: ['audios_guiados_upsell'],
-                    content_name: 'Áudios Guiados Reprogramação Mental',
-                    content_category: 'Upsell',
-                    value: 14.90,
-                    currency: 'BRL'
-                });
-            }
-        }
 
-        function trackUpsellAccept() {
-            if (typeof fbq !== 'undefined') {
-                fbq('track', 'Purchase', {
-                    content_type: 'product',
-                    content_ids: ['audios_guiados_upsell'],
-                    content_name: 'Áudios Guiados Reprogramação Mental',
-                    content_category: 'Upsell',
-                    value: 14.90,
-                    currency: 'BRL'
-                });
-            }
-        }
-
-        function trackUpsellReject() {
-            if (typeof fbq !== 'undefined') {
-                fbq('track', 'Custom', {
-                    event_name: 'UpsellRejected',
-                    content_name: 'Áudios Guiados Reprogramação Mental',
-                    value: 14.90,
-                    currency: 'BRL'
-                });
-            }
-        }
 
         // ✅ FORÇAR ESTILIZAÇÃO DOS BOTÕES CAKTO
         function styleCaktoButtons() {
@@ -1126,17 +1107,10 @@
             // Track page view
             trackUpsellView();
 
-            // Adicionar listeners aos botões (se necessário)
-            const acceptButton = document.querySelector('cakto-upsell-accept');
-            const rejectButton = document.querySelector('cakto-upsell-reject');
-
-            if (acceptButton) {
-                acceptButton.addEventListener('click', trackUpsellAccept);
-            }
-
-            if (rejectButton) {
-                rejectButton.addEventListener('click', trackUpsellReject);
-            }
+            // Track scroll e tempo na página
+            trackScrollEngagement();
+            trackTimeOnPage();
+            trackButtonHover();
             
             // Forçar estilização dos botões Cakto
             styleCaktoButtons();

@@ -833,27 +833,100 @@
             </div>
 
             <div class="buttons-section">
-                <cakto-upsell-buttons>
-                    <cakto-upsell-accept
-                        bg-color="#2c7a2c"
-                        text-color="#ffffff"
-                        upsell-accept-url="https://www.dietaperfeita.online/obrigado.html"
-                        offer-id="33jjqh5"
-                        app-base-url="https://app.cakto.com.br"
-                        offer-type="upsell"
-                        upsell-reject-url="https://www.dietaperfeita.online/obrigado.html"
-                        target="_self"
-                    >
-                        🎧 SIM, QUERO REPROGRAMAR MINHA MENTE POR R$ 14,90
-                    </cakto-upsell-accept>
-                    
-                    <cakto-upsell-reject
-                        upsell-reject-url="https://www.dietaperfeita.online/obrigado.html"
-                        target="_self"
-                    >
-                        Não, eu vou me virar com minha mente
-                    </cakto-upsell-reject>
-                </cakto-upsell-buttons>
+                <!-- Botão de aceitar como link direto -->
+                <a href="https://pay.cakto.com.br/33jjqh5" 
+                   class="cakto-accept-button"
+                   onclick="trackUpsellAccept()"
+                   style="
+                       background: linear-gradient(135deg, #2c7a2c, #4a9f4a);
+                       color: white;
+                       border: none;
+                       padding: 20px 40px;
+                       border-radius: 16px;
+                       font-size: 18px;
+                       font-weight: 800;
+                       text-transform: uppercase;
+                       letter-spacing: 1px;
+                       cursor: pointer;
+                       transition: all 0.3s ease;
+                       box-shadow: 0 8px 32px rgba(44, 122, 44, 0.4);
+                       width: 100%;
+                       display: block;
+                       text-align: center;
+                       font-family: 'Inter', sans-serif;
+                       animation: pulseBright 2s ease-in-out infinite;
+                       text-decoration: none;
+                       margin-bottom: 15px;
+                       min-height: 60px;
+                       line-height: 1.2;
+                       display: flex;
+                       align-items: center;
+                       justify-content: center;
+                   "
+                   onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 12px 48px rgba(44, 122, 44, 0.6)'"
+                   onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 32px rgba(44, 122, 44, 0.4)'"
+                >
+                    🎧 SIM, QUERO REPROGRAMAR MINHA MENTE POR R$ 14,90
+                </a>
+
+                <!-- Botão de rejeitar como link direto -->
+                <a href="https://www.dietaperfeita.online/obrigado.html" 
+                   class="cakto-reject-button"
+                   onclick="trackUpsellReject()"
+                   style="
+                       background: rgba(255, 255, 255, 0.1);
+                       color: rgba(255, 255, 255, 0.7);
+                       border: 2px solid rgba(255, 255, 255, 0.2);
+                       padding: 16px 30px;
+                       border-radius: 12px;
+                       font-size: 14px;
+                       font-weight: 600;
+                       cursor: pointer;
+                       transition: all 0.3s ease;
+                       backdrop-filter: blur(10px);
+                       width: 100%;
+                       max-width: 350px;
+                       margin: 0 auto;
+                       font-family: 'Inter', sans-serif;
+                       text-decoration: none;
+                       display: block;
+                       text-align: center;
+                       min-height: 50px;
+                       line-height: 1.2;
+                       display: flex;
+                       align-items: center;
+                       justify-content: center;
+                   "
+                   onmouseover="this.style.background='rgba(255, 255, 255, 0.2)'; this.style.transform='translateY(-2px)'; this.style.color='rgba(255, 255, 255, 0.9)'"
+                   onmouseout="this.style.background='rgba(255, 255, 255, 0.1)'; this.style.transform='translateY(0)'; this.style.color='rgba(255, 255, 255, 0.7)'"
+                >
+                    Não, eu vou me virar com minha mente
+                </a>
+
+                <!-- Manter os elementos Cakto originais escondidos para compatibilidade -->
+                <div style="display: none;">
+                    <cakto-upsell-buttons>
+                        <cakto-upsell-accept
+                            bg-color="#2c7a2c"
+                            text-color="#ffffff"
+                            upsell-accept-url="https://www.dietaperfeita.online/obrigado.html"
+                            offer-id="33jjqh5"
+                            app-base-url="https://app.cakto.com.br"
+                            offer-type="upsell"
+                            upsell-reject-url="https://www.dietaperfeita.online/obrigado.html"
+                            target="_self"
+                        >
+                            SIM
+                        </cakto-upsell-accept>
+                        
+                        <cakto-upsell-reject
+                            upsell-reject-url="https://www.dietaperfeita.online/obrigado.html"
+                            target="_self"
+                        >
+                            NÃO
+                        </cakto-upsell-reject>
+                    </cakto-upsell-buttons>
+                </div>
             </div>
 
             <div class="disclaimer">

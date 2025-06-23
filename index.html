@@ -2246,7 +2246,7 @@
       if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
       n.queue=[];t=b.createElement(e);t.async=!0;
       t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBorder(t,s)}(window, document,'script',
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
       'https://connect.facebook.net/en_US/fbevents.js');
       fbq('init', '1002938195345180');
       fbq('track', 'PageView');
@@ -2949,6 +2949,63 @@
                 nextBtn.disabled = false;
             }
         }
+        function validateFormCompletion(question) {
+    const questionKey = getQuestionKey(currentQuestion);
+    const questionAnswers = answers[questionKey] || {};
+    
+    console.log('🔍 Validando completion:', {
+        questionKey,
+        questionAnswers,
+        currentQuestion
+    });
+    
+    const allFilled = question.fields.every(field => {
+        const value = questionAnswers[field.name];
+        const isFilled = value && value.toString().trim() !== '';
+        console.log(`Campo ${field.name}:`, value, 'Preenchido:', isFilled);
+        return isFilled;
+    });
+    
+    const nextBtn = document.getElementById('nextBtn');
+    if (nextBtn) {
+        nextBtn.disabled = !allFilled;
+        console.log('🎯 Botão nextBtn habilitado:', !nextBtn.disabled);
+        
+        // OVERRIDE: Se estivermos na última pergunta e há pelo menos 2 campos preenchidos
+        if (currentQuestion === 5) {
+            const filledFields = Object.keys(questionAnswers).filter(key => 
+                questionAnswers[key] && questionAnswers[key].toString().trim() !== ''
+            );
+            
+            if (filledFields.length >= 2) {
+                console.log('🔧 Override: Habilitando botão com', filledFields.length, 'campos preenchidos');
+                nextBtn.disabled = false;
+            }
+            
+            // ✅ ADICIONE ESTA PARTE AQUI:
+            if (typeof fbq !== 'undefined' && currentQuestion === 5) {
+                const hasNameAndPhone = questionAnswers.name && questionAnswers.phone;
+                const hasNameAndEmail = questionAnswers.name && questionAnswers.email;
+                
+                if (hasNameAndPhone || hasNameAndEmail) {
+                    if (!window.leadEventFired) {
+                        fbq('track', 'Lead', {
+                            content_category: 'Quiz Nutricional - Dados Parciais',
+                            content_name: 'Lead Qualificado',
+                            value: 29.90,
+                            currency: 'BRL',
+                            custom_goal: answers.goal || 'not_specified',
+                            custom_gender: answers.gender || 'not_specified',
+                            custom_stage: 'contact_form_partial'
+                        });
+                        window.leadEventFired = true;
+                        console.log('✅ Evento LEAD disparado em tempo real');
+                    }
+                }
+            }
+        }
+    }
+}
     }
 }
 
@@ -2958,65 +3015,84 @@
       }
 
       function nextQuestion() {
-          if (currentQuestion < questions.length - 1) {
-              currentQuestion++;
-              loadQuestion(currentQuestion);
-              
-              window.scrollTo({
-                  top: 0,
-                  behavior: 'smooth'
-              });
-          } else {
-    // VALIDAÇÃO ANTES DE FINALIZAR
-    const questionKey = getQuestionKey(currentQuestion);
-const contactData = answers[questionKey] || {};
-    
-    // Verifica se todos os campos obrigatórios estão preenchidos
-    if (!contactData.name || !contactData.name.trim()) {
-        alert('Por favor, preencha seu nome.');
-        return;
-    }
-    
-    if (!contactData.phone || !contactData.phone.trim()) {
-        alert('Por favor, preencha seu telefone.');
-        return;
-    }
-    
-    if (!contactData.email || !contactData.email.trim()) {
-        alert('Por favor, preencha seu email.');
-        return;
-    }
-    
-    // Validação básica de email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(contactData.email)) {
-        alert('Por favor, digite um email válido.');
-        return;
-    }
-    
-    console.log('✅ Todos os dados preenchidos, finalizando...', contactData);
-    
-    // Facebook Pixel
-    if (typeof fbq !== 'undefined') {
-        if (contactData.email || contactData.phone) {
+    if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        loadQuestion(currentQuestion);
+        
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    } else {
+        // VALIDAÇÃO ANTES DE FINALIZAR
+        const questionKey = getQuestionKey(currentQuestion);
+        const contactData = answers[questionKey] || {};
+        
+        // ✅ REGISTRAR LEAD ANTES DA VALIDAÇÃO
+        if (typeof fbq !== 'undefined') {
+            // Lead quando tem pelo menos nome + telefone OU email
+            if ((contactData.name && contactData.phone) || (contactData.name && contactData.email)) {
+                fbq('track', 'Lead', {
+                    content_category: 'Quiz Nutricional',
+                    content_name: 'Dados de Contato Coletados',
+                    value: 29.90,
+                    currency: 'BRL',
+                    custom_goal: answers.goal,
+                    custom_gender: answers.gender,
+                    custom_age: answers.age
+                });
+                console.log('✅ Evento LEAD disparado:', contactData.name);
+            }
+        }
+        
+        // Verifica se todos os campos obrigatórios estão preenchidos
+        if (!contactData.name || !contactData.name.trim()) {
+            alert('Por favor, preencha seu nome.');
+            return;
+        }
+        
+        if (!contactData.phone || !contactData.phone.trim()) {
+            alert('Por favor, preencha seu telefone.');
+            return;
+        }
+        
+        if (!contactData.email || !contactData.email.trim()) {
+            alert('Por favor, preencha seu email.');
+            return;
+        }
+        
+        // Validação básica de email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(contactData.email)) {
+            alert('Por favor, digite um email válido.');
+            return;
+        }
+        
+        // ✅ COMPLETE REGISTRATION quando todos os dados estão OK
+        if (typeof fbq !== 'undefined') {
             fbq('track', 'CompleteRegistration', {
-                content_category: 'Cadastro Quiz Nutricional',
-                content_name: 'Dados de Contato Coletados',
+                content_category: 'Cadastro Quiz Nutricional Completo',
+                content_name: 'Todos os Dados Coletados',
                 value: 29.90,
                 currency: 'BRL',
-                status: 'completed'
+                status: 'completed',
+                custom_goal: answers.goal,
+                custom_gender: answers.gender,
+                custom_age: answers.age
             });
+            console.log('✅ Evento COMPLETE REGISTRATION disparado');
         }
+        
+        console.log('✅ Todos os dados preenchidos, finalizando...', contactData);
+        
+        showAnalysisProcess();
+        
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     }
-    
-    showAnalysisProcess();
-    
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
 }
-      }
 
       function previousQuestion() {
           if (currentQuestion > 0) {
@@ -3247,18 +3323,6 @@ const contactData = answers[questionKey] || {};
           
           if (activeUsersManager) {
               activeUsersManager.simulateUserActivity();
-          }
-
-          if (typeof fbq !== 'undefined') {
-              fbq('track', 'Lead', {
-                  content_category: 'Quiz Nutricional Completo',
-                  content_name: 'Avaliação Dra. Giovana',
-                  value: 29.90,
-                  currency: 'BRL',
-                  custom_goal: answers.goal,
-                  custom_gender: answers.gender,
-                  custom_age: answers.age
-              });
           }
 
           container.innerHTML = `

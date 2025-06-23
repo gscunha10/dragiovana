@@ -2973,14 +2973,24 @@
                 if (hasNameAndPhone || hasNameAndEmail) {
                     if (!window.leadEventFired) {
                         fbq('track', 'Lead', {
-                            content_category: 'Quiz Nutricional - Dados Parciais',
-                            content_name: 'Lead Qualificado',
-                            value: 29.90,
-                            currency: 'BRL',
-                            custom_goal: answers.goal || 'not_specified',
-                            custom_gender: answers.gender || 'not_specified',
-                            custom_stage: 'contact_form_partial'
-                        });
+    content_category: 'Quiz Nutricional - Dados Parciais',
+    content_name: 'Lead Qualificado',
+    value: 29.90,
+    currency: 'BRL',
+    custom_goal: answers.goal || 'not_specified',
+    custom_gender: answers.gender || 'not_specified',
+    custom_stage: 'contact_form_partial',
+    // ✅ OTIMIZAÇÕES FACEBOOK
+    fbc: getFacebookClickId(),
+    fbp: getFacebookBrowserId(),
+    // ✅ DADOS DEMOGRÁFICOS CRIPTOGRAFADOS
+    user_data: {
+        em: questionAnswers.email ? btoa(questionAnswers.email.toLowerCase().trim()) : null,
+        ph: questionAnswers.phone ? btoa(questionAnswers.phone.replace(/\D/g, '')) : null,
+        fn: questionAnswers.name ? btoa(questionAnswers.name.toLowerCase().trim()) : null,
+        ge: answers.gender === 'female' ? 'f' : answers.gender === 'male' ? 'm' : null
+    }
+});
                         window.leadEventFired = true;
                         console.log('✅ Evento LEAD disparado em tempo real');
                     }
@@ -3053,16 +3063,26 @@
         
         // ✅ COMPLETE REGISTRATION quando todos os dados estão OK
         if (typeof fbq !== 'undefined') {
-            fbq('track', 'CompleteRegistration', {
-                content_category: 'Cadastro Quiz Nutricional Completo',
-                content_name: 'Todos os Dados Coletados',
-                value: 29.90,
-                currency: 'BRL',
-                status: 'completed',
-                custom_goal: answers.goal,
-                custom_gender: answers.gender,
-                custom_age: answers.age
-            });
+           fbq('track', 'CompleteRegistration', {
+    content_category: 'Cadastro Quiz Nutricional Completo',
+    content_name: 'Todos os Dados Coletados',
+    value: 29.90,
+    currency: 'BRL',
+    status: 'completed',
+    custom_goal: answers.goal,
+    custom_gender: answers.gender,
+    custom_age: answers.age,
+    // ✅ OTIMIZAÇÕES FACEBOOK
+    fbc: getFacebookClickId(),
+    fbp: getFacebookBrowserId(),
+    // ✅ DADOS DEMOGRÁFICOS CRIPTOGRAFADOS
+    user_data: {
+        em: contactData.email ? btoa(contactData.email.toLowerCase().trim()) : null,
+        ph: contactData.phone ? btoa(contactData.phone.replace(/\D/g, '')) : null,
+        fn: contactData.name ? btoa(contactData.name.toLowerCase().trim()) : null,
+        ge: answers.gender === 'female' ? 'f' : answers.gender === 'male' ? 'm' : null
+    }
+});
             console.log('✅ Evento COMPLETE REGISTRATION disparado');
         }
         
@@ -3689,22 +3709,43 @@
               timestamp: new Date().toISOString(),
               userAgent: navigator.userAgent
           };
+          // ✅ ADICIONAR ESTAS FUNÇÕES ANTES DA handleCheckoutClick()
+function getFacebookClickId() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('fbclid') || null;
+}
+
+function getFacebookBrowserId() {
+    return document.cookie.split('; ')
+        .find(row => row.startsWith('_fbp='))
+        ?.split('=')[1] || null;
+}
 
           if (!handleFormSubmission(formData)) {
               console.log('🛡️ Checkout bloqueado pelo sistema anti-bot');
               return;
           }
 
-          if (typeof fbq !== 'undefined') {
-              fbq('track', 'InitiateCheckout', {
-                  content_category: 'Protocolo Nutricional',
-                  content_name: 'Dieta Personalizada Dra. Giovana',
-                  value: 29.90,
-                  currency: 'BRL',
-                  num_items: 1,
-                  custom_goal: answers.goal
-              });
-          }
+        if (typeof fbq !== 'undefined') {
+    fbq('track', 'InitiateCheckout', {
+        content_category: 'Protocolo Nutricional',
+        content_name: 'Dieta Personalizada Dra. Giovana',
+        value: 29.90,
+        currency: 'BRL',
+        num_items: 1,
+        custom_goal: answers.goal,
+        // ✅ OTIMIZAÇÕES FACEBOOK
+        fbc: getFacebookClickId(),
+        fbp: getFacebookBrowserId(),
+        // ✅ DADOS DEMOGRÁFICOS CRIPTOGRAFADOS
+        user_data: {
+            em: answers.contact?.email ? btoa(answers.contact.email.toLowerCase().trim()) : null,
+            ph: answers.contact?.phone ? btoa(answers.contact.phone.replace(/\D/g, '')) : null,
+            fn: answers.contact?.name ? btoa(answers.contact.name.toLowerCase().trim()) : null,
+            ge: answers.gender === 'female' ? 'f' : answers.gender === 'male' ? 'm' : null
+        }
+    });
+}
 
           try {
               const results = calculateResults();

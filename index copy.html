@@ -2947,362 +2947,320 @@
        }
 
        function showFinalResults() {
-    window.history.pushState({page: 'resultados'}, 'Resultados', '#resultados');
-    
-    const savedData = DataStorage.getItem('quiz_data');
-    if (savedData && savedData.answers && (!answers.contact || Object.keys(answers).length === 0)) {
-        answers = savedData.answers;
-        console.log('📂 Dados carregados da storage:', answers);
-    }
+           window.history.pushState({page: 'resultados'}, 'Resultados', '#resultados');
+           
+           const savedData = DataStorage.getItem('quiz_data');
+           if (savedData && savedData.answers && (!answers.contact || Object.keys(answers).length === 0)) {
+               answers = savedData.answers;
+               console.log('📂 Dados carregados da storage:', answers);
+           }
 
-    const results = calculateResults();
-    const container = document.getElementById('questionContainer');
-    
-    const progressText = document.getElementById('progressText');
-    if (progressText) {
-        progressText.textContent = 'Avaliação Concluída!';
-    }
-    
-    DataStorage.setItem('quiz_data', {
-        answers: answers,
-        results: results,
-        completedAt: new Date().toISOString(),
-        expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
-    });
+           const results = calculateResults();
+           const container = document.getElementById('questionContainer');
+           
+           const progressText = document.getElementById('progressText');
+           if (progressText) {
+               progressText.textContent = 'Avaliação Concluída!';
+           }
+           
+           DataStorage.setItem('quiz_data', {
+               answers: answers,
+               results: results,
+               completedAt: new Date().toISOString(),
+               expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+           });
 
-    setTimeout(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }, 100);
-    
-    if (activeUsersManager) {
-        activeUsersManager.simulateUserActivity();
-    }
+           setTimeout(() => {
+               window.scrollTo({
+                   top: 0,
+                   behavior: 'smooth'
+               });
+           }, 100);
+           
+           if (activeUsersManager) {
+               activeUsersManager.simulateUserActivity();
+           }
 
-    if (typeof fbq !== 'undefined') {
-        fbq('track', 'Lead', {
-            content_category: 'Quiz Nutricional Completo',
-            content_name: 'Avaliação Dra. Giovana',
-            value: 19.90,
-            currency: 'BRL',
-            custom_goal: answers.goal,
-            custom_gender: answers.gender,
-            custom_age: answers.age
-        });
-    }
+           if (typeof fbq !== 'undefined') {
+               fbq('track', 'Lead', {
+                   content_category: 'Quiz Nutricional Completo',
+                   content_name: 'Avaliação Dra. Giovana',
+                   value: 19.90,
+                   currency: 'BRL',
+                   custom_goal: answers.goal,
+                   custom_gender: answers.gender,
+                   custom_age: answers.age
+               });
+           }
 
-    container.innerHTML = `
-        <div class="results-container">
-            <div class="success-icon">🎉</div>
-            <h1 class="reveal-title">${answers.contact?.name || 'Sua'} sua Análise Nutricional está completa!</h1>
-            <p class="reveal-subtitle">
-                A Dra. Giovana analisou seu perfil e criou um 
-                <strong>plano nutricional científico</strong> personalizado para seus objetivos
-            </p>
-            
-            <div style="background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(44, 122, 44, 0.1)); border: 2px solid rgba(0, 255, 136, 0.4); border-radius: 20px; padding: 25px; margin: 30px 0; text-align: center; position: relative;">
-                <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--success); color: #000; padding: 6px 20px; border-radius: 15px; font-size: 12px; font-weight: 900;">
-                    ⬇️ IMPORTANTE ⬇️
-                </div>
-                <h3 style="font-size: 18px; font-weight: 800; color: var(--success); margin-bottom: 10px; margin-top: 8px;">
-                    🎯 ${answers.contact?.name || 'Seu'} sua dieta personalizada Está Pronta!
-                </h3>
-                <p style="font-size: 15px; color: rgba(255, 255, 255, 0.9); margin-bottom: 15px; line-height: 1.4;">
-                    Veja algumas informações abaixo e <strong>role até o final da página</strong> tenho uma coisa especial para você.
-                </p>
-                <div style="background: rgba(0, 255, 136, 0.2); border-radius: 12px; padding: 12px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                    <span style="font-size: 16px;">📋</span>
-                    <span style="font-size: 14px; font-weight: 600;">Você ainda pode se Tornar Sua Melhor Versão!</span>
-                    <span style="font-size: 16px;">⬇️</span>
-                </div>
-            </div>
-            
-            <div id="social-notifications" style="position: fixed; top: 20px; right: 20px; z-index: 1000; width: 300px; max-height: 80vh; overflow: hidden;"></div>
-            <div id="social-notifications-bottom" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; width: 300px; max-height: 80vh; overflow: hidden;"></div>
-            
-            <div class="results-grid">
-                ${results.projectedWeightChange > 0 ? `
-                <div class="mega-result-card">
-                    <div class="result-badge">🎯 SUA TRANSFORMAÇÃO</div>
-                    <div class="result-value">${results.projectedWeightChange}kg</div>
-                    <div class="result-label">${answers.goal === 'lose_weight' ? 'SERÃO ELIMINADOS' : 'DE MASSA MAGRA'}</div>
-                    <div class="timeline-row">
-                        <span>⚡</span>
-                        <span>Primeiros resultados: 7-14 dias</span>
-                    </div>
-                    <div class="timeline-row">
-    <span>🎯</span>
-    <span>A dieta está com a alimentação certinha para você alcançar seu resultado</span>
-</div>
-                ` : ''}
-                
-                
-                
-                <div style="background: linear-gradient(135deg, rgba(44, 122, 44, 0.15), rgba(108, 192, 74, 0.1)); border: 2px solid rgba(44, 122, 44, 0.3); border-radius: 20px; padding: 20px; margin-bottom: 25px; text-align: center;">
-                    <h3 style="font-size: 20px; font-weight: 900; margin-bottom: 15px; background: linear-gradient(135deg, var(--success), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-                        🔥 Resultados REAIS das minhas pacientes:
-                    </h3>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-                        <div style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 16px; padding: 20px; text-align: center;">
-                            <img src="antes_depois_1.jpg" alt="Transformação Maria" style="width: 100%; max-width: 250px; height: 300px; object-fit: contain; border-radius: 12px; margin-bottom: 15px; border: 2px solid rgba(0, 255, 136, 0.3);" loading="lazy">
-                            <div style="font-size: 16px; font-weight: 700; color: var(--success); margin-bottom: 8px;">Maria Santos, 34 anos</div>
-                            <div style="font-size: 14px; color: rgba(255, 255, 255, 0.9); margin-bottom: 10px;">"Perdi 8kg sem passar fome"</div>
-                            <div style="font-size: 12px; color: var(--accent); font-weight: 600;">Em apenas 2 meses</div>
-                        </div>
-                        
-                        <div style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 16px; padding: 20px; text-align: center;">
-                            <img src="antes_depois_2.jpg" alt="Transformação Ana" style="width: 100%; max-width: 250px; height: 300px; object-fit: contain; border-radius: 12px; margin-bottom: 15px; border: 2px solid rgba(0, 255, 136, 0.3);" loading="lazy">
-                            <div style="font-size: 16px; font-weight: 700; color: var(--success); margin-bottom: 8px;">Ana Paula, 41 anos</div>
-                            <div style="font-size: 14px; color: rgba(255, 255, 255, 0.9); margin-bottom: 10px;">"Eliminei 12kg gastando pouco"</div>
-                            <div style="font-size: 12px; color: var(--accent); font-weight: 600;">Em 3 meses</div>
-                        </div>
-                        
-                        <div style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 16px; padding: 20px; text-align: center;">
-                            <img src="antes_depois_3.jpg" alt="Transformação Carla" style="width: 100%; max-width: 250px; height: 300px; object-fit: contain; border-radius: 12px; margin-bottom: 15px; border: 2px solid rgba(0, 255, 136, 0.3);" loading="lazy">
-                            <div style="font-size: 16px; font-weight: 700; color: var(--success); margin-bottom: 8px;">Carla Ferreira, 28 anos</div>
-                            <div style="font-size: 14px; color: rgba(255, 255, 255, 0.9); margin-bottom: 10px;">"15kg eliminados definitivamente"</div>
-                            <div style="font-size: 12px; color: var(--accent); font-weight: 600;">Em 4 meses</div>
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 25px; padding: 20px; background: rgba(0, 255, 136, 0.1); border-radius: 12px;">
-                        <strong style="color: var(--success); font-size: 16px;">
-                            ⭐ Todas seguiram o mesmo método que você vai receber hoje!
-                        </strong>
-                    </div>
-                </div>
-                        
-                <div style="background: rgba(255, 51, 102, 0.1); border: 2px solid rgba(255, 51, 102, 0.4); border-radius: 16px; padding: 20px; margin-bottom: 25px; text-align: center; position: relative; overflow: hidden;">
-                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, transparent, var(--danger), transparent); animation: slideIndicator 2s ease-in-out infinite;"></div>
-                    
-                    <h3 style="font-size: 18px; font-weight: 800; color: var(--danger); margin-bottom: 10px;">
-                        ⬇️ SEU PROTOCOLO TE ESPERA ABAIXO ⬇️
-                    </h3>
-                    <p style="font-size: 14px; color: rgba(255, 255, 255, 0.9); margin-bottom: 15px;">
-                        Role para baixo para garantir acesso ao seu plano completo personalizado
-                    </p>
-                    
-                    <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 10px;">
-                        <div style="background: rgba(0, 255, 136, 0.2); border-radius: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 5px;">
-                            <span>📋</span>
-                            <span style="font-size: 12px; font-weight: 600;">Dieta Personalizada</span>
-                        </div>
-                        <div style="background: rgba(108, 192, 74, 0.2); border-radius: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 5px;">
-                            <span>👩‍🍳</span>
-                            <span style="font-size: 12px; font-weight: 600;">Bônus exclusivo</span>
-                        </div>
-                    </div>
-                    
-                    <div style="font-size: 24px; animation: bounce 2s ease-in-out infinite;">⬇️</div>
-                </div>
-               <div style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 193, 7, 0.1)); border: 2px solid rgba(255, 215, 0, 0.3); border-radius: 16px; padding: 20px; margin-bottom: 20px; text-align: center;">
-    <h3 style="font-size: 18px; font-weight: 800; color: #FFD700; margin-bottom: 15px; line-height: 1.3;">
-        💰 Quanto custa ter uma dieta REALMENTE personalizada?
-    </h3>
-    
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: stretch; margin-bottom: 15px;">
-        <div style="background: rgba(255, 51, 102, 0.15); border: 2px solid rgba(255, 51, 102, 0.4); border-radius: 14px; padding: 16px; text-align: center;">
-            <div style="font-size: 13px; color: #ff69b4; font-weight: 700; margin-bottom: 8px;">Nutricionista Presencial</div>
-            <div style="font-size: 20px; font-weight: 900; color: var(--danger); margin-bottom: 12px; line-height: 1.1;">R$ 250 - R$ 800</div>
-            
-            <div style="text-align: left; font-size: 12px; color: rgba(255, 255, 255, 0.9); line-height: 1.3;">
-                <div style="display: flex; align-items: flex-start; gap: 6px; margin-bottom: 6px;">
-                    <span style="color: var(--danger); font-size: 14px; margin-top: 1px;">❌</span>
-                    <span>Apenas 1 consulta</span>
-                </div>
-                <div style="display: flex; align-items: flex-start; gap: 6px; margin-bottom: 6px;">
-                    <span style="color: var(--danger); font-size: 14px; margin-top: 1px;">❌</span>
-                    <span>Você precisa ir presencial</span>
-                </div>
-                <div style="display: flex; align-items: flex-start; gap: 6px; margin-bottom: 6px;">
-                    <span style="color: var(--danger); font-size: 14px; margin-top: 1px;">❌</span>
-                    <span>Sem acompanhamento</span>
-                </div>
-                <div style="display: flex; align-items: flex-start; gap: 6px;">
-                    <span style="color: var(--danger); font-size: 14px; margin-top: 1px;">❌</span>
-                    <span>Comidas caras</span>
-                </div>
-            </div>
-        </div>
-        
-        <div style="background: rgba(0, 255, 136, 0.15); border: 2px solid rgba(0, 255, 136, 0.4); border-radius: 14px; padding: 16px; text-align: center; position: relative;">
-            <div style="font-size: 13px; color: var(--success); font-weight: 700; margin-bottom: 8px;">Método Dra. Giovana</div>
-            <div style="font-size: 20px; font-weight: 900; color: var(--success); margin-bottom: 12px;">R$29,90</div>
-            
-            <div style="text-align: left; font-size: 12px; color: rgba(255, 255, 255, 0.9); line-height: 1.3;">
-                <div style="display: flex; align-items: flex-start; gap: 6px; margin-bottom: 6px;">
-                    <span style="color: var(--success); font-size: 14px; margin-top: 1px;">✅</span>
-                    <span>100% personalizado</span>
-                </div>
-                <div style="display: flex; align-items: flex-start; gap: 6px; margin-bottom: 6px;">
-                    <span style="color: var(--success); font-size: 14px; margin-top: 1px;">✅</span>
-                    <span>6 aspectos únicos</span>
-                </div>
-                <div style="display: flex; align-items: flex-start; gap: 6px; margin-bottom: 6px;">
-                    <span style="color: var(--success); font-size: 14px; margin-top: 1px;">✅</span>
-                    <span>Ingredientes baratos</span>
-                </div>
-                <div style="display: flex; align-items: flex-start; gap: 6px; margin-bottom: 6px;">
-                    <span style="color: var(--success); font-size: 14px; margin-top: 1px;">✅</span>
-                    <span>200+ receitas</span>
-                </div>
-                <div style="display: flex; align-items: flex-start; gap: 6px;">
-                    <span style="color: var(--success); font-size: 14px; margin-top: 1px;">✅</span>
-                    <span>Acesso vitalício</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div style="background: rgba(0, 255, 136, 0.2); border-radius: 12px; padding: 12px;">
-        <div style="font-size: 14px; font-weight: 800; color: var(--success); line-height: 1.3;">
-            Economia de mais de R$ 420! Menos que um delivery.
-        </div>
-    </div>
-</div>
-                
-                <div class="cta-section">
-                    <h3 style="font-size: 22px; font-weight: 800; margin-bottom: 12px; color: var(--light); line-height: 1.3;">🔥 ${answers.contact?.name ? `${answers.contact.name},` : ''} pare de sofrer com dietas que não funcionam!</h3>
-                    <p style="font-size: 16px; color: rgba(255, 255, 255, 0.8); margin-bottom: 20px; line-height: 1.4;">
-                        <strong>Pela primeira vez na sua vida</strong>, você vai ter uma dieta feita EXCLUSIVAMENTE para você!
-                    </p>
-                    
-                    <div style="text-align: left; margin-bottom: 20px;">
-                        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px;">
-                            <span style="color: var(--success); font-size: 16px; margin-top: 2px;">✅</span>
-                            <span style="font-size: 13px; line-height: 1.4;"><strong>Dieta 100% personalizada</strong> para SEU metabolismo</span>
-                        </div>
-                        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px;">
-                            <span style="color: var(--success); font-size: 16px; margin-top: 2px;">✅</span>
-                            <span style="font-size: 13px; line-height: 1.4;"><strong>200+ receitas adaptadas</strong> ao seu gosto e bolso</span>
-                        </div>
-                        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px;">
-                            <span style="color: var(--success); font-size: 16px; margin-top: 2px;">✅</span>
-                            <span style="font-size: 13px; line-height: 1.4;"><strong>Lista de compras pronta</strong> com ingredientes baratos</span>
-                        </div>
-                        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px;">
-                            <span style="color: var(--success); font-size: 16px; margin-top: 2px;">✅</span>
-                            <span style="font-size: 13px; line-height: 1.4;"><strong>Suporte vitalício</strong> para tirar dúvidas</span>
-                        </div>
-                        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px;">
-                            <span style="color: var(--success); font-size: 16px; margin-top: 2px;">✅</span>
-                            <span style="font-size: 13px; line-height: 1.4;"><strong>Garantia de 30 dias</strong> ou dinheiro de volta</span>
-                        </div>
-                    </div>
-                    
-                    <div style="background: rgba(255, 51, 102, 0.1); border: 1px solid rgba(255, 51, 102, 0.3); border-radius: 16px; padding: 15px; margin-bottom: 20px; text-align: center;">
-                        <div style="font-size: 14px; font-weight: 700; color: var(--danger); margin-bottom: 8px;">🔥 ÚLTIMAS VAGAS COM DESCONTO ESPECIAL</div>
-                        <div id="countdown" style="font-size: 20px; font-weight: 900; color: var(--danger); font-family: monospace;"></div>
-                        <div style="font-size: 12px; color: rgba(255, 255, 255, 0.8); margin-top: 6px;">Restam apenas <span id="final-spots">12</span> vagas hoje</div>
-                    </div>
-                    
-                    <div style="margin-bottom: 20px;">
-                        <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px;">
-                            <span style="text-decoration: line-through; color: rgba(255, 255, 255, 0.5); font-size: 18px;">
-                                De R$ 59,90
-                            </span>
-                            <span style="color: var(--success); font-size: 28px; font-weight: 900;">
-                                Por apenas R$ 29,90
-                            </span>
-                        </div>
-                        <div style="font-size: 14px; color: var(--warning); font-weight: 600;">
-                            💰 Economia de R$ 30,00 (50% OFF)
-                        </div>
-                    </div>
-                    
-                    <div id="checkout-button-container" style="margin-bottom: 15px;">
-                        <button id="checkout-btn" style="
-                            background: linear-gradient(135deg, #00ff64, #00e054, #00cc48);
-                            color: white;
-                            border: none;
-                            padding: 18px 30px;
-                            border-radius: 16px;
-                            font-size: 16px;
-                            font-weight: 800;
-                            text-transform: uppercase;
-                            letter-spacing: 0.5px;
-                            cursor: pointer;
-                            width: 100%;
-                            max-width: 350px;
-                            position: relative;
-                            overflow: hidden;
-                            outline: none;
-                            -webkit-tap-highlight-color: transparent;
-                            animation: pulseBright 2s ease-in-out infinite;
-                            box-shadow: 0 8px 32px rgba(0, 255, 100, 0.4), 0 0 20px rgba(0, 255, 100, 0.3);
-                        " onclick="handleCheckoutClick()" onmouseover="this.style.animation='pulseBright 1.5s ease-in-out infinite'; this.style.transform='translateY(-6px) scale(1.03)'; this.style.boxShadow='0 20px 60px rgba(0, 255, 100, 0.6), 0 0 50px rgba(0, 255, 100, 0.5)'" onmouseout="this.style.animation='pulseBright 2s ease-in-out infinite'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 32px rgba(0, 255, 100, 0.4), 0 0 20px rgba(0, 255, 100, 0.3)'">
-                            🔓 GARANTIR MINHA DIETA POR R$ 29,90
-                        </button>
-                    </div>
-                    
-                    <div style="margin-top: 12px; font-size: 12px; color: rgba(255, 255, 255, 0.7); line-height: 1.3;">
-                        ✅ Acesso imediato • 💳 Pagamento seguro • 🔒 Garantia 30 dias
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
+           container.innerHTML = `
+               <div class="results-container">
+                   <div class="success-icon">🎉</div>
+                   <h1 class="reveal-title">${answers.contact?.name || 'Sua'} sua Análise Nutricional está completa!</h1>
+                   <p class="reveal-subtitle">
+                       A Dra. Giovana analisou seu perfil e criou um 
+                       <strong>plano nutricional científico</strong> personalizado para seus objetivos
+                   </p>
+                   
+                   <div style="background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(44, 122, 44, 0.1)); border: 2px solid rgba(0, 255, 136, 0.4); border-radius: 20px; padding: 25px; margin: 30px 0; text-align: center; position: relative;">
+                       <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--success); color: #000; padding: 6px 20px; border-radius: 15px; font-size: 12px; font-weight: 900;">
+                           ⬇️ IMPORTANTE ⬇️
+                       </div>
+                       <h3 style="font-size: 18px; font-weight: 800; color: var(--success); margin-bottom: 10px; margin-top: 8px;">
+                           🎯 ${answers.contact?.name || 'Seu'} sua dieta personalizada Está Pronta!
+                       </h3>
+                       <p style="font-size: 15px; color: rgba(255, 255, 255, 0.9); margin-bottom: 15px; line-height: 1.4;">
+                           Veja algumas informações abaixo e <strong>role até o final da página</strong> tenho uma coisa especial para você.
+                       </p>
+                       <div style="background: rgba(0, 255, 136, 0.2); border-radius: 12px; padding: 12px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                           <span style="font-size: 16px;">📋</span>
+                           <span style="font-size: 14px; font-weight: 600;">Você ainda pode se Tornar Sua Melhor Versão!</span>
+                           <span style="font-size: 16px;">⬇️</span>
+                       </div>
+                   </div>
+                   
+                   <div id="social-notifications" style="position: fixed; top: 20px; right: 20px; z-index: 1000; width: 300px; max-height: 80vh; overflow: hidden;"></div>
+                   <div id="social-notifications-bottom" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; width: 300px; max-height: 80vh; overflow: hidden;"></div>
+                   
+                   <div class="results-grid">
+                       ${results.projectedWeightChange > 0 ? `
+                       <div class="mega-result-card">
+                           <div class="result-badge">🎯 SUA TRANSFORMAÇÃO</div>
+                           <div class="result-value">${results.projectedWeightChange}kg</div>
+                           <div class="result-label">${answers.goal === 'lose_weight' ? 'SERÃO ELIMINADOS' : 'DE MASSA MAGRA'}</div>
+                           <div class="timeline-row">
+                               <span>⚡</span>
+                               <span>Primeiros resultados: 7-14 dias</span>
+                           </div>
+                           <div class="timeline-row">
+                               <span>🎯</span>
+                               <span>Meta completa: ${results.monthsToGoal} ${results.monthsToGoal === 1 ? 'mês' : 'meses'}</span>
+                           </div>
+                       </div>
+                       ` : ''}
+                       
+                       <div class="results-metrics">
+                           <div class="metric-card calories">
+                               <div class="metric-icon">🔥</div>
+                               <div class="metric-value">${results.targetCalories}</div>
+                               <div class="metric-label">Calorias Diárias</div>
+                               <div class="metric-subtitle">Meta personalizada</div>
+                           </div>
+                           
+                           <div class="metric-card">
+                               <div class="metric-icon">🥩</div>
+                               <div class="metric-value">${results.protein}g</div>
+                               <div class="metric-label">Proteínas</div>
+                               <div class="metric-subtitle">Síntese muscular</div>
+                           </div>
+                           
+                           <div class="metric-card">
+                               <div class="metric-icon">🌾</div>
+                               <div class="metric-value">${results.carbs}g</div>
+                               <div class="metric-label">Carboidratos</div>
+                               <div class="metric-subtitle">Energia sustentada</div>
+                           </div>
+                           
+                           <div class="metric-card">
+                               <div class="metric-icon">🥑</div>
+                               <div class="metric-value">${results.fats}g</div>
+                               <div class="metric-label">Gorduras</div>
+                               <div class="metric-subtitle">Saúde hormonal</div>
+                           </div>
+                       </div>
+                       
+                       <div style="background: linear-gradient(135deg, rgba(44, 122, 44, 0.15), rgba(108, 192, 74, 0.1)); border: 2px solid rgba(44, 122, 44, 0.3); border-radius: 20px; padding: 20px; margin-bottom: 25px; text-align: center;">
+                           <h3 style="font-size: 20px; font-weight: 900; margin-bottom: 8px; background: linear-gradient(135deg, var(--success), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                               🌟 Resultado de Duas Clientes da Dra Giovana
+                           </h3>
+                           
+                           <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 15px;">
+                               <div style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 12px; padding: 12px; max-width: 200px;">
+                                   <img src="whatsapp_chat (1).png" alt="Resultado Cliente 1" style="width: 100%; height: auto; border-radius: 8px; margin-bottom: 8px;" loading="lazy">
+                                   <div style="font-size: 11px; color: var(--success);">📱 Amanda - Cliente há 2 meses da Dra Giovana"</div>
+                               </div>
+                               <div style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(108, 192, 74, 0.3); border-radius: 12px; padding: 12px; max-width: 200px;">
+                                   <img src="whatsapp_chat (2).png" alt="Resultado Cliente 2" style="width: 100%; height: auto; border-radius: 8px; margin-bottom: 8px;" loading="lazy">
+                                   <div style="font-size: 11px; color: var(--accent);">📱 Leticia - Cliente há 1 ano da Dra Giovana</div>
+                               </div>
+                           </div>
+                           
+                           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;">
+                               <div>
+                                   <div style="font-size: 18px; font-weight: 900; color: var(--success);">+10k</div>
+                                   <div style="font-size: 10px; color: rgba(255, 255, 255, 0.8);">Transformados</div>
+                               </div>
+                               <div>
+                                   <div style="font-size: 18px; font-weight: 900; color: var(--accent);">98%</div>
+                                   <div style="font-size: 10px; color: rgba(255, 255, 255, 0.8);">Taxa Sucesso</div>
+                               </div>
+                               <div>
+                                   <div style="font-size: 18px; font-weight: 900; color: var(--primary);">4.9⭐</div>
+                                   <div style="font-size: 10px; color: rgba(255, 255, 255, 0.8);">Avaliação</div>
+                               </div>
+                           </div>
+                       </div>
+                               
+                       <div style="background: rgba(255, 51, 102, 0.1); border: 2px solid rgba(255, 51, 102, 0.4); border-radius: 16px; padding: 20px; margin-bottom: 25px; text-align: center; position: relative; overflow: hidden;">
+                           <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, transparent, var(--danger), transparent); animation: slideIndicator 2s ease-in-out infinite;"></div>
+                           
+                           <h3 style="font-size: 18px; font-weight: 800; color: var(--danger); margin-bottom: 10px;">
+                               ⬇️ SEU PROTOCOLO TE ESPERA ABAIXO ⬇️
+                           </h3>
+                           <p style="font-size: 14px; color: rgba(255, 255, 255, 0.9); margin-bottom: 15px;">
+                               Role para baixo para garantir acesso ao seu plano completo personalizado
+                           </p>
+                           
+                           <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 10px;">
+                               <div style="background: rgba(0, 255, 136, 0.2); border-radius: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 5px;">
+                                   <span>📋</span>
+                                   <span style="font-size: 12px; font-weight: 600;">Dieta Personalizada</span>
+                               </div>
+                               <div style="background: rgba(108, 192, 74, 0.2); border-radius: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 5px;">
+                                   <span>👩‍🍳</span>
+                                   <span style="font-size: 12px; font-weight: 600;">200+ Receitas</span>
+                               </div>
+                           </div>
+                           
+                           <div style="font-size: 24px; animation: bounce 2s ease-in-out infinite;">⬇️</div>
+                       </div>
+                       
+                       <div style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 193, 7, 0.1)); border: 2px solid rgba(255, 215, 0, 0.3); border-radius: 16px; padding: 20px; margin-bottom: 20px; text-align: center;">
+                           <h3 style="font-size: 18px; font-weight: 800; color: #FFD700; margin-bottom: 15px;">
+                               💰 Comparativo Rápido
+                           </h3>
+                           
+                           <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center; margin-bottom: 15px;">
+                               <div style="background: rgba(255, 51, 102, 0.15); border: 1px solid rgba(255, 51, 102, 0.3); border-radius: 10px; padding: 12px;">
+                                   <div style="font-size: 12px; color: rgba(255, 255, 255, 0.8);">Nutricionista Presencial</div>
+                                   <div style="font-size: 20px; font-weight: 900; color: var(--danger);">R$ 400+</div>
+                                   <div style="font-size: 10px; color: rgba(255, 255, 255, 0.6);">Por consulta</div>
+                               </div>
+                               
+                               <div style="font-size: 16px; color: #FFD700; font-weight: 900;">VS</div>
+                               
+                               <div style="background: rgba(0, 255, 136, 0.15); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 10px; padding: 12px; position: relative;">
+                                   <div style="position: absolute; top: -6px; right: -6px; background: var(--danger); color: white; padding: 2px 8px; border-radius: 10px; font-size: 8px; font-weight: 800;">OFERTA</div>
+                                   <div style="font-size: 12px; color: rgba(255, 255, 255, 0.8);">Protocolo Dra. Giovana Online</div>
+                                   <div style="font-size: 20px; font-weight: 900; color: var(--success);">R$ 29,90</div>
+                                   <div style="font-size: 10px; color: rgba(255, 255, 255, 0.6);">Acesso vitalício</div>
+                               </div>
+                           </div>
+                           
+                           <div style="background: rgba(0, 255, 136, 0.2); border-radius: 8px; padding: 10px;">
+                               <div style="font-size: 14px; font-weight: 800; color: var(--success);">
+                                   💡 Economia de R$ 370+
+                               </div>
+                           </div>
+                       </div>
+                       
+                       <div class="cta-section">
+                           <h3 style="font-size: 22px; font-weight: 800; margin-bottom: 12px; color: var(--light); line-height: 1.3;">🚀 ${answers.contact?.name ? `${answers.contact.name},` : 'Seu'} essa é uma dieta feita exclusivamente para você</h3>
+                           <p style="font-size: 14px; color: rgba(255, 255, 255, 0.8); margin-bottom: 20px; line-height: 1.4;">Dietas genéricas não funcionam, personalizadas sim!</p>
+                           
+                           <div style="text-align: left; margin-bottom: 20px;">
+                               <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px;">
+                                   <span style="color: var(--success); font-size: 16px; margin-top: 2px;">✅</span>
+                                   <span style="font-size: 13px; line-height: 1.4;">Receitas adaptadas às suas restrições</span>
+                               </div>
+                               <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px;">
+                                   <span style="color: var(--success); font-size: 16px; margin-top: 2px;">✅</span>
+                                   <span style="font-size: 13px; line-height: 1.4;">Ganhe 2 Bônus exclusivos</span>
+                               </div>
+                               <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px;">
+                                   <span style="color: var(--success); font-size: 16px; margin-top: 2px;">✅</span>
+                                   <span style="font-size: 13px; line-height: 1.4;">Você vai se sentir maravilhosa novamente</span>
+                               </div>
+                               <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px;">
+                                   <span style="color: var(--success); font-size: 16px; margin-top: 2px;">✅</span>
+                                   <span style="font-size: 13px; line-height: 1.4;">Garantia de resultados</span>
+                               </div>
+                               <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px;">
+                                   <span style="color: var(--success); font-size: 16px; margin-top: 2px;">✅</span>
+                                   <span style="font-size: 13px; line-height: 1.4;">Se permita Cuidar de você</span>
+                               </div>
+                           </div>
+                           
+                           <div style="background: rgba(255, 51, 102, 0.1); border: 1px solid rgba(255, 51, 102, 0.3); border-radius: 16px; padding: 15px; margin-bottom: 20px; text-align: center;">
+                               <div style="font-size: 14px; font-weight: 700; color: var(--danger); margin-bottom: 8px;">🔥 OPORTUNIDADE EXCLUSIVA PELO MENOR VALOR</div>
+                               <div id="countdown" style="font-size: 20px; font-weight: 900; color: var(--danger); font-family: monospace;"></div>
+                               <div style="font-size: 12px; color: rgba(255, 255, 255, 0.8); margin-top: 6px;">Restam apenas 3 vagas hoje</div>
+                           </div>
+                           
+                           <div id="checkout-button-container" style="margin-bottom: 15px;">
+                               <button id="checkout-btn" style="
+                                   background: linear-gradient(135deg, #00ff64, #00e054, #00cc48);
+                                   color: white;
+                                   border: none;
+                                   padding: 18px 30px;
+                                   border-radius: 16px;
+                                   font-size: 16px;
+                                   font-weight: 800;
+                                   text-transform: uppercase;
+                                   letter-spacing: 0.5px;
+                                   cursor: pointer;
+                                   width: 100%;
+                                   max-width: 350px;
+                                   position: relative;
+                                   overflow: hidden;
+                                   outline: none;
+                                   -webkit-tap-highlight-color: transparent;
+                                   animation: pulseBright 2s ease-in-out infinite;
+                                   box-shadow: 0 8px 32px rgba(0, 255, 100, 0.4), 0 0 20px rgba(0, 255, 100, 0.3);
+                               " onclick="handleCheckoutClick()" onmouseover="this.style.animation='pulseBright 1.5s ease-in-out infinite'; this.style.transform='translateY(-6px) scale(1.03)'; this.style.boxShadow='0 20px 60px rgba(0, 255, 100, 0.6), 0 0 50px rgba(0, 255, 100, 0.5)'" onmouseout="this.style.animation='pulseBright 2s ease-in-out infinite'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 32px rgba(0, 255, 100, 0.4), 0 0 20px rgba(0, 255, 100, 0.3)'">
+                                   🔓 GARANTIR SUA DIETA POR R$ 29,90
+                               </button>
+                           </div>
+                           
+                           <div style="margin-top: 12px; font-size: 12px; color: rgba(255, 255, 255, 0.7); line-height: 1.3;">
+                               ✅ Acesso imediato • 💳 Pagamento seguro • 🔒 Garantia 30 dias
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           `;
 
-    if (typeof fbq !== 'undefined') {
-        fbq('track', 'ViewContent', {
-            content_type: 'product',
-            content_ids: ['protocolo_nutricional_personalizado'],
-            content_name: 'Resultados Dieta Personalizada',
-            content_category: 'Protocolo Nutricional',
-            value: 19.90,
-            currency: 'BRL',
-            custom_bmr: results.bmr,
-            custom_target_calories: results.targetCalories,
-            custom_projected_loss: results.projectedWeightChange
-        });
-    }
+           if (typeof fbq !== 'undefined') {
+               fbq('track', 'ViewContent', {
+                   content_type: 'product',
+                   content_ids: ['protocolo_nutricional_personalizado'],
+                   content_name: 'Resultados Dieta Personalizada',
+                   content_category: 'Protocolo Nutricional',
+                   value: 19.90,
+                   currency: 'BRL',
+                   custom_bmr: results.bmr,
+                   custom_target_calories: results.targetCalories,
+                   custom_projected_loss: results.projectedWeightChange
+               });
+           }
 
-    setTimeout(() => {
-        startPurchaseNotifications();
-    }, 2000);
-    
-    startCountdownTimer();
-    startFinalSpotsCounter();
-}
+           setTimeout(() => {
+               startPurchaseNotifications();
+           }, 2000);
+           
+           startCountdownTimer();
+       }
 
-      // FUNÇÃO ATUALIZADA DO TIMER (substitua a atual)
-function startCountdownTimer() {
-    let timeLeft = 11 * 60 + 30; // 11:30
-    const countdownElement = document.getElementById('countdown');
+       function startCountdownTimer() {
+           let timeLeft = 9 * 60;
+           const countdownElement = document.getElementById('countdown');
 
-    function updateCountdown() {
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        countdownElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        
-        if (timeLeft > 0) {
-            timeLeft--;
-        } else {
-            countdownElement.textContent = "OFERTA EXPIRADA";
-            countdownElement.style.color = "#ff3366";
-        }
-    }
+           function updateCountdown() {
+               const minutes = Math.floor(timeLeft / 60);
+               const seconds = timeLeft % 60;
+               countdownElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+               
+               if (timeLeft > 0) {
+                   timeLeft--;
+               } else {
+                   countdownElement.textContent = "OFERTA EXPIRADA";
+                   countdownElement.style.color = "#ff3366";
+               }
+           }
 
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-}
-
-// NOVA FUNÇÃO PARA ADICIONAR
-function startFinalSpotsCounter() {
-    const spotsElement = document.getElementById('final-spots');
-    let currentSpots = 12;
-    
-    setInterval(() => {
-        if (Math.random() > 0.8 && currentSpots > 3) {
-            currentSpots--;
-            spotsElement.textContent = currentSpots;
-            spotsElement.style.animation = 'countUp 0.5s ease-out';
-        }
-    }, Math.random() * 20000 + 25000);
-}
+           updateCountdown();
+           setInterval(updateCountdown, 1000);
+       }
 
        function calculateResults() {
            const physical = answers.physical || {};

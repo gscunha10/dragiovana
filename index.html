@@ -2191,7 +2191,19 @@
            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
        })(window, document, "clarity", "script", "rtz89p15pn");
    </script>
+<!-- TikTok Pixel Code Start -->
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
+var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
+;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
 
+
+  ttq.load('D1DBA33C77U6QA6T1E20');
+  ttq.page();
+}(window, document, 'ttq');
+</script>
+<!-- TikTok Pixel Code End -->
    <script>
        // ✨ SISTEMA DE USUÁRIOS ATIVOS COM OSCILAÇÃO NATURAL
        class ActiveUsersManager {
@@ -2613,6 +2625,18 @@
 
            document.dispatchEvent(new CustomEvent('quizStarted'));
            
+           if (typeof ttq !== 'undefined') {
+    ttq.track('ViewContent', {
+        "contents": [{
+            "content_id": "quiz_nutricional",
+            "content_type": "product",
+            "content_name": "Quiz Nutricional Dra Giovana"
+        }],
+        "value": 0,
+        "currency": "BRL"
+    });
+}
+
            if (activeUsersManager) {
                activeUsersManager.simulateUserActivity();
            }
@@ -2836,12 +2860,23 @@
                        fbq('track', 'CompleteRegistration', {
                            content_category: 'Cadastro Quiz Nutricional',
                            content_name: 'Dados de Contato Coletados',
-                           value: 19.90,
+                           value: 29.90,
                            currency: 'BRL',
                            status: 'completed'
                        });
                    }
                }
+               if (typeof ttq !== 'undefined') {
+            ttq.track('CompleteRegistration', {
+                "contents": [{
+                    "content_id": "dados_contato_coletados", 
+                    "content_type": "product",
+                    "content_name": "Dados de Contato Coletados"
+                }],
+                "value": 19.90,
+                "currency": "BRL"
+            });
+        }
                showAnalysisProcess();
                
                window.scrollTo({
@@ -3137,13 +3172,24 @@
         fbq('track', 'Lead', {
             content_category: 'Quiz Nutricional Completo',
             content_name: 'Avaliação Dra. Giovana',
-            value: 19.90,
+            value: 29.90,
             currency: 'BRL',
             custom_goal: answers.goal,
             custom_gender: answers.gender,
             custom_age: answers.age
         });
     }
+    if (typeof ttq !== 'undefined') {
+    ttq.track('CompleteRegistration', {
+        "contents": [{
+            "content_id": "avaliacao_completa",
+            "content_type": "product", 
+            "content_name": "Avaliação Nutricional Completa"
+        }],
+        "value": 29.90,
+        "currency": "BRL"
+    });
+}
 
     container.innerHTML = `
         <div class="results-container">
@@ -3404,13 +3450,24 @@
             content_ids: ['protocolo_nutricional_personalizado'],
             content_name: 'Resultados Dieta Personalizada',
             content_category: 'Protocolo Nutricional',
-            value: 19.90,
+            value: 29.90,
             currency: 'BRL',
             custom_bmr: results.bmr,
             custom_target_calories: results.targetCalories,
             custom_projected_loss: results.projectedWeightChange
         });
     }
+    if (typeof ttq !== 'undefined') {
+    ttq.track('ViewContent', {
+        "contents": [{
+            "content_id": "resultados_dieta_personalizada",
+            "content_type": "product",
+            "content_name": "Resultados Dieta Personalizada"
+        }],
+        "value": 29.90,
+        "currency": "BRL"
+    });
+}
 
     setTimeout(() => {
         startPurchaseNotifications();
@@ -3549,12 +3606,23 @@ function startFinalSpotsCounter() {
                fbq('track', 'InitiateCheckout', {
                    content_category: 'Protocolo Nutricional',
                    content_name: 'Dieta Personalizada Dra. Giovana',
-                   value: 19.90,
+                   value: 29.90,
                    currency: 'BRL',
                    num_items: 1,
                    custom_goal: answers.goal
                });
            }
+           if (typeof ttq !== 'undefined') {
+    ttq.track('InitiateCheckout', {
+        "contents": [{
+            "content_id": "dieta_personalizada",
+            "content_type": "product",
+            "content_name": "Dieta Personalizada Dra Giovana"
+        }],
+        "value": 29.90,
+        "currency": "BRL"
+    });
+}
 
            try {
                const results = calculateResults();

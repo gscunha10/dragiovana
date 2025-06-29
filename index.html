@@ -3053,18 +3053,7 @@ saveUTMParams();
                });
            }
 
-           // UTMify - Quiz Completado
-if (typeof sendUTMifyEvent === 'function') {
-    sendUTMifyEvent('Lead', {
-        content_category: 'Quiz Nutricional Completo',
-        content_name: 'Avaliação Dra. Giovana',
-        value: 19.90,
-        currency: 'BRL',
-        custom_goal: answers.goal,
-        custom_gender: answers.gender,
-        custom_age: answers.age
-    });
-}
+        
            container.innerHTML = `
                <div class="results-container">
                    <div class="success-icon">🎉</div>
@@ -3433,17 +3422,7 @@ if (typeof sendUTMifyEvent === 'function') {
                    custom_goal: answers.goal
                });
            }
-           // UTMify - Checkout Iniciado
-if (typeof sendUTMifyEvent === 'function') {
-    sendUTMifyEvent('InitiateCheckout', {
-        content_category: 'Protocolo Nutricional',
-        content_name: 'Dieta Personalizada Dra. Giovana',
-        value: 29.90,
-        currency: 'BRL',
-        num_items: 1,
-        custom_goal: answers.goal
-    });
-}
+    
 
            try {
                const results = calculateResults();

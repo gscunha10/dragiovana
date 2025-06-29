@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>Obrigado! - Dra. Giovana Nutricionista</title>
+    
+    <!-- Performance Optimizations -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #2c7a2c;
+            --secondary: #4a9f4a;
+            --accent: #6cc04a;
+            --success: #00ff88;
+            --danger: #ff3366;
+            --warning: #ffc107;
+            --dark: #0a0a0a;
+            --light: #ffffff;
+            --gray: #1a1a1a;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(44, 122, 44, 0.2);
+            padding: 12px 0;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: clamp(16px, 3vw, 20px);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+
+        .logo-icon {
+            width: clamp(30px, 6vw, 35px);
+            height: clamp(30px, 6vw, 35px);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(14px, 3vw, 18px);
+            flex-shrink: 0;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: clamp(120px, 20vw, 150px) 20px clamp(60px, 12vw, 80px);
+            text-align: center;
+            position: relative;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 136, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(44, 122, 44, 0.15) 0%, transparent 50%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .success-icon {
+            font-size: clamp(60px, 12vw, 100px);
+            color: var(--success);
+            margin-bottom: 30px;
+            animation: bounceIn 1s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .success-title {
+            font-size: clamp(32px, 6vw, 48px);
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--success), var(--accent));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            line-height: 1.2;
+        }
+
+        .success-subtitle {
+            font-size: clamp(18px, 3.5vw, 24px);
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        .success-description {
+            font-size: clamp(16px, 3vw, 18px);
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 50px;
+            line-height: 1.6;
+        }
+
+        /* Email Card */
+        .email-card {
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            border-radius: 20px;
+            padding: clamp(25px, 5vw, 40px);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .email-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(30deg); }
+        }
+
+        .email-card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .email-icon {
+            font-size: clamp(40px, 8vw, 60px);
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+
+        .email-title {
+            font-size: clamp(20px, 4vw, 24px);
+            font-weight: 800;
+            color: var(--success);
+            margin-bottom: 15px;
+        }
+
+        .email-text {
+            font-size: clamp(14px, 2.8vw, 16px);
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.5;
+        }
+
+        /* Steps Section */
+        .steps-section {
+            margin-bottom: 50px;
+        }
+
+        .steps-title {
+            font-size: clamp(24px, 4.5vw, 28px);
+            font-weight: 800;
+            margin-bottom: 30px;
+            color: var(--light);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .step-item {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .step-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--success);
+            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.3);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success);
+            color: #000;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 900;
+        }
+
+        .step-icon {
+            font-size: clamp(30px, 6vw, 40px);
+            margin-bottom: 15px;
+        }
+
+        .step-title {
+            font-size: clamp(16px, 3vw, 18px);
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--success);
+        }
+
+        .step-text {
+            font-size: clamp(13px, 2.5vw, 14px);
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.4;
+        }
+
+        /* Social Proof */
+        .social-proof {
+            background: rgba(26, 26, 26, 0.5);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .social-title {
+            font-size: clamp(18px, 3.5vw, 20px);
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--success);
+        }
+
+        .social-stats {
+            display: flex;
+            justify-content: center;
+            gap: clamp(20px, 5vw, 40px);
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: clamp(24px, 5vw, 32px);
+            font-weight: 900;
+            color: var(--success);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: clamp(12px, 2.5vw, 14px);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Important Notice */
+        .important-notice {
+            background: rgba(255, 193, 7, 0.1);
+            border: 2px solid rgba(255, 193, 7, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .notice-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .notice-title {
+            font-size: clamp(16px, 3vw, 18px);
+            font-weight: 700;
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+
+        .notice-text {
+            font-size: clamp(14px, 2.8vw, 15px);
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.5;
+        }
+
+        /* Support Info */
+        .support-info {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .support-title {
+            font-size: clamp(16px, 3vw, 18px);
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .support-text {
+            font-size: clamp(14px, 2.8vw, 15px);
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            margin-top: 50px;
+        }
+
+        .footer-text {
+            font-size: clamp(12px, 2.5vw, 14px);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 100px 15px 50px;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .social-stats {
+                gap: 20px;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .fade-in:nth-child(1) { animation-delay: 0.2s; }
+        .fade-in:nth-child(2) { animation-delay: 0.4s; }
+        .fade-in:nth-child(3) { animation-delay: 0.6s; }
+        .fade-in:nth-child(4) { animation-delay: 0.8s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">👩‍⚕️</div>
+                <span>Dra. Giovana Nutricionista</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-container">
+            <!-- Success Icon -->
+            <div class="success-icon">🎉</div>
+            
+            <!-- Success Message -->
+            <h1 class="success-title">Parabéns! Sua Compra foi Aprovada!</h1>
+            <p class="success-subtitle">Você está a poucos passos de transformar sua vida!</p>
+            <p class="success-description">
+                Sua dieta personalizada está sendo preparada pela Dra. Giovana e será enviada para seu e-mail em breve.
+            </p>
+
+            <!-- Email Card -->
+            <div class="email-card fade-in">
+                <div class="email-card-content">
+                    <div class="email-icon">📧</div>
+                    <h2 class="email-title">Verifique seu E-mail!</h2>
+                    <p class="email-text">
+                        <strong>Dentro de 24hrs</strong> você receberá um e-mail da Dra. Giovana com:
+                        <br><br>
+                        ✅ Sua dieta 100% personalizada<br>
+                        ✅ Lista de compras com ingredientes baratos<br>
+                        ✅ 200+ receitas adaptadas ao seu perfil<br>
+                        ✅ Instruções completas para começar hoje mesmo
+                    </p>
+                </div>
+            </div>
+
+            <!-- Steps Section -->
+            <div class="steps-section fade-in">
+                <h2 class="steps-title">Próximos Passos:</h2>
+                <div class="steps-grid">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-icon">📱</div>
+                        <h3 class="step-title">Verifique seu E-mail</h3>
+                        <p class="step-text">Olhe sua caixa de entrada e spam. O e-mail chegará em até 15 minutos.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-icon">📋</div>
+                        <h3 class="step-title">Baixe sua Dieta</h3>
+                        <p class="step-text">Faça o download do seu plano nutricional personalizado em PDF.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <h3 class="step-title">Comece Hoje</h3>
+                        <p class="step-text">Siga as instruções e comece sua transformação imediatamente!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Important Notice -->
+            <div class="important-notice fade-in">
+                <div class="notice-icon">⚠️</div>
+                <h3 class="notice-title">Importante!</h3>
+                <p class="notice-text">
+                    <strong>Não encontrou o e-mail?</strong> Verifique sua caixa de spam ou lixo eletrônico. 
+                    Às vezes os provedores de e-mail podem direcionar nossa mensagem para lá.
+                    <br><br>
+                    <strong>Adicione nosso e-mail aos seus contatos</strong> para garantir que sempre receba nossas comunicações.
+                </p>
+            </div>
+
+            <!-- Social Proof -->
+            <div class="social-proof fade-in">
+                <h3 class="social-title">Você se juntou a mais de 10.000 pessoas que já transformaram suas vidas!</h3>
+                <div class="social-stats">
+                    <div class="stat">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Taxa de Sucesso</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">-8kg</div>
+                        <div class="stat-label">Média em 2 meses</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">10.000+</div>
+                        <div class="stat-label">Vidas Transformadas</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support Info -->
+            <div class="support-info">
+                <h3 class="support-title">🔒 Garantia de 30 Dias</h3>
+                <p class="support-text">
+                    Lembre-se: você tem 30 dias de garantia total. Se não ficar satisfeita com os resultados, 
+                    devolvemos 100% do seu investimento, sem perguntas.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">© 2025 Dra. Giovana Nutricionista - Todos os direitos reservados</p>
+    </footer>
+
+    <script>
+        // Facebook Pixel - Purchase Event
+        if (typeof fbq !== 'undefined') {
+            fbq('track', 'Purchase', {
+                content_category: 'Dieta Personalizada',
+                content_name: 'Dieta Dra. Giovana',
+                value: 29.90,
+                currency: 'BRL'
+            });
+        }
+
+        // Add fade-in animation to elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach((element, index) => {
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, index * 200 + 500);
+            });
+        });
+
+        // Track page view
+        function trackEvent(eventName, parameters = {}) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', eventName, parameters);
+            }
+            if (typeof fbq !== 'undefined') {
+                fbq('track', eventName, parameters);
+            }
+        }
+
+        // Track time on thank you page
+        const startTime = Date.now();
+        window.addEventListener('beforeunload', function() {
+            const timeOnPage = Math.round((Date.now() - startTime) / 1000);
+            trackEvent('time_on_thank_you_page', { seconds: timeOnPage });
+        });
+    </script>
+
+    <!-- Facebook Pixel -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1002938195345180');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1002938195345180&ev=PageView&noscript=1" /></noscript>
+</body>
+</html>

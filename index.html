@@ -9,13 +9,19 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Dieta Personalizada - Dra. Giovana Nutricionista</title>
     
+    
     <!-- ✅ OTIMIZAÇÕES CRÍTICAS DE PERFORMANCE -->
     <meta http-equiv="Cache-Control" content="public, max-age=31536000">
+    <link rel="preload" href="Dra Giovana.png" as="image" type="image/png">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" as="style">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link rel="dns-prefetch" href="//www.facebook.com">
     <link rel="dns-prefetch" href="//cdn.utmify.com.br">
     <link rel="dns-prefetch" href="//connect.facebook.net">
     <link rel="dns-prefetch" href="//www.clarity.ms">
+    <link rel="preload" href="Dra Giovana.png" as="image" type="image/png">
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" as="style">
     
     <!-- ✅ FONTS OTIMIZADAS COM DISPLAY SWAP -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -62,6 +68,7 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+             font-display: swap;
             background: 
                 radial-gradient(circle at 20% 80%, rgba(44, 122, 44, 0.15) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(108, 192, 74, 0.15) 0%, transparent 50%),
@@ -1851,7 +1858,7 @@
 
            <div class="doctor-section">
                <div class="doctor-photo">
-                   <img src="Dra Giovana.png" alt="Dra. Giovana Silva - Nutricionista" loading="lazy" width="200" height="200" />
+                 <img src="Dra Giovana.png" alt="Dra. Giovana Silva - Nutricionista" fetchpriority="high" width="200" height="200" />
                </div>
        
                <div class="doctor-info">

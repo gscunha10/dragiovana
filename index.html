@@ -1845,7 +1845,7 @@
 
    <div class="container">
        <!-- ✅ LANDING PAGE ULTRA PERSUASIVA -->
-      <div class="landing-card hidden" id="landingPage">
+      <div class="landing-card" id="landingPage">
           
            <h1 class="main-title">Dieta personalizada sem alimentos caros e com comidas que você já tem em casa</h1>
            <p class="subtitle">
@@ -1969,10 +1969,9 @@
            </div>
 
            <div class="cta-section">
-               <h3 class="cta-title">🚀 Vamos iniciar a consulta?</h3>
+               <h3 class="cta-title">🚀 Vamos iniciar a dieta?</h3>
                <p class="cta-subtitle">
-                   <strong>Sem gastar com comidas caras</strong> • <strong>6 perguntinhas</strong> • <strong>Resultado na hora</strong><br>
-                   Suas calorias + macros +receitas calculados cientificamente
+                   <strong>Se você não gostar da dieta eu devolvo 100% do seu dinheiro</strong> 
                </p>
 
                <!-- ✨ BENEFÍCIOS RÁPIDOS ANTES DO BOTÃO -->
@@ -2008,7 +2007,7 @@
        </div>
 
        <!-- ✅ QUIZ SECTION -->
-       <div class="quiz-card" id="quizSection">
+       <div class="quiz-card hidden" id="quizSection">
            <div class="progress-section">
                <div class="progress-header">
                    <div class="progress-text" id="progressText">Avaliação Nutricional - Etapa 1 de 6</div>
@@ -2547,13 +2546,7 @@ saveUTMParams();
                backBtn.addEventListener('click', previousQuestion);
            }
            
-           if (nextBtn) {
-               nextBtn.addEventListener('click', nextQuestion);
-               // ✅ INICIAR QUIZ AUTOMATICAMENTE
-    currentQuestion = 0;
-    isOnLandingPage = false;
-    loadQuestion(currentQuestion);
-           }
+        
            
        });
 

@@ -1245,7 +1245,129 @@
                width: 100px;
                height: 130px;
            }
+
        }
+
+        /* ✅ NOTIFICAÇÕES DE VENDAS */
+        .sales-notification {
+            position: fixed;
+            z-index: 9999;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.95), rgba(44, 122, 44, 0.95));
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.25);
+            transform: translateX(-100%);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 280px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .sales-notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .sales-notification.hide {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+
+        .sales-notification.position-top-left {
+            top: 80px;
+            left: 20px;
+        }
+
+        .sales-notification.position-bottom-left {
+            bottom: 20px;
+            left: 20px;
+        }
+
+        .sales-notification.position-top-right {
+            top: 80px;
+            right: 20px;
+            transform: translateX(100%);
+        }
+
+        .sales-notification.position-top-right.show {
+            transform: translateX(0);
+        }
+
+        .sales-notification.position-top-right.hide {
+            transform: translateX(100%);
+        }
+
+        .sales-notification.position-bottom-right {
+            bottom: 20px;
+            right: 20px;
+            transform: translateX(100%);
+        }
+
+        .sales-notification.position-bottom-right.show {
+            transform: translateX(0);
+        }
+
+        .sales-notification.position-bottom-right.hide {
+            transform: translateX(100%);
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification-icon {
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .notification-text {
+            flex: 1;
+            line-height: 1.4;
+        }
+
+        .notification-name {
+            font-weight: 700;
+            margin-bottom: 2px;
+            font-size: 13px;
+        }
+
+        .notification-action {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Responsivo para notificações */
+        @media (max-width: 768px) {
+            .sales-notification {
+                max-width: calc(100vw - 40px);
+                font-size: 11px;
+                padding: 10px 12px;
+            }
+            
+            .sales-notification.position-top-left,
+            .sales-notification.position-top-right {
+                top: 70px;
+            }
+            
+            .notification-name {
+                font-size: 12px;
+            }
+            
+            .notification-action {
+                font-size: 10px;
+            }
+        }
+  
+       
   </style>
 </head>
 <body>
@@ -1916,8 +2038,9 @@
           document.getElementById('quizSection').classList.add('hidden');
           document.getElementById('landingPage').classList.remove('hidden');
           document.getElementById('backArrow').classList.remove('visible');
-          
-          window.scrollTo({
+          SalesNotifications.stop();
+
+window.scrollTo({
               top: 0,
               behavior: 'smooth'
           });
@@ -2463,7 +2586,7 @@
     container.innerHTML = `
         <div class="results-container">
             <div class="success-icon">🎉</div>
-            <h1 class="reveal-title">Sua Dieta Está Pronta!</h1>
+            <h1 class="reveal-title"> Sua Dieta Está Pronta!</h1>
             <p class="reveal-subtitle">
                 ${answers.contact?.name || 'Sua'} dieta personalizada foi criada com base em todas as suas respostas.
             </p>
@@ -2719,6 +2842,8 @@
     }
     
     startCountdownTimer();
+    // ✅ Iniciar notificações de vendas na tela de resultados
+SalesNotifications.start();
 }
 
       function startCountdownTimer() {
@@ -2817,7 +2942,114 @@
               height
           };
       }
-
+// ✅ SISTEMA DE NOTIFICAÇÕES DE VENDAS
+const SalesNotifications = {
+    isActive: false,
+    currentNotification: null,
+    
+    names: [
+        "Ana Silva", "Maria Santos", "João Pedro", "Carla Oliveira", "Rafael Costa",
+        "Juliana Lima", "Lucas Ferreira", "Amanda Rocha", "Pedro Henrique", "Beatriz Alves",
+        "Gabriel Santos", "Fernanda Souza", "Rodrigo Silva", "Camila Torres", "Bruno Martins",
+        "Isabella Costa", "Matheus Lima", "Larissa Dias", "Felipe Rodrigues", "Giovanna Nunes"
+    ],
+    
+    locations: [
+        "São Paulo", "Rio de Janeiro", "Belo Horizonte", "Salvador", "Brasília",
+        "Curitiba", "Porto Alegre", "Recife", "Fortaleza", "Goiânia",
+        "Campinas", "Santos", "Ribeirão Preto", "Sorocaba", "Niterói"
+    ],
+    
+    positions: ["top-left", "bottom-left", "top-right", "bottom-right"],
+    
+    start() {
+        if (this.isActive) return;
+        
+        this.isActive = true;
+        this.scheduleNext();
+        console.log('🔔 Sistema de notificações iniciado');
+    },
+    
+    stop() {
+        this.isActive = false;
+        if (this.currentNotification) {
+            this.currentNotification.remove();
+            this.currentNotification = null;
+        }
+        console.log('🔇 Sistema de notificações parado');
+    },
+    
+    scheduleNext() {
+        if (!this.isActive) return;
+        
+        const delay = Math.random() * 15000 + 8000; // 8-23 segundos
+        setTimeout(() => {
+            if (this.isActive) {
+                this.show();
+                this.scheduleNext();
+            }
+        }, delay);
+    },
+    
+    show() {
+        // Remove notificação anterior se existir
+        if (this.currentNotification) {
+            this.hide();
+        }
+        
+        const name = this.names[Math.floor(Math.random() * this.names.length)];
+        const location = this.locations[Math.floor(Math.random() * this.locations.length)];
+        const position = this.positions[Math.floor(Math.random() * this.positions.length)];
+        
+        const notification = document.createElement('div');
+        notification.className = `sales-notification position-${position}`;
+        
+        notification.innerHTML = `
+            <div class="notification-content">
+                <div class="notification-icon">✅</div>
+                <div class="notification-text">
+                    <div class="notification-name">${name} - ${location}</div>
+                    <div class="notification-action">acabou de adquirir o protocolo</div>
+                </div>
+            </div>
+        `;
+        
+        // Fechar ao clicar
+        notification.addEventListener('click', () => {
+            this.hide();
+        });
+        
+        document.body.appendChild(notification);
+        this.currentNotification = notification;
+        
+        // Mostrar com animação
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 100);
+        
+        // Auto-hide após 4-6 segundos
+        const hideDelay = Math.random() * 2000 + 4000;
+        setTimeout(() => {
+            if (this.currentNotification === notification) {
+                this.hide();
+            }
+        }, hideDelay);
+    },
+    
+    hide() {
+        if (!this.currentNotification) return;
+        
+        this.currentNotification.classList.remove('show');
+        this.currentNotification.classList.add('hide');
+        
+        setTimeout(() => {
+            if (this.currentNotification) {
+                this.currentNotification.remove();
+                this.currentNotification = null;
+            }
+        }, 400);
+    }
+};
       function handleCheckoutClick() {
           console.log('🛒 Checkout iniciado...');
 

@@ -926,65 +926,58 @@ function mapOldToNewStructure(answers) {
     };
 }
         // Traduções completas
-       const translations = {
-    goal: {
-        feel_good: "Ficar mais bonita e me sentir bem",
-        improve_health: "Melhorar minha saúde", 
-        both: "Ambos",
-        other: "Outro",
-        lose_weight: "Perder Peso",
-        gain_muscle: "Ganhar Massa Muscular", 
-        maintain: "Manter Peso",
-        health: "Melhorar Saúde"
-    },
-    gender: {
-        male: "Masculino",
-        female: "Feminino"
-    },
-    activity: {
-        sedentary: "Sedentário",
-        light: "Leve",
-        moderate: "Moderada",
-        active: "Muito ativo",
-        intense: "Intensa"
-    },
-    diet: {
-        no_restrictions: "Sem restrições",
-        vegetarian: "Vegetariana",
-        vegan: "Vegana",
-        low_carb: "Low Carb",
-        mediterranean: "Mediterrânea",
-        paleo: "Paleo"
-    },
-    // ✅ CORRIGIDO: Idades iguais ao index.html
-    age: {
-        "18-26": "18-26 anos",
-        "27-38": "27-38 anos", 
-        "39-50": "39-50 anos",
-        "50+": "50+ anos"
-    },
-    health: {
-        healthy: "Saudável",
-        none: "Nenhuma condição especial",
-        diabetes: "Diabetes",
-        hypertension: "Pressão alta",
-        thyroid: "Problemas na tireoide",
-        intolerance: "Intolerâncias alimentares",
-        other: "Outras condições",
-        digestive: "Problemas Digestivos",
-        kidney: "Problemas Renais",
-        heart: "Problemas Cardíacos"
-    },
-    allergies: {
-        no_allergies: "Sem Alergias",
-        lactose: "Intolerância à Lactose",
-        gluten: "Intolerância ao Glúten",
-        nuts: "Alergia a Oleaginosas",
-        seafood: "Alergia a Frutos do Mar",
-        eggs: "Alergia a Ovos",
-        soy: "Alergia à Soja"
-    }
-};
+        const translations = {
+            goal: {
+                lose_weight: "Perder Peso",
+                gain_muscle: "Ganhar Massa Muscular", 
+                maintain: "Manter Peso",
+                health: "Melhorar Saúde"
+            },
+            gender: {
+                male: "Masculino",
+                female: "Feminino"
+            },
+            activity: {
+                sedentary: "Sedentário",
+                light: "Leve",
+                moderate: "Moderada",
+                intense: "Intensa"
+            },
+            diet: {
+                no_restrictions: "Sem restrições",
+                vegetarian: "Vegetariana",
+                vegan: "Vegana",
+                low_carb: "Low Carb",
+                mediterranean: "Mediterrânea",
+                paleo: "Paleo"
+            },
+            age: {
+                "18-25": "18-25 anos",
+                "26-35": "26-35 anos", 
+                "36-45": "36-45 anos",
+                "46-55": "46-55 anos",
+                "55+": "55+ anos"
+            },
+            health: {
+                healthy: "Saudável",
+                diabetes: "Diabetes",
+                hypertension: "Hipertensão",
+                thyroid: "Problemas na Tireoide",
+                digestive: "Problemas Digestivos",
+                kidney: "Problemas Renais",
+                heart: "Problemas Cardíacos"
+            },
+            allergies: {
+                no_allergies: "Sem Alergias",
+                lactose: "Intolerância à Lactose",
+                gluten: "Intolerância ao Glúten",
+                nuts: "Alergia a Oleaginosas",
+                seafood: "Alergia a Frutos do Mar",
+                eggs: "Alergia a Ovos",
+                soy: "Alergia à Soja"
+            }
+        };
+
         // ✅ FUNÇÃO MELHORADA PARA PROCESSAR DADOS
         function processUserData(quizData) {
             console.log('🔄 Processando dados do usuário:', quizData);
@@ -1053,23 +1046,24 @@ console.log('🔄 Estrutura mapeada:', answers);
         }
 
         // ✅ FUNÇÃO PARA CALCULAR NUTRIÇÃO (usando dados corrigidos)
-       function calculateNutritionFromQuiz(userData) {
-    console.log('🧮 Calculando nutrição para:', userData);
-    
-    const weight = userData.weight;
-    const height = userData.height;
-    const goal = userData.goal;
-    const activity = userData.activity;
-    const gender = userData.gender;
-    
-    // ✅ CORRIGIDO: Idades iguais ao index.html
-    const ageRanges = {
-        '18-26': 22,
-        '27-38': 32,
-        '39-50': 44,
-        '50+': 55
-    };
-    const ageValue = ageRanges[userData.age] || 32;
+        function calculateNutritionFromQuiz(userData) {
+            console.log('🧮 Calculando nutrição para:', userData);
+            
+            const weight = userData.weight;
+            const height = userData.height;
+            const goal = userData.goal;
+            const activity = userData.activity;
+            const gender = userData.gender;
+            
+            // ✅ CÁLCULOS IGUAIS AOS DA PÁGINA INDEX
+            const ageRanges = {
+                '18-25': 21.5,
+                '26-35': 30.5,
+                '36-45': 40.5,
+                '46-55': 50.5,
+                '55+': 60
+            };
+            const ageValue = ageRanges[userData.age] || 30;
             
             // Calcular TMB (mesma fórmula da página index)
             let bmr;
@@ -1416,45 +1410,14 @@ console.log('🔄 Estrutura mapeada:', answers);
         }
 
         // 💰 FUNÇÃO DE GERAÇÃO DE PDF COM ALIMENTOS ECONÔMICOS + PÁGINA DE OPÇÕES
-        function calculatePortions(nutrition) {
-            const { calories, protein, carbs, fats } = nutrition;
-            
-            // Calcular porções baseadas nas necessidades
-            const portions = {
-                // Proteínas (cada porção = ~20g proteína)
-                chicken: Math.round(protein / 20), // porções de 100g
-                eggs: Math.round(protein / 40), // ovos por dia (cada ovo = ~6g proteína)
-                
-                // Carboidratos (cada porção = ~30g carbs)
-                rice: Math.round(carbs / 30), // colheres de sopa
-                oats: Math.round(carbs / 40), // colheres de sopa
-                sweetPotato: Math.round(carbs / 25), // unidades médias
-                
-                // Gorduras (cada porção = ~10g gordura)
-                oil: Math.round(fats / 10), // colheres de sopa
-                nuts: Math.round(fats / 15), // porções de 20g
-                
-                // Vegetais (sempre 2-3 porções independente das calorias)
-                vegetables: 3,
-                
-                // Frutas (baseado nas calorias totais)
-                fruits: calories > 1800 ? 3 : calories > 1500 ? 2 : 1
-            };
-            
-            return portions;
-        }
-       
-function generateDietaPDF() {
+        function generateDietaPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
     
     const userData = window.currentUserData || defaultUserData;
     const nutrition = window.currentNutrition || { calories: 1500, protein: 120, carbs: 150, fats: 50 };
     
-    // ✅ CALCULAR PORÇÕES ESPECÍFICAS
-    const portions = calculatePortions(nutrition);
-    
-    console.log('🔄 Gerando PDF com quantidades específicas:', portions);
+    console.log('🔄 Gerando PDF com dados:', userData);
     
     // ✅ FUNÇÃO AUXILIAR SEGURA PARA QUEBRAR TEXTO
     function addTextWithWrap(text, x, y, maxWidth = 160) {
@@ -1623,78 +1586,78 @@ function generateDietaPDF() {
         doc.setTextColor(0, 0, 0);
         
         // Cardápio simplificado para evitar problemas
-         const cardapio = [
-        {
-            dia: 'SEGUNDA-FEIRA',
-            refeicoes: [
-                `Cafe: ${portions.eggs} ovos mexidos + 2 fatias pao integral + cafe`,
-                `Lanche: 1 banana media + ${Math.round(portions.nuts/2)} col sopa amendoim`,
-                `Almoco: ${portions.chicken*100}g frango + ${portions.rice} col sopa arroz + ${Math.round(portions.rice/2)} col sopa feijao + salada verde`,
-                `Lanche: Vitamina (1 banana + 200ml leite + 1 col sopa aveia)`,
-                `Jantar: ${portions.eggs} ovos + abobrinha refogada + ${Math.round(portions.sweetPotato/2)} batata doce media`
-            ]
-        },
-        {
-            dia: 'TERCA-FEIRA',
-            refeicoes: [
-                `Cafe: ${Math.round(portions.oats)} col sopa aveia + 1 banana + cafe`,
-                `Lanche: 1 maca + ${Math.round(portions.nuts/3)} castanhas`,
-                `Almoco: ${portions.chicken*80}g carne moida + ${portions.rice} col sopa arroz + cenoura refogada`,
-                `Lanche: 1 batata doce media cozida`,
-                `Jantar: ${portions.chicken*100}g frango + abobrinha + ${Math.round(portions.sweetPotato/2)} mandioca`
-            ]
-        },
-        {
-            dia: 'QUARTA-FEIRA',
-            refeicoes: [
-                `Cafe: Mingau (${Math.round(portions.oats)} col sopa aveia + 200ml leite) + 1 banana`,
-                `Lanche: 1 laranja + ${Math.round(portions.nuts/3)} castanhas`,
-                `Almoco: 1 lata sardinha + ${portions.rice} col sopa arroz + ${Math.round(portions.rice/2)} col sopa feijao + couve refogada`,
-                `Lanche: Vitamina abacate (1/2 abacate + 200ml leite + 1 col cha cacau)`,
-                `Jantar: ${portions.eggs} ovos + legumes refogados + ${Math.round(portions.sweetPotato/2)} inhame`
-            ]
-        },
-        {
-            dia: 'QUINTA-FEIRA',
-            refeicoes: [
-                `Cafe: 2 fatias pao integral + ${Math.round(portions.nuts/2)} col sopa pasta amendoim`,
-                `Lanche: 1 mamao pequeno + ${Math.round(portions.oats/2)} col sopa aveia`,
-                `Almoco: ${portions.chicken*100}g frango + ${portions.rice} col sopa macarrao + molho tomate`,
-                `Lanche: 1 pote iogurte natural (170ml)`,
-                `Jantar: ${portions.chicken*80}g carne moida + abobrinha + ${portions.rice} col sopa arroz`
-            ]
-        },
-        {
-            dia: 'SEXTA-FEIRA',
-            refeicoes: [
-                `Cafe: Vitamina (1 banana + 200ml leite + ${Math.round(portions.oats)} col sopa aveia)`,
-                `Lanche: 1 maca + canela`,
-                `Almoco: ${portions.chicken*100}g frango + ${Math.round(portions.rice/2)} col sopa lentilha + salada verde`,
-                `Lanche: ${Math.round(portions.nuts/2)} col sopa amendoim torrado`,
-                `Jantar: Omelete ${portions.eggs} ovos + 1 batata doce media + salada`
-            ]
-        },
-        {
-            dia: 'SABADO',
-            refeicoes: [
-                `Cafe: Panqueca (${Math.round(portions.oats)} col sopa aveia + 1 ovo + 1 banana)`,
-                `Lanche: 1 banana + ${Math.round(portions.oats/2)} col sopa aveia`,
-                `Almoco: 1 lata sardinha + ${portions.rice} col sopa arroz + ${Math.round(portions.rice/2)} col sopa feijao`,
-                `Lanche: Vitamina manga (1 manga + 200ml leite)`,
-                `Jantar: ${portions.chicken*100}g frango + pure mandioca + couve refogada`
-            ]
-        },
-        {
-            dia: 'DOMINGO',
-            refeicoes: [
-                `Cafe: ${portions.eggs} ovos + 1/2 abacate + 2 fatias pao`,
-                `Lanche: 1 banana + ${Math.round(portions.nuts/2)} col sopa pasta amendoim`,
-                `Almoco: ${portions.chicken*100}g carne + 1 batata doce grande + vagem refogada`,
-                `Lanche: Vitamina frutas (1 banana + 1/2 mamao + 200ml leite)`,
-                `Jantar: Omelete ${portions.eggs} ovos + legumes refogados + ${Math.round(portions.sweetPotato/2)} mandioca`
-            ]
-        }
-    ];
+        const cardapio = [
+            {
+                dia: 'SEGUNDA-FEIRA',
+                refeicoes: [
+                    'Cafe: Ovos mexidos + Pao integral + Cafe',
+                    'Lanche: Banana + Amendoim',
+                    'Almoco: Frango + Arroz + Feijao + Salada',
+                    'Lanche: Vitamina de banana',
+                    'Jantar: Ovo + Abobrinha + Batata doce'
+                ]
+            },
+            {
+                dia: 'TERCA-FEIRA',
+                refeicoes: [
+                    'Cafe: Aveia com banana + Cafe',
+                    'Lanche: Maca + Pasta de amendoim',
+                    'Almoco: Carne moida + Arroz + Cenoura',
+                    'Lanche: Batata doce cozida',
+                    'Jantar: Frango + Abobrinha + Mandioca'
+                ]
+            },
+            {
+                dia: 'QUARTA-FEIRA',
+                refeicoes: [
+                    'Cafe: Mingau de aveia + Banana',
+                    'Lanche: Laranja + Castanha',
+                    'Almoco: Sardinha + Arroz + Feijao + Couve',
+                    'Lanche: Abacate com cacau',
+                    'Jantar: Ovos + Legumes + Inhame'
+                ]
+            },
+            {
+                dia: 'QUINTA-FEIRA',
+                refeicoes: [
+                    'Cafe: Pao integral + Pasta amendoim',
+                    'Lanche: Mamao + Aveia',
+                    'Almoco: Frango + Macarrao + Molho tomate',
+                    'Lanche: Iogurte natural',
+                    'Jantar: Carne moida + Abobrinha + Arroz'
+                ]
+            },
+            {
+                dia: 'SEXTA-FEIRA',
+                refeicoes: [
+                    'Cafe: Vitamina banana + aveia',
+                    'Lanche: Maca + Canela',
+                    'Almoco: Frango + Lentilha + Salada',
+                    'Lanche: Amendoim torrado',
+                    'Jantar: Omelete + Batata doce + Salada'
+                ]
+            },
+            {
+                dia: 'SABADO',
+                refeicoes: [
+                    'Cafe: Panqueca aveia + Banana',
+                    'Lanche: Banana + Aveia',
+                    'Almoco: Sardinha + Arroz + Feijao',
+                    'Lanche: Vitamina de manga',
+                    'Jantar: Frango + Pure mandioca + Couve'
+                ]
+            },
+            {
+                dia: 'DOMINGO',
+                refeicoes: [
+                    'Cafe: Ovos + Abacate + Pao',
+                    'Lanche: Banana + Pasta amendoim',
+                    'Almoco: Carne + Batata doce + Vagem',
+                    'Lanche: Vitamina de frutas',
+                    'Jantar: Omelete + Legumes + Mandioca'
+                ]
+            }
+        ];
         
         cardapio.forEach(dia => {
             yPos = checkNewPage(yPos, 35);
@@ -1729,63 +1692,42 @@ function generateDietaPDF() {
         
         yPos = 45;
         
-      const receitas = [
-    {
-        nome: 'Omelete Personalizada',
-        info: `Tempo: 10 min | Calorias: ${Math.round(portions.eggs * 70)} | Custo: R$ ${(portions.eggs * 1.25).toFixed(2)}`,
-        ingredientes: [
-            `${portions.eggs} ovos inteiros`,
-            '1 tomate medio picado',
-            '1 col. cha azeite',
-            'Sal e pimenta a gosto',
-            'Ervas finas (opcional)'
-        ],
-        preparo: [
-            `Bata os ${portions.eggs} ovos com sal e pimenta`,
-            'Aqueça o azeite na frigideira antiaderente',
-            'Refogue o tomate por 1-2 minutos',
-            'Adicione os ovos batidos',
-            'Cozinhe em fogo medio por 3-4 min de cada lado'
-        ]
-    },
-    {
-        nome: 'Frango Grelhado Personalizado',
-        info: `Tempo: 25 min | Calorias: ${Math.round(portions.chicken * 280)} | Custo: R$ ${(portions.chicken * 4.00).toFixed(2)}`,
-        ingredientes: [
-            `${portions.chicken * 100}g coxa de frango sem pele`,
-            '2 dentes alho amassados',
-            '1 col. sopa azeite',
-            'Suco de 1/2 limao',
-            'Sal, pimenta, oregano a gosto'
-        ],
-        preparo: [
-            'Tempere o frango com todos os temperos',
-            'Deixe marinar por 15 minutos',
-            'Aqueça frigideira com um fio de azeite',
-            'Grelhe o frango 8-10 min cada lado',
-            'Verifique se está bem cozido antes de servir'
-        ]
-    },
-    {
-        nome: 'Vitamina Energetica Personalizada',
-        info: `Tempo: 5 min | Calorias: ${Math.round(portions.fruits * 120)} | Custo: R$ 3,50`,
-        ingredientes: [
-            `${portions.fruits} banana${portions.fruits > 1 ? 's' : ''} media${portions.fruits > 1 ? 's' : ''}`,
-            '200ml leite ou leite vegetal',
-            `${Math.round(portions.oats)} col. sopa aveia em flocos`,
-            '1 col. cha mel (opcional)',
-            'Canela em po a gosto'
-        ],
-        preparo: [
-            `Descasque a${portions.fruits > 1 ? 's' : ''} banana${portions.fruits > 1 ? 's' : ''} e corte em rodelas`,
-            'Coloque todos os ingredientes no liquidificador',
-            'Bata por 1-2 minutos ate ficar homogeneo',
-            'Sirva imediatamente',
-            'Adicione gelo se preferir gelado'
-        ]
-    }
-];
-
+        const receitas = [
+            {
+                nome: 'Omelete Economica',
+                info: 'Tempo: 10 min | Calorias: 220 | Custo: R$ 2,50',
+                ingredientes: [
+                    '2 ovos inteiros',
+                    '1 tomate picado',
+                    '1 col. cha azeite',
+                    'Sal e pimenta a gosto'
+                ],
+                preparo: [
+                    'Bata os ovos com sal e pimenta',
+                    'Aqueça o azeite na frigideira',
+                    'Refogue o tomate por 1 minuto',
+                    'Adicione os ovos batidos',
+                    'Cozinhe em fogo medio por 3-4 min'
+                ]
+            },
+            {
+                nome: 'Frango Temperado Economico',
+                info: 'Tempo: 30 min | Calorias: 280 | Custo: R$ 4,00',
+                ingredientes: [
+                    '150g coxa de frango sem pele',
+                    '2 dentes alho amassados',
+                    '1 col. sopa azeite',
+                    'Suco de 1/2 limao',
+                    'Sal, pimenta, oregano'
+                ],
+                preparo: [
+                    'Tempere o frango com todos os temperos',
+                    'Deixe marinar por 15 minutos',
+                    'Aqueça frigideira com azeite',
+                    'Grelhe o frango 8-10 min cada lado'
+                ]
+            }
+        ];
         
         receitas.forEach(receita => {
             yPos = checkNewPage(yPos, 50);

@@ -2101,33 +2101,34 @@ window.scrollTo({
           }
       });
 
-      function startQuiz() {
-          console.log('🎯 Iniciando quiz...');
-          
-          const button = document.getElementById('startQuizBtn');
-          
-          if (button) {
-              button.classList.add('loading');
-              button.innerHTML = '🚀 Iniciando...';
-          }
+     function startQuiz() {
+    console.log('🎯 Iniciando quiz...');
+    
+    const button = document.getElementById('startQuizBtn');
+    
+    if (button) {
+        button.classList.add('loading');
+        button.innerHTML = '🚀 Iniciando...';
+    }
 
-          setTimeout(() => {
-              currentQuestion = 0;
-              showQuizSection();
-              loadQuestion(currentQuestion);
-              updateBackArrow();
-              
-              window.scrollTo({
-                  top: 0,
-                  behavior: 'smooth'
-              });
+    // ✅ REDUZIDO: Era 300ms, agora 100ms
+    setTimeout(() => {
+        currentQuestion = 0;
+        showQuizSection();
+        loadQuestion(currentQuestion);
+        updateBackArrow();
+        
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
 
-              if (button) {
-                  button.classList.remove('loading');
-                  button.innerHTML = '🎯 INICIAR O PROTOCOLO';
-              }
-          }, 300); // Reduzido de 500ms para 300ms
-      }
+        if (button) {
+            button.classList.remove('loading');
+            button.innerHTML = '🎯 INICIAR PROTOCOLO';
+        }
+    }, 100);
+}
 
       function showQuizSection() {
           isOnLandingPage = false;
@@ -2174,62 +2175,62 @@ window.scrollTo({
 
       // ✅ CARREGAMENTO DE QUESTÕES DE ESCOLHA COM AUTO-AVANÇAR
       function loadChoiceQuestion(question, container) {
-          container.innerHTML = '';
-          container.className = `options-grid ${question.class || ''}`;
+    container.innerHTML = '';
+    container.className = `options-grid ${question.class || ''}`;
 
-          const fragment = document.createDocumentFragment();
+    const fragment = document.createDocumentFragment();
 
-          question.options.forEach(option => {
-              const optionCard = document.createElement('div');
-              optionCard.className = `option-card ${question.class === 'age-options' ? 'age-card' : question.class === 'goal-options' ? 'goal-card' : ''}`;
-              optionCard.dataset.value = option.value;
-              
-              optionCard.innerHTML = `
-                  <div class="option-icon">${option.icon}</div>
-                  <div class="option-title">${option.title}</div>
-                  <div class="option-description">${option.description}</div>
-              `;
+    question.options.forEach(option => {
+        const optionCard = document.createElement('div');
+        optionCard.className = `option-card ${question.class === 'age-options' ? 'age-card' : question.class === 'goal-options' ? 'goal-card' : ''}`;
+        optionCard.dataset.value = option.value;
+        
+        optionCard.innerHTML = `
+            <div class="option-icon">${option.icon}</div>
+            <div class="option-title">${option.title}</div>
+            <div class="option-description">${option.description}</div>
+        `;
 
-              // ✅ AUTO-AVANÇAR APÓS SELEÇÃO
-              optionCard.addEventListener('click', function(e) {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  
-                  // Marcar como selecionado
-                  container.querySelectorAll('.option-card').forEach(c => {
-                      c.classList.remove('selected');
-                  });
-                  
-                  this.classList.add('selected');
-                  
-                  const questionKey = getQuestionKey(currentQuestion);
-                  answers[questionKey] = option.value;
+        // ✅ OTIMIZADO: Auto-avançar MUITO mais rápido
+        optionCard.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Marcar como selecionado imediatamente
+            container.querySelectorAll('.option-card').forEach(c => {
+                c.classList.remove('selected');
+            });
+            
+            this.classList.add('selected');
+            
+            const questionKey = getQuestionKey(currentQuestion);
+            answers[questionKey] = option.value;
 
-                  // Mostrar resultado intercalado se existe
-                  if (question.showResult) {
-                      setTimeout(() => {
-                          showIntercalatedResult(question.showResult);
-                      }, 600);
-                  }
+            // ✅ REDUZIDO: Mostrar resultado intercalado mais rápido (era 600ms, agora 200ms)
+            if (question.showResult) {
+                setTimeout(() => {
+                    showIntercalatedResult(question.showResult);
+                }, 200);
+            }
 
-                  // Mostrar depoimento intercalado se existe
-                  if (question.showTestimonial) {
-                      setTimeout(() => {
-                          showIntercalatedTestimonial(question.showTestimonial);
-                      }, 600);
-                  }
+            // ✅ REDUZIDO: Mostrar depoimento intercalado mais rápido (era 600ms, agora 200ms)
+            if (question.showTestimonial) {
+                setTimeout(() => {
+                    showIntercalatedTestimonial(question.showTestimonial);
+                }, 200);
+            }
 
-                  // Auto-avançar após 1 segundo
-                  setTimeout(() => {
-                      nextQuestion();
-                  }, 1000);
-              });
+            // ✅ REDUZIDO DRASTICAMENTE: Auto-avançar em 500ms (era 1000ms)
+            setTimeout(() => {
+                nextQuestion();
+            }, 500);
+        });
 
-              fragment.appendChild(optionCard);
-          });
+        fragment.appendChild(optionCard);
+    });
 
-          container.appendChild(fragment);
-      }
+    container.appendChild(fragment);
+}
 
       function loadFormQuestion(question, container) {
           container.innerHTML = '';
@@ -2313,86 +2314,87 @@ window.scrollTo({
 
       // ✅ MOSTRAR RESULTADO INTERCALADO
       function showIntercalatedResult(resultData) {
-          const container = document.getElementById('questionContainer');
-          
-          // Remover resultado anterior se existir
-          const existingResult = container.querySelector('.intercalated-result');
-          if (existingResult) {
-              existingResult.remove();
-          }
+    const container = document.getElementById('questionContainer');
+    
+    // Remover resultado anterior se existir
+    const existingResult = container.querySelector('.intercalated-result');
+    if (existingResult) {
+        existingResult.remove();
+    }
 
-          const resultDiv = document.createElement('div');
-          resultDiv.className = 'intercalated-result';
-          
-          let value = resultData.value;
-          
-          // Calcular valores reais baseados nas respostas
-          if (resultData.value === 'TMB Calculada') {
-              const results = calculateResults();
-              value = results.bmr + ' cal/dia';
-          } else if (resultData.value === 'Perda Calculada') {
-              const results = calculateResults();
-              value = results.projectedWeightChange + 'kg';
-          }
+    const resultDiv = document.createElement('div');
+    resultDiv.className = 'intercalated-result';
+    
+    let value = resultData.value;
+    
+    // Calcular valores reais baseados nas respostas
+    if (resultData.value === 'TMB Calculada') {
+        const results = calculateResults();
+        value = results.bmr + ' cal/dia';
+    } else if (resultData.value === 'Perda Calculada') {
+        const results = calculateResults();
+        value = results.projectedWeightChange + 'kg';
+    }
 
-          resultDiv.innerHTML = `
-              <div class="result-badge">${resultData.badge}</div>
-              <div class="result-value">${value}</div>
-              <div class="result-label">${resultData.label}</div>
-              <div class="result-description">${resultData.description}</div>
-          `;
+    resultDiv.innerHTML = `
+        <div class="result-badge">${resultData.badge}</div>
+        <div class="result-value">${value}</div>
+        <div class="result-label">${resultData.label}</div>
+        <div class="result-description">${resultData.description}</div>
+    `;
 
-          // Inserir antes dos botões de ação
-          const actionButtons = document.getElementById('actionButtons');
-          container.insertBefore(resultDiv, actionButtons);
+    // Inserir antes dos botões de ação
+    const actionButtons = document.getElementById('actionButtons');
+    container.insertBefore(resultDiv, actionButtons);
 
-          // Scroll suave para mostrar o resultado
-          setTimeout(() => {
-              resultDiv.scrollIntoView({
-                  behavior: 'smooth',
-                  block: 'center'
-              });
-          }, 200);
-      }
+    // ✅ REDUZIDO: Scroll suave mais rápido (era 200ms, agora 50ms)
+    setTimeout(() => {
+        resultDiv.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+    }, 50);
+}
+
 
       // ✅ MOSTRAR DEPOIMENTO INTERCALADO
-      function showIntercalatedTestimonial(testimonialData) {
-          const container = document.getElementById('questionContainer');
-          
-          // Remover depoimento anterior se existir
-          const existingTestimonial = container.querySelector('.testimonial-intercalated');
-          if (existingTestimonial) {
-              existingTestimonial.remove();
-          }
+    function showIntercalatedTestimonial(testimonialData) {
+    const container = document.getElementById('questionContainer');
+    
+    // Remover depoimento anterior se existir
+    const existingTestimonial = container.querySelector('.testimonial-intercalated');
+    if (existingTestimonial) {
+        existingTestimonial.remove();
+    }
 
-          const testimonialDiv = document.createElement('div');
-          testimonialDiv.className = 'testimonial-intercalated';
-          
-          testimonialDiv.innerHTML = `
-              <div class="testimonial-header">
-                  <div class="testimonial-photo">
-                      <img src="${testimonialData.photo}" alt="${testimonialData.name}" loading="lazy">
-                  </div>
-                  <div class="testimonial-info">
-                      <div class="testimonial-name">${testimonialData.name}</div>
-                      <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
-                  </div>
-              </div>
-              <div class="testimonial-text">"${testimonialData.text}"</div>
-          `;
+    const testimonialDiv = document.createElement('div');
+    testimonialDiv.className = 'testimonial-intercalated';
+    
+    testimonialDiv.innerHTML = `
+        <div class="testimonial-header">
+            <div class="testimonial-photo">
+                <img src="${testimonialData.photo}" alt="${testimonialData.name}" loading="lazy">
+            </div>
+            <div class="testimonial-info">
+                <div class="testimonial-name">${testimonialData.name}</div>
+                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+            </div>
+        </div>
+        <div class="testimonial-text">"${testimonialData.text}"</div>
+    `;
 
-          // Inserir antes dos botões de ação
-          const actionButtons = document.getElementById('actionButtons');
-          container.insertBefore(testimonialDiv, actionButtons);
+    // Inserir antes dos botões de ação
+    const actionButtons = document.getElementById('actionButtons');
+    container.insertBefore(testimonialDiv, actionButtons);
 
-          // Scroll suave para mostrar o depoimento
-          setTimeout(() => {
-              testimonialDiv.scrollIntoView({
-                  behavior: 'smooth',
-                  block: 'center'
-              });
-          }, 200);
-      }
+    // ✅ REDUZIDO: Scroll suave mais rápido (era 200ms, agora 50ms)
+    setTimeout(() => {
+        testimonialDiv.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+    }, 50);
+}
 
       function validateFormCompletion(question) {
           const questionKey = getQuestionKey(currentQuestion);

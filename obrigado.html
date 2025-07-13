@@ -926,7 +926,7 @@ function mapOldToNewStructure(answers) {
     };
 }
         // Traduções completas
-       const translations = {
+    const translations = {
     goal: {
         feel_good: "Ficar mais bonita e me sentir bem",
         improve_health: "Melhorar minha saúde", 
@@ -956,7 +956,7 @@ function mapOldToNewStructure(answers) {
         mediterranean: "Mediterrânea",
         paleo: "Paleo"
     },
-    // ✅ CORRIGIDO: Idades iguais ao index.html
+    // ✅ CORREÇÃO CRÍTICA: Idades EXATAMENTE iguais ao index.html
     age: {
         "18-26": "18-26 anos",
         "27-38": "27-38 anos", 
@@ -970,10 +970,7 @@ function mapOldToNewStructure(answers) {
         hypertension: "Pressão alta",
         thyroid: "Problemas na tireoide",
         intolerance: "Intolerâncias alimentares",
-        other: "Outras condições",
-        digestive: "Problemas Digestivos",
-        kidney: "Problemas Renais",
-        heart: "Problemas Cardíacos"
+        other: "Outras condições"
     },
     allergies: {
         no_allergies: "Sem Alergias",
@@ -986,75 +983,93 @@ function mapOldToNewStructure(answers) {
     }
 };
         // ✅ FUNÇÃO MELHORADA PARA PROCESSAR DADOS
-        function processUserData(quizData) {
-            console.log('🔄 Processando dados do usuário:', quizData);
-            
-            if (!quizData.hasData) {
-                console.log('📝 Usando dados padrão - não há dados do quiz');
-                return {
-                    ...defaultUserData,
-                    dataSource: 'default'
-                };
-            }
-            
-            // ✅ MAPEAR ESTRUTURA ANTIGA PARA NOVA SE NECESSÁRIO
-const rawAnswers = quizData.answers;
-const answers = mapOldToNewStructure(rawAnswers);
-const { contact, results } = quizData;
-
-console.log('🔄 Estrutura mapeada:', answers);
-            
-            // ✅ EXTRAIR DADOS COM ESTRUTURA CORRETA DA PÁGINA INDEX
-            const physical = answers.physical || {};
-            
-            const processedData = {
-                // Dados pessoais
-                name: contact.name || answers.contact?.name || 'Cliente',
-                email: contact.email || answers.contact?.email || '',
-                phone: contact.phone || answers.contact?.phone || '',
-                
-                // Dados do quiz
-                goal: answers.goal || 'lose_weight',
-                gender: answers.gender || 'female',
-                age: answers.age || '26-35',
-                activity: answers.activity || 'moderate',
-                diet: answers.diet || 'no_restrictions',
-                
-                // ✅ DADOS FÍSICOS - ESTRUTURA CORRETA DA PÁGINA INDEX
-                weight: parseFloat(physical.weight) || 70,
-                height: parseFloat(physical.height) || 170,
-                targetWeight: parseFloat(physical.target_weight) || 65,
-                
-                // Arrays (podem estar vazios)
-                health: Array.isArray(answers.health) ? answers.health : ['healthy'],
-                allergies: Array.isArray(answers.allergies) ? answers.allergies : ['no_allergies'],
-                
-                // Metadados
-                dataSource: quizData.source,
-                hasRealData: true
-            };
-            
-            console.log('✅ Dados processados com sucesso:', processedData);
-            
-            // ✅ VALIDAÇÃO ADICIONAL
-            if (processedData.weight < 30 || processedData.weight > 300) {
-                console.warn('⚠️ Peso inválido detectado, usando valor padrão');
-                processedData.weight = 70;
-                processedData.hasRealData = false;
-            }
-            
-            if (processedData.height < 100 || processedData.height > 250) {
-                console.warn('⚠️ Altura inválida detectada, usando valor padrão');
-                processedData.height = 170;
-                processedData.hasRealData = false;
-            }
-            
-            return processedData;
+       function processUserData(quizData) {
+    console.log('🔄 Processando dados do usuário - VERSÃO CORRIGIDA:', quizData);
+    
+    if (!quizData.hasData) {
+        console.log('📝 Usando dados padrão - não há dados do quiz');
+        return {
+            ...defaultUserData,
+            dataSource: 'default'
+        };
+    }
+    
+    // ✅ CORREÇÃO CRÍTICA: Acessar estrutura correta dos dados
+    const rawAnswers = quizData.answers;
+    const contact = rawAnswers.contact || {};  // ✅ Contato está dentro de answers
+    const physical = rawAnswers.physical || {}; // ✅ Physical está dentro de answers
+    const results = quizData.results || {};
+    
+    console.log('🔍 Dados brutos extraídos:');
+    console.log('- Contact:', contact);
+    console.log('- Physical:', physical);
+    console.log('- Raw Answers:', rawAnswers);
+    
+    const processedData = {
+        // ✅ CORREÇÃO: Nome está em answers.contact.name
+        name: contact.name || 'Cliente',
+        email: contact.email || '',
+        phone: contact.phone || contact.whatsapp || '',
+        
+        // ✅ CORREÇÃO: Dados do quiz estão direto em answers
+        goal: rawAnswers.goal || 'feel_good',
+        gender: rawAnswers.gender || 'female',
+        age: rawAnswers.age || '27-38', // ✅ Corrigido: usar rawAnswers.age
+        activity: rawAnswers.activity || 'moderate',
+        diet: rawAnswers.preferences || rawAnswers.diet || 'no_restrictions',
+        
+        // ✅ CORREÇÃO: Dados físicos estão em answers.physical
+        weight: parseFloat(physical.weight) || 70,
+        height: parseFloat(physical.height) || 170,
+        targetWeight: parseFloat(physical.target_weight) || 65,
+        
+        // ✅ CORREÇÃO: Condições de saúde
+        health: Array.isArray(rawAnswers.health) ? rawAnswers.health : 
+                rawAnswers.health ? [rawAnswers.health] : ['none'],
+        
+        // Arrays (podem estar vazios)
+        allergies: ['no_allergies'], // Placeholder - ajustar se necessário
+        
+        // Metadados
+        dataSource: quizData.source,
+        hasRealData: true
+    };
+    
+    console.log('✅ Dados processados CORRIGIDOS:', processedData);
+    
+    // ✅ VALIDAÇÃO MELHORADA
+    if (!processedData.name || processedData.name === 'Cliente') {
+        console.warn('⚠️ Nome não encontrado, verificando locais alternativos...');
+        
+        // Tentar outras localizações possíveis
+        processedData.name = rawAnswers.name || 
+                           quizData.contact?.name || 
+                           'Cliente';
+        
+        if (processedData.name === 'Cliente') {
+            processedData.hasRealData = false;
         }
+    }
+    
+    if (processedData.weight < 30 || processedData.weight > 300) {
+        console.warn('⚠️ Peso inválido detectado, usando valor padrão');
+        processedData.weight = 70;
+        processedData.hasRealData = false;
+    }
+    
+    if (processedData.height < 100 || processedData.height > 250) {
+        console.warn('⚠️ Altura inválida detectada, usando valor padrão');
+        processedData.height = 170;
+        processedData.hasRealData = false;
+    }
+    
+    return processedData;
+}
+
 
         // ✅ FUNÇÃO PARA CALCULAR NUTRIÇÃO (usando dados corrigidos)
        function calculateNutritionFromQuiz(userData) {
-    console.log('🧮 Calculando nutrição para:', userData);
+    console.log('🧮 Calculando nutrição - VERSÃO CORRIGIDA:', userData);
     
     const weight = userData.weight;
     const height = userData.height;
@@ -1062,63 +1077,68 @@ console.log('🔄 Estrutura mapeada:', answers);
     const activity = userData.activity;
     const gender = userData.gender;
     
-    // ✅ CORRIGIDO: Idades iguais ao index.html
+    // ✅ CORREÇÃO CRÍTICA: Idades EXATAMENTE iguais ao index.html
     const ageRanges = {
         '18-26': 22,
         '27-38': 32,
         '39-50': 44,
         '50+': 55
     };
+    
     const ageValue = ageRanges[userData.age] || 32;
-            
-            // Calcular TMB (mesma fórmula da página index)
-            let bmr;
-            if (gender === 'male') {
-                bmr = 10 * weight + 6.25 * height - 5 * ageValue + 5;
-            } else {
-                bmr = 10 * weight + 6.25 * height - 5 * ageValue - 161;
-            }
-            
-            // Multiplicadores de atividade (iguais à página index)
-            const activityMultipliers = {
-                sedentary: 1.2,
-                light: 1.375,
-                moderate: 1.55,
-                intense: 1.725
-            };
-            
-            const tdee = Math.round(bmr * (activityMultipliers[activity] || 1.55));
-            
-            // Ajustar calorias baseado no objetivo (igual à página index)
-            let calories;
-            switch(goal) {
-                case 'lose_weight':
-                    calories = Math.round(tdee - 500);
-                    break;
-                case 'gain_muscle':
-                    calories = Math.round(tdee + 300);
-                    break;
-                default:
-                    calories = Math.round(tdee);
-            }
-            
-            // Calcular macronutrientes (igual à página index)
-            const protein = Math.round(weight * 2.2);
-            const fats = Math.round(calories * 0.3 / 9);
-            const carbs = Math.round((calories - (protein * 4) - (fats * 9)) / 4);
-            
-            const result = { 
-                calories, 
-                protein, 
-                carbs, 
-                fats,
-                bmr: Math.round(bmr),
-                tdee: tdee
-            };
-            
-            console.log('✅ Nutrição calculada:', result);
-            return result;
-        }
+    console.log(`🎂 Idade processada: ${userData.age} → ${ageValue} anos`);
+    
+    // Calcular TMB (mesma fórmula da página index)
+    let bmr;
+    if (gender === 'male') {
+        bmr = 10 * weight + 6.25 * height - 5 * ageValue + 5;
+    } else {
+        bmr = 10 * weight + 6.25 * height - 5 * ageValue - 161;
+    }
+    
+    // Multiplicadores de atividade (iguais à página index)
+    const activityMultipliers = {
+        sedentary: 1.2,
+        light: 1.375,
+        moderate: 1.55,
+        active: 1.725 // ✅ Corrigido: era 'intense'
+    };
+    
+    const tdee = Math.round(bmr * (activityMultipliers[activity] || 1.55));
+    
+    // Ajustar calorias baseado no objetivo (igual à página index)
+    let calories;
+    switch(goal) {
+        case 'feel_good':
+        case 'improve_health':
+        case 'both':
+            calories = Math.round(tdee - 500); // ✅ Deficit para perda
+            break;
+        case 'gain_muscle':
+            calories = Math.round(tdee + 300);
+            break;
+        default:
+            calories = Math.round(tdee - 500); // ✅ Padrão para perda
+    }
+    
+    // Calcular macronutrientes (igual à página index)
+    const protein = Math.round(weight * 2.2);
+    const fats = Math.round(calories * 0.3 / 9);
+    const carbs = Math.round((calories - (protein * 4) - (fats * 9)) / 4);
+    
+    const result = { 
+        calories, 
+        protein, 
+        carbs, 
+        fats,
+        bmr: Math.round(bmr),
+        tdee: tdee
+    };
+    
+    console.log('✅ Nutrição calculada CORRIGIDA:', result);
+    return result;
+}
+
 
         // ✅ FUNÇÃO MELHORADA PARA MOSTRAR STATUS DOS DADOS
         function showDataStatus(userData, hasRealData) {

@@ -1,0 +1,2327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sua Dieta Personalizada - Dra. Giovana Nutricionista</title>
+    <script>
+  window.pixelId = "6854369b2f2ab7e4442539ea";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2c7a2c;
+            --secondary: #4a9f4a;
+            --accent: #6cc04a;
+            --dark: #0a0a0a;
+            --light: #ffffff;
+            --gray: #1a1a1a;
+            --success: #00ff88;
+            --danger: #ff3366;
+            --gold: #FFD700;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(44, 122, 44, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(108, 192, 74, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(74, 159, 74, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            color: var(--light);
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        .particle:nth-child(odd) {
+            background: var(--primary);
+            animation-duration: 8s;
+        }
+
+        .particle:nth-child(3n) {
+            background: var(--secondary);
+            animation-duration: 10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-100px) rotate(180deg); opacity: 0.8; }
+        }
+
+        .header {
+            position: relative;
+            z-index: 100;
+            padding: 20px 0;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(44, 122, 44, 0.2);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 20px rgba(44, 122, 44, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .success-header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: slideInUp 1s ease-out;
+        }
+
+        .success-icon {
+            font-size: 100px;
+            margin-bottom: 20px;
+            animation: successBounce 1.5s ease-out;
+        }
+
+        .success-title {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--success), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .success-subtitle {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+            line-height: 1.5;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .welcome-card {
+            background: rgba(26, 26, 26, 0.9);
+            backdrop-filter: blur(30px);
+            border-radius: 32px;
+            padding: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(44, 122, 44, 0.2);
+            box-shadow: 
+                0 32px 64px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .welcome-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary), var(--accent), var(--secondary));
+            border-radius: 32px;
+            padding: 2px;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: xor;
+            -webkit-mask-composite: xor;
+            opacity: 0.6;
+            animation: borderGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes borderGlow {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.8; }
+        }
+
+        .user-name {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 40px;
+            margin-bottom: 50px;
+            align-items: start;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            min-width: 0;
+        }
+
+        .diet-card {
+            background: rgba(26, 26, 26, 0.9);
+            backdrop-filter: blur(30px);
+            border-radius: 24px;
+            padding: 35px;
+            border: 1px solid rgba(44, 122, 44, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .diet-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .diet-card:hover::before {
+            left: 100%;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--light), rgba(255, 255, 255, 0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .profile-summary {
+            background: linear-gradient(135deg, rgba(44, 122, 44, 0.1), rgba(108, 192, 74, 0.1));
+            border: 2px solid rgba(44, 122, 44, 0.3);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .profile-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            min-width: 0;
+        }
+
+        .profile-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .profile-item > div {
+            min-width: 0;
+            word-wrap: break-word;
+        }
+
+        .macros-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .macro-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            min-width: 0;
+        }
+
+        .macro-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(44, 122, 44, 0.2);
+        }
+
+        .macro-card.calories {
+            border-color: var(--danger);
+            background: rgba(255, 51, 102, 0.1);
+        }
+
+        .macro-card.protein {
+            border-color: var(--primary);
+            background: rgba(44, 122, 44, 0.1);
+        }
+
+        .macro-card.carbs {
+            border-color: var(--gold);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .macro-card.fats {
+            border-color: var(--accent);
+            background: rgba(108, 192, 74, 0.1);
+        }
+
+        .macro-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .macro-value {
+            font-size: 24px;
+            font-weight: 900;
+            margin-bottom: 5px;
+            word-break: break-word;
+        }
+
+        .macro-value.calories { color: var(--danger); }
+        .macro-value.protein { color: var(--primary); }
+        .macro-value.carbs { color: var(--gold); }
+        .macro-value.fats { color: var(--accent); }
+
+        .macro-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            word-break: break-word;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            min-width: 0;
+        }
+
+        .download-section {
+            background: rgba(26, 26, 26, 0.9);
+            backdrop-filter: blur(30px);
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid rgba(44, 122, 44, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 20px;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .download-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--accent);
+        }
+
+        .download-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            width: 100%;
+            min-width: 0;
+        }
+
+        .download-item:hover {
+            background: rgba(44, 122, 44, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .download-item.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .download-item.disabled:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: none;
+        }
+
+        .download-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .download-item.disabled .download-icon {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .download-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .download-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--light);
+            margin-bottom: 3px;
+            word-wrap: break-word;
+        }
+
+        .download-desc {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            word-wrap: break-word;
+        }
+
+        .download-button {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .download-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(44, 122, 44, 0.4);
+        }
+
+        .members-area-info {
+            background: rgba(0, 123, 255, 0.1);
+            border: 1px solid rgba(0, 123, 255, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .members-area-info h4 {
+            color: #00bfff;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .members-area-info p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes successBounce {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr 350px;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .success-title {
+                font-size: 32px;
+            }
+
+            .success-subtitle {
+                font-size: 16px;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .main-content {
+                order: -1;
+            }
+
+            .sidebar {
+                order: 1;
+            }
+
+            .profile-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 10px;
+            }
+
+            .macros-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .download-section {
+                position: static;
+            }
+
+            .diet-card, .welcome-card, .download-section {
+                padding: 25px 20px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .logo-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .success-icon {
+                font-size: 70px;
+            }
+
+            .success-title {
+                font-size: 28px;
+            }
+
+            .macros-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .diet-card, .welcome-card, .download-section {
+                padding: 20px 15px;
+                border-radius: 16px;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">👩‍⚕️</div>
+                <span>Dra. Giovana Nutricionista</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="success-header">
+            <div class="success-icon">🎉</div>
+            <h1 class="success-title">Parabéns! Sua Dieta Está Pronta!</h1>
+            <p class="success-subtitle">
+                Seu plano nutricional personalizado foi criado com base na sua avaliação completa. 
+                Agora você tem tudo que precisa para alcançar seus objetivos de forma saudável e sustentável.
+            </p>
+        </div>
+
+        <div class="welcome-card">
+            <h2 class="user-name" id="userName">Olá, Maria Silva!</h2>
+            <p style="font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.5;">
+                Seu protocolo nutricional personalizado está pronto! Baseado em evidências científicas e 
+                adaptado especialmente para seu perfil, objetivos e restrições alimentares.
+            </p>
+        </div>
+
+        <div class="content-grid">
+            <div class="main-content">
+                <div class="diet-card">
+                    <h3 class="card-title">📊 Seu Perfil Nutricional</h3>
+                    
+                    <div class="profile-summary">
+                        <div class="profile-grid" id="profileGrid">
+                            <div class="profile-item">
+                                <div class="profile-icon">🎯</div>
+                                <div>
+                                    <strong>Objetivo:</strong><br>
+                                    <span id="userGoal">Perder Peso</span>
+                                </div>
+                            </div>
+                            <div class="profile-item">
+                                <div class="profile-icon">⚖️</div>
+                                <div>
+                                    <strong>Peso Atual:</strong><br>
+                                    <span id="userWeight">70kg</span>
+                                </div>
+                            </div>
+                            <div class="profile-item">
+                                <div class="profile-icon">📏</div>
+                                <div>
+                                    <strong>Altura:</strong><br>
+                                    <span id="userHeight">170cm</span>
+                                </div>
+                            </div>
+                            <div class="profile-item">
+                                <div class="profile-icon">🎂</div>
+                                <div>
+                                    <strong>Idade:</strong><br>
+                                    <span id="userAge">26-35 anos</span>
+                                </div>
+                            </div>
+                            <div class="profile-item">
+                                <div class="profile-icon">🏃</div>
+                                <div>
+                                    <strong>Atividade:</strong><br>
+                                    <span id="userActivity">Moderada</span>
+                                </div>
+                            </div>
+                            <div class="profile-item">
+                                <div class="profile-icon">🥗</div>
+                                <div>
+                                    <strong>Dieta:</strong><br>
+                                    <span id="userDiet">Sem restrições</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 15px; color: var(--accent);">🔢 Suas Metas Diárias</h4>
+                    <div class="macros-grid">
+                        <div class="macro-card calories">
+                            <div class="macro-icon">🔥</div>
+                            <div class="macro-value calories" id="targetCalories">1500</div>
+                            <div class="macro-label">Calorias</div>
+                        </div>
+                        <div class="macro-card protein">
+                            <div class="macro-icon">🥩</div>
+                            <div class="macro-value protein" id="targetProtein">120g</div>
+                            <div class="macro-label">Proteínas</div>
+                        </div>
+                        <div class="macro-card carbs">
+                            <div class="macro-icon">🌾</div>
+                            <div class="macro-value carbs" id="targetCarbs">150g</div>
+                            <div class="macro-label">Carboidratos</div>
+                        </div>
+                        <div class="macro-card fats">
+                            <div class="macro-icon">🥑</div>
+                            <div class="macro-value fats" id="targetFats">50g</div>
+                            <div class="macro-label">Gorduras</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="download-section">
+                    <h3 class="download-title">📁 Seus Materiais</h3>
+                    
+                    <div class="download-item" onclick="downloadFile('dieta-personalizada')">
+                        <div class="download-icon">📋</div>
+                        <div class="download-info">
+                            <div class="download-name">Dieta Personalizada</div>
+                            <div class="download-desc">Seu plano completo em PDF</div>
+                        </div>
+                    </div>
+
+                    <div class="download-item disabled">
+                        <div class="download-icon">📅</div>
+                        <div class="download-info">
+                            <div class="download-name">Cardápio 30 Dias</div>
+                            <div class="download-desc">Disponível na área de membros</div>
+                        </div>
+                    </div>
+
+                    <div class="download-item disabled">
+                        <div class="download-icon">👩‍🍳</div>
+                        <div class="download-info">
+                            <div class="download-name">200+ Receitas</div>
+                            <div class="download-desc">Disponível na área de membros</div>
+                        </div>
+                    </div>
+
+                    <div class="download-item disabled">
+                        <div class="download-icon">📝</div>
+                        <div class="download-info">
+                            <div class="download-name">Lista de Alimentos</div>
+                            <div class="download-desc">Disponível na área de membros</div>
+                        </div>
+                    </div>
+
+                    <button class="download-button" onclick="downloadFile('dieta-personalizada')">
+                        📥 BAIXAR DIETA PERSONALIZADA
+                    </button>
+
+                    <div class="members-area-info">
+                        <h4>🔑 Área de Membros</h4>
+                        <p>Os demais materiais (cardápio, receitas e lista de alimentos) estão disponíveis na sua área de membros exclusiva. O link de acesso foi enviado para o seu e-mail!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ✅ SISTEMA CORRIGIDO PARA LER DADOS DA PÁGINA INDEX
+        const DataStorage = {
+            // Verificar se localStorage está disponível
+            isLocalStorageAvailable: function() {
+                try {
+                    const testKey = 'test_' + Date.now();
+                    localStorage.setItem(testKey, 'test');
+                    localStorage.removeItem(testKey);
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            },
+            
+            // ✅ LER DADOS COM O MESMO SISTEMA DA PÁGINA INDEX
+            getItem: function(key) {
+                const fullKey = 'dra_giovana_' + key;
+                if (this.isLocalStorageAvailable()) {
+                    try {
+                        const value = localStorage.getItem(fullKey);
+                        if (value) {
+                            console.log(`📄 Dados recuperados do localStorage: ${key}`);
+                            return JSON.parse(value);
+                        }
+                    } catch (e) {
+                        console.warn('Erro ao ler localStorage:', e);
+                    }
+                }
+                return null;
+            }
+        };
+
+        // ✅ FUNÇÃO CORRIGIDA PARA LER DADOS DA PÁGINA INDEX
+        function getQuizData() {
+            try {
+                // ✅ LER DADOS DO MESMO LOCAL QUE A PÁGINA INDEX SALVA
+                const quizData = DataStorage.getItem('quiz_data');
+                const checkoutData = DataStorage.getItem('checkout_data');
+                const userProfile = DataStorage.getItem('user_profile');
+                
+                console.log('🔍 Dados encontrados:');
+                console.log('Quiz Data:', quizData);
+                console.log('Checkout Data:', checkoutData);
+                console.log('User Profile:', userProfile);
+                
+                // ✅ USAR quiz_data COMO FONTE PRINCIPAL (mais completo)
+                if (quizData && quizData.answers && quizData.results) {
+                    return {
+                        answers: quizData.answers,
+                        results: quizData.results,
+                        contact: quizData.answers.contact || {},
+                        hasData: true,
+                        source: 'quiz_data'
+                    };
+                }
+                
+                // ✅ FALLBACK PARA checkout_data SE DISPONÍVEL
+                if (checkoutData && checkoutData.answers && checkoutData.results) {
+                    return {
+                        answers: checkoutData.answers,
+                        results: checkoutData.results,
+                        contact: checkoutData.answers.contact || {},
+                        hasData: true,
+                        source: 'checkout_data'
+                    };
+                }
+                
+                // ✅ ÚLTIMO FALLBACK PARA user_profile (dados parciais)
+                if (userProfile) {
+                    return {
+                        answers: {
+                            goal: userProfile.goal,
+                            contact: {
+                                name: userProfile.name,
+                                email: userProfile.email
+                            }
+                        },
+                        results: {
+                            bmr: userProfile.bmr,
+                            targetCalories: userProfile.targetCalories,
+                            projectedWeightChange: userProfile.projectedWeightChange
+                        },
+                        contact: {
+                            name: userProfile.name,
+                            email: userProfile.email
+                        },
+                        hasData: true,
+                        source: 'user_profile'
+                    };
+                }
+                
+                console.log('⚠️ Nenhum dado do quiz encontrado');
+                return {
+                    answers: {},
+                    results: {},
+                    contact: {},
+                    hasData: false,
+                    source: 'none'
+                };
+                
+            } catch (error) {
+                console.error('❌ Erro ao ler dados do quiz:', error);
+                return {
+                    answers: {},
+                    results: {},
+                    contact: {},
+                    hasData: false,
+                    source: 'error'
+                };
+            }
+        }
+
+        // Dados padrão caso não tenha dados do quiz
+        const defaultUserData = {
+            name: "Cliente",
+            goal: "lose_weight",
+            gender: "female",
+            age: "26-35",
+            activity: "moderate",
+            weight: 75,
+            height: 165,
+            targetWeight: 65,
+            diet: "no_restrictions",
+            health: ["healthy"],
+            allergies: ["no_allergies"],
+            dataSource: 'default'
+        };
+         // ✅ MAPEAMENTO PARA AS 6 NOVAS PERGUNTAS
+function mapOldToNewStructure(answers) {
+    // Se já está na estrutura nova, retornar como está
+    if (answers.frustration || answers.urgency || answers.attempts) {
+        return answers;
+    }
+    
+    // Mapear estrutura antiga para nova se necessário
+    return {
+        frustration: answers.frustration || answers.goal || 'no_results',
+        urgency: answers.urgency || '1_month',
+        attempts: answers.attempts || ['generic_apps'],
+        physical: answers.physical || {
+            current_weight: answers.weight,
+            height: answers.height,
+            dream_weight: answers.target_weight || answers.targetWeight,
+            age: answers.age
+        },
+        lifestyle: answers.lifestyle || answers.diet || ['no_restrictions'],
+        contact: answers.contact || {
+            name: answers.name,
+            email: answers.email,
+            whatsapp: answers.phone
+        }
+    };
+}
+        // Traduções completas
+    const translations = {
+    goal: {
+        feel_good: "Ficar mais bonita e me sentir bem",
+        improve_health: "Melhorar minha saúde", 
+        both: "Ambos",
+        other: "Outro",
+        lose_weight: "Perder Peso",
+        gain_muscle: "Ganhar Massa Muscular", 
+        maintain: "Manter Peso",
+        health: "Melhorar Saúde"
+    },
+    gender: {
+        male: "Masculino",
+        female: "Feminino"
+    },
+    activity: {
+        sedentary: "Sedentário",
+        light: "Leve",
+        moderate: "Moderada",
+        active: "Muito ativo",
+        intense: "Intensa"
+    },
+    diet: {
+        no_restrictions: "Sem restrições",
+        vegetarian: "Vegetariana",
+        vegan: "Vegana",
+        low_carb: "Low Carb",
+        mediterranean: "Mediterrânea",
+        paleo: "Paleo"
+    },
+    // ✅ CORREÇÃO CRÍTICA: Idades EXATAMENTE iguais ao index.html
+    age: {
+        "18-26": "18-26 anos",
+        "27-38": "27-38 anos", 
+        "39-50": "39-50 anos",
+        "50+": "50+ anos"
+    },
+    health: {
+        healthy: "Saudável",
+        none: "Nenhuma condição especial",
+        diabetes: "Diabetes",
+        hypertension: "Pressão alta",
+        thyroid: "Problemas na tireoide",
+        intolerance: "Intolerâncias alimentares",
+        other: "Outras condições"
+    },
+    allergies: {
+        no_allergies: "Sem Alergias",
+        lactose: "Intolerância à Lactose",
+        gluten: "Intolerância ao Glúten",
+        nuts: "Alergia a Oleaginosas",
+        seafood: "Alergia a Frutos do Mar",
+        eggs: "Alergia a Ovos",
+        soy: "Alergia à Soja"
+    }
+};
+        // ✅ FUNÇÃO MELHORADA PARA PROCESSAR DADOS
+       function processUserData(quizData) {
+    console.log('🔄 Processando dados do usuário - VERSÃO CORRIGIDA:', quizData);
+    
+    if (!quizData.hasData) {
+        console.log('📝 Usando dados padrão - não há dados do quiz');
+        return {
+            ...defaultUserData,
+            dataSource: 'default'
+        };
+    }
+    
+    // ✅ CORREÇÃO CRÍTICA: Acessar estrutura correta dos dados
+    const rawAnswers = quizData.answers;
+    const contact = rawAnswers.contact || {};  // ✅ Contato está dentro de answers
+    const physical = rawAnswers.physical || {}; // ✅ Physical está dentro de answers
+    const results = quizData.results || {};
+    
+    console.log('🔍 Dados brutos extraídos:');
+    console.log('- Contact:', contact);
+    console.log('- Physical:', physical);
+    console.log('- Raw Answers:', rawAnswers);
+    
+    const processedData = {
+        // ✅ CORREÇÃO: Nome está em answers.contact.name
+        name: contact.name || 'Cliente',
+        email: contact.email || '',
+        phone: contact.phone || contact.whatsapp || '',
+        
+        // ✅ CORREÇÃO: Dados do quiz estão direto em answers
+        goal: rawAnswers.goal || 'feel_good',
+        gender: rawAnswers.gender || 'female',
+        age: rawAnswers.age || '27-38', // ✅ Corrigido: usar rawAnswers.age
+        activity: rawAnswers.activity || 'moderate',
+        diet: rawAnswers.preferences || rawAnswers.diet || 'no_restrictions',
+        
+        // ✅ CORREÇÃO: Dados físicos estão em answers.physical
+        weight: parseFloat(physical.weight) || 70,
+        height: parseFloat(physical.height) || 170,
+        targetWeight: parseFloat(physical.target_weight) || 65,
+        
+        // ✅ CORREÇÃO: Condições de saúde
+        health: Array.isArray(rawAnswers.health) ? rawAnswers.health : 
+                rawAnswers.health ? [rawAnswers.health] : ['none'],
+        
+        // Arrays (podem estar vazios)
+        allergies: ['no_allergies'], // Placeholder - ajustar se necessário
+        
+        // Metadados
+        dataSource: quizData.source,
+        hasRealData: true
+    };
+    
+    console.log('✅ Dados processados CORRIGIDOS:', processedData);
+    
+    // ✅ VALIDAÇÃO MELHORADA
+    if (!processedData.name || processedData.name === 'Cliente') {
+        console.warn('⚠️ Nome não encontrado, verificando locais alternativos...');
+        
+        // Tentar outras localizações possíveis
+        processedData.name = rawAnswers.name || 
+                           quizData.contact?.name || 
+                           'Cliente';
+        
+        if (processedData.name === 'Cliente') {
+            processedData.hasRealData = false;
+        }
+    }
+    
+    if (processedData.weight < 30 || processedData.weight > 300) {
+        console.warn('⚠️ Peso inválido detectado, usando valor padrão');
+        processedData.weight = 70;
+        processedData.hasRealData = false;
+    }
+    
+    if (processedData.height < 100 || processedData.height > 250) {
+        console.warn('⚠️ Altura inválida detectada, usando valor padrão');
+        processedData.height = 170;
+        processedData.hasRealData = false;
+    }
+    
+    return processedData;
+}
+
+
+        // ✅ FUNÇÃO PARA CALCULAR NUTRIÇÃO (usando dados corrigidos)
+       function calculateNutritionFromQuiz(userData) {
+    console.log('🧮 Calculando nutrição - VERSÃO CORRIGIDA:', userData);
+    
+    const weight = userData.weight;
+    const height = userData.height;
+    const goal = userData.goal;
+    const activity = userData.activity;
+    const gender = userData.gender;
+    
+    // ✅ CORREÇÃO CRÍTICA: Idades EXATAMENTE iguais ao index.html
+    const ageRanges = {
+        '18-26': 22,
+        '27-38': 32,
+        '39-50': 44,
+        '50+': 55
+    };
+    
+    const ageValue = ageRanges[userData.age] || 32;
+    console.log(`🎂 Idade processada: ${userData.age} → ${ageValue} anos`);
+    
+    // Calcular TMB (mesma fórmula da página index)
+    let bmr;
+    if (gender === 'male') {
+        bmr = 10 * weight + 6.25 * height - 5 * ageValue + 5;
+    } else {
+        bmr = 10 * weight + 6.25 * height - 5 * ageValue - 161;
+    }
+    
+    // Multiplicadores de atividade (iguais à página index)
+    const activityMultipliers = {
+        sedentary: 1.2,
+        light: 1.375,
+        moderate: 1.55,
+        active: 1.725 // ✅ Corrigido: era 'intense'
+    };
+    
+    const tdee = Math.round(bmr * (activityMultipliers[activity] || 1.55));
+    
+    // Ajustar calorias baseado no objetivo (igual à página index)
+    let calories;
+    switch(goal) {
+        case 'feel_good':
+        case 'improve_health':
+        case 'both':
+            calories = Math.round(tdee - 500); // ✅ Deficit para perda
+            break;
+        case 'gain_muscle':
+            calories = Math.round(tdee + 300);
+            break;
+        default:
+            calories = Math.round(tdee - 500); // ✅ Padrão para perda
+    }
+    
+    // Calcular macronutrientes (igual à página index)
+    const protein = Math.round(weight * 2.2);
+    const fats = Math.round(calories * 0.3 / 9);
+    const carbs = Math.round((calories - (protein * 4) - (fats * 9)) / 4);
+    
+    const result = { 
+        calories, 
+        protein, 
+        carbs, 
+        fats,
+        bmr: Math.round(bmr),
+        tdee: tdee
+    };
+    
+    console.log('✅ Nutrição calculada CORRIGIDA:', result);
+    return result;
+}
+
+
+        // ✅ FUNÇÃO MELHORADA PARA MOSTRAR STATUS DOS DADOS
+        function showDataStatus(userData, hasRealData) {
+            // Remover status anterior se existir
+            const existingStatus = document.getElementById('dataStatus');
+            if (existingStatus) {
+                existingStatus.remove();
+            }
+            
+            const statusDiv = document.createElement('div');
+            statusDiv.id = 'dataStatus';
+            statusDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 12px;
+                color: white;
+                font-weight: bold;
+                z-index: 1000;
+                max-width: 350px;
+                font-size: 14px;
+                backdrop-filter: blur(10px);
+                border: 2px solid;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            `;
+            
+            if (hasRealData) {
+                statusDiv.style.background = 'linear-gradient(135deg, rgba(0, 255, 136, 0.9), rgba(44, 122, 44, 0.9))';
+                statusDiv.style.borderColor = '#00ff88';
+                statusDiv.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                        <span style="font-size: 20px;">✅</span>
+                        <strong>Dados Carregados com Sucesso!</strong>
+                    </div>
+                    <div style="font-size: 12px; opacity: 0.9; margin-bottom: 8px;">
+                        Dieta personalizada gerada para <strong>${userData.name}</strong>
+                    </div>
+                    <div style="font-size: 11px; opacity: 0.8;">
+                        Fonte: ${userData.dataSource || 'quiz_data'} • ${userData.weight}kg • ${translations.goal[userData.goal] || userData.goal}
+                    </div>
+                `;
+                
+                // Remover após 5 segundos
+                setTimeout(() => {
+                    statusDiv.style.opacity = '0';
+                    statusDiv.style.transform = 'translateX(100%)';
+                    setTimeout(() => statusDiv.remove(), 500);
+                }, 5000);
+                
+            } else {
+                statusDiv.style.background = 'linear-gradient(135deg, rgba(255, 107, 53, 0.9), rgba(247, 147, 30, 0.9))';
+                statusDiv.style.borderColor = '#ff6b35';
+                statusDiv.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                        <span style="font-size: 20px;">⚠️</span>
+                        <strong>Usando Dados de Demonstração</strong>
+                    </div>
+                    <div style="font-size: 12px; opacity: 0.9; margin-bottom: 10px;">
+                        Para sua dieta verdadeiramente personalizada, refaça o quiz
+                    </div>
+                    <button onclick="window.location.href='index.html'" style="
+                        background: white;
+                        color: #ff6b35;
+                        border: none;
+                        padding: 8px 16px;
+                        border-radius: 6px;
+                        cursor: pointer;
+                        font-weight: bold;
+                        font-size: 12px;
+                        width: 100%;
+                    ">🔄 Refazer Quiz Personalizado</button>
+                `;
+            }
+            
+            document.body.appendChild(statusDiv);
+        }
+
+        // ✅ FUNÇÃO PARA ADICIONAR AVISO DE DEMONSTRAÇÃO NA INTERFACE
+        function addDemoWarningToInterface() {
+            const welcomeCard = document.querySelector('.welcome-card');
+            if (welcomeCard && !document.getElementById('demoWarning')) {
+                const demoWarning = document.createElement('div');
+                demoWarning.id = 'demoWarning';
+                demoWarning.style.cssText = `
+                    background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(247, 147, 30, 0.15));
+                    border: 2px solid rgba(255, 107, 53, 0.4);
+                    border-radius: 16px;
+                    padding: 25px;
+                    margin-top: 25px;
+                    text-align: center;
+                    position: relative;
+                    overflow: hidden;
+                `;
+                
+                demoWarning.innerHTML = `
+                    <div style="font-size: 24px; margin-bottom: 12px;">⚠️</div>
+                    <h4 style="color: #ff6b35; margin-bottom: 12px; font-size: 18px; font-weight: 800;">
+                        Visualização de Demonstração
+                    </h4>
+                    <p style="color: rgba(255, 255, 255, 0.9); font-size: 14px; line-height: 1.5; margin-bottom: 15px;">
+                        Esta é uma prévia com dados genéricos. Para sua dieta verdadeiramente personalizada baseada nas suas informações específicas, você precisa refazer o quiz completo.
+                    </p>
+                    <button onclick="window.location.href='index.html'" style="
+                        background: linear-gradient(135deg, #ff6b35, #f7931e);
+                        color: white;
+                        border: none;
+                        padding: 12px 24px;
+                        border-radius: 10px;
+                        cursor: pointer;
+                        font-weight: bold;
+                        font-size: 14px;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                        transition: all 0.3s ease;
+                    " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                        🚀 Fazer Minha Avaliação Personalizada
+                    </button>
+                `;
+                
+                welcomeCard.appendChild(demoWarning);
+            }
+        }
+
+        // ✅ FUNÇÃO PRINCIPAL CORRIGIDA PARA CARREGAR DADOS
+        function loadUserData() {
+            console.log('🚀 Carregando dados do usuário - versão corrigida...');
+            
+            try {
+                // ✅ 1. LER DADOS DO LOCAL CORRETO
+                const quizData = getQuizData();
+                console.log('📄 Dados brutos recuperados:', quizData);
+                
+                // ✅ 2. PROCESSAR DADOS COM ESTRUTURA CORRETA
+                const userData = processUserData(quizData);
+                console.log('👤 Dados do usuário processados:', userData);
+                
+                // ✅ 3. CALCULAR NUTRIÇÃO BASEADA NOS DADOS REAIS
+                const nutrition = calculateNutritionFromQuiz(userData);
+                console.log('🧮 Nutrição calculada:', nutrition);
+                
+                // ✅ 4. VERIFICAR SE TEMOS DADOS REAIS OU ESTAMOS USANDO DEFAULTS
+                const hasRealData = quizData.hasData && userData.hasRealData;
+                console.log('🔍 Usando dados reais?', hasRealData);
+                
+                // ✅ 5. MOSTRAR STATUS NA INTERFACE
+                showDataStatus(userData, hasRealData);
+                
+                // ✅ 6. ATUALIZAR INTERFACE COM DADOS PERSONALIZADOS
+                updateUserInterface(userData, nutrition);
+                
+                // ✅ 7. SALVAR DADOS GLOBALMENTE PARA USO NO PDF
+                window.currentUserData = userData;
+                window.currentNutrition = nutrition;
+                window.hasRealData = hasRealData;
+                window.dataSource = quizData.source;
+                
+                // ✅ 8. LOG COMPLETO PARA DEBUG
+                console.log('📊 RESUMO FINAL DA CARGA DE DADOS:');
+                console.log('┌─ Fonte dos dados:', quizData.source);
+                console.log('├─ Dados válidos:', hasRealData);
+                console.log('├─ Nome:', userData.name);
+                console.log('├─ Objetivo:', userData.goal);
+                console.log('├─ Peso:', userData.weight + 'kg');
+                console.log('├─ Altura:', userData.height + 'cm');
+                console.log('├─ Calorias meta:', nutrition.calories);
+                console.log('├─ Proteínas:', nutrition.protein + 'g');
+                console.log('├─ Carboidratos:', nutrition.carbs + 'g');
+                console.log('└─ Gorduras:', nutrition.fats + 'g');
+                
+                // ✅ 9. ADICIONAR INFORMAÇÕES EXTRAS SE NÃO TEMOS DADOS REAIS
+                if (!hasRealData) {
+                    addDemoWarningToInterface();
+                    console.log('⚠️ Usando dados de demonstração - usuário deve refazer quiz');
+                } else {
+                    console.log('✅ Sistema funcionando perfeitamente com dados reais!');
+                }
+                
+            } catch (error) {
+                console.error('❌ Erro ao carregar dados:', error);
+                
+                // Fallback para dados padrão
+                const userData = { ...defaultUserData, dataSource: 'error_fallback' };
+                const nutrition = calculateNutritionFromQuiz(userData);
+                
+                updateUserInterface(userData, nutrition);
+                showDataStatus(userData, false);
+                addDemoWarningToInterface();
+                
+                window.currentUserData = userData;
+                window.currentNutrition = nutrition;
+                window.hasRealData = false;
+                
+                console.log('🔄 Fallback aplicado - usando dados padrão');
+            }
+        }
+
+        // Função para gerar mensagem personalizada baseada no objetivo
+        function getPersonalizedMessage(userData) {
+            const { goal, weight, targetWeight, health, allergies } = userData;
+            
+            let message = "";
+            
+            switch(goal) {
+                case 'lose_weight':
+                    const weightToLose = weight - targetWeight;
+                    message = `Seu protocolo foi desenvolvido para eliminar ${weightToLose}kg de forma saudável e sustentável. `;
+                    break;
+                case 'gain_muscle':
+                    message = "Seu protocolo foi desenvolvido para ganho de massa muscular magra e definição corporal. ";
+                    break;
+                case 'maintain':
+                    message = "Seu protocolo foi desenvolvido para manutenção do peso e equilíbrio nutricional. ";
+                    break;
+                case 'health':
+                    message = "Seu protocolo foi desenvolvido para otimização da saúde e bem-estar geral. ";
+                    break;
+            }
+            
+            // Adicionar informações sobre condições de saúde
+            if (health && health.length > 0 && !health.includes('healthy')) {
+                message += "Consideramos suas condições de saúde específicas na elaboração do plano. ";
+            }
+            
+            // Adicionar informações sobre alergias
+            if (allergies && allergies.length > 0 && !allergies.includes('no_allergies')) {
+                message += "Todas as suas restrições alimentares foram respeitadas no cardápio. ";
+            }
+            
+            return message;
+        }
+
+        // Função para atualizar a interface
+        function updateUserInterface(userData, nutrition) {
+            // Nome do usuário
+            const firstName = userData.name.split(' ')[0];
+            document.getElementById('userName').textContent = `Olá, ${firstName}!`;
+            
+            // Perfil do usuário
+            document.getElementById('userGoal').textContent = translations.goal[userData.goal] || 'Objetivo não definido';
+            document.getElementById('userWeight').textContent = userData.weight + 'kg';
+            document.getElementById('userHeight').textContent = userData.height + 'cm';
+            document.getElementById('userAge').textContent = translations.age[userData.age] || userData.age;
+            document.getElementById('userActivity').textContent = translations.activity[userData.activity] || 'Não definido';
+            document.getElementById('userDiet').textContent = translations.diet[userData.diet] || 'Não definido';
+            
+            // Metas nutricionais
+            document.getElementById('targetCalories').textContent = nutrition.calories;
+            document.getElementById('targetProtein').textContent = nutrition.protein + 'g';
+            document.getElementById('targetCarbs').textContent = nutrition.carbs + 'g';
+            document.getElementById('targetFats').textContent = nutrition.fats + 'g';
+            
+            // Atualizar subtítulo com mensagem personalizada
+            const welcomeCard = document.querySelector('.welcome-card p');
+            if (welcomeCard) {
+                const personalizedMessage = getPersonalizedMessage(userData);
+                welcomeCard.innerHTML = personalizedMessage + 'Baseado em evidências científicas e adaptado especialmente para seu perfil, objetivos e restrições alimentares.';
+            }
+            
+            // Adicionar informações de saúde se houver
+            addHealthInformation(userData);
+        }
+
+        // Função para adicionar informações de saúde
+        function addHealthInformation(userData) {
+            const profileGrid = document.getElementById('profileGrid');
+            
+            // Adicionar condições de saúde se houver
+            if (userData.health && userData.health.length > 0 && !userData.health.includes('healthy')) {
+                const healthItem = document.createElement('div');
+                healthItem.className = 'profile-item';
+                healthItem.innerHTML = `
+                    <div class="profile-icon">🏥</div>
+                    <div>
+                        <strong>Condições:</strong><br>
+                        <span>${userData.health.map(h => translations.health[h] || h).join(', ')}</span>
+                    </div>
+                `;
+                profileGrid.appendChild(healthItem);
+            }
+            
+            // Adicionar alergias se houver
+            if (userData.allergies && userData.allergies.length > 0 && !userData.allergies.includes('no_allergies')) {
+                const allergyItem = document.createElement('div');
+                allergyItem.className = 'profile-item';
+                allergyItem.innerHTML = `
+                    <div class="profile-icon">⚠️</div>
+                    <div>
+                        <strong>Restrições:</strong><br>
+                        <span>${userData.allergies.map(a => translations.allergies[a] || a).join(', ')}</span>
+                    </div>
+                `;
+                profileGrid.appendChild(allergyItem);
+            }
+        }
+
+        // 💰 FUNÇÃO DE GERAÇÃO DE PDF COM ALIMENTOS ECONÔMICOS + PÁGINA DE OPÇÕES
+        function calculatePortions(nutrition) {
+            const { calories, protein, carbs, fats } = nutrition;
+            
+            // Calcular porções baseadas nas necessidades
+            const portions = {
+                // Proteínas (cada porção = ~20g proteína)
+                chicken: Math.round(protein / 20), // porções de 100g
+                eggs: Math.round(protein / 40), // ovos por dia (cada ovo = ~6g proteína)
+                
+                // Carboidratos (cada porção = ~30g carbs)
+                rice: Math.round(carbs / 30), // colheres de sopa
+                oats: Math.round(carbs / 40), // colheres de sopa
+                sweetPotato: Math.round(carbs / 25), // unidades médias
+                
+                // Gorduras (cada porção = ~10g gordura)
+                oil: Math.round(fats / 10), // colheres de sopa
+                nuts: Math.round(fats / 15), // porções de 20g
+                
+                // Vegetais (sempre 2-3 porções independente das calorias)
+                vegetables: 3,
+                
+                // Frutas (baseado nas calorias totais)
+                fruits: calories > 1800 ? 3 : calories > 1500 ? 2 : 1
+            };
+            
+            return portions;
+        }
+       
+function generateDietaPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    const userData = window.currentUserData || defaultUserData;
+    const nutrition = window.currentNutrition || { calories: 1500, protein: 120, carbs: 150, fats: 50 };
+    
+    // ✅ CALCULAR PORÇÕES ESPECÍFICAS
+    const portions = calculatePortions(nutrition);
+    
+    console.log('🔄 Gerando PDF com quantidades específicas:', portions);
+    
+    // ✅ FUNÇÃO AUXILIAR SEGURA PARA QUEBRAR TEXTO
+    function addTextWithWrap(text, x, y, maxWidth = 160) {
+        const words = text.split(' ');
+        let line = '';
+        let currentY = y;
+        
+        for (let i = 0; i < words.length; i++) {
+            const testLine = line + words[i] + ' ';
+            const testWidth = doc.getTextWidth(testLine);
+            
+            if (testWidth > maxWidth && line !== '') {
+                doc.text(line.trim(), x, currentY);
+                line = words[i] + ' ';
+                currentY += 5;
+                
+                if (currentY > 270) {
+                    doc.addPage();
+                    currentY = 30;
+                }
+            } else {
+                line = testLine;
+            }
+        }
+        
+        if (line.trim() !== '') {
+            doc.text(line.trim(), x, currentY);
+            currentY += 5;
+        }
+        
+        return currentY;
+    }
+    
+    // ✅ FUNÇÃO AUXILIAR PARA NOVA PÁGINA SE NECESSÁRIO
+    function checkNewPage(currentY, spaceNeeded = 30) {
+        if (currentY + spaceNeeded > 280) {
+            doc.addPage();
+            return 30;
+        }
+        return currentY;
+    }
+    
+    // ✅ DETECTAR CONDIÇÕES
+    const hasLactoseIntolerance = userData.allergies && userData.allergies.includes('lactose');
+    const hasGlutenIntolerance = userData.allergies && userData.allergies.includes('gluten');
+    const hasDiabetes = userData.health && userData.health.includes('diabetes');
+    const hasHypertension = userData.health && userData.health.includes('hypertension');
+    
+    try {
+        // =================== CAPA ===================
+        console.log('📄 Gerando capa...');
+        
+        doc.setFillColor(44, 122, 44);
+        doc.rect(0, 0, 210, 297, 'F');
+        
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(32);
+        doc.text('DIETA PERSONALIZADA', 105, 70, { align: 'center' });
+        
+        doc.setFontSize(18);
+        doc.text('Protocolo Nutricional Economico', 105, 90, { align: 'center' });
+        
+        doc.setFontSize(26);
+        doc.text(userData.name || 'Cliente', 105, 130, { align: 'center' });
+        
+        doc.setFontSize(16);
+        doc.text(`Objetivo: ${translations.goal[userData.goal] || userData.goal}`, 105, 150, { align: 'center' });
+        doc.text(`${nutrition.calories} calorias diarias`, 105, 170, { align: 'center' });
+        
+        doc.setFontSize(14);
+        doc.text('Dra. Giovana Nutricionista', 105, 210, { align: 'center' });
+        doc.text('CRN: 3 87654 - Especialista em Nutricao Clinica', 105, 225, { align: 'center' });
+        
+        const today = new Date().toLocaleDateString('pt-BR');
+        doc.text('Data: ' + today, 105, 260, { align: 'center' });
+        
+        // =================== PÁGINA 2 - AVALIAÇÃO ===================
+        console.log('📄 Gerando página de avaliação...');
+        
+        doc.addPage();
+        doc.setTextColor(0, 0, 0);
+        doc.setFontSize(22);
+        doc.setTextColor(44, 122, 44);
+        doc.text('SUA AVALIACAO NUTRICIONAL', 20, 25);
+        
+        doc.setDrawColor(44, 122, 44);
+        doc.setLineWidth(2);
+        doc.line(20, 30, 190, 30);
+        
+        let yPos = 45;
+        
+        // Dados pessoais
+        doc.setFontSize(14);
+        doc.setTextColor(0, 0, 0);
+        doc.text('DADOS PESSOAIS', 20, yPos);
+        yPos += 15;
+        
+        doc.setFontSize(11);
+        const dadosUsuario = [
+            ['Nome:', userData.name || 'N/A'],
+            ['Objetivo:', translations.goal[userData.goal] || userData.goal],
+            ['Peso Atual:', (userData.weight || 70) + 'kg'],
+            ['Altura:', (userData.height || 170) + 'cm'],
+            ['Faixa Etaria:', translations.age[userData.age] || userData.age],
+            ['Nivel de Atividade:', translations.activity[userData.activity] || userData.activity],
+            ['Tipo de Dieta:', translations.diet[userData.diet] || userData.diet]
+        ];
+        
+        dadosUsuario.forEach(([label, value]) => {
+            yPos = checkNewPage(yPos);
+            doc.text(label, 25, yPos);
+            doc.text(String(value), 80, yPos);
+            yPos += 8;
+        });
+        
+        // Cálculos nutricionais
+        yPos = checkNewPage(yPos, 60);
+        yPos += 15;
+        doc.setFontSize(14);
+        doc.setTextColor(44, 122, 44);
+        doc.text('SEUS NUMEROS', 20, yPos);
+        yPos += 12;
+        
+        doc.setFontSize(11);
+        doc.setTextColor(0, 0, 0);
+        
+        const peso = userData.weight || 70;
+        const altura = userData.height || 170;
+        const imc = (peso / ((altura/100) * (altura/100))).toFixed(1);
+        
+        const calculos = [
+            ['IMC:', `${imc} kg/m2`],
+            ['TMB:', `${nutrition.bmr || 'N/A'} cal/dia`],
+            ['Meta Calorias:', `${nutrition.calories} cal`],
+            ['Proteinas:', `${nutrition.protein}g`],
+            ['Carboidratos:', `${nutrition.carbs}g`],
+            ['Gorduras:', `${nutrition.fats}g`]
+        ];
+        
+        calculos.forEach(([label, value]) => {
+            yPos = checkNewPage(yPos);
+            doc.text(label, 25, yPos);
+            doc.text(value, 100, yPos);
+            yPos += 8;
+        });
+        
+        // =================== PÁGINA 3 - CARDÁPIO ===================
+        console.log('📄 Gerando cardápio...');
+        
+        doc.addPage();
+        doc.setFontSize(20);
+        doc.setTextColor(44, 122, 44);
+        doc.text('CARDAPIO ECONOMICO - 7 DIAS', 20, 25);
+        
+        doc.setDrawColor(44, 122, 44);
+        doc.setLineWidth(2);
+        doc.line(20, 30, 190, 30);
+        
+        yPos = 45;
+        doc.setFontSize(10);
+        doc.setTextColor(0, 100, 0);
+        doc.text('Cardapio com ingredientes acessiveis (R$ 15-25/dia)', 20, yPos);
+        yPos += 15;
+        
+        doc.setFontSize(10);
+        doc.setTextColor(0, 0, 0);
+        
+        // Cardápio simplificado para evitar problemas
+         const cardapio = [
+        {
+            dia: 'SEGUNDA-FEIRA',
+            refeicoes: [
+                `Cafe: ${portions.eggs} ovos mexidos + 2 fatias pao integral + cafe`,
+                `Lanche: 1 banana media + ${Math.round(portions.nuts/2)} col sopa amendoim`,
+                `Almoco: ${portions.chicken*100}g frango + ${portions.rice} col sopa arroz + ${Math.round(portions.rice/2)} col sopa feijao + salada verde`,
+                `Lanche: Vitamina (1 banana + 200ml leite + 1 col sopa aveia)`,
+                `Jantar: ${portions.eggs} ovos + abobrinha refogada + ${Math.round(portions.sweetPotato/2)} batata doce media`
+            ]
+        },
+        {
+            dia: 'TERCA-FEIRA',
+            refeicoes: [
+                `Cafe: ${Math.round(portions.oats)} col sopa aveia + 1 banana + cafe`,
+                `Lanche: 1 maca + ${Math.round(portions.nuts/3)} castanhas`,
+                `Almoco: ${portions.chicken*80}g carne moida + ${portions.rice} col sopa arroz + cenoura refogada`,
+                `Lanche: 1 batata doce media cozida`,
+                `Jantar: ${portions.chicken*100}g frango + abobrinha + ${Math.round(portions.sweetPotato/2)} mandioca`
+            ]
+        },
+        {
+            dia: 'QUARTA-FEIRA',
+            refeicoes: [
+                `Cafe: Mingau (${Math.round(portions.oats)} col sopa aveia + 200ml leite) + 1 banana`,
+                `Lanche: 1 laranja + ${Math.round(portions.nuts/3)} castanhas`,
+                `Almoco: 1 lata sardinha + ${portions.rice} col sopa arroz + ${Math.round(portions.rice/2)} col sopa feijao + couve refogada`,
+                `Lanche: Vitamina abacate (1/2 abacate + 200ml leite + 1 col cha cacau)`,
+                `Jantar: ${portions.eggs} ovos + legumes refogados + ${Math.round(portions.sweetPotato/2)} inhame`
+            ]
+        },
+        {
+            dia: 'QUINTA-FEIRA',
+            refeicoes: [
+                `Cafe: 2 fatias pao integral + ${Math.round(portions.nuts/2)} col sopa pasta amendoim`,
+                `Lanche: 1 mamao pequeno + ${Math.round(portions.oats/2)} col sopa aveia`,
+                `Almoco: ${portions.chicken*100}g frango + ${portions.rice} col sopa macarrao + molho tomate`,
+                `Lanche: 1 pote iogurte natural (170ml)`,
+                `Jantar: ${portions.chicken*80}g carne moida + abobrinha + ${portions.rice} col sopa arroz`
+            ]
+        },
+        {
+            dia: 'SEXTA-FEIRA',
+            refeicoes: [
+                `Cafe: Vitamina (1 banana + 200ml leite + ${Math.round(portions.oats)} col sopa aveia)`,
+                `Lanche: 1 maca + canela`,
+                `Almoco: ${portions.chicken*100}g frango + ${Math.round(portions.rice/2)} col sopa lentilha + salada verde`,
+                `Lanche: ${Math.round(portions.nuts/2)} col sopa amendoim torrado`,
+                `Jantar: Omelete ${portions.eggs} ovos + 1 batata doce media + salada`
+            ]
+        },
+        {
+            dia: 'SABADO',
+            refeicoes: [
+                `Cafe: Panqueca (${Math.round(portions.oats)} col sopa aveia + 1 ovo + 1 banana)`,
+                `Lanche: 1 banana + ${Math.round(portions.oats/2)} col sopa aveia`,
+                `Almoco: 1 lata sardinha + ${portions.rice} col sopa arroz + ${Math.round(portions.rice/2)} col sopa feijao`,
+                `Lanche: Vitamina manga (1 manga + 200ml leite)`,
+                `Jantar: ${portions.chicken*100}g frango + pure mandioca + couve refogada`
+            ]
+        },
+        {
+            dia: 'DOMINGO',
+            refeicoes: [
+                `Cafe: ${portions.eggs} ovos + 1/2 abacate + 2 fatias pao`,
+                `Lanche: 1 banana + ${Math.round(portions.nuts/2)} col sopa pasta amendoim`,
+                `Almoco: ${portions.chicken*100}g carne + 1 batata doce grande + vagem refogada`,
+                `Lanche: Vitamina frutas (1 banana + 1/2 mamao + 200ml leite)`,
+                `Jantar: Omelete ${portions.eggs} ovos + legumes refogados + ${Math.round(portions.sweetPotato/2)} mandioca`
+            ]
+        }
+    ];
+        
+        cardapio.forEach(dia => {
+            yPos = checkNewPage(yPos, 35);
+            
+            doc.setFontSize(12);
+            doc.setTextColor(44, 122, 44);
+            doc.text(dia.dia, 20, yPos);
+            yPos += 10;
+            
+            doc.setFontSize(9);
+            doc.setTextColor(0, 0, 0);
+            
+            dia.refeicoes.forEach(refeicao => {
+                yPos = checkNewPage(yPos);
+                yPos = addTextWithWrap(refeicao, 25, yPos, 150);
+                yPos += 2;
+            });
+            yPos += 8;
+        });
+        
+        // =================== PÁGINA 4 - RECEITAS ===================
+        console.log('📄 Gerando receitas...');
+        
+        doc.addPage();
+        doc.setFontSize(20);
+        doc.setTextColor(44, 122, 44);
+        doc.text('RECEITAS ECONOMICAS', 20, 25);
+        
+        doc.setDrawColor(44, 122, 44);
+        doc.setLineWidth(2);
+        doc.line(20, 30, 190, 30);
+        
+        yPos = 45;
+        
+      const receitas = [
+    {
+        nome: 'Omelete Personalizada',
+        info: `Tempo: 10 min | Calorias: ${Math.round(portions.eggs * 70)} | Custo: R$ ${(portions.eggs * 1.25).toFixed(2)}`,
+        ingredientes: [
+            `${portions.eggs} ovos inteiros`,
+            '1 tomate medio picado',
+            '1 col. cha azeite',
+            'Sal e pimenta a gosto',
+            'Ervas finas (opcional)'
+        ],
+        preparo: [
+            `Bata os ${portions.eggs} ovos com sal e pimenta`,
+            'Aqueça o azeite na frigideira antiaderente',
+            'Refogue o tomate por 1-2 minutos',
+            'Adicione os ovos batidos',
+            'Cozinhe em fogo medio por 3-4 min de cada lado'
+        ]
+    },
+    {
+        nome: 'Frango Grelhado Personalizado',
+        info: `Tempo: 25 min | Calorias: ${Math.round(portions.chicken * 280)} | Custo: R$ ${(portions.chicken * 4.00).toFixed(2)}`,
+        ingredientes: [
+            `${portions.chicken * 100}g coxa de frango sem pele`,
+            '2 dentes alho amassados',
+            '1 col. sopa azeite',
+            'Suco de 1/2 limao',
+            'Sal, pimenta, oregano a gosto'
+        ],
+        preparo: [
+            'Tempere o frango com todos os temperos',
+            'Deixe marinar por 15 minutos',
+            'Aqueça frigideira com um fio de azeite',
+            'Grelhe o frango 8-10 min cada lado',
+            'Verifique se está bem cozido antes de servir'
+        ]
+    },
+    {
+        nome: 'Vitamina Energetica Personalizada',
+        info: `Tempo: 5 min | Calorias: ${Math.round(portions.fruits * 120)} | Custo: R$ 3,50`,
+        ingredientes: [
+            `${portions.fruits} banana${portions.fruits > 1 ? 's' : ''} media${portions.fruits > 1 ? 's' : ''}`,
+            '200ml leite ou leite vegetal',
+            `${Math.round(portions.oats)} col. sopa aveia em flocos`,
+            '1 col. cha mel (opcional)',
+            'Canela em po a gosto'
+        ],
+        preparo: [
+            `Descasque a${portions.fruits > 1 ? 's' : ''} banana${portions.fruits > 1 ? 's' : ''} e corte em rodelas`,
+            'Coloque todos os ingredientes no liquidificador',
+            'Bata por 1-2 minutos ate ficar homogeneo',
+            'Sirva imediatamente',
+            'Adicione gelo se preferir gelado'
+        ]
+    }
+];
+
+        
+        receitas.forEach(receita => {
+            yPos = checkNewPage(yPos, 50);
+            
+            // Título da receita
+            doc.setFontSize(14);
+            doc.setTextColor(44, 122, 44);
+            doc.text(receita.nome, 20, yPos);
+            yPos += 8;
+            
+            // Info da receita
+            doc.setFontSize(9);
+            doc.setTextColor(0, 100, 0);
+            doc.text(receita.info, 20, yPos);
+            yPos += 12;
+            
+            // Ingredientes
+            doc.setFontSize(11);
+            doc.setTextColor(0, 0, 0);
+            doc.text('INGREDIENTES:', 20, yPos);
+            yPos += 7;
+            
+            doc.setFontSize(9);
+            receita.ingredientes.forEach(ingrediente => {
+                yPos = checkNewPage(yPos);
+                doc.text('- ' + ingrediente, 25, yPos);
+                yPos += 5;
+            });
+            yPos += 5;
+            
+            // Preparo
+            doc.setFontSize(11);
+            doc.text('MODO DE PREPARO:', 20, yPos);
+            yPos += 7;
+            
+            doc.setFontSize(9);
+            receita.preparo.forEach((passo, index) => {
+                yPos = checkNewPage(yPos);
+                yPos = addTextWithWrap(`${index + 1}. ${passo}`, 25, yPos, 150);
+                yPos += 2;
+            });
+            yPos += 15;
+        });
+        
+        // =================== PÁGINA 5 - LISTA DE COMPRAS ===================
+        console.log('📄 Gerando lista de compras...');
+        
+        doc.addPage();
+        doc.setFontSize(20);
+        doc.setTextColor(44, 122, 44);
+        doc.text('LISTA DE COMPRAS ECONOMICA', 20, 25);
+        
+        doc.setDrawColor(44, 122, 44);
+        doc.setLineWidth(2);
+        doc.line(20, 30, 190, 30);
+        
+        yPos = 45;
+        doc.setFontSize(10);
+        doc.setTextColor(0, 100, 0);
+        doc.text('Lista organizada por preco - compre no atacado para economizar!', 20, yPos);
+        yPos += 15;
+        
+        const listaCompras = [
+            {
+                categoria: 'PROTEINAS BARATAS (R$ 8-18/kg)',
+                items: [
+                    'Ovos (cartela 30 unidades) - R$ 12-15',
+                    'Frango coxa/sobrecoxa - R$ 8-12/kg',
+                    'Carne moida de segunda - R$ 15-18/kg',
+                    'Sardinha em conserva - R$ 3-4/lata',
+                    'Feijao carioca - R$ 6-8/kg',
+                    'Lentilha - R$ 8-10/kg'
+                ]
+            },
+            {
+                categoria: 'CARBOIDRATOS BARATOS (R$ 2-8/kg)',
+                items: [
+                    'Arroz integral - R$ 4-6/kg',
+                    'Aveia em flocos - R$ 6-8/kg',
+                    'Batata doce - R$ 3-5/kg',
+                    'Pao integral - R$ 6-8/unidade',
+                    'Banana - R$ 3-5/kg',
+                    'Mandioca/Aipim - R$ 2-4/kg'
+                ]
+            },
+            {
+                categoria: 'VEGETAIS BARATOS (R$ 1-5/kg)',
+                items: [
+                    'Abobrinha - R$ 2-4/kg',
+                    'Repolho - R$ 1-3/kg',
+                    'Cenoura - R$ 2-4/kg',
+                    'Cebola - R$ 2-4/kg',
+                    'Tomate - R$ 3-5/kg',
+                    'Couve - R$ 1-2/maco'
+                ]
+            }
+        ];
+        
+        listaCompras.forEach(categoria => {
+            yPos = checkNewPage(yPos, 30);
+            
+            doc.setFontSize(12);
+            doc.setTextColor(44, 122, 44);
+            doc.text(categoria.categoria, 20, yPos);
+            yPos += 10;
+            
+            doc.setFontSize(9);
+            doc.setTextColor(0, 0, 0);
+            
+            categoria.items.forEach(item => {
+                yPos = checkNewPage(yPos);
+                doc.text('- ' + item, 25, yPos);
+                yPos += 6;
+            });
+            yPos += 10;
+        });
+        
+        // =================== PÁGINA FINAL - ORIENTAÇÕES ===================
+        console.log('📄 Gerando orientações finais...');
+        
+        doc.addPage();
+        doc.setFontSize(20);
+        doc.setTextColor(44, 122, 44);
+        doc.text('ORIENTACOES PERSONALIZADAS', 20, 25);
+        
+        doc.setDrawColor(44, 122, 44);
+        doc.setLineWidth(2);
+        doc.line(20, 30, 190, 30);
+        
+        yPos = 45;
+        
+        // Orientações específicas por condição
+        if (hasDiabetes) {
+            doc.setFontSize(12);
+            doc.setTextColor(200, 0, 0);
+            doc.text('ORIENTACOES PARA DIABETES:', 20, yPos);
+            yPos += 10;
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            
+            const diabetesOrientacoes = [
+                'Monitore a glicemia antes e apos refeicoes',
+                'Prefira carboidratos de baixo indice glicemico',
+                'Distribua carboidratos ao longo do dia',
+                'Evite acucares simples e doces',
+                'Mantenha horarios regulares das refeicoes'
+            ];
+            
+            diabetesOrientacoes.forEach(orientacao => {
+                yPos = checkNewPage(yPos);
+                yPos = addTextWithWrap('- ' + orientacao, 25, yPos, 150);
+            });
+            yPos += 10;
+        }
+        
+        if (hasHypertension) {
+            yPos = checkNewPage(yPos, 40);
+            doc.setFontSize(12);
+            doc.setTextColor(200, 0, 0);
+            doc.text('ORIENTACOES PARA HIPERTENSAO:', 20, yPos);
+            yPos += 10;
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            
+            const hipertensaoOrientacoes = [
+                'Reduza o consumo de sodio para menos de 2g/dia',
+                'Aumente o consumo de potassio (banana, espinafre)',
+                'Evite alimentos industrializados ricos em sodio',
+                'Use temperos naturais em vez de sal',
+                'Monitore a pressao arterial regularmente'
+            ];
+            
+            hipertensaoOrientacoes.forEach(orientacao => {
+                yPos = checkNewPage(yPos);
+                yPos = addTextWithWrap('- ' + orientacao, 25, yPos, 150);
+            });
+            yPos += 10;
+        }
+        
+        // Orientações gerais
+        yPos = checkNewPage(yPos, 40);
+        doc.setFontSize(12);
+        doc.setTextColor(44, 122, 44);
+        doc.text('ORIENTACOES GERAIS:', 20, yPos);
+        yPos += 10;
+        doc.setFontSize(10);
+        doc.setTextColor(0, 0, 0);
+        
+        const orientacoesGerais = [
+            'Beba pelo menos 2-3 litros de agua por dia',
+            'Faca 5-6 refeicoes pequenas ao longo do dia',
+            'Nunca pule o cafe da manha',
+            'Pratique atividade fisica regularmente',
+            'Durma pelo menos 7-8 horas por noite',
+            'Prefira sempre alimentos integrais',
+            'Cozinhe em casa sempre que possivel'
+        ];
+        
+        orientacoesGerais.forEach(orientacao => {
+            yPos = checkNewPage(yPos);
+            yPos = addTextWithWrap('- ' + orientacao, 25, yPos, 150);
+        });
+        
+        console.log('✅ PDF gerado com sucesso!');
+        return doc;
+        
+    } catch (error) {
+        console.error('❌ Erro ao gerar PDF:', error);
+        throw error;
+    }
+}
+
+        // Função de download
+        function downloadFile(type) {
+            if (type !== 'dieta-personalizada') {
+                alert('Este material está disponível na sua área de membros exclusiva! Verifique seu e-mail para o link de acesso.');
+                return;
+            }
+
+            try {
+                const doc = generateDietaPDF();
+                const userData = window.currentUserData || { name: 'Cliente' };
+                const filename = `Dieta_Economica_${userData.name.replace(/\s+/g, '_')}_DrGiovana.pdf`;
+                doc.save(filename);
+                
+                console.log('📥 Download iniciado:', filename);
+                
+            } catch (error) {
+                console.error('Erro ao gerar PDF:', error);
+                alert('Erro ao gerar PDF. Tente novamente.');
+            }
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎯 Página de obrigado carregada - versão econômica...');
+            
+            // ✅ 1. CRIAR PARTÍCULAS
+            createParticles();
+            
+            // ✅ 2. CARREGAR DADOS DO USUÁRIO (VERSÃO CORRIGIDA)
+            loadUserData();
+            
+            // ✅ 3. ADICIONAR BOTÃO DE DEBUG EM DESENVOLVIMENTO
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                setTimeout(() => {
+                    addDebugButton();
+                }, 1000);
+            }
+            
+            console.log('🚀 Sistema econômico inicializado!');
+            console.log('💰 Dieta principal: ingredientes econômicos');
+            console.log('📄 Nova página: opções de substituição por orçamento');
+            console.log('🎯 100% personalizado baseado no quiz');
+        });
+
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = window.innerWidth > 768 ? 50 : 25;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // ✅ BOTÃO DE DEBUG PARA DESENVOLVIMENTO
+        function addDebugButton() {
+            if (document.getElementById('debugButton')) return;
+            
+            const debugButton = document.createElement('button');
+            debugButton.id = 'debugButton';
+            debugButton.textContent = '🐛 Verificar Dados';
+            debugButton.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                padding: 12px 20px;
+                background: linear-gradient(135deg, #333, #555);
+                color: white;
+                border: 2px solid #666;
+                border-radius: 10px;
+                cursor: pointer;
+                font-weight: bold;
+                font-size: 12px;
+                z-index: 9999;
+                backdrop-filter: blur(10px);
+                transition: all 0.3s ease;
+            `;
+            
+            debugButton.onclick = () => {
+                console.log('🔍 Executando verificação manual...');
+                showDebugInfo();
+            };
+            
+            debugButton.onmouseover = () => {
+                debugButton.style.transform = 'translateY(-2px)';
+                debugButton.style.borderColor = '#00ff88';
+            };
+            
+            debugButton.onmouseout = () => {
+                debugButton.style.transform = 'translateY(0)';
+                debugButton.style.borderColor = '#666';
+            };
+            
+            document.body.appendChild(debugButton);
+        }
+
+        // ✅ FUNÇÃO DE DEBUG COMPLETA
+        function showDebugInfo() {
+            // Remover debug anterior se existir
+            const existingDebug = document.getElementById('debugPanel');
+            if (existingDebug) {
+                existingDebug.remove();
+                return;
+            }
+
+            const debugPanel = document.createElement('div');
+            debugPanel.id = 'debugPanel';
+            debugPanel.style.cssText = `
+                position: fixed;
+                top: 10px;
+                left: 10px;
+                width: 400px;
+                max-height: 80vh;
+                overflow-y: auto;
+                background: rgba(0, 0, 0, 0.95);
+                border: 2px solid #00ff88;
+                border-radius: 12px;
+                padding: 20px;
+                color: white;
+                font-size: 12px;
+                z-index: 9999;
+                backdrop-filter: blur(10px);
+                font-family: monospace;
+            `;
+
+            // Verificar dados atuais
+            const quizData = getQuizData();
+            const userData = window.currentUserData || {};
+            const nutrition = window.currentNutrition || {};
+            
+            let debugContent = `
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <div style="font-size: 18px; margin-bottom: 5px;">🔍 DEBUG INFO - VERSÃO ECONÔMICA</div>
+                    <div style="font-size: 12px; opacity: 0.8;">${new Date().toLocaleString()}</div>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <div style="color: #00ff88; font-weight: bold; margin-bottom: 5px;">📊 STATUS GERAL:</div>
+                    <div>• Dados do quiz: ${quizData.hasData ? '✅ Encontrados' : '❌ Não encontrados'}</div>
+                    <div>• Fonte: ${quizData.source || 'Nenhuma'}</div>
+                    <div>• Dados reais: ${window.hasRealData ? '✅ Sim' : '❌ Não'}</div>
+                    <div>• Versão: Econômica + Opções</div>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <div style="color: #00ff88; font-weight: bold; margin-bottom: 5px;">👤 DADOS DO USUÁRIO:</div>
+                    <div>• Nome: ${userData.name || 'N/A'}</div>
+                    <div>• Peso: ${userData.weight || 'N/A'}kg</div>
+                    <div>• Altura: ${userData.height || 'N/A'}cm</div>
+                    <div>• Objetivo: ${userData.goal || 'N/A'}</div>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <div style="color: #00ff88; font-weight: bold; margin-bottom: 5px;">🧮 DADOS NUTRICIONAIS:</div>
+                    <div>• Calorias: ${nutrition.calories || 'N/A'}</div>
+                    <div>• Proteínas: ${nutrition.protein || 'N/A'}g</div>
+                    <div>• Carboidratos: ${nutrition.carbs || 'N/A'}g</div>
+                    <div>• Gorduras: ${nutrition.fats || 'N/A'}g</div>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <div style="color: #00ff88; font-weight: bold; margin-bottom: 5px;">💰 NOVIDADES ECONÔMICAS:</div>
+                    <div>• Cardápio: Ingredientes baratos</div>
+                    <div>• Custo: R$ 10-16/dia</div>
+                    <div>• Opções: Página de substituições</div>
+                    <div>• Personalização: 100% mantida</div>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <div style="color: #00ff88; font-weight: bold; margin-bottom: 5px;">💾 LOCALSTORAGE:</div>
+            `;
+
+            // Verificar localStorage
+            const localStorageData = [];
+            try {
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key.startsWith('dra_giovana_')) {
+                        localStorageData.push(key);
+                    }
+                }
+            } catch (e) {
+                debugContent += `<div style="color: #ff3366;">Erro: ${e.message}</div>`;
+            }
+
+            if (localStorageData.length > 0) {
+                localStorageData.forEach(key => {
+                    debugContent += `<div>• ${key.replace('dra_giovana_', '')}</div>`;
+                });
+            } else {
+                debugContent += `<div style="color: #ff3366;">• Nenhum dado encontrado</div>`;
+            }
+
+            debugContent += `
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <div style="color: #00ff88; font-weight: bold; margin-bottom: 5px;">🔧 AÇÕES:</div>
+                    <button onclick="console.log('Quiz Data:', getQuizData())" style="
+                        background: #333; color: white; border: 1px solid #666; 
+                        padding: 5px 10px; margin: 2px; border-radius: 4px; 
+                        cursor: pointer; font-size: 10px;
+                    ">Log Quiz Data</button>
+                    <button onclick="console.log('User Data:', window.currentUserData)" style="
+                        background: #333; color: white; border: 1px solid #666; 
+                        padding: 5px 10px; margin: 2px; border-radius: 4px; 
+                        cursor: pointer; font-size: 10px;
+                    ">Log User Data</button>
+                    <button onclick="console.log('Nutrition:', window.currentNutrition)" style="
+                        background: #333; color: white; border: 1px solid #666; 
+                        padding: 5px 10px; margin: 2px; border-radius: 4px; 
+                        cursor: pointer; font-size: 10px;
+                    ">Log Nutrition</button>
+                </div>
+
+                <div style="text-align: center;">
+                    <button onclick="document.getElementById('debugPanel').remove()" style="
+                        background: #ff3366; color: white; border: none; 
+                        padding: 8px 15px; border-radius: 6px; cursor: pointer; 
+                        font-weight: bold; font-size: 11px;
+                    ">Fechar Debug</button>
+                </div>
+            `;
+
+            debugPanel.innerHTML = debugContent;
+            document.body.appendChild(debugPanel);
+        }
+
+        // Salvar progresso
+        function saveUserProgress() {
+            try {
+                // Tentar salvar em ambos os locais para compatibilidade máxima
+                if (typeof(Storage) !== "undefined") {
+                    // sessionStorage (método antigo)
+                    sessionStorage.setItem('userCompleted', 'true');
+                    sessionStorage.setItem('completionDate', new Date().toISOString());
+                    
+                    // localStorage (método atual)
+                    const progressData = {
+                        completed: true,
+                        completionDate: new Date().toISOString(),
+                        pageVisited: 'thank_you_economico',
+                        version: 'economica_com_opcoes',
+                        timestamp: Date.now()
+                    };
+                    
+                    localStorage.setItem('dra_giovana_progress', JSON.stringify(progressData));
+                    console.log('💾 Progresso salvo - versão econômica');
+                }
+            } catch (error) {
+                console.log('⚠️ Erro ao salvar progresso:', error);
+            }
+        }
+
+        // ✅ FUNÇÃO PARA TESTAR O SISTEMA COMPLETO
+        function testCompleteSystem() {
+            console.log('🧪 Testando sistema econômico completo...');
+            
+            try {
+                // 1. Testar leitura de dados
+                const quizData = getQuizData();
+                console.log('1. Dados do quiz:', quizData.hasData ? '✅' : '❌');
+                
+                // 2. Testar processamento
+                const userData = processUserData(quizData);
+                console.log('2. Processamento:', userData ? '✅' : '❌');
+                
+                // 3. Testar cálculos
+                const nutrition = calculateNutritionFromQuiz(userData);
+                console.log('3. Cálculos nutricionais:', nutrition ? '✅' : '❌');
+                
+                // 4. Testar geração de PDF econômico
+                const pdf = generateDietaPDF();
+                console.log('4. Geração de PDF econômico:', pdf ? '✅' : '❌');
+                
+                console.log('✅ Sistema econômico funcionando perfeitamente!');
+                console.log('💰 Cardápio principal: ingredientes econômicos');
+                console.log('📄 Nova página: opções de substituição');
+                console.log('🎯 Personalização: 100% mantida');
+                return true;
+                
+            } catch (error) {
+                console.error('❌ Erro no teste completo:', error);
+                return false;
+            }
+        }
+
+        // Executar ao carregar
+        saveUserProgress();
+
+        // ✅ TORNAR FUNÇÕES DISPONÍVEIS GLOBALMENTE PARA DEBUG
+        window.testCompleteSystem = testCompleteSystem;
+        window.showDebugInfo = showDebugInfo;
+        window.getQuizData = getQuizData;
+        
+        console.log('✅ Sistema econômico carregado - 100% compatível!');
+        console.log('💰 Dieta principal com ingredientes baratos (R$ 10-16/dia)');
+        console.log('📄 Nova página com opções de substituição por orçamento');
+        console.log('🎯 Personalização completa baseada no quiz mantida');
+        console.log('🔧 Para debug: testCompleteSystem(), showDebugInfo()');
+    </script>
+</body>
+</html>

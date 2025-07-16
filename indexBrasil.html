@@ -1,0 +1,3473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Protocolo Personalizado - Dra. Giovana Nutricionista</title>
+    
+    <!-- ✅ OTIMIZAÇÕES CRÍTICAS DE PERFORMANCE -->
+    <meta http-equiv="Cache-Control" content="public, max-age=31536000">
+    <link rel="preload" href="Dra Giovana.png" as="image" type="image/png">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" as="style">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//www.facebook.com">
+    <link rel="dns-prefetch" href="//cdn.utmify.com.br">
+    <link rel="dns-prefetch" href="//connect.facebook.net">
+    <link rel="dns-prefetch" href="//www.clarity.ms">
+    
+    <!-- ✅ FONTS OTIMIZADAS COM DISPLAY SWAP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <script
+  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-xcod-sck
+  data-utmify-prevent-subids
+  async
+  defer
+></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* ✅ CAMPOS HONEYPOT - INVISÍVEIS */
+        .honeypot,
+        input[name="website"],
+        input[name="email_confirmation"], 
+        input[name="company"] {
+            position: absolute !important;
+            left: -9999px !important;
+            top: -9999px !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            display: none !important;
+            visibility: hidden !important;
+            width: 0 !important;
+            height: 0 !important;
+            border: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            font-size: 0 !important;
+        }
+
+        :root {
+            --primary: #2c7a2c;
+            --secondary: #4a9f4a;
+            --accent: #6cc04a;
+            --dark: #0a0a0a;
+            --light: #ffffff;
+            --gray: #1a1a1a;
+            --success: #00ff88;
+            --danger: #ff3366;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-display: swap;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(44, 122, 44, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(108, 192, 74, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            color: var(--light);
+        }
+
+        /* ✅ HEADER COM LOGO DA DRA. GIOVANA */
+        .header {
+            position: relative;
+            z-index: 100;
+            padding: 15px 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(44, 122, 44, 0.2);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .back-arrow {
+            position: absolute;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 18px;
+            color: var(--light);
+        }
+
+        .back-arrow:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-2px);
+        }
+
+        .back-arrow.visible {
+            display: flex;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--light);
+        }
+
+        .logo-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid rgba(44, 122, 44, 0.4);
+            position: relative;
+            box-shadow: 0 4px 20px rgba(44, 122, 44, 0.2);
+        }
+
+        .logo-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .logo-title {
+            font-size: 18px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-subtitle {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+        }
+
+        /* ✅ PARTÍCULAS OTIMIZADAS E REDUZIDAS */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+            opacity: 0.2;
+            will-change: transform;
+        }
+
+        .particle:nth-child(odd) {
+            background: var(--primary);
+            animation-duration: 10s;
+        }
+
+        .particle:nth-child(3n) {
+            background: var(--secondary);
+            animation-duration: 12s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.2; }
+            50% { transform: translateY(-80px) rotate(180deg); opacity: 0.6; }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            min-height: calc(100vh - 70px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .landing-card, .quiz-card {
+            background: rgba(26, 26, 26, 0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(44, 122, 44, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(10px);
+            opacity: 0;
+            animation: slideInUp 0.8s ease-out 0.1s forwards;
+            text-align: center;
+        }
+
+        @keyframes slideInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .badge {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-bottom: 25px;
+        }
+
+        .main-title {
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--light), rgba(255, 255, 255, 0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+            line-height: 1.4;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, rgba(44, 122, 44, 0.1), rgba(108, 192, 74, 0.05));
+            border: 1px solid rgba(44, 122, 44, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .cta-title {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: var(--light);
+        }
+
+        .cta-subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 25px rgba(44, 122, 44, 0.3);
+            width: 100%;
+            max-width: 380px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 35px rgba(44, 122, 44, 0.5);
+        }
+
+        /* QUIZ STYLES OTIMIZADOS */
+        .progress-section {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            transition: width 0.8s ease;
+            width: 0%;
+        }
+
+        .question-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        /* ✅ REMOVER NUMERAÇÃO COMPLETAMENTE */
+        .question-number {
+            display: none !important;
+        }
+
+        .question-title {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--light), rgba(255, 255, 255, 0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .question-subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+
+        .age-options {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .goal-options {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .option-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .option-card.age-card {
+            padding: 18px;
+            min-height: 110px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .option-card.goal-card {
+            padding: 22px;
+            min-height: 130px;
+        }
+
+        .option-card:active {
+            transform: translateY(-1px) scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        .option-card.selected {
+            transform: translateY(-6px) scale(1.03) !important;
+            border-color: var(--primary) !important;
+            background: linear-gradient(135deg, rgba(44, 122, 44, 0.15), rgba(108, 192, 74, 0.08)) !important;
+            box-shadow: 0 15px 35px rgba(44, 122, 44, 0.25) !important;
+        }
+
+        .option-card.selected .option-icon {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            transform: scale(1.08);
+            box-shadow: 0 6px 25px rgba(44, 122, 44, 0.3);
+        }
+
+        .option-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 18px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .age-card .option-icon {
+            width: 55px;
+            height: 55px;
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .goal-card .option-icon {
+            width: 65px;
+            height: 65px;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .option-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--light);
+        }
+
+        .age-card .option-title {
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+
+        .goal-card .option-title {
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
+
+        .option-description {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+
+        .age-card .option-description {
+            font-size: 12px;
+            line-height: 1.3;
+        }
+
+        .goal-card .option-description {
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--light);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            font-size: 16px;
+            color: var(--light);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(44, 122, 44, 0.08);
+            box-shadow: 0 0 0 3px rgba(44, 122, 44, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 16px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--light);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 6px 25px rgba(44, 122, 44, 0.3);
+            border: 1px solid transparent;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 35px rgba(44, 122, 44, 0.5);
+        }
+
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* ✅ RESULTADO INTERCALADO */
+        .intercalated-result {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.12), rgba(44, 122, 44, 0.08));
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: center;
+            animation: revealAnimation 0.8s ease-out;
+        }
+
+        .result-badge {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .result-value {
+            font-size: 40px;
+            font-weight: 900;
+            color: var(--success);
+            margin-bottom: 6px;
+            animation: numberPulse 2s ease-in-out infinite;
+        }
+
+        .result-label {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--light);
+            margin-bottom: 8px;
+        }
+
+        .result-description {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.4;
+        }
+
+        /* ✅ TESTIMONIAL INTERCALADO */
+        .testimonial-intercalated {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: left;
+            animation: revealAnimation 0.8s ease-out;
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-photo {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--primary);
+        }
+
+        .testimonial-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .testimonial-info {
+            flex: 1;
+        }
+
+        .testimonial-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--light);
+            margin-bottom: 3px;
+        }
+
+        .testimonial-stars {
+            color: #FFD700;
+            font-size: 12px;
+        }
+
+        .testimonial-text {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        /* ✅ TELA DE RESULTADOS FINAL */
+        .results-container {
+            text-align: center;
+            animation: revealAnimation 1s ease-out;
+        }
+
+        .success-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            animation: successBounce 1s ease-out;
+        }
+
+        @keyframes successBounce {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .reveal-title {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--success), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .reveal-subtitle {
+            font-size: 17px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .results-grid {
+            display: grid;
+            gap: 25px;
+        }
+
+        .mega-result-card {
+            background: rgba(20, 20, 20, 0.9);
+            border: 2px solid var(--primary);
+            border-radius: 24px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 15px 45px rgba(44, 122, 44, 0.25);
+            text-align: center;
+        }
+
+        .weight-loss-preview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .before-after {
+            text-align: center;
+        }
+
+        .before-after h4 {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .body-preview {
+            width: 120px;
+            height: 160px;
+            margin: 0 auto 10px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .body-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .weight-info {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--light);
+        }
+
+        .pricing-section {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(255, 193, 7, 0.05));
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .pricing-header {
+            font-size: 16px;
+            font-weight: 800;
+            color: #FFD700;
+            margin-bottom: 15px;
+        }
+
+        .price-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .price-old {
+            background: rgba(255, 51, 102, 0.1);
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .price-new {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        .price-small {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: line-through;
+            margin-bottom: 4px;
+        }
+
+        .price-main {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--success);
+            margin-bottom: 4px;
+        }
+
+        .price-detail {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .countdown-timer {
+            background: rgba(255, 51, 102, 0.08);
+            border: 1px solid rgba(255, 51, 102, 0.2);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .countdown-text {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--danger);
+            margin-bottom: 6px;
+        }
+
+        .countdown {
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--danger);
+            font-family: monospace;
+        }
+
+        .checkout-button {
+            background: linear-gradient(135deg, #00ff64, #00e054, #00cc48);
+            color: white;
+            border: none;
+            padding: 16px 25px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 320px;
+            position: relative;
+            overflow: hidden;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            animation: pulseBright 2s ease-in-out infinite;
+            box-shadow: 0 6px 25px rgba(0, 255, 100, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .checkout-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 35px rgba(0, 255, 100, 0.5);
+        }
+
+        @keyframes pulseBright {
+            0% { 
+                transform: scale(1); 
+                box-shadow: 0 6px 25px rgba(0, 255, 100, 0.3);
+            }
+            50% { 
+                transform: scale(1.02); 
+                box-shadow: 0 10px 35px rgba(0, 255, 100, 0.5);
+            }
+            100% { 
+                transform: scale(1); 
+                box-shadow: 0 6px 25px rgba(0, 255,100, 0.3);
+           }
+       }
+
+       .payment-info {
+           margin-top: 10px;
+           font-size: 11px;
+           color: rgba(255, 255, 255, 0.7);
+           line-height: 1.3;
+       }
+
+       .guarantee-info {
+           margin-top: 10px;
+           font-size: 11px;
+           color: rgba(255, 255, 255, 0.7);
+           line-height: 1.3;
+       }
+
+       /* HIDE CLASSES */
+       .hidden {
+           display: none !important;
+       }
+
+       .cta-button.loading {
+           pointer-events: none;
+           opacity: 0.8;
+       }
+
+       .cta-button.loading::after {
+           content: '';
+           width: 18px;
+           height: 18px;
+           border: 2px solid transparent;
+           border-top: 2px solid white;
+           border-radius: 50%;
+           animation: spin 1s linear infinite;
+           margin-left: 8px;
+       }
+
+       @keyframes spin {
+           0% { transform: rotate(0deg); }
+           100% { transform: rotate(360deg); }
+       }
+
+       @keyframes revealAnimation {
+           from { opacity: 0; transform: scale(0.9) translateY(20px); }
+           to { opacity: 1; transform: scale(1) translateY(0); }
+       }
+       
+       @keyframes numberPulse {
+           0%, 100% { transform: scale(1); }
+           50% { transform: scale(1.05); }
+       }
+
+       /* ✅ RESPONSIVO OTIMIZADO */
+       @media (max-width: 768px) {
+           .header {
+               padding: 12px 0;
+           }
+
+           .header-content {
+               padding: 0 15px;
+           }
+
+           .back-arrow {
+               left: 15px;
+               width: 35px;
+               height: 35px;
+               font-size: 16px;
+           }
+
+           .logo {
+               font-size: 16px;
+           }
+
+           .logo-photo {
+               width: 40px;
+               height: 40px;
+           }
+
+           .logo-title {
+               font-size: 16px;
+           }
+
+           .logo-subtitle {
+               font-size: 11px;
+           }
+
+           .container {
+               padding: 20px 15px;
+               min-height: calc(100vh - 60px);
+           }
+
+           .landing-card, .quiz-card {
+               padding: 25px 20px;
+               border-radius: 20px;
+           }
+
+           .main-title {
+               font-size: 26px;
+               margin-bottom: 15px;
+           }
+
+           .subtitle {
+               font-size: 16px;
+               margin-bottom: 25px;
+           }
+
+           .cta-section {
+               padding: 20px;
+               border-radius: 16px;
+           }
+
+           .cta-title {
+               font-size: 18px;
+               margin-bottom: 12px;
+           }
+
+           .cta-subtitle {
+               font-size: 14px;
+               margin-bottom: 20px;
+           }
+
+           .cta-button {
+               padding: 15px 20px;
+               font-size: 15px;
+               border-radius: 12px;
+               max-width: 100%;
+           }
+
+           .question-title {
+               font-size: 22px;
+               margin-bottom: 12px;
+           }
+
+           .question-subtitle {
+               font-size: 14px;
+               margin-bottom: 25px;
+           }
+
+           .options-grid {
+               gap: 10px;
+               margin-bottom: 30px;
+           }
+
+           .options-grid.age-options {
+               grid-template-columns: 1fr;
+           }
+
+           .options-grid.goal-options {
+               grid-template-columns: 1fr;
+           }
+
+           .option-card {
+               padding: 18px 15px;
+               border-radius: 14px;
+           }
+
+           .option-card.age-card {
+               padding: 15px 12px;
+               min-height: 90px;
+           }
+
+           .option-card.goal-card {
+               padding: 16px 14px;
+               min-height: 100px;
+           }
+
+           .option-icon {
+               width: 50px;
+               height: 50px;
+               font-size: 24px;
+               margin-bottom: 12px;
+           }
+
+           .age-card .option-icon {
+               width: 40px;
+               height: 40px;
+               font-size: 18px;
+               margin-bottom: 8px;
+           }
+
+           .goal-card .option-icon {
+               width: 45px;
+               height: 45px;
+               font-size: 20px;
+               margin-bottom: 10px;
+           }
+
+           .option-title {
+               font-size: 15px;
+               margin-bottom: 6px;
+           }
+
+           .age-card .option-title {
+               font-size: 14px;
+               margin-bottom: 4px;
+           }
+
+           .goal-card .option-title {
+               font-size: 14px;
+               margin-bottom: 6px;
+           }
+
+           .option-description {
+               font-size: 11px;
+           }
+
+           .age-card .option-description {
+               font-size: 10px;
+           }
+
+           .goal-card .option-description {
+               font-size: 10px;
+           }
+
+           .action-buttons {
+               flex-direction: column;
+               gap: 10px;
+           }
+
+           .btn {
+               width: 100%;
+               padding: 14px 20px;
+               font-size: 14px;
+               border-radius: 10px;
+           }
+
+           .form-grid {
+               gap: 15px;
+           }
+
+           .input-field {
+               padding: 14px 16px;
+               font-size: 15px;
+               border-radius: 10px;
+           }
+
+           .input-label {
+               font-size: 13px;
+               margin-bottom: 8px;
+           }
+
+           .intercalated-result {
+               padding: 18px 15px;
+               margin: 20px 0;
+               border-radius: 14px;
+           }
+
+           .result-value {
+               font-size: 32px;
+               margin-bottom: 5px;
+           }
+
+           .result-label {
+               font-size: 13px;
+               margin-bottom: 6px;
+           }
+
+           .result-description {
+               font-size: 11px;
+           }
+
+           .testimonial-intercalated {
+               padding: 16px;
+               margin: 20px 0;
+               border-radius: 14px;
+           }
+
+           .testimonial-photo {
+               width: 40px;
+               height: 40px;
+           }
+
+           .testimonial-name {
+               font-size: 13px;
+           }
+
+           .testimonial-text {
+               font-size: 12px;
+           }
+
+           .success-icon {
+               font-size: 45px !important;
+               margin-bottom: 15px !important;
+           }
+           
+           .reveal-title {
+               font-size: 22px !important;
+               margin-bottom: 12px !important;
+           }
+           
+           .reveal-subtitle {
+               font-size: 14px !important;
+               margin-bottom: 25px !important;
+           }
+
+           .pricing-section {
+               padding: 18px 15px;
+               margin: 20px 0;
+           }
+
+           .pricing-header {
+               font-size: 14px;
+               margin-bottom: 12px;
+           }
+
+           .price-comparison {
+               grid-template-columns: 1fr;
+               gap: 8px;
+               margin-bottom: 12px;
+           }
+
+           .price-main {
+               font-size: 20px;
+           }
+
+           .checkout-button {
+               font-size: 14px;
+               padding: 15px 20px;
+               max-width: 100%;
+           }
+
+           .weight-loss-preview {
+               grid-template-columns: 1fr;
+               gap: 15px;
+               padding: 15px;
+           }
+
+           .body-preview {
+               width: 100px;
+               height: 130px;
+           }
+
+       }
+
+        /* ✅ NOTIFICAÇÕES DE VENDAS */
+        .sales-notification {
+            position: fixed;
+            z-index: 9999;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.95), rgba(44, 122, 44, 0.95));
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.25);
+            transform: translateX(-100%);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 280px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .sales-notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .sales-notification.hide {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+
+        .sales-notification.position-top-left {
+            top: 80px;
+            left: 20px;
+        }
+
+        .sales-notification.position-bottom-left {
+            bottom: 20px;
+            left: 20px;
+        }
+
+        .sales-notification.position-top-right {
+            top: 80px;
+            right: 20px;
+            transform: translateX(100%);
+        }
+
+        .sales-notification.position-top-right.show {
+            transform: translateX(0);
+        }
+
+        .sales-notification.position-top-right.hide {
+            transform: translateX(100%);
+        }
+
+        .sales-notification.position-bottom-right {
+            bottom: 20px;
+            right: 20px;
+            transform: translateX(100%);
+        }
+
+        .sales-notification.position-bottom-right.show {
+            transform: translateX(0);
+        }
+
+        .sales-notification.position-bottom-right.hide {
+            transform: translateX(100%);
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification-icon {
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .notification-text {
+            flex: 1;
+            line-height: 1.4;
+        }
+
+        .notification-name {
+            font-weight: 700;
+            margin-bottom: 2px;
+            font-size: 13px;
+        }
+
+        .notification-action {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Responsivo para notificações */
+        @media (max-width: 768px) {
+            .sales-notification {
+                max-width: calc(100vw - 40px);
+                font-size: 11px;
+                padding: 10px 12px;
+            }
+            
+            .sales-notification.position-top-left,
+            .sales-notification.position-top-right {
+                top: 70px;
+            }
+            
+            .notification-name {
+                font-size: 12px;
+            }
+            
+            .notification-action {
+                font-size: 10px;
+            }
+        }
+  
+       
+  </style>
+  <!-- ✅ SCRIPT VTURB -->
+    <script type="text/javascript">
+        var s=document.createElement("script"); 
+        s.src="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/sdk.js"; 
+        s.async=!0;
+        document.head.appendChild(s);
+    </script>
+
+</head>
+<body>
+  <!-- ✅ PARTÍCULAS OTIMIZADAS -->
+  <div class="particles" id="particles"></div>
+
+  <!-- ✅ HEADER COM LOGO E SETA VOLTAR -->
+  <div class="header">
+      <div class="header-content">
+          <div class="back-arrow" id="backArrow" onclick="goBack()">
+              ←
+          </div>
+          <div class="logo">
+              <div class="logo-photo">
+                  <img src="Dra Giovana.png" alt="Dra. Giovana" loading="lazy">
+              </div>
+              <div class="logo-text">
+                  <div class="logo-title">Protocolo Personalizado</div>
+                  <div class="logo-subtitle">Dra. Giovana</div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="container">
+      <!-- ✅ LANDING PAGE -->
+      <div class="landing-card" id="landingPage">
+          <h1 class="main-title">Descubra o plano perfeito para o seu corpo em poucos minutos!</h1>
+          <p class="subtitle">
+              <strong></strong> 
+          </p>
+
+          <div class="cta-section">
+              <h3 class="cta-title"></h3>
+              <p class="cta-subtitle">
+                  <strong>Sem comidas caras, sem alimentos difíceis</strong> 
+                  
+              </p>
+              
+              <button class="cta-button" id="startQuizBtn" style="animation: pulseBright 2s ease-in-out infinite; font-size: 19px; padding: 22px 40px;">
+                  🎯 INICIAR PROTOCOLO
+              </button>
+              
+              <p class="disclaimer" style="margin-top: 15px; font-size: 13px;">
+                  ⚡ Resultado Instantâneo 
+              </p>
+          </div>
+      </div>
+
+      <!-- ✅ QUIZ SECTION -->
+      <div class="quiz-card hidden" id="quizSection">
+          <div class="progress-section">
+              <div class="progress-bar">
+                  <div class="progress-fill" id="progressFill"></div>
+              </div>
+          </div>
+
+          <div id="questionContainer">
+              <div class="question-header">
+                  <div class="question-number" id="questionNumber">1</div>
+                  <h1 class="question-title" id="questionTitle">Qual é o seu principal objetivo?</h1>
+                  <p class="question-subtitle" id="questionSubtitle">
+                      Para criar um plano nutricional personalizado, preciso entender qual é sua meta principal.
+                  </p>
+              </div>
+
+              <div class="options-grid" id="optionsGrid">
+                  <!-- Será preenchido dinamicamente -->
+              </div>
+
+              <div class="action-buttons" id="actionButtons" style="display: none;">
+                  <button class="btn btn-secondary" id="backBtn" style="display: none;">
+                      ← Voltar
+                  </button>
+                  <button class="btn btn-primary" id="nextBtn" disabled>
+                      Continuar →
+                  </button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- ✅ SCRIPTS OTIMIZADOS -->
+  <!-- Meta Pixel Code -->
+  <script async defer>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1002938195345180');
+      fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1002938195345180&ev=PageView&noscript=1"
+  /></noscript>
+
+  <!-- Clarity tracking code -->
+  <script type="text/javascript" async defer>
+      (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "rtz89p15pn");
+  </script>
+
+  <script>
+      // UTMIFY TRACKING COMPLETO
+      window.pixelId = "6854369b2f2ab7e4442539ea";
+
+      // Capturar UTMs
+      function getUTMParams() {
+          const urlParams = new URLSearchParams(window.location.search);
+          return {
+              utm_source: urlParams.get('utm_source'),
+              utm_medium: urlParams.get('utm_medium'),
+              utm_campaign: urlParams.get('utm_campaign'),
+              utm_term: urlParams.get('utm_term'),
+              utm_content: urlParams.get('utm_content')
+          };
+      }
+
+      // Salvar UTMs
+      function saveUTMParams() {
+          const utmParams = getUTMParams();
+          if (utmParams.utm_source || utmParams.utm_campaign) {
+              try {
+                  localStorage.setItem('utmify_params', JSON.stringify(utmParams));
+                  console.log('UTMs capturados:', utmParams);
+              } catch(e) {
+                  console.warn('Erro ao salvar UTMs:', e);
+              }
+          }
+      }
+
+      // Enviar eventos para UTMify
+      function sendUTMifyEvent(eventName, customData = {}) {
+          try {
+              const savedUTMs = JSON.parse(localStorage.getItem('utmify_params') || '{}');
+              
+              fetch('https://api.utmify.com.br/track', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                      pixel_id: window.pixelId,
+                      event: eventName,
+                      url: window.location.href,
+                      timestamp: new Date().toISOString(),
+                      ...savedUTMs,
+                      ...customData
+                  })
+              }).then(() => {
+                  console.log(`✅ UTMify: ${eventName} enviado`);
+              }).catch(e => console.warn('UTMify erro:', e));
+          } catch (error) {
+              console.error('Erro UTMify:', error);
+          }
+      }
+
+      // Carregar script
+      var a = document.createElement("script");
+      a.setAttribute("async", "");
+      a.setAttribute("defer", "");
+      a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+      a.onload = function() {
+          saveUTMParams();
+          sendUTMifyEvent('PageView');
+      };
+      document.head.appendChild(a);
+
+      // Capturar UTMs imediatamente
+      saveUTMParams();
+
+      let currentQuestion = 0;
+      let answers = {};
+      let isOnLandingPage = true;
+
+      // Sistema de persistência de dados
+      const DataStorage = {
+          isLocalStorageAvailable: function() {
+              try {
+                  const testKey = 'test_' + Date.now();
+                  localStorage.setItem(testKey, 'test');
+                  localStorage.removeItem(testKey);
+                  return true;
+              } catch (e) {
+                  return false;
+              }
+          },
+          
+          memoryStorage: {},
+          
+          setItem: function(key, value) {
+              const jsonValue = JSON.stringify(value);
+              if (this.isLocalStorageAvailable()) {
+                  try {
+                      localStorage.setItem('dra_giovana_' + key, jsonValue);
+                      return true;
+                  } catch (e) {
+                      console.warn('Erro ao salvar no localStorage, usando memória:', e);
+                  }
+              }
+              this.memoryStorage['dra_giovana_' + key] = jsonValue;
+              return true;
+          },
+          
+          getItem: function(key) {
+              const fullKey = 'dra_giovana_' + key;
+              if (this.isLocalStorageAvailable()) {
+                  try {
+                      const value = localStorage.getItem(fullKey);
+                      if (value) {
+                          return JSON.parse(value);
+                      }
+                  } catch (e) {
+                      console.warn('Erro ao ler localStorage:', e);
+                  }
+              }
+              const memValue = this.memoryStorage[fullKey];
+              if (memValue) {
+                  return JSON.parse(memValue);
+              }
+              return null;
+          }
+      };
+
+      // ✅ PERGUNTAS COMPLETAS COMO UMA NUTRICIONISTA PRESENCIAL
+      const questions = [
+          {
+              title: "Qual é o seu objetivo com o emagrecimento?",
+              subtitle: "Preciso entender sua motivação principal para personalizar melhor seu protocolo.",
+              type: "choice",
+              class: "goal-options",
+              options: [
+                  { 
+                      value: "feel_good", 
+                      icon: "😊", 
+                      title: "Ficar mais bonita e me sentir bem", 
+                      description: "Quero me sentir mais confiante e bem comigo mesma" 
+                  },
+                  { 
+                      value: "improve_health", 
+                      icon: "❤️", 
+                      title: "Melhorar minha saúde", 
+                      description: "Busco mais energia, disposição e qualidade de vida" 
+                  },
+                  { 
+                      value: "both", 
+                      icon: "✨", 
+                      title: "Ambos", 
+                      description: "Quero me sentir bem e ter mais saúde ao mesmo tempo" 
+                  },
+                  { 
+                      value: "other", 
+                      icon: "🎯", 
+                      title: "Outro", 
+                      description: "Tenho outros motivos específicos" 
+                  }
+              ]
+          },
+          {
+              title: "Ajuste seu plano de perda de peso à sua idade",
+              subtitle: "Sua idade influencia diretamente no metabolismo e nas estratégias mais eficazes.",
+              type: "choice",
+              class: "age-options",
+              options: [
+                  { 
+                      value: "18-26", 
+                      icon: "🌟", 
+                      title: "18 a 26 anos", 
+                      description: "Metabolismo acelerado" 
+                  },
+                  { 
+                      value: "27-38", 
+                      icon: "💪", 
+                      title: "27 a 38 anos", 
+                      description: "Fase produtiva e ativa" 
+                  },
+                  { 
+                      value: "39-50", 
+                      icon: "🧘", 
+                      title: "39 a 50 anos", 
+                      description: "Foco em equilíbrio" 
+                  },
+                  { 
+                      value: "50+", 
+                      icon: "🌿", 
+                      title: "+ 50 anos", 
+                      description: "Longevidade saudável" 
+                  }
+              ],
+              showResult: {
+                  badge: "🔥 SEU METABOLISMO",
+                  value: "TMB Calculada",
+                  label: "Taxa Metabólica Basal",
+                  description: "Sua necessidade calórica diária foi calculada com base na sua idade e outros fatores."
+              }
+          },
+          {
+              title: "Qual é o seu sexo biológico?",
+              subtitle: "Esta informação é essencial para calcular corretamente suas necessidades nutricionais.",
+              type: "choice",
+              options: [
+                  { 
+                      value: "female", 
+                      icon: "👩", 
+                      title: "Feminino", 
+                      description: "Sexo biológico feminino" 
+                  },
+                  { 
+                      value: "male", 
+                      icon: "👨", 
+                      title: "Masculino", 
+                      description: "Sexo biológico masculino" 
+                  }
+              ],
+              showTestimonial: {
+                  photo: "Agata.png",
+                  name: "Ágata Silva",
+                  text: "Incrível como a Dra. Giovana consegue personalizar tudo baseado no nosso perfil! Já eliminei 8kg seguindo as orientações dela."
+              }
+          },
+          {
+              title: "Informações físicas",
+              subtitle: "Preciso desses dados para calcular suas necessidades calóricas exatas.",
+              type: "form",
+              fields: [
+                  { 
+                      name: "weight", 
+                      label: "Peso atual (kg)", 
+                      type: "number", 
+                      placeholder: "Ex: 70"
+                  },
+                  { 
+                      name: "height", 
+                      label: "Altura (cm)", 
+                      type: "number", 
+                      placeholder: "Ex: 170"
+                  },
+                  { 
+                      name: "target_weight", 
+                      label: "Peso desejado (kg)", 
+                      type: "number", 
+                      placeholder: "Ex: 65"
+                  }
+              ],
+              showResult: {
+                  badge: "🎯 SUA META",
+                  value: "Perda Calculada",
+                  label: "QUILOS A ELIMINAR",
+                  description: "Com base nos seus dados, calculei quantos quilos você pode perder de forma saudável."
+              }
+          },
+          {
+              title: "Como está sua alimentação atualmente?",
+              subtitle: "Quero entender seus hábitos alimentares para criar um plano mais assertivo.",
+              type: "choice",
+              options: [
+                  { 
+                      value: "irregular", 
+                      icon: "🍔", 
+                      title: "Muito irregular", 
+                      description: "Como de tudo, sem horários fixos, fast food frequente" 
+                  },
+                  { 
+                      value: "some_care", 
+                      icon: "🥗", 
+                      title: "Tenho alguns cuidados", 
+                      description: "Tento comer bem, mas às vezes escorrego" 
+                  },
+                  { 
+                      value: "controlled", 
+                      icon: "📋", 
+                      title: "Controlada", 
+                      description: "Sigo uma rotina alimentar, mas não vejo resultados" 
+                  },
+                  { 
+                      value: "very_controlled", 
+                      icon: "⚖️", 
+                      title: "Muito controlada", 
+                      description: "Sou muito disciplinada, mas ainda preciso de orientação" 
+                  }
+              ],
+              showTestimonial: {
+                  photo: "Amanda.png",
+                  name: "Amanda Costa",
+                  text: "Estava comendo super controlado mas não emagrecia. A Dra. Giovana me mostrou que estava fazendo tudo errado! Agora já perdi 12kg."
+              }
+          },
+          {
+              title: "Quantas refeições você faz por dia?",
+              subtitle: "Preciso entender sua rotina alimentar para adequar o protocolo.",
+              type: "choice",
+              options: [
+                  { 
+                      value: "2", 
+                      icon: "🍽️", 
+                      title: "2 refeições", 
+                      description: "Almoço e jantar principalmente" 
+                  },
+                  { 
+                      value: "3", 
+                      icon: "🥞", 
+                      title: "3 refeições", 
+                      description: "Café da manhã, almoço e jantar" 
+                  },
+                  { 
+                      value: "4-5", 
+                      icon: "🍎", 
+                      title: "4 a 5 refeições", 
+                      description: "Incluo lanches entre as principais" 
+                  },
+                  { 
+                      value: "6+", 
+                      icon: "⏰", 
+                      title: "6 ou mais", 
+                      description: "Como de 3 em 3 horas aproximadamente" 
+                  }
+              ]
+          },
+          {
+              title: "Que horas você acorda e vai dormir?",
+              subtitle: "Seus horários influenciam no metabolismo e nas refeições ideais.",
+              type: "choice",
+              options: [
+                  { 
+                      value: "early", 
+                      icon: "🌅", 
+                      title: "Acordo cedo (5h-7h)", 
+                      description: "Durmo entre 21h-23h" 
+                  },
+                  { 
+                      value: "normal", 
+                      icon: "🌞", 
+                      title: "Horário normal (7h-9h)", 
+                      description: "Durmo entre 23h-01h" 
+                  },
+                  { 
+                      value: "late", 
+                      icon: "🌙", 
+                      title: "Acordo tarde (9h-11h)", 
+                      description: "Durmo após 1h da manhã" 
+                  },
+                  { 
+                      value: "irregular", 
+                      icon: "🔄", 
+                      title: "Horários irregulares", 
+                      description: "Varia muito durante a semana" 
+                  }
+              ]
+          },
+          {
+              title: "Qual seu nível de atividade física?",
+              subtitle: "Preciso saber sobre sua rotina de exercícios para ajustar as calorias corretamente.",
+              type: "choice",
+              options: [
+                  { 
+                      value: "sedentary", 
+                      icon: "🛋️", 
+                      title: "Sedentário", 
+                      description: "Pouco ou nenhum exercício, trabalho de escritório" 
+                  },
+                  { 
+                      value: "light", 
+                      icon: "🚶", 
+                      title: "Leve", 
+                      description: "Exercício leve 1-3 dias por semana" 
+                  },
+                  { 
+                      value: "moderate", 
+                      icon: "🏃", 
+                      title: "Moderado", 
+                      description: "Exercício moderado 3-5 dias por semana" 
+                  },
+                  { 
+                      value: "active", 
+                      icon: "💪", 
+                      title: "Muito ativo", 
+                      description: "Exercício intenso 6-7 dias por semana" 
+                  }
+              ],
+              showTestimonial: {
+                  photo: "Emerson.png",
+                  name: "Emerson Santos",
+                  text: "Sou personal trainer e mesmo assim precisava da orientação nutricional da Dra. Giovana. Eliminei 15kg e agora consigo ajudar melhor meus alunos!"
+              }
+          },
+          {
+              title: "Você tem alguma preferência ou aversão alimentar?",
+              subtitle: "Quero adaptar seu cardápio aos seus gostos pessoais.",
+              type: "choice",
+              options: [
+                  { 
+                      value: "no_restrictions", 
+                      icon: "🍽️", 
+                      title: "Como de tudo", 
+                      description: "Não tenho restrições alimentares" 
+                  },
+                  { 
+                      value: "no_vegetables", 
+                      icon: "🥕", 
+                      title: "Não gosto de vegetais", 
+                      description: "Tenho dificuldade com verduras e legumes" 
+                  },
+                  { 
+                      value: "no_fish", 
+                      icon: "🐟", 
+                      title: "Não como peixe", 
+                      description: "Prefiro outras fontes de proteína" 
+                  },
+                  { 
+                      value: "vegetarian", 
+                      icon: "🌱", 
+                      title: "Vegetariano/Vegano", 
+                      description: "Não consumo produtos de origem animal" 
+                  }
+              ]
+          },
+          {
+              title: "Você consome álcool com que frequência?",
+              subtitle: "O álcool impacta significativamente no processo de emagrecimento.",
+              type: "choice",
+              options: [
+                  { 
+                      value: "never", 
+                      icon: "🚫", 
+                      title: "Nunca bebo", 
+                      description: "Não consumo bebidas alcoólicas" 
+                  },
+                  { 
+                      value: "rarely", 
+                      icon: "🥂", 
+                      title: "Raramente", 
+                      description: "Apenas em ocasiões especiais" 
+                  },
+                  { 
+                      value: "weekends", 
+                      icon: "🍷", 
+                      title: "Fins de semana", 
+                      description: "Costumo beber nos fins de semana" 
+                  },
+                  { 
+                      value: "daily", 
+                      icon: "🍺", 
+                      title: "Diariamente", 
+                      description: "Bebo com frequência durante a semana" 
+                  }
+              ]
+          },
+          {
+              title: "Possui alguma condição de saúde ou restrição?",
+              subtitle: "Preciso adaptar seu protocolo considerando qualquer condição especial.",
+              type: "choice",
+              options: [
+                  { 
+                      value: "none", 
+                      icon: "✅", 
+                      title: "Nenhuma condição especial", 
+                      description: "Não possuo restrições alimentares ou problemas de saúde" 
+                  },
+                  { 
+                      value: "diabetes", 
+                      icon: "🩺", 
+                      title: "Diabetes", 
+                      description: "Diabetes tipo 1 ou tipo 2" 
+                  },
+                  { 
+                      value: "hypertension", 
+                      icon: "❤️",
+                      title: "Pressão alta", 
+                      description: "Hipertensão arterial" 
+                  },
+                  { 
+                      value: "thyroid", 
+                      icon: "🦋", 
+                      title: "Problemas na tireoide", 
+                      description: "Hipotireoidismo ou hipertireoidismo" 
+                  },
+                  { 
+                      value: "intolerance", 
+                      icon: "🚫", 
+                      title: "Intolerâncias alimentares", 
+                      description: "Lactose, glúten ou outras intolerâncias" 
+                  },
+                  { 
+                      value: "other", 
+                      icon: "📋", 
+                      title: "Outras condições", 
+                      description: "Outras condições de saúde não listadas" 
+                  }
+              ],
+              showResult: {
+                  badge: "🧬 PROTOCOLO ADAPTADO",
+                  value: "100%",
+                  label: "PERSONALIZADO",
+                  description: "Seu protocolo foi adaptado considerando suas condições específicas de saúde."
+              }
+          },
+          {
+              title: "Última etapa: Seus dados para contato",
+              subtitle: "Preciso desses dados para enviar seu protocolo personalizado e acompanhar sua transformação.",
+              type: "form",
+              fields: [
+                  { 
+                      name: "name", 
+                      label: "Como posso te chamar?",
+                      type: "text", 
+                      placeholder: "Seu primeiro nome"
+                  },
+                  { 
+                      name: "phone", 
+                      label: "WhatsApp", 
+                      type: "tel", 
+                      placeholder: "(11) 99999-9999"
+                  },
+                  { 
+                      name: "email", 
+                      label: "Seu melhor e-mail", 
+                      type: "email", 
+                      placeholder: "seuemail@gmail.com"
+                  }
+              ]
+          }
+      ];
+
+      // ✅ FUNÇÃO PARA CRIAR PARTÍCULAS REDUZIDAS
+      function createParticles() {
+          const particlesContainer = document.getElementById('particles');
+          const isMobile = window.innerWidth <= 768;
+          const particleCount = isMobile ? 8 : 15; // Reduzido pela metade
+
+          for (let i = 0; i < particleCount; i++) {
+              const particle = document.createElement('div');
+              particle.className = 'particle';
+              particle.style.left = Math.random() * 100 + '%';
+              particle.style.top = Math.random() * 100 + '%';
+              particle.style.animationDelay = Math.random() * 8 + 's';
+              particlesContainer.appendChild(particle);
+          }
+      }
+
+      // ✅ DEBOUNCE PARA EVENT LISTENERS
+      function debounce(func, wait) {
+          let timeout;
+          return function executedFunction(...args) {
+              const later = () => {
+                  clearTimeout(timeout);
+                  func(...args);
+              };
+              clearTimeout(timeout);
+              timeout = setTimeout(later, wait);
+          };
+      }
+
+      // ✅ FUNÇÃO PARA VOLTAR
+      function goBack() {
+          if (!isOnLandingPage && currentQuestion > 0) {
+              previousQuestion();
+          } else if (!isOnLandingPage && currentQuestion === 0) {
+              showLandingPage();
+          }
+      }
+
+      function showLandingPage() {
+          isOnLandingPage = true;
+          document.getElementById('quizSection').classList.add('hidden');
+          document.getElementById('landingPage').classList.remove('hidden');
+          document.getElementById('backArrow').classList.remove('visible');
+          SalesNotifications.stop();
+
+window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+          });
+      }
+
+      function updateBackArrow() {
+          const backArrow = document.getElementById('backArrow');
+          if (!isOnLandingPage) {
+              backArrow.classList.add('visible');
+          } else {
+              backArrow.classList.remove('visible');
+          }
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+          cleanExpiredData();
+          
+          // ✅ CRIAR PARTÍCULAS COM REQUESTANIMATIONFRAME
+          requestAnimationFrame(() => {
+              createParticles();
+          });
+          
+          console.log('🛡️ Inicializando sistemas anti-bot...');
+          BehaviorTracker.init();
+          RateLimiter.cleanup();
+          console.log('✅ Sistemas anti-bot ativos');
+          
+          const startButton = document.getElementById('startQuizBtn');
+          if (startButton) {
+              startButton.addEventListener('click', startQuiz);
+          }
+
+          const backBtn = document.getElementById('backBtn');
+          const nextBtn = document.getElementById('nextBtn');
+          
+          if (backBtn) {
+              backBtn.addEventListener('click', previousQuestion);
+          }
+
+          if (nextBtn) {
+              nextBtn.addEventListener('click', nextQuestion);
+          }
+      });
+
+     function startQuiz() {
+    console.log('🎯 Iniciando quiz...');
+    
+    const button = document.getElementById('startQuizBtn');
+    
+    if (button) {
+        button.classList.add('loading');
+        button.innerHTML = '🚀 Iniciando...';
+    }
+
+    // ✅ REDUZIDO: Era 300ms, agora 100ms
+    setTimeout(() => {
+        currentQuestion = 0;
+        showQuizSection();
+        loadQuestion(currentQuestion);
+        updateBackArrow();
+        
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
+        if (button) {
+            button.classList.remove('loading');
+            button.innerHTML = '🎯 INICIAR PROTOCOLO';
+        }
+    }, 100);
+}
+
+      function showQuizSection() {
+          isOnLandingPage = false;
+          document.getElementById('landingPage').classList.add('hidden');
+          document.getElementById('quizSection').classList.remove('hidden');
+      }
+
+      // ✅ FUNÇÃO OTIMIZADA PARA CARREGAR QUESTÕES
+      function loadQuestion(index) {
+          const question = questions[index];
+          const questionNumber = document.getElementById('questionNumber');
+          const questionTitle = document.getElementById('questionTitle');
+          const questionSubtitle = document.getElementById('questionSubtitle');
+          const optionsGrid = document.getElementById('optionsGrid');
+          const progressFill = document.getElementById('progressFill');
+          const backBtn = document.getElementById('backBtn');
+          const nextBtn = document.getElementById('nextBtn');
+          const actionButtons = document.getElementById('actionButtons');
+
+          const progress = ((index + 1) / questions.length) * 100;
+          
+          // ✅ USAR REQUESTANIMATIONFRAME PARA ANIMAÇÕES
+          requestAnimationFrame(() => {
+              progressFill.style.width = progress + '%';
+          });
+
+          questionTitle.textContent = question.title;
+          questionSubtitle.textContent = question.subtitle;
+
+          backBtn.style.display = index > 0 ? 'block' : 'none';
+          nextBtn.disabled = true;
+          nextBtn.textContent = index === questions.length - 1 ? 'Finalizar Avaliação →' : 'Continuar →';
+
+          if (question.type === 'choice') {
+              loadChoiceQuestion(question, optionsGrid);
+              actionButtons.style.display = 'none'; // Esconder botões para auto-avançar
+          } else if (question.type === 'form') {
+              loadFormQuestion(question, optionsGrid);
+              actionButtons.style.display = 'flex'; // Mostrar botões para formulários
+          }
+
+          updateBackArrow();
+      }
+
+      // ✅ CARREGAMENTO DE QUESTÕES DE ESCOLHA COM AUTO-AVANÇAR
+      function loadChoiceQuestion(question, container) {
+    container.innerHTML = '';
+    container.className = `options-grid ${question.class || ''}`;
+
+    const fragment = document.createDocumentFragment();
+
+    question.options.forEach(option => {
+        const optionCard = document.createElement('div');
+        optionCard.className = `option-card ${question.class === 'age-options' ? 'age-card' : question.class === 'goal-options' ? 'goal-card' : ''}`;
+        optionCard.dataset.value = option.value;
+        
+        optionCard.innerHTML = `
+            <div class="option-icon">${option.icon}</div>
+            <div class="option-title">${option.title}</div>
+            <div class="option-description">${option.description}</div>
+        `;
+
+        // ✅ OTIMIZADO: Auto-avançar MUITO mais rápido
+        optionCard.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Marcar como selecionado imediatamente
+            container.querySelectorAll('.option-card').forEach(c => {
+                c.classList.remove('selected');
+            });
+            
+            this.classList.add('selected');
+            
+            const questionKey = getQuestionKey(currentQuestion);
+            answers[questionKey] = option.value;
+
+            // ✅ REDUZIDO: Mostrar resultado intercalado mais rápido (era 600ms, agora 200ms)
+            if (question.showResult) {
+                setTimeout(() => {
+                    showIntercalatedResult(question.showResult);
+                }, 200);
+            }
+
+            // ✅ REDUZIDO: Mostrar depoimento intercalado mais rápido (era 600ms, agora 200ms)
+            if (question.showTestimonial) {
+                setTimeout(() => {
+                    showIntercalatedTestimonial(question.showTestimonial);
+                }, 200);
+            }
+
+            // ✅ REDUZIDO DRASTICAMENTE: Auto-avançar em 500ms (era 1000ms)
+            setTimeout(() => {
+                nextQuestion();
+            }, 500);
+        });
+
+        fragment.appendChild(optionCard);
+    });
+
+    container.appendChild(fragment);
+}
+
+      function loadFormQuestion(question, container) {
+          container.innerHTML = '';
+          container.className = 'form-grid';
+
+          // ✅ ADICIONAR CAMPOS HONEYPOT NO FORMULÁRIO DE CONTATO
+          if (currentQuestion === questions.length - 1) {
+              const honeypotFields = `
+                  <div class="honeypot">
+                      <label for="website">Website (não preencha):</label>
+                      <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                  </div>
+                  
+                  <input type="email" name="email_confirmation" class="honeypot" tabindex="-1" autocomplete="new-password">
+                  
+                  <div class="honeypot">
+                      <input type="text" name="company" placeholder="Empresa" tabindex="-1">
+                  </div>
+              `;
+              container.insertAdjacentHTML('afterbegin', honeypotFields);
+          }
+
+          const fragment = document.createDocumentFragment();
+
+          question.fields.forEach(field => {
+              const inputGroup = document.createElement('div');
+              inputGroup.className = 'input-group';
+              
+              inputGroup.innerHTML = `
+                  <label class="input-label" for="${field.name}">${field.label}</label>
+                  <input 
+                      class="input-field" 
+                      type="${field.type}" 
+                      name="${field.name}" 
+                      placeholder="${field.placeholder}"
+                      ${field.type === 'number' ? 'min="1"' : ''}
+                      autocomplete="off"
+                  >
+              `;
+
+              const input = inputGroup.querySelector('input');
+
+              if (field.type === 'tel') {
+                  input.addEventListener('input', function() {
+                      let value = this.value.replace(/\D/g, '');
+                      if (value.length >= 2) {
+                          value = value.replace(/^(\d{2})(\d)/, '($1) $2');
+                      }
+                      if (value.length >= 10) {
+                          value = value.replace(/(\d{4,5})(\d{4})$/, '$1-$2');
+                      }
+                      this.value = value;
+                  });
+              }
+
+              input.addEventListener('input', function() {
+                  const questionKey = getQuestionKey(currentQuestion);
+                  if (!answers[questionKey]) answers[questionKey] = {};
+                  
+                  let value = this.value;
+                  if (field.type === 'number' && value) {
+                      value = parseFloat(value) || this.value;
+                  }
+                  
+                  answers[questionKey][field.name] = value;
+                  
+                  validateFormCompletion(question);
+              });
+
+              const questionKey = getQuestionKey(currentQuestion);
+              if (answers[questionKey] && answers[questionKey][field.name]) {
+                  input.value = answers[questionKey][field.name];
+              }
+
+              fragment.appendChild(inputGroup);
+          });
+
+          container.appendChild(fragment);
+          setTimeout(() => validateFormCompletion(question), 100);
+      }
+
+      // ✅ MOSTRAR RESULTADO INTERCALADO
+      function showIntercalatedResult(resultData) {
+    const container = document.getElementById('questionContainer');
+    
+    // Remover resultado anterior se existir
+    const existingResult = container.querySelector('.intercalated-result');
+    if (existingResult) {
+        existingResult.remove();
+    }
+
+    const resultDiv = document.createElement('div');
+    resultDiv.className = 'intercalated-result';
+    
+    let value = resultData.value;
+    
+    // Calcular valores reais baseados nas respostas
+    if (resultData.value === 'TMB Calculada') {
+        const results = calculateResults();
+        value = results.bmr + ' cal/dia';
+    } else if (resultData.value === 'Perda Calculada') {
+        const results = calculateResults();
+        value = results.projectedWeightChange + 'kg';
+    }
+
+    resultDiv.innerHTML = `
+        <div class="result-badge">${resultData.badge}</div>
+        <div class="result-value">${value}</div>
+        <div class="result-label">${resultData.label}</div>
+        <div class="result-description">${resultData.description}</div>
+    `;
+
+    // Inserir antes dos botões de ação
+    const actionButtons = document.getElementById('actionButtons');
+    container.insertBefore(resultDiv, actionButtons);
+
+    // ✅ REDUZIDO: Scroll suave mais rápido (era 200ms, agora 50ms)
+    setTimeout(() => {
+        resultDiv.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+    }, 50);
+}
+
+
+      // ✅ MOSTRAR DEPOIMENTO INTERCALADO
+    function showIntercalatedTestimonial(testimonialData) {
+    const container = document.getElementById('questionContainer');
+    
+    // Remover depoimento anterior se existir
+    const existingTestimonial = container.querySelector('.testimonial-intercalated');
+    if (existingTestimonial) {
+        existingTestimonial.remove();
+    }
+
+    const testimonialDiv = document.createElement('div');
+    testimonialDiv.className = 'testimonial-intercalated';
+    
+    testimonialDiv.innerHTML = `
+        <div class="testimonial-header">
+            <div class="testimonial-photo">
+                <img src="${testimonialData.photo}" alt="${testimonialData.name}" loading="lazy">
+            </div>
+            <div class="testimonial-info">
+                <div class="testimonial-name">${testimonialData.name}</div>
+                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+            </div>
+        </div>
+        <div class="testimonial-text">"${testimonialData.text}"</div>
+    `;
+
+    // Inserir antes dos botões de ação
+    const actionButtons = document.getElementById('actionButtons');
+    container.insertBefore(testimonialDiv, actionButtons);
+
+    // ✅ REDUZIDO: Scroll suave mais rápido (era 200ms, agora 50ms)
+    setTimeout(() => {
+        testimonialDiv.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+    }, 50);
+}
+
+      function validateFormCompletion(question) {
+          const questionKey = getQuestionKey(currentQuestion);
+          const questionAnswers = answers[questionKey] || {};
+          
+          const allFilled = question.fields.every(field => {
+              const value = questionAnswers[field.name];
+              return value && value.toString().trim() !== '';
+          });
+          
+          const nextBtn = document.getElementById('nextBtn');
+          if (nextBtn) {
+              nextBtn.disabled = !allFilled;
+          }
+      }
+
+      function getQuestionKey(index) {
+          const keys = ['goal', 'age', 'gender', 'physical', 'eating', 'meals', 'schedule', 'activity', 'preferences', 'alcohol', 'health', 'contact'];
+          return keys[index] || `question_${index}`;
+      }
+
+      function nextQuestion() {
+          if (currentQuestion < questions.length - 1) {
+              currentQuestion++;
+              loadQuestion(currentQuestion);
+              
+              window.scrollTo({
+                  top: 0,
+                  behavior: 'smooth'
+              });
+          } else {
+              if (typeof fbq !== 'undefined') {
+                  const contactData = answers.contact || {};
+                  if (contactData.email || contactData.phone) {
+                      fbq('track', 'CompleteRegistration', {
+                          content_category: 'Cadastro Quiz Nutricional',
+                          content_name: 'Dados de Contato Coletados',
+                          value: 39.90,
+                          currency: 'BRL',
+                          status: 'completed'
+                      });
+                  }
+              }
+              showAnalysisProcess();
+              
+              window.scrollTo({
+                  top: 0,
+                  behavior: 'smooth'
+              });
+          }
+      }
+
+      function previousQuestion() {
+          if (currentQuestion > 0) {
+              currentQuestion--;
+              loadQuestion(currentQuestion);
+              
+              setTimeout(() => {
+                  window.scrollTo({
+                      top: 0,
+                      behavior: 'smooth'
+                  });
+              }, 100);
+          }
+      }
+
+      function showAnalysisProcess() {
+          const container = document.getElementById('questionContainer');
+          
+          const results = calculateResults();
+          const contact = answers.contact || {};
+          
+          container.innerHTML = `
+              <div style="text-align: center; padding: 30px 0;">
+                  <div style="font-size: 60px; margin-bottom: 20px; animation: pulse 2s ease-in-out infinite;">👩‍⚕️</div>
+                  <h1 style="font-size: 30px; font-weight: 900; margin-bottom: 20px; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"> Analisando os dados e gerando o protocolo...</h1>
+                  <p style="font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.6; max-width: 500px; margin: 0 auto 30px;">
+                      Estou processando suas informações para criar um 
+                      <strong>plano nutricional personalizado</strong> baseado em evidências científicas.
+                  </p>
+                  
+                  <div style="max-width: 500px; margin: 0 auto 30px;">
+                      <div id="step1" style="display: flex; align-items: center; gap: 15px; padding: 15px; margin-bottom: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; transition: all 0.3s ease;">
+                          <div style="font-size: 20px;">📊</div>
+                          <div style="flex: 1; text-align: left; font-weight: 600; color: var(--light); font-size: 14px;">Calculando metabolismo basal (TMB)</div>
+                          <div id="step1-status" style="font-size: 12px; color: rgba(255, 255, 255, 0.7);">Aguardando...</div>
+                      </div>
+                      <div id="step2" style="display: flex; align-items: center; gap: 15px; padding: 15px; margin-bottom: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; transition: all 0.3s ease;">
+                          <div style="font-size: 20px;">🎯</div>
+                          <div style="flex: 1; text-align: left; font-weight: 600; color: var(--light); font-size: 14px;">Analisando condições de saúde</div>
+                          <div id="step2-status" style="font-size: 12px; color: rgba(255, 255, 255, 0.7);">Aguardando...</div>
+                      </div>
+                      <div id="step3" style="display: flex; align-items: center; gap: 15px; padding: 15px; margin-bottom: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; transition: all 0.3s ease;">
+                          <div style="font-size: 20px;">🧬</div>
+                          <div style="flex: 1; text-align: left; font-weight: 600; color: var(--light); font-size: 14px;">Processando preferências alimentares</div>
+                          <div id="step3-status" style="font-size: 12px; color: rgba(255, 255, 255, 0.7);">Aguardando...</div>
+                      </div>
+                      <div id="step4" style="display: flex; align-items: center; gap: 15px; padding: 15px; margin-bottom: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; transition: all 0.3s ease;">
+                          <div style="font-size: 20px;">🥗</div>
+                          <div style="flex: 1; text-align: left; font-weight: 600; color: var(--light); font-size: 14px;">Criando cardápio personalizado</div>
+                          <div id="step4-status" style="font-size: 12px; color: rgba(255, 255, 255, 0.7);">Aguardando...</div>
+                      </div>
+                      <div id="step5" style="display: flex; align-items: center; gap: 15px; padding: 15px; margin-bottom: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; transition: all 0.3s ease;">
+                          <div style="font-size: 20px;">📱</div>
+                          <div style="flex: 1; text-align: left; font-weight: 600; color: var(--light); font-size: 14px;">Finalizando protocolo nutricional</div>
+                          <div id="step5-status" style="font-size: 12px; color: rgba(255, 255, 255, 0.7);">Aguardando...</div>
+                      </div>
+                  </div>
+              </div>
+          `;
+
+          simulateRealisticAnalysis();
+      }
+
+      function simulateRealisticAnalysis() {
+          setTimeout(() => {
+              processStep('step1', 'step1-status', 'Calculando TMB...');
+          }, 800);
+
+          setTimeout(() => {
+              completeStep('step1', 'step1-status', '✓ TMB: ' + calculateResults().bmr + ' cal/dia');
+              processStep('step2', 'step2-status', 'Analisando condições...');
+          }, 2000);
+
+          setTimeout(() => {
+              completeStep('step2', 'step2-status', '✓ Condições identificadas');
+              processStep('step3', 'step3-status', 'Processando preferências...');
+          }, 3200);
+
+          setTimeout(() => {
+              completeStep('step3', 'step3-status', '✓ Preferências processadas');
+              processStep('step4', 'step4-status', 'Criando cardápio...');
+          }, 4400);
+
+          setTimeout(() => {
+              completeStep('step4', 'step4-status', '✓ Cardápio personalizado');
+              processStep('step5', 'step5-status', 'Finalizando...');
+          }, 5600);
+
+          setTimeout(() => {
+              completeStep('step5', 'step5-status', '✓ Protocolo finalizado');
+              
+              setTimeout(() => {
+                  showFinalResults();
+              }, 1000);
+          }, 6800);
+      }
+
+      function processStep(stepId, statusId, message) {
+          const step = document.getElementById(stepId);
+          const status = document.getElementById(statusId);
+          
+          if (step && status) {
+              status.textContent = message;
+              status.style.color = 'var(--primary)';
+          }
+      }
+
+      function completeStep(stepId, statusId, message) {
+          const step = document.getElementById(stepId);
+          const status = document.getElementById(statusId);
+          
+          if (step && status) {
+              status.textContent = message;
+              status.style.color = 'var(--success)';
+          }
+      }
+
+     function showFinalResults() {
+    window.history.pushState({page: 'resultados'}, 'Resultados', '#resultados');
+    
+    const savedData = DataStorage.getItem('quiz_data');
+    if (savedData && savedData.answers && (!answers.contact || Object.keys(answers).length === 0)) {
+        answers = savedData.answers;
+        console.log('📂 Dados carregados da storage:', answers);
+    }
+
+    const results = calculateResults();
+    const container = document.getElementById('questionContainer');
+    
+    DataStorage.setItem('quiz_data', {
+        answers: answers,
+        results: results,
+        completedAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+    });
+
+    setTimeout(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, 100);
+
+    if (typeof fbq !== 'undefined') {
+        fbq('track', 'Lead', {
+            content_category: 'Quiz Nutricional Completo',
+            content_name: 'Avaliação Dra. Giovana',
+            value: 39.90,
+            currency: 'BRL',
+            custom_goal: answers.goal,
+            custom_gender: answers.gender,
+            custom_age: answers.age
+        });
+    }
+
+    container.innerHTML = `
+        <div class="results-container">
+            <div class="success-icon">🎉</div>
+            <h1 class="reveal-title"> Seu plano Está Pronto!</h1>
+            <p class="reveal-subtitle">
+                ${answers.contact?.name || 'Seu'} plano personalizado foi criado com base em todas as suas respostas.
+            </p>
+
+            <div class="results-grid">
+                ${results.projectedWeightChange > 0 ? `
+                <div class="mega-result-card">
+                    <div class="result-badge">🎯 SUA TRANSFORMAÇÃO</div>
+                    <div class="result-value">${results.projectedWeightChange}kg</div>
+                    <div class="result-label">SERÃO ELIMINADOS</div>
+                </div>
+                
+                ` : ''}
+                 <!-- ✅ SEÇÃO COMO FUNCIONA -->
+<div style="margin: 30px 0;">
+    <h3 style="font-size: 20px; font-weight: 800; color: var(--light); margin-bottom: 25px; text-align: center;">🔍 Como Funciona o Protocolo Personalizado</h3>
+    
+        </div>
+    </div>
+    <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 25px; margin-bottom: 20px;">
+        <div style="display: grid; gap: 20px;">
+            
+            <!-- Passo 1 -->
+            <div style="display: flex; gap: 15px; align-items: flex-start;">
+                <div style="min-width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; color: white; font-size: 16px;">1</div>
+                <div style="flex: 1;">
+                    <h4 style="font-size: 16px; font-weight: 700; color: var(--light); margin-bottom: 8px;">📊 Análise Personalizada Completa</h4>
+                    <p style="font-size: 13px; color: rgba(255, 255, 255, 0.8); line-height: 1.5;">
+                        Baseado nas suas respostas, criamos um perfil nutricional único que considera seu metabolismo, preferências alimentares, rotina e objetivos específicos.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Passo 2 -->
+            <div style="display: flex; gap: 15px; align-items: flex-start;">
+                <div style="min-width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; color: white; font-size: 16px;">2</div>
+                <div style="flex: 1;">
+                    <h4 style="font-size: 16px; font-weight: 700; color: var(--light); margin-bottom: 8px;">🥗 Plano Personalizado e Prático</h4>
+                    <p style="font-size: 13px; color: rgba(255, 255, 255, 0.8); line-height: 1.5;">
+                        Receba um plano alimentar detalhado com refeições adaptadas ao seu gosto, horários e estilo de vida. Inclui receitas simples e lista de compras organizada.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Passo 3 -->
+            <div style="display: flex; gap: 15px; align-items: flex-start;">
+                <div style="min-width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; color: white; font-size: 16px;">3</div>
+                <div style="flex: 1;">
+                    <h4 style="font-size: 16px; font-weight: 700; color: var(--light); margin-bottom: 8px;">📱 Acesso a nossa área de alunos</h4>
+                    <p style="font-size: 13px; color: rgba(255, 255, 255, 0.8); line-height: 1.5;">
+                        Após o pagamento, você recebe acesso instantâneo ao seu protocolo completo + comunidade VIP da Dra Giovana e outros participantes.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Passo 4 -->
+            <div style="display: flex; gap: 15px; align-items: flex-start;">
+                <div style="min-width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; color: white; font-size: 16px;">4</div>
+                <div style="flex: 1;">
+                    <h4 style="font-size: 16px; font-weight: 700; color: var(--light); margin-bottom: 8px;">🎯 Resultados Comprovados</h4>
+                    <p style="font-size: 13px; color: rgba(255, 255, 255, 0.8); line-height: 1.5;">
+                        Siga o protocolo e veja mudanças já na primeira semana. Nossos alunos eliminam em média 6-20kg nos primeiros 2 meses seguindo o método.
+                    </p>
+                </div>
+            </div>
+                <div class="pricing-section">
+                    <h3 class="pricing-header">💰 Com base em suas respostas até agora, você chegará a ${results.targetWeight}kg em 2 meses</h3>
+                    
+                    <div class="price-comparison">
+                        <div class="price-old">
+                            
+                            <div style="font-size: 30px; font-weight: 900; color: var(--danger); text-decoration: line-through;">R$109,90</div>
+                            <div class="price-detail">Valor original</div>
+                        </div>
+                        
+                        <div class="price-new">
+                            <div style="font-size: 12px; color: rgba(255, 255, 255, 0.8); margin-bottom: 4px;">Hoje por apenas:</div>
+                            <div class="price-main">R$ 39,90</div>
+                            <div class="price-detail">ou 8x de R$ 5,96</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(0, 255, 136, 0.15); border-radius: 10px; padding: 10px; margin-bottom: 15px;">
+                        <div style="font-size: 16px; font-weight: 800; color: var(--success); line-height: 1.3;">
+                            Pagamento único!
+                        </div>
+                           </div>
+                    <div style="background: rgba(0, 255, 136, 0.15); border-radius: 10px; padding: 10px; margin-bottom: 15px;">
+                        <div style="font-size: 16px; font-weight: 800; color: var(--success); line-height: 1.3;">
+                            Menos que um delivery! E vai te ajudar a emagrecer
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="countdown-timer">
+                    <div class="countdown-text">🔥 OFERTA EXCLUSIVA TERMINA EM:</div>
+                    <div class="countdown" id="countdown">08:00</div>
+                </div>
+                
+                
+                <button class="checkout-button" id="checkout-btn" onclick="handleCheckoutClick()">
+                     RECEBER O MEU PLANO
+                </button>
+                
+                <div class="payment-info">
+                    ✅ Parcelamos no cartão
+                </div>
+                
+                <div class="guarantee-info">
+                    ✅ Acesso imediato • 💳 Pagamento seguro • 🔒 Garantia 30 dias
+              <div style="margin: 30px 0;">
+    <h3 style="font-size: 20px; font-weight: 800; color: var(--light); margin-bottom: 25px; text-align: center;">🔍 Como você vai receber seu plano</h3>
+    
+        </div>
+<!-- ✅ VÍDEO VTURB -->
+    <div style="margin: 25px 0 30px; text-align: center;">
+        <div id="ifr_686b15bd7306fe5249c73e57_wrapper" style="margin: 0 auto; width: 100%; max-width: 400px;">
+            <div style="padding: 177.77777777777777% 0 0 0; position: relative;" id="ifr_686b15bd7306fe5249c73e57_aspect">
+                <iframe frameborder="0" allowfullscreen src="about:blank" id="ifr_686b15bd7306fe5249c73e57" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);" referrerpolicy="origin" onload="this.onload=null, this.src='https://scripts.converteai.net/4dcd810e-b652-488e-bae3-2bd8eef8a5eb/players/686b15bd7306fe5249c73e57/v4/embed.html' +(location.search||'?') +'&vl=' +encodeURIComponent(location.href)"></iframe>
+            </div>
+        </div>
+    </div>
+                <!-- ✅ IMAGEM ANTES E DEPOIS -->
+                <div style="margin: 30px 0; text-align: center;">
+                    <h3 style="font-size: 18px; font-weight: 800; color: var(--light); margin-bottom: 20px;">Veja mudanças visíveis após seguir a dieta personalizada</h3>
+                    <div style="max-width: 400px; margin: 0 auto; border-radius: 16px; overflow: hidden; border: 2px solid var(--primary);">
+                        <img src="whatsapp_chat (3).png" alt="Transformação" style="width: 100%; height: auto; display: block;" loading="lazy">
+                    </div>
+                </div>
+
+                <!-- ✅ DEPOIMENTOS DOS ALUNOS -->
+                <div style="margin: 30px 0;">
+                    <h3 style="font-size: 18px; font-weight: 800; color: var(--light); margin-bottom: 20px; text-align: center;">Veja as histórias de sucesso dos nossos alunos</h3>
+                    
+                    <!-- Depoimento 1 - Ágata -->
+                    <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 20px; margin-bottom: 15px;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <div style="width: 45px; height: 45px; border-radius: 50%; overflow: hidden; border: 2px solid var(--primary);">
+                                <img src="Agata.png" alt="Ágata Silva" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+                            </div>
+                            <div>
+                                <div style="font-size: 14px; font-weight: 700; color: var(--light);">Ágata Silva</div>
+                                <div style="color: #FFD700; font-size: 12px;">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 13px; color: rgba(255, 255, 255, 0.8); line-height: 1.5; font-style: italic;">
+                            "Incrível como a Dra. Giovana consegue personalizar tudo baseado no nosso perfil! Já eliminei 8kg seguindo as orientações dela. O melhor é que não passei fome e consegui manter minha energia durante todo o processo."
+                        </div>
+                    </div>
+
+                    <!-- Depoimento 2 - Amanda -->
+                    <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 20px; margin-bottom: 15px;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <div style="width: 45px; height: 45px; border-radius: 50%; overflow: hidden; border: 2px solid var(--primary);">
+                                <img src="Amanda.png" alt="Amanda Costa" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+                            </div>
+                            <div>
+                                <div style="font-size: 14px; font-weight: 700; color: var(--light);">Amanda Costa</div>
+                                <div style="color: #FFD700; font-size: 12px;">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 13px; color: rgba(255, 255, 255, 0.8); line-height: 1.5; font-style: italic;">
+                            "Estava comendo super controlado mas não emagrecia. A Dra. Giovana me mostrou que estava fazendo tudo errado! Agora já perdi 12kg em 3 meses. Eliminei 18kg com o protocolo! O plano me guiou com refeições inteligentes e receitas deliciosas."
+                        </div>
+                    </div>
+
+                    <!-- Depoimento 3 - Emerson -->
+                    <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 20px; margin-bottom: 20px;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <div style="width: 45px; height: 45px; border-radius: 50%; overflow: hidden; border: 2px solid var(--primary);">
+                                <img src="Emerson.png" alt="Emerson Santos" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+                            </div>
+                            <div>
+                                <div style="font-size: 14px; font-weight: 700; color: var(--light);">Emerson Santos</div>
+                                <div style="color: #FFD700; font-size: 12px;">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 13px; color: rgba(255, 255, 255, 0.8); line-height: 1.5; font-style: italic;">
+                            "Sou personal trainer e mesmo assim precisava da orientação nutricional da Dra. Giovana. Eliminei 15kg e agora consigo ajudar melhor meus alunos! Testei várias dietas e apps de emagrecimento, mas tudo era confuso ou difícil demais."
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ✅ BOTÃO FINAL -->
+                <button class="checkout-button" id="checkout-btn-2" onclick="handleCheckoutClick()" style="margin-top: 20px;">
+                     RECEBER O MEU PLANO
+                </button>
+                
+                <div style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; margin-top: 15px; text-align: center;">
+                    <div style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center; gap: 5px; font-size: 12px;">
+                            <span>✅</span>
+                            <span>Compra<br><strong>SEGURA</strong></span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 5px; font-size: 12px;">
+                            <span>🏆</span>
+                            <span>Satisfação<br><strong>GARANTIDA</strong></span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 5px; font-size: 12px;">
+                            <span>🔒</span>
+                            <span>Privacidade<br><strong>PROTEGIDA</strong></span>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #FFD700; color: #000; border-radius: 50%; width: 80px; height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 15px auto; font-weight: 900;">
+                        <div style="font-size: 12px;">GARANTIA</div>
+                        <div style="font-size: 24px;">30</div>
+                        <div style="font-size: 10px;">DIAS</div>
+                    </div>
+                    
+                    <div style="font-size: 14px; font-weight: 700; color: var(--light); margin-bottom: 8px;">Garantia de reembolso</div>
+                    <div style="font-size: 11px; color: rgba(255, 255, 255, 0.8); line-height: 1.4;">
+                        A compra deste material é totalmente sem risco para você.<br><br>
+                        Se ele não atender às suas expectativas nos primeiros 30 dias após a compra, nós 
+                        reembolsaremos todo o valor que você pagou, sem fazer perguntas.<br><br>
+                        Basta enviar um e-mail para o suporte em <strong>contato@dragiovana.com</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    if (typeof fbq !== 'undefined') {
+        fbq('track', 'ViewContent', {
+            content_type: 'product',
+            content_ids: ['protocolo_nutricional_personalizado'],
+            content_name: 'Resultados Dieta Personalizada',
+            content_category: 'Protocolo Nutricional',
+            value: 39.90,
+            currency: 'BRL',
+            custom_bmr: results.bmr,
+            custom_target_calories: results.targetCalories,
+            custom_projected_loss: results.projectedWeightChange
+        });
+    }
+    
+    startCountdownTimer();
+    // ✅ Iniciar notificações de vendas na tela de resultados
+SalesNotifications.start();
+}
+
+      function startCountdownTimer() {
+          let timeLeft = 5 * 60;
+          const countdownElement = document.getElementById('countdown');
+
+          function updateCountdown() {
+              const minutes = Math.floor(timeLeft / 60);
+              const seconds = timeLeft % 60;
+              
+              if (countdownElement) {
+                  countdownElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+              }
+              
+              if (timeLeft > 0) {
+                  timeLeft--;
+              } else {
+                  if (countdownElement) {
+                      countdownElement.textContent = "OFERTA EXPIRADA";
+                      countdownElement.style.color = "#ff3366";
+                  }
+              }
+          }
+
+          updateCountdown();
+          setInterval(updateCountdown, 1000);
+      }
+
+      function calculateResults() {
+          const physical = answers.physical || {};
+          const weight = parseFloat(physical.weight) || 70;
+          const height = parseFloat(physical.height) || 170;
+          const targetWeight = parseFloat(physical.target_weight) || weight;
+          const gender = answers.gender || 'female';
+          const age = answers.age || '27-38';
+          const goal = answers.goal || 'feel_good';
+
+          const ageRanges = {
+              '18-26': 22,
+              '27-38': 32,
+              '39-50': 44,
+              '50+': 55
+          };
+          const ageValue = ageRanges[age] || 32;
+
+          let bmr;
+          if (gender === 'male') {
+              bmr = 10 * weight + 6.25 * height - 5 * ageValue + 5;
+          } else {
+              bmr = 10 * weight + 6.25 * height - 5 * ageValue - 161;
+          }
+
+          const activityLevel = answers.activity || 'sedentary';
+          const activityMultipliers = {
+              'sedentary': 1.2,
+              'light': 1.375,
+              'moderate': 1.55,
+              'active': 1.725
+          };
+
+          const tdee = Math.round(bmr * activityMultipliers[activityLevel]);
+          let targetCalories = tdee;
+          let projectedWeightChange = 0;
+          let monthsToGoal = 0;
+
+          // Calcular perda de peso baseada no objetivo
+          if (goal === 'feel_good' || goal === 'improve_health' || goal === 'both') {
+              targetCalories = Math.round(tdee - 500);
+              if (targetWeight && targetWeight < weight) {
+                  projectedWeightChange = weight - targetWeight;
+                  monthsToGoal = Math.ceil(projectedWeightChange / 2);
+              } else {
+                  projectedWeightChange = Math.min(weight * 0.1, 12);
+                  monthsToGoal = Math.ceil(projectedWeightChange / 2);
+              }
+          }
+
+          const protein = Math.round(weight * 2.2);
+          const fats = Math.round(targetCalories * 0.3 / 9);
+          const carbs = Math.round((targetCalories - (protein * 4) - (fats * 9)) / 4);
+
+          const bmi = weight / ((height / 100) ** 2);
+
+          return {
+              bmr: Math.round(bmr),
+              tdee,
+              targetCalories,
+              protein,
+              carbs,
+              fats,
+              projectedWeightChange: Math.round(projectedWeightChange * 10) / 10,
+              monthsToGoal,
+              bmi: Math.round(bmi * 10) / 10,
+              currentWeight: weight,
+              targetWeight: targetWeight || weight,
+              height
+          };
+      }
+// ✅ SISTEMA DE NOTIFICAÇÕES DE VENDAS
+const SalesNotifications = {
+    isActive: false,
+    currentNotification: null,
+    
+    names: [
+        "Ana Silva", "Maria Santos", "João Pedro", "Carla Oliveira", "Rafael Costa",
+        "Juliana Lima", "Lucas Ferreira", "Amanda Rocha", "Pedro Henrique", "Beatriz Alves",
+        "Gabriel Santos", "Fernanda Souza", "Rodrigo Silva", "Camila Torres", "Bruno Martins",
+        "Isabella Costa", "Matheus Lima", "Larissa Dias", "Felipe Rodrigues", "Giovanna Nunes"
+    ],
+    
+    locations: [
+        "São Paulo", "Rio de Janeiro", "Belo Horizonte", "Salvador", "Brasília",
+        "Curitiba", "Porto Alegre", "Recife", "Fortaleza", "Goiânia",
+        "Campinas", "Santos", "Ribeirão Preto", "Sorocaba", "Niterói"
+    ],
+    
+    positions: ["top-left", "bottom-left", "top-right", "bottom-right"],
+    
+    start() {
+        if (this.isActive) return;
+        
+        this.isActive = true;
+        this.scheduleNext();
+        console.log('🔔 Sistema de notificações iniciado');
+    },
+    
+    stop() {
+        this.isActive = false;
+        if (this.currentNotification) {
+            this.currentNotification.remove();
+            this.currentNotification = null;
+        }
+        console.log('🔇 Sistema de notificações parado');
+    },
+    
+    scheduleNext() {
+        if (!this.isActive) return;
+        
+        const delay = Math.random() * 15000 + 8000; // 8-23 segundos
+        setTimeout(() => {
+            if (this.isActive) {
+                this.show();
+                this.scheduleNext();
+            }
+        }, delay);
+    },
+    
+    show() {
+        // Remove notificação anterior se existir
+        if (this.currentNotification) {
+            this.hide();
+        }
+        
+        const name = this.names[Math.floor(Math.random() * this.names.length)];
+        const location = this.locations[Math.floor(Math.random() * this.locations.length)];
+        const position = this.positions[Math.floor(Math.random() * this.positions.length)];
+        
+        const notification = document.createElement('div');
+        notification.className = `sales-notification position-${position}`;
+        
+        notification.innerHTML = `
+            <div class="notification-content">
+                <div class="notification-icon">✅</div>
+                <div class="notification-text">
+                    <div class="notification-name">${name} - ${location}</div>
+                    <div class="notification-action">acabou de adquirir o protocolo</div>
+                </div>
+            </div>
+        `;
+        
+        // Fechar ao clicar
+        notification.addEventListener('click', () => {
+            this.hide();
+        });
+        
+        document.body.appendChild(notification);
+        this.currentNotification = notification;
+        
+        // Mostrar com animação
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 100);
+        
+        // Auto-hide após 4-6 segundos
+        const hideDelay = Math.random() * 2000 + 4000;
+        setTimeout(() => {
+            if (this.currentNotification === notification) {
+                this.hide();
+            }
+        }, hideDelay);
+    },
+    
+    hide() {
+        if (!this.currentNotification) return;
+        
+        this.currentNotification.classList.remove('show');
+        this.currentNotification.classList.add('hide');
+        
+        setTimeout(() => {
+            if (this.currentNotification) {
+                this.currentNotification.remove();
+                this.currentNotification = null;
+            }
+        }, 400);
+    }
+};
+      function handleCheckoutClick() {
+          console.log('🛒 Checkout iniciado...');
+
+          const formData = {
+              ...answers,
+              website: document.getElementById('website')?.value || '',
+              email_confirmation: document.querySelector('input[name="email_confirmation"]')?.value || '',
+              company: document.querySelector('input[name="company"]')?.value || '',
+              timestamp: new Date().toISOString(),
+              userAgent: navigator.userAgent
+          };
+
+          if (!handleFormSubmission(formData)) {
+              console.log('🛡️ Checkout bloqueado pelo sistema anti-bot');
+              return;
+          }
+
+          if (typeof fbq !== 'undefined') {
+              fbq('track', 'InitiateCheckout', {
+                  content_category: 'Protocolo Nutricional',
+                  content_name: 'Dieta Personalizada Dra. Giovana',
+                  value: 39.90,
+                  currency: 'BRL',
+                  num_items: 1,
+                  custom_goal: answers.goal
+              });
+          }
+
+          try {
+              const results = calculateResults();
+              
+              const cleanData = { ...formData };
+              delete cleanData.website;
+              delete cleanData.email_confirmation;
+              delete cleanData.company;
+              
+              DataStorage.setItem('checkout_data', {
+                  answers: cleanData,
+                  results: results,
+                  checkoutInitiatedAt: new Date().toISOString(),
+                  userAgent: navigator.userAgent,
+                  pageUrl: window.location.href
+              });
+              
+          } catch (error) {
+              console.error('Erro ao salvar dados para recuperação:', error);
+          }
+
+          const button = document.getElementById('checkout-btn');
+          if (button) {
+              button.style.background = 'linear-gradient(135deg, #228B22, #32CD32)';
+              button.innerHTML = '🚀 Redirecionando...';
+              button.disabled = true;
+          }
+
+          setTimeout(() => {
+              try {
+                  const newWindow = window.open('https://pay.cakto.com.br/4ckeveg_405527', '_blank');
+                  
+                  if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+                      window.location.href = 'https://pay.cakto.com.br/4ckeveg_405527';
+                  }
+              } catch (e) {
+                  window.location.href = 'https://pay.cakto.com.br/4ckeveg_405527';
+              }
+              
+              setTimeout(() => {
+                  if (button) {
+                      button.style.background = 'linear-gradient(135deg, #00ff64, #00e054, #00cc48)';
+                      button.innerHTML = '🔓 GARANTIR MINHA DIETA AGORA';
+                      button.disabled = false;
+                  }
+              }, 3000);
+          }, 200);
+      }
+
+      // ✅ GERENCIAR NAVEGAÇÃO POR HASH
+      window.addEventListener('hashchange', function() {
+          if (window.location.hash === '#resultados') {
+              const savedData = DataStorage.getItem('quiz_data');
+              if (savedData && savedData.results && (!savedData.expiresAt || new Date(savedData.expiresAt) > new Date())) {
+                  document.getElementById('landingPage').classList.add('hidden');
+                  document.getElementById('quizSection').classList.remove('hidden');
+                  
+                  answers = savedData.answers;
+                  showFinalResults();
+              } else {
+                  window.location.hash = '';
+                  location.reload();
+              }
+          }
+      });
+
+      window.addEventListener('load', function() {
+          if (window.location.hash === '#resultados') {
+              const savedData = DataStorage.getItem('quiz_data');
+              if (savedData && savedData.results && (!savedData.expiresAt || new Date(savedData.expiresAt) > new Date())) {
+                  document.getElementById('landingPage').classList.add('hidden');
+                  document.getElementById('quizSection').classList.remove('hidden');
+                  
+                  answers = savedData.answers;
+                  showFinalResults();
+              } else {
+                  window.location.hash = '';
+              }
+          }
+      });
+
+      function cleanExpiredData() {
+          const savedData = DataStorage.getItem('quiz_data');
+          if (savedData && savedData.expiresAt && new Date(savedData.expiresAt) < new Date()) {
+              if (DataStorage.isLocalStorageAvailable()) {
+                  localStorage.removeItem('dra_giovana_quiz_data');
+              }
+              delete DataStorage.memoryStorage['dra_giovana_quiz_data'];
+              console.log('🗑️ Dados expirados removidos');
+          }
+      }
+
+      // =====================================
+      // 🛡️ SISTEMA ANTI-BOT COMPLETO
+      // =====================================
+
+      const RateLimiter = {
+          config: {
+              maxSubmissions: 3,
+              timeWindow: 3600000,
+              blockDuration: 1800000,
+              storageKey: 'dra_giovana_submissions'
+          },
+
+          getSubmissions() {
+              try {
+                  const stored = localStorage.getItem(this.config.storageKey);
+                  return stored ? JSON.parse(stored) : [];
+              } catch (e) {
+                  return [];
+              }
+          },
+
+          saveSubmission() {
+              try {
+                  const submissions = this.getSubmissions();
+                  submissions.push(Date.now());
+                  localStorage.setItem(this.config.storageKey, JSON.stringify(submissions));
+              } catch (e) {
+                  console.warn('Erro ao salvar submissão:', e);
+              }
+          },
+
+          canSubmit() {
+              const now = Date.now();
+              const submissions = this.getSubmissions();
+              
+              const recentSubmissions = submissions.filter(
+                  timestamp => (now - timestamp) < this.config.timeWindow
+              );
+
+              const lastSubmission = submissions[submissions.length - 1];
+              if (lastSubmission && recentSubmissions.length >= this.config.maxSubmissions) {
+                  const timeSinceBlock = now - lastSubmission;
+                  if (timeSinceBlock < this.config.blockDuration) {
+                      const remainingTime = Math.ceil((this.config.blockDuration - timeSinceBlock) / 60000);
+                      return {
+                          allowed: false,
+                          reason: 'rate_limit',
+                          message: `Muitas tentativas. Tente novamente em ${remainingTime} minutos.`,
+                          remainingMinutes: remainingTime
+                      };
+                  }
+              }
+
+              if (recentSubmissions.length >= this.config.maxSubmissions) {
+                  return {
+                      allowed: false,
+                      reason: 'too_many_requests',
+                      message: 'Limite de envios atingido. Tente novamente mais tarde.',
+                      remainingMinutes: Math.ceil(this.config.timeWindow / 60000)
+                  };
+              }
+
+              return {
+                  allowed: true,
+                  remaining: this.config.maxSubmissions - recentSubmissions.length
+              };
+          },
+
+          cleanup() {
+              const now = Date.now();
+              const submissions = this.getSubmissions();
+              const validSubmissions = submissions.filter(
+                  timestamp => (now - timestamp) < this.config.timeWindow
+              );
+              
+              try {
+                  localStorage.setItem(this.config.storageKey, JSON.stringify(validSubmissions));
+              } catch (e) {
+                  console.warn('Erro na limpeza:', e);
+              }
+          }
+      };
+
+      const BehaviorTracker = {
+          data: {
+              mouseMovements: 0,
+              clicks: 0,
+              keystrokes: 0,
+              timeOnPage: Date.now(),
+              focusEvents: 0,
+              scrollEvents: 0
+          },
+
+          init() {
+              document.addEventListener('mousemove', debounce(() => {
+                  this.data.mouseMovements++;
+              }, 100));
+
+              document.addEventListener('click', () => {
+                  this.data.clicks++;
+              });
+
+              document.addEventListener('keydown', () => {
+                  this.data.keystrokes++;
+              });
+
+              window.addEventListener('focus', () => {
+                  this.data.focusEvents++;
+              });
+
+              window.addEventListener('scroll', debounce(() => {
+                  this.data.scrollEvents++;
+              }, 200));
+          },
+
+          isHuman() {
+              const timeOnPage = Date.now() - this.data.timeOnPage;
+              
+              const criteria = {
+                  minTimeOnPage: 10000,
+                  minMouseMovements: 5,
+                  minInteractions: 2,
+                  minTotalActivity: 10
+              };
+
+              const totalInteractions = this.data.clicks + this.data.keystrokes;
+              const totalActivity = this.data.mouseMovements + totalInteractions + this.data.scrollEvents;
+
+              const isValid = 
+                  timeOnPage >= criteria.minTimeOnPage &&
+                  this.data.mouseMovements >= criteria.minMouseMovements &&
+                  totalInteractions >= criteria.minInteractions &&
+                  totalActivity >= criteria.minTotalActivity;
+
+              return isValid;
+          }
+      };
+
+      function validateHoneypot(formData) {
+          const honeypotFields = ['website', 'email_confirmation', 'company'];
+          
+          for (const field of honeypotFields) {
+              if (formData[field] && formData[field].trim() !== '') {
+                  console.log('🤖 Bot detectado via honeypot:', field);
+                  return false;
+              }
+          }
+          
+          return true;
+      }
+
+      function validateSubmission(formData) {
+          console.log('🛡️ Iniciando validação anti-bot...');
+          
+          if (!validateHoneypot(formData)) {
+              return {
+                  valid: false,
+                  reason: 'honeypot',
+                  message: 'Submissão inválida detectada.',
+                  action: 'block_silent'
+              };
+          }
+
+          const rateLimitCheck = RateLimiter.canSubmit();
+          if (!rateLimitCheck.allowed) {
+              return {
+                  valid: false,
+                  reason: rateLimitCheck.reason,
+                  message: rateLimitCheck.message,
+                  action: 'show_error'
+              };
+          }
+
+          if (!BehaviorTracker.isHuman()) {
+              return {
+                  valid: false,
+                  reason: 'behavior',
+                  message: 'Complete a avaliação normalmente antes de enviar.',
+                  action: 'show_warning'
+              };
+          }
+
+          RateLimiter.saveSubmission();
+          
+          console.log('✅ Validação anti-bot aprovada');
+          return {
+              valid: true,
+              remaining: rateLimitCheck.remaining
+          };
+      }
+
+      function handleFormSubmission(formData) {
+          const validation = validateSubmission(formData);
+          
+          if (!validation.valid) {
+              switch (validation.action) {
+                  case 'block_silent':
+                      console.log('🤖 Bot bloqueado silenciosamente');
+                      return false;
+                      
+                  case 'show_error':
+                      showErrorMessage(validation.message);
+                      return false;
+                      
+                  case 'show_warning':
+                      showWarningMessage(validation.message);
+                      return false;
+              }
+          }
+
+          console.log(`✅ Submissão aprovada (${validation.remaining} envios restantes)`);
+          return true;
+      }
+
+      function showErrorMessage(message) {
+          const errorDiv = document.createElement('div');
+          errorDiv.style.cssText = `
+              position: fixed;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              background: linear-gradient(135deg, rgba(255, 51, 102, 0.95), rgba(220, 38, 127, 0.95));
+              color: white;
+              padding: 20px 25px;
+              border-radius: 12px;
+              font-weight: bold;
+              z-index: 10000;
+              text-align: center;
+              backdrop-filter: blur(10px);
+              border: 1px solid #ff3366;
+              max-width: 90vw;
+              font-size: 14px;
+          `;
+          
+          errorDiv.innerHTML = `
+              <div style="font-size: 30px; margin-bottom: 10px;">⚠️</div>
+              <div style="margin-bottom: 8px;">${message}</div>
+              <button onclick="this.parentElement.remove()" style="
+                  background: white;
+                  color: #ff3366;
+                  border: none;
+                  padding: 8px 16px;
+                  border-radius: 6px;
+                  cursor: pointer;
+                  font-weight: bold;
+                  margin-top: 10px;
+                  font-size: 12px;
+              ">Entendi</button>
+          `;
+          
+          document.body.appendChild(errorDiv);
+          setTimeout(() => errorDiv.remove(), 8000);
+      }
+
+      function showWarningMessage(message) {
+          const warningDiv = document.createElement('div');
+          warningDiv.style.cssText = `
+              position: fixed;
+              top: 20px;
+              right: 20px;
+              background: linear-gradient(135deg, rgba(255, 193, 7, 0.95), rgba(255, 171, 0, 0.95));
+              color: #333;
+              padding: 15px;
+              border-radius: 10px;
+              font-weight: bold;
+              z-index: 10000;
+              max-width: 300px;
+              font-size: 12px;
+              border: 1px solid #ffc107;
+          `;
+          
+          warningDiv.innerHTML = `
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                  <span style="font-size: 20px;">⚠️</span>
+                  <strong>Atenção</strong>
+              </div>
+              <div>${message}</div>
+          `;
+          
+          document.body.appendChild(warningDiv);
+          
+          setTimeout(() => {
+              warningDiv.style.opacity = '0';
+              setTimeout(() => warningDiv.remove(), 300);
+          }, 4000);
+      }
+
+      // ✅ LISTENER PARA RESIZE RESPONSIVO OTIMIZADO
+      window.addEventListener('resize', debounce(function() {
+          const isMobile = window.innerWidth <= 768;
+          const currentParticles = document.querySelectorAll('.particle').length;
+          const targetParticles = isMobile ? 8 : 15;
+          
+          if (Math.abs(currentParticles - targetParticles) > 3) {
+              const container = document.getElementById('particles');
+              container.innerHTML = '';
+              createParticles();
+          }
+      }, 300));
+
+  </script>
+</body>
+</html>

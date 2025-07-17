@@ -2433,8 +2433,8 @@ window.scrollTo({
                      fbq('track', 'CompleteRegistration', {
                          content_category: 'Registro Cuestionario Nutricional',
                          content_name: 'Datos de Contacto Recolectados',
-                         value: 39.90,
-                         currency: 'EUR',
+                         value: 9.90,
+                         currency: 'USD',
                          status: 'completed'
                      });
                  }
@@ -2594,8 +2594,8 @@ window.scrollTo({
        fbq('track', 'Lead', {
            content_category: 'Cuestionario Nutricional Completo',
            content_name: 'Evaluación Dra. Giovana',
-           value: 39.90,
-           currency: 'EUR',
+           value: 9.90,
+           currency: 'USD',
            custom_goal: answers.goal,
            custom_gender: answers.gender,
            custom_age: answers.age
@@ -2825,8 +2825,8 @@ window.scrollTo({
            content_ids: ['protocolo_nutricional_personalizado'],
            content_name: 'Resultados Dieta Personalizada',
            content_category: 'Protocolo Nutricional',
-           value: 39.90,
-           currency: 'EUR',
+           value: 9.90,
+           currency: 'USD',
            custom_bmr: results.bmr,
            custom_target_calories: results.targetCalories,
            custom_projected_loss: results.projectedWeightChange
@@ -3059,16 +3059,7 @@ const SalesNotifications = {
              return;
          }
 
-         if (typeof fbq !== 'undefined') {
-             fbq('track', 'InitiateCheckout', {
-                 content_category: 'Protocolo Nutricional',
-                 content_name: 'Dieta Personalizada Dra. Giovana',
-                 value: 39.90,
-                 currency: 'EUR',
-                 num_items: 1,
-                 custom_goal: answers.goal
-             });
-         }
+       
 
          try {
              const results = calculateResults();
